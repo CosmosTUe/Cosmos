@@ -1,0 +1,11 @@
+.venv
+.vscode
+.tox
+
+# Django
+*.log
+*.pot
+*.pyc
+__pycache__
+db.sqlite3
+media

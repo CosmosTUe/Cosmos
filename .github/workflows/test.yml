@@ -11,7 +11,7 @@ on:
       - development
 
 jobs:
-  build:
+  tox:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

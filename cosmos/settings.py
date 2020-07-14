@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import secrets
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,12 +21,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "j@7*rtssewjfhix2f^7&1iypigm=o4ju1qtdd!)ad$s1*hlkj2"
+SECRET_KEY = secrets.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = secrets.DEBUG
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = secrets.ALLOWED_HOSTS
 
 
 # Application definition
@@ -76,11 +77,11 @@ WSGI_APPLICATION = "cosmos.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "cosmos_website_test",
-        "USER": "cosmos_website_tester",
-        "PASSWORD": "2020123",
-        "HOST": "localhost",
-        "PORT": "",
+        "NAME": secrets.DATABASE_NAME,
+        "USER": secrets.DATABASE_USER,
+        "PASSWORD": secrets.DATABASE_PASSWORD,
+        "HOST": secrets.DATABASE_HOST,
+        "PORT": secrets.DATABASE_PORT,
     }
 }
 

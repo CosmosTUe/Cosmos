@@ -21,12 +21,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = secrets.SECRET_KEY
+SECRET_KEY = secrets.get_secret("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = secrets.DEBUG
+DEBUG = secrets.get_secret("DEBUG")
 
-ALLOWED_HOSTS = secrets.ALLOWED_HOSTS
+ALLOWED_HOSTS = secrets.get_secret("ALLOWED_HOSTS")
 
 
 # Application definition
@@ -77,11 +77,11 @@ WSGI_APPLICATION = "cosmos.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": secrets.DATABASE_NAME,
-        "USER": secrets.DATABASE_USER,
-        "PASSWORD": secrets.DATABASE_PASSWORD,
-        "HOST": secrets.DATABASE_HOST,
-        "PORT": secrets.DATABASE_PORT,
+        "NAME": secrets.get_secret("DATABASE_NAME"),
+        "USER": secrets.get_secret("DATABASE_USER"),
+        "PASSWORD": secrets.get_secret("DATABASE_PASSWORD"),
+        "HOST": secrets.get_secret("DATABASE_HOST"),
+        "PORT": secrets.get_secret("DATABASE_PORT"),
     }
 }
 

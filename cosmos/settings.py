@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-import secrets
+
+import secret_settings
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -22,13 +23,13 @@ DATA_DIR = os.path.dirname(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = secrets.get_secret("SECRET_KEY")
+SECRET_KEY = secret_settings.secrets["SECRET_KEY"]
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = secrets.get_secret("DEBUG")
+DEBUG = secret_settings.secrets["DEBUG"]
 
-ALLOWED_HOSTS = secrets.get_secret("ALLOWED_HOSTS")
+ALLOWED_HOSTS = secret_settings.secrets["ALLOWED_HOSTS"]
 
 
 # Application definition
@@ -46,11 +47,11 @@ WSGI_APPLICATION = "cosmos.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": secrets.get_secret("DATABASE_NAME"),
-        "USER": secrets.get_secret("DATABASE_USER"),
-        "PASSWORD": secrets.get_secret("DATABASE_PASSWORD"),
-        "HOST": secrets.get_secret("DATABASE_HOST"),
-        "PORT": secrets.get_secret("DATABASE_PORT"),
+        "NAME": secret_settings.secrets["DATABASE_NAME"],
+        "USER": secret_settings.secrets["DATABASE_USER"],
+        "PASSWORD": secret_settings.secrets["DATABASE_PASSWORD"],
+        "HOST": secret_settings.secrets["DATABASE_HOST"],
+        "PORT": secret_settings.secrets["DATABASE_PORT"],
     }
 }
 
@@ -196,18 +197,6 @@ X_FRAME_OPTIONS = "SAMEORIGIN"
 CMS_PERMISSION = True
 
 CMS_PLACEHOLDER_CONF = {}
-
-DATABASES = {
-    "default": {
-        "CONN_MAX_AGE": 0,
-        "ENGINE": "django.db.backends.mysql",
-        "HOST": "localhost",
-        "NAME": "cosmos_website_test",
-        "PASSWORD": "2020123",
-        "PORT": "",
-        "USER": "cosmos_website_tester",
-    }
-}
 
 THUMBNAIL_PROCESSORS = (
     "easy_thumbnails.processors.colorspace",

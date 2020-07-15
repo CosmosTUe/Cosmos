@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
+import secret_settings
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -21,12 +23,13 @@ DATA_DIR = os.path.dirname(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "#*b**wb-l$lowqtff^2f!^*s146=ef%w*bw_45ekot#dl&f1q7"
+SECRET_KEY = secret_settings.secrets["SECRET_KEY"]
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = secret_settings.secrets["DEBUG"]
 
-ALLOWED_HOSTS = ["127.0.0.1"]
+ALLOWED_HOSTS = secret_settings.secrets["ALLOWED_HOSTS"]
 
 
 # Application definition
@@ -41,6 +44,16 @@ WSGI_APPLICATION = "cosmos.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": secret_settings.secrets["DATABASE_NAME"],
+        "USER": secret_settings.secrets["DATABASE_USER"],
+        "PASSWORD": secret_settings.secrets["DATABASE_PASSWORD"],
+        "HOST": secret_settings.secrets["DATABASE_HOST"],
+        "PORT": secret_settings.secrets["DATABASE_PORT"],
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -184,18 +197,6 @@ X_FRAME_OPTIONS = "SAMEORIGIN"
 CMS_PERMISSION = True
 
 CMS_PLACEHOLDER_CONF = {}
-
-DATABASES = {
-    "default": {
-        "CONN_MAX_AGE": 0,
-        "ENGINE": "django.db.backends.mysql",
-        "HOST": "localhost",
-        "NAME": "cosmos_website_test",
-        "PASSWORD": "2020123",
-        "PORT": "",
-        "USER": "cosmos_website_tester",
-    }
-}
 
 THUMBNAIL_PROCESSORS = (
     "easy_thumbnails.processors.colorspace",

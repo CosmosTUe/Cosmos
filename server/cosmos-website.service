@@ -7,13 +7,17 @@
 `[Unit]
 Description=gunicorn daemon for cosmos website
 After=network.target
-Requires=mariadb
+Requires=mariadb nginx gunicorn.socket
 
 [Service]
 User=prod
 Group=www-data
-WorkingDirectory=/home/production/Cosmos
-ExecStart=/home/prod/Cosmos/.venv/bin/gunicorn --access-logfile - --workers 3 --bind unix:/home/prod/Cosmos/cosmos.sock cosmos.wsgi:application
+WorkingDirectory=/home/prod/Cosmos
+ExecStart=/home/prod/Cosmos/.venv/bin/gunicorn \
+             --access-logfile - \
+             --workers 3 \
+             --bind unix:/run/cosmos.sock \
+             cosmos.wsgi:application
 
 [Install]
 WantedBy=multi-user.target

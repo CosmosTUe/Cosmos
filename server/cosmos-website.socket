@@ -1,4 +1,6 @@
 #Makes a systemd socket, so that the website only starts when an actual request is made
+#move to /etc/systemd/system/
+
 
 [Unit]
 Description=gunicorn socket

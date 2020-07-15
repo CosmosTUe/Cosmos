@@ -4,10 +4,11 @@
 
 #if changes are made to this file make sure to restart the systemd daemon with
 # ` sudo systemctl daemon-reload`
+#move to /etc/systemd/system/
 `[Unit]
 Description=gunicorn daemon for cosmos website
 After=network.target
-Requires=mariadb nginx gunicorn.socket
+Requires= gunicorn.socket mariadb nginx
 
 [Service]
 User=prod

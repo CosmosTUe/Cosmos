@@ -102,3 +102,10 @@ systemctl start pretix-web pretix-worker
 default username: admin@localhost
 default password: admin
 ```
+
+8. Configure pretix via the web interface
+
+- Create a new `Organizer account` with the umbrella name 'COSMOS' (TODO consider how to handle different years of COSMOS board)
+- Create a new `Team` inside of the 'COSMOS' `Organizer account` for each committee in the association
+- Add Mollie details in [`Global settings > Settings`](http://localhost:8345/control/global/settings/)
+- Set up token-based authentication: https://docs.pretix.eu/en/latest/api/tokenauth.html#rest-tokenauth

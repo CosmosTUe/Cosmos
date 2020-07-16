@@ -25,6 +25,10 @@ SECRET_KEY = "j@7*rtssewjfhix2f^7&1iypigm=o4ju1qtdd!)ad$s1*hlkj2"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# Pretix config
+PRETIX_DOMAIN = "http://localhost:8345"
+AUTHORIZATION_HEADER = {"Authorization": "Token qe7op3k271qtdi1pspbdpxlhcm7oyve4fgkxdrkcucrjmiwdey8bdebcokz4ar8y"}
+
 ALLOWED_HOSTS = []
 
 

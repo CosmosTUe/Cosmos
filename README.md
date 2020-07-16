@@ -34,3 +34,8 @@ To run all tests run:
 # Development:
 To run the project for development purposes run the following command:  
 `python manage.py runserver`
+
+## PyCharm
+
+Be sure to exclude the folder `.venv` by right-clicking on it and selecting `Mark Directory as -> Excluded`. This will
+ensure the folder is excluded in project-wide searches and modifications.

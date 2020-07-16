@@ -11,7 +11,7 @@ jobs:
          uses: appleboy/ssh-action@master
          with:
            host: ${{ secrets.DEV_HOST }}
-           username: ${{ secrets.USERNAME }}
-           key: ${{ secrets.KEY }}
-           port: ${{ secrets.PORT }}
+           username: ${{ secrets.DEV_USERNAME }}
+           key: ${{ secrets.DEV_KEY }}
+           port: ${{ secrets.DEV_PORT }}
            script: sh /home/prod/dev-update.sh

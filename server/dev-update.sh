@@ -1,6 +1,6 @@
 #!/bin/sh
 cd /home/prod/Cosmos
-git checkout master
+git checkout development
 git pull
 source .venv/bin/activate
 pip install --upgrade pip

@@ -1,7 +1,7 @@
 name: deploy to server
 on:
   push:
-    branches: [ master ]
+    branches: [ development ]
     
 jobs:
   deploy:
@@ -10,8 +10,8 @@ jobs:
        - name: execute remote ssh command
          uses: appleboy/ssh-action@master
          with:
-           host: ${{ secrets.PROD_HOST }}
+           host: ${{ secrets.DEV_HOST }}
            username: ${{ secrets.USERNAME }}
            key: ${{ secrets.KEY }}
            port: ${{ secrets.PORT }}
-           script: sh /home/prod/update.sh
+           script: sh /home/prod/dev-update.sh

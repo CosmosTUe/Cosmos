@@ -5,7 +5,7 @@ server {
     listen 80;
     server_name cosmostue.nl;
     ##To run locally replace aboce 2 lines with:
-    ##listen    80   default_server
+    ##listen    80   default_server;
     ##server_name _;
 
 

@@ -10,13 +10,13 @@ class User:
 
         :param organizer:
         :param email: Email of the user
-        :return: List of events subscribed by the user
+        :return: List of tuples (events subscribed, order created) by the user
         """
         results = []
-        for event in Event.get_all(organizer)[1].get("results", []):
-            success, orders = Order.get_all(organizer, event, email)
-            if success:
-                results.append(event)
+        for event in Event.get_all(organizer).get("results", []):
+            order = Order.get_all(organizer, event, email)
+            if order is not None:
+                results.append((event, order["results"]))
         return results
 
 

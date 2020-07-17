@@ -16,27 +16,6 @@ class Quota(PretixService):
         if organizer is None or event is None:
             raise TypeError
         return f"/api/v1/organizers/{organizer}/events/{event}/quotas/{id}"
-        pass
-
-    @classmethod
-    def get_all(cls, **kwargs):
-        return super().get_all(**kwargs)
-
-    @classmethod
-    def get(cls, organizer, **kwargs):
-        return super().get(organizer, **kwargs)
-
-    @classmethod
-    def create(cls, organizer, **kwargs):
-        return super().create(organizer, **kwargs)
-
-    @classmethod
-    def update(cls, organizer, **kwargs):
-        return super().update(organizer, **kwargs)
-
-    @classmethod
-    def delete(cls, organizer, **kwargs):
-        return super().delete(organizer, **kwargs)
 
 
 if __name__ == "__main__":

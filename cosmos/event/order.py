@@ -27,8 +27,8 @@ class Order(PretixService):
         :param event: Dictionary detailing properties of Event
         :param email: Email (optional)
         :param kwargs:
-        :returns: Tuple of (success: boolean, response: object) where response is None if success is False.
+        :returns: Response given as dictionary
+        :raises PretixException: Request exception
         """
-        success, data = super().get_all(organizer=organizer, event=event["slug"], email=email, **kwargs)
-        left = success and data["count"] > 0
-        return left, data if left else []
+        data = super().get_all(organizer=organizer, event=event["slug"], email=email, **kwargs)
+        return data if data["count"] > 0 else []

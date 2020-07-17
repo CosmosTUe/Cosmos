@@ -2,12 +2,21 @@ import json
 
 import requests
 from cosmos.settings import PRETIX_DOMAIN, AUTHORIZATION_HEADER
+from cosmos.event import errors
 
 
 class PretixService:
     """
     Base class for all the Pretix REST API
     """
+
+    __errors = {
+        400: errors.InvalidDataError,
+        401: errors.AuthenticationError,
+        403: errors.AuthorizationError,
+        404: None,
+        409: errors.ConflictError,
+    }
 
     @classmethod
     def _get_request_url(cls, **kwargs):
@@ -22,8 +31,8 @@ class PretixService:
     def get_all(cls, **kwargs):
         """
         Performs a GET request for all of a certain object.
-        :returns: Tuple of (success: boolean, response: object) where
-        response is None if success is False.
+        :returns: Response given as dictionary
+        :raises PretixException: Request exception
         """
         url = cls._get_request_url(**kwargs)
         return cls.__pretix_request("GET", url)
@@ -33,8 +42,8 @@ class PretixService:
         """
         Performs a GET request for information of one object.
         :param organizer: Name of organizer
-        :returns: Tuple of (success: boolean, response: object) where
-        response is None if success is False.
+        :returns: Response given as dictionary
+        :raises PretixException: Request exception
         """
         url = cls._get_request_url(organizer=organizer, **kwargs)
         return cls.__pretix_request("GET", url)
@@ -45,27 +54,24 @@ class PretixService:
         Performs a POST request to create a new object
         :param organizer: Name of organizer
         :param kwargs:  Properties of new object. Refer to Pretix documentation.
-        :returns: Tuple of (success: boolean, response: object) where
-        response is None if success is False.
+        :returns: Response given as dictionary
+        :raises PretixException: Request exception
         """
         url = cls._get_request_url(organizer=organizer, **kwargs)
 
         headers = {"Content-Type": "application/json"}
 
         return cls.__pretix_request("POST", url, headers=headers, data=kwargs)
-        # 201 Created – no error
-        # 400 Bad Request – The event could not be created due to invalid submitted data.
-        # 401 Unauthorized – Authentication failure
-        # 403 Forbidden – The requested organizer does not exist or you have no permission to create this resource.
 
     @classmethod
     def update(cls, organizer, **kwargs):
         """
         Performs a PATCH request to create a new object
+
         :param organizer: Name of organizer
         :param kwargs:  Properties of new object. Refer to Pretix documentation.
-        :returns: Tuple of (success: boolean, response: object) where
-        response is None if success is False.
+        :returns: Response given as dictionary
+        :raises PretixException: Request exception
         """
         url = cls._get_request_url(organizer=organizer, **kwargs)
 
@@ -75,6 +81,14 @@ class PretixService:
 
     @classmethod
     def delete(cls, organizer, **kwargs):
+        """
+        Performs a DELETE request to create a new object
+
+        :param organizer: Name of organizer
+        :param kwargs:  Properties of new object. Refer to Pretix documentation.
+        :returns: Response given as dictionary
+        :raises PretixException: Request exception
+        """
         url = cls._get_request_url(organizer=organizer, **kwargs)
 
         headers = {"Content-Type": "application/json"}
@@ -107,10 +121,11 @@ class PretixService:
             new_url = f"{PRETIX_DOMAIN}/{url}"
         # Sends the request
         response = requests.request(method, new_url, **kwargs)
-        return response.status_code == 200, response.json() if response else None
+        error = cls.__errors.get(response.status_code, None)
+        if error is not None:
+            raise error
+        return response.json()
 
-
-# TODO error handling ask Martin
 
 if __name__ == "__main__":
     PretixService.get_all()

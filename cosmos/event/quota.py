@@ -10,11 +10,20 @@ class Quota(PretixService):
 
     @classmethod
     def _get_request_url(cls, **kwargs):
+        """
+        Defines the URL of HTTP request
+
+        :param organizer: Name of organizer
+        :param event: Name of event
+        :param id: ID of quota (Optional)
+        :param kwargs: Dictionary of arguments
+        :return: HTTP request URL
+        """
         organizer = kwargs.get("organizer")
         event = kwargs.get("event")
-        id = kwargs.get("id", "")
         if organizer is None or event is None:
             raise TypeError
+        id = kwargs.get("id", "")
         return f"/api/v1/organizers/{organizer}/events/{event}/quotas/{id}"
 
 

@@ -10,12 +10,20 @@ class Team(PretixService):
 
     @classmethod
     def _get_request_url(cls, **kwargs):
+        """
+        Defines the URL of HTTP request
+
+        :param organizer: Name of organizer
+        :param id: ID of team (Optional)
+        :param kwargs: Dictionary of arguments
+        :return: HTTP request URL
+        """
         organizer = kwargs.get("organizer")
-        id = kwargs.get("id", "")
         if organizer is None:
             # If organizer does not exist, raise TypeError
             raise TypeError
         # Otherwise, continue with HTTP request
+        id = kwargs.get("id", "")
         return f"/api/v1/organizers/{organizer}/teams/{id}"
 
     @classmethod
@@ -53,17 +61,16 @@ class Team(PretixService):
         return super().update(organizer, id=id, **kwargs)
 
     @classmethod
-    def delete(cls, organizer, id, **kwargs):
+    def delete(cls, organizer, id):
         """
         Deletes a team
 
         :param organizer: Name of organizer
         :param id: ID of team
-        :param kwargs:  Properties of new team. Refer to Pretix documentation.
         :returns: Response given as dictionary
         :raises PretixException: Request exception
         """
-        return super().delete(organizer=organizer, id=id, **kwargs)
+        return super().delete(organizer=organizer, id=id)
 
     class Token(PretixService):
         """
@@ -129,10 +136,9 @@ class Team(PretixService):
         @classmethod
         def delete(cls, organizer, team):
             """
-            Performs a DELETE request to delete a token
+            Deletes a token
 
             :param organizer: Name of organizer
-            :param kwargs:  Properties of new token. Refer to Pretix documentation.
             :returns: Response given as dictionary
             :raises PretixException: Request exception
             """
@@ -141,3 +147,4 @@ class Team(PretixService):
 
 if __name__ == "__main__":
     print(Team.get_all("cosmos"))
+    print(Team.create("cosmos", "promocom"))

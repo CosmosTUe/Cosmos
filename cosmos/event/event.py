@@ -14,6 +14,13 @@ class Event(PretixService):
 
     @classmethod
     def _get_request_url(cls, **kwargs):
+        """
+        Defines the URL of HTTP request
+
+        :param organizer: Name of organizer
+        :param kwargs: Dictionary of arguments
+        :return: HTTP request URL
+        """
         organizer = kwargs.get("organizer")
         if organizer is None:
             # If organizer does not exist, raise TypeError
@@ -24,19 +31,42 @@ class Event(PretixService):
 
     @classmethod
     def get_all(cls, organizer, **kwargs):
+        """
+        Performs a GET request for all of the events under a certain organizer
+
+        :param organizer: Name of organizer
+        :param kwargs: Dictionary of queries
+        :returns: Response given as dictionary
+        :raises PretixException: Request exception
+        """
         return super().get_all(organizer=organizer)
 
     @classmethod
     def get(cls, organizer, event, **kwargs):
+        """
+        Performs a GET requeest for event information
+
+        :param organizer: Name of organizer
+        :param event: Name of event
+        :param kwargs:
+        :returns: Response given as dictionary
+        :raises PretixException: Request exception
+        """
         return super().get_all(organizer=organizer, event=event)
 
     @classmethod
     def create(cls, organizer, name, date_from: datetime, timezone="Europe/Amsterdam", **kwargs):
-        # 201 Created – no error
-        # 400 Bad Request – The event could not be created due to invalid submitted data.
-        # 401 Unauthorized – Authentication failure
-        # 403 Forbidden – The requested organizer does not exist or you have no permission to create this resource.
+        """
+        Performs a POST request to create a new event under a certain organizer
 
+        :param organizer: Name of organizer
+        :param name: Name of event
+        :param date_from: `datetime` object denoting the start point of the event
+        :param timezone: Timezone of the event (defaults to "Europe/Amsterdam")
+        :param kwargs: Additional properties of new event
+        :returns: Response given as dictionary
+        :raises PretixException: Request exception
+        """
         date_to = kwargs.get("date_to")
         if date_to is not None:
             date_to = f"{date_to.strftime('%Y-%m-%dT%H:%M:%S')}{pytz.timezone(timezone)}"
@@ -76,8 +106,25 @@ class Event(PretixService):
 
     @classmethod
     def update(cls, organizer, event, **kwargs):
+        """
+        Performs a PATCH request
+
+        :param organizer: Name of organizer
+        :param event: Name of event
+        :param kwargs: Properties of event to modify
+        :returns: Response given as dictionary
+        :raises PretixException: Request exception
+        """
         return super().update(organizer, event=event, **kwargs)
 
     @classmethod
-    def delete(cls, organizer, event, id, **kwargs):
-        return super().delete(organizer, event=event, id=id, **kwargs)
+    def delete(cls, organizer, event):
+        """
+        Performs a DELETE request to delete an event
+
+        :param organizer: Name of organizer
+        :param event: Name of event
+        :returns: Response given as dictionary
+        :raises PretixException: Request exception
+        """
+        return super().delete(organizer, event=event, id=id)

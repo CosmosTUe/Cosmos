@@ -39,8 +39,8 @@ class Team(PretixService):
         """
         return super().create(organizer, name=name, **kwargs)
 
-    @staticmethod
-    def update(organizer, id, **kwargs):
+    @classmethod
+    def update(cls, organizer, id, **kwargs):
         """
         Update a team
 
@@ -52,6 +52,7 @@ class Team(PretixService):
         """
         return super().update(organizer, id=id, **kwargs)
 
+    @classmethod
     def delete(cls, organizer, id, **kwargs):
         """
         Deletes a team

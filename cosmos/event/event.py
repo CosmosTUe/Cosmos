@@ -1,4 +1,5 @@
 from datetime import datetime
+
 import pytz
 
 from cosmos.event.base import PretixService

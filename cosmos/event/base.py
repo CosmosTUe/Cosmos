@@ -1,8 +1,9 @@
 import json
 
 import requests
-from cosmos.settings import PRETIX_DOMAIN, AUTHORIZATION_HEADER
+
 from cosmos.event import errors
+from cosmos.settings import AUTHORIZATION_HEADER, PRETIX_DOMAIN
 
 
 class PretixService:

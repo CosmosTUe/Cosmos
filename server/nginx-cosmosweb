@@ -1,0 +1,21 @@
+## Should be placed in /etc/nginx/site-available/ and then symlinked into /etc/nginx/sites-enabled
+## nginx config to serve the gunicorn socket to the user
+
+server {
+    listen 80;
+    server_name cosmostue.nl;
+    ##To run locally replace aboce 2 lines with:
+    ##listen    80   default_server;
+    ##server_name _;
+
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location /static/ {
+        root /home/prod/Cosmos;
+    }
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/run/cosmos.sock;
+    }
+}

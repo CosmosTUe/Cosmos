@@ -68,8 +68,6 @@ class Team(PretixService):
         """
         HTTP request service for Pretix Team Token
 
-        TODO store tokens locally
-
         Reference: https://docs.pretix.eu/en/latest/api/resources/teams.html#team-api-token-endpoints
         """
 

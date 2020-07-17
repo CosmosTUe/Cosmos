@@ -1,0 +1,24 @@
+# This is a systemd service that starts the website by using gunicorn from the virtualenv
+# gunicorn creates a unix socket instead of opening a port, because it's cleaner and safer
+# which nginx then uses to serve the website to the user
+
+#if changes are made to this file make sure to restart the systemd daemon with
+# ` sudo systemctl daemon-reload`
+#move to /etc/systemd/system/
+`[Unit]
+Description=gunicorn daemon for cosmos website
+After=network.target
+Requires= gunicorn.socket mariadb nginx
+
+[Service]
+User=prod
+Group=www-data
+WorkingDirectory=/home/prod/Cosmos
+ExecStart=/home/prod/Cosmos/.venv/bin/gunicorn \
+             --access-logfile - \
+             --workers 3 \
+             --bind unix:/run/cosmos.sock \
+             cosmos.wsgi:application
+
+[Install]
+WantedBy=multi-user.target

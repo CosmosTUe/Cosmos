@@ -30,9 +30,8 @@ SECRET_KEY = secret_settings.secrets["SECRET_KEY"]
 DEBUG = secret_settings.secrets["DEBUG"]
 
 # Pretix config
-PRETIX_DOMAIN = "http://localhost:8345"
-# TODO store tokens per team
-AUTHORIZATION_HEADER = {"Authorization": "Token qe7op3k271qtdi1pspbdpxlhcm7oyve4fgkxdrkcucrjmiwdey8bdebcokz4ar8y"}
+PRETIX_DOMAIN = secret_settings.secrets["PRETIX_DOMAIN"]
+AUTHORIZATION_HEADER = secret_settings.secrets["PRETIX_AUTHORIZATION_HEADER"]
 
 ALLOWED_HOSTS = secret_settings.secrets["ALLOWED_HOSTS"]
 

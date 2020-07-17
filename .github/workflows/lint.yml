@@ -29,7 +29,9 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: '3.8'
+      - name: Install requirements
+        run: pip install -r requirements.txt  
       - name: Set up Flake8
-        run: pip install flake8 flake8-django pep8-naming flake8-isort
+        run: pip install flake8 flake8-django pep8-naming isort flake8-isort
       - name: Run flake8
         run: flake8 .

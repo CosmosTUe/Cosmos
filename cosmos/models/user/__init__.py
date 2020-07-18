@@ -38,6 +38,11 @@ class Profile(models.Model):
         max_length=50, default="Pending", choices=((status, status) for status in ["Member", "Pending", "Rejected"])
     )
 
+    # Custom Properties
+    @property
+    def username(self):
+        return self.user.username
+
 
 @receiver(post_save, sender=User)
 def user_post_save(sender, instance, created, **kwargs):

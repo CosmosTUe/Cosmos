@@ -22,3 +22,11 @@ class Committee(models.Model):
     description = models.TextField(blank=True)
     board = models.ForeignKey(Board, on_delete=models.CASCADE)
     pretix_token = models.CharField(max_length=64)
+
+    @property
+    def name(self):
+        return self.group.name
+
+    @property
+    def permissions(self):
+        return self.group.permissions

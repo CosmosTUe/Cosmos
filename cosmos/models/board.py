@@ -22,3 +22,11 @@ class Board(models.Model):
     period_from = models.DateField()
     period_to = models.DateField()
     pretix_organizer = models.CharField(max_length=20)
+
+    @property
+    def name(self):
+        return self.group.name
+
+    @property
+    def permissions(self):
+        return self.group.permissions

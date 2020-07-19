@@ -18,7 +18,3 @@ class User:
             if order is not None:
                 results.append((event, order["results"]))
         return results
-
-
-if __name__ == "__main__":
-    print(User.get_events("cosmos", "dasyad00@gmail.com"))

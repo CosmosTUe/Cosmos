@@ -140,7 +140,3 @@ class PretixService:
         if error is not None:
             raise error
         return response.json()
-
-
-if __name__ == "__main__":
-    PretixService.get_all()

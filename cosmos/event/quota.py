@@ -25,7 +25,3 @@ class Quota(PretixService):
             raise TypeError
         id = kwargs.get("id", "")
         return f"/api/v1/organizers/{organizer}/events/{event}/quotas/{id}"
-
-
-if __name__ == "__main__":
-    print(Quota.get_all(organizer="cosmos", event="potluck1"))

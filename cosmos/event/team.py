@@ -143,8 +143,3 @@ class Team(PretixService):
             :raises PretixException: Request exception
             """
             return super().delete(organizer, team=team)
-
-
-if __name__ == "__main__":
-    print(Team.get_all("cosmos"))
-    print(Team.create("cosmos", "promocom"))

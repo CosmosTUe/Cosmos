@@ -61,7 +61,3 @@ class Organizer(PretixService):
         Pretix Organizers do not support deletions/DELETE requests
         """
         raise NotImplementedError
-
-
-if __name__ == "__main__":
-    print(Organizer.get_all())

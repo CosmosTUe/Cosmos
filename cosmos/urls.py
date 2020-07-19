@@ -8,11 +8,21 @@ from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.contrib.sitemaps.views import sitemap
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.urls import path
 from django.views.static import serve
+from cosmos.views import user
 
 admin.autodiscover()
 
 urlpatterns = [
+    # --- User focused --- #
+    url(r"^accounts/register/$", user.register, name="user_register"),
+    url(r"^accounts/update/$", user.update, name="user_update"),
+    # Authentication Views
+    # https://docs.djangoproject.com/en/3.0/topics/auth/default/#using-the-views
+    # TODO consider manualy adding URL's to only allow password_reset or _change
+    path("accounts/", include("django.contrib.auth.urls")),
+    # --- Sitemap --- #
     url(r"^sitemap\.xml$", sitemap, {"sitemaps": {"cmspages": CMSSitemap}}),
 ]
 

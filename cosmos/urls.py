@@ -10,6 +10,7 @@ from django.contrib.sitemaps.views import sitemap
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path
 from django.views.static import serve
+
 from cosmos.views import user
 
 admin.autodiscover()

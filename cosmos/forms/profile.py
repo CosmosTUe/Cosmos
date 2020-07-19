@@ -1,5 +1,6 @@
 from cms.utils.compat.forms import UserChangeForm, UserCreationForm
 from django.forms import ModelForm
+
 from cosmos.models.user import Profile
 
 

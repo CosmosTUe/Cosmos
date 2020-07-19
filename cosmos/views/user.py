@@ -1,9 +1,10 @@
 from django.contrib import messages
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.db import transaction
-from django.shortcuts import render, redirect
-from cosmos.forms import ProfileCreationForm, ProfileChangeForm
+from django.shortcuts import redirect, render
+
+from cosmos.forms import ProfileChangeForm, ProfileCreationForm
 
 
 def register(request):

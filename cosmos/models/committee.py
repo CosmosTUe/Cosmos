@@ -1,5 +1,6 @@
-from django.db import models
 from django.contrib.auth.models import Group
+from django.db import models
+
 from cosmos.models.board import Board
 
 
@@ -30,3 +31,6 @@ class Committee(models.Model):
     @property
     def permissions(self):
         return self.group.permissions
+
+    def __str__(self):
+        return f"{self.name}: {self.description}"

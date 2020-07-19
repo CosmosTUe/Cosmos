@@ -1,5 +1,6 @@
 from django.test import TestCase
-from cosmos.models.user import User, Profile
+
+from cosmos.models.user import Profile, User
 
 
 class UserTestCase(TestCase):

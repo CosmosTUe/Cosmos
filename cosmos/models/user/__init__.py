@@ -1,9 +1,9 @@
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from cosmos.models.user.constants import NATIONALITIES, DEPARTMENTS, PROGRAMS
+from cosmos.models.user.constants import DEPARTMENTS, NATIONALITIES, PROGRAMS
 
 
 class Profile(models.Model):
@@ -42,6 +42,9 @@ class Profile(models.Model):
     @property
     def username(self):
         return self.user.username
+
+    def __str__(self):
+        return f"{self.tue_id}: {self.username}"
 
 
 @receiver(post_save, sender=User)

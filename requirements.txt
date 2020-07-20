@@ -18,7 +18,7 @@ Django<3.1
 html5lib>=1.0.1
 Pillow>=3.0
 six
-pytz==2020.1
+pytz>=2020.1
 gunicorn
-mysqlclient==2.0.1
-requests==2.24.0
+mysqlclient>=2.0.1
+requests>=2.24.0

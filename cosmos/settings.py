@@ -29,6 +29,10 @@ SECRET_KEY = secret_settings.secrets["SECRET_KEY"]
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = secret_settings.secrets["DEBUG"]
 
+# Pretix config
+PRETIX_DOMAIN = secret_settings.secrets["PRETIX_DOMAIN"]
+AUTHORIZATION_HEADER = secret_settings.secrets["PRETIX_AUTHORIZATION_HEADER"]
+
 ALLOWED_HOSTS = secret_settings.secrets["ALLOWED_HOSTS"]
 
 

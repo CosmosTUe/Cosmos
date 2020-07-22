@@ -1,10 +1,9 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.db import transaction
 from django.shortcuts import redirect, render
 
-from cosmos.forms import ProfileCreateForm, ProfileUpdateForm
+from cosmos.forms import ProfileCreateForm, ProfileUpdateForm, MemberCreateForm, MemberUpdateForm
 
 
 def register(request):
@@ -15,15 +14,15 @@ def register(request):
     :return:
     """
     if request.method == "POST":
-        user_form = UserCreationForm(request.POST, instance=request.user)
-        profile_form = UserCreationForm(request.POST, instance=request.user.profile)
+        user_form = MemberCreateForm(request.POST, instance=request.user)
+        profile_form = ProfileCreateForm(request.POST, instance=request.user.profile)
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
             messages.success(request, "Account created successfully")
             return redirect("register")
     else:
-        user_form = UserCreationForm()
+        user_form = MemberCreateForm()
         profile_form = ProfileCreateForm()
     return render(request, "user/register.html", {"user_form": user_form, "profile_form": profile_form})
 
@@ -41,7 +40,7 @@ def update(request):
     :return:
     """
     if request.method == "POST":
-        user_form = UserChangeForm(request.POST, instance=request.user)
+        user_form = MemberUpdateForm(request.POST, instance=request.user)
         profile_form = ProfileUpdateForm(request.POST, instance=request.user.profile)
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
@@ -51,6 +50,6 @@ def update(request):
         else:
             messages.error(request, "Please correct the error below.")
     else:
-        user_form = UserChangeForm(instance=request.user)
+        user_form = MemberUpdateForm(instance=request.user)
         profile_form = ProfileUpdateForm(instance=request.user.profile)
     return render(request, "user/update.html", {"user_form": user_form, "profile_form": profile_form})

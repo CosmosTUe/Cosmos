@@ -14,21 +14,20 @@ class CosmosMemberCreation(UserCreationForm):
     pass
 
 
-class ProfileCreationForm(ModelForm):
+class ProfileCreateForm(ModelForm):
     class Meta:
         model = Profile
-        fields = ["gender", "nationality", "department", "program", "tue_id", "card_number"]
+        fields = ["nationality", "department", "program"]
 
     def save(self, user_ref):
         self.instance.user = user_ref
         return super().save()
 
 
-class ProfileChangeForm(ProfileCreationForm):
+class ProfileUpdateForm(ProfileCreateForm):
     class Meta:
         model = Profile
         fields = [
-            "gender",
             "nationality",
             "department",
             "program",

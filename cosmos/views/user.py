@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.db import transaction
 from django.shortcuts import redirect, render
 
-from cosmos.forms import ProfileChangeForm, ProfileCreationForm
+from cosmos.forms import ProfileCreateForm, ProfileUpdateForm
 
 
 def register(request):
@@ -24,7 +24,7 @@ def register(request):
             return redirect("register")
     else:
         user_form = UserCreationForm()
-        profile_form = ProfileCreationForm()
+        profile_form = ProfileCreateForm()
     return render(request, "user/register.html", {"user_form": user_form, "profile_form": profile_form})
 
 
@@ -42,7 +42,7 @@ def update(request):
     """
     if request.method == "POST":
         user_form = UserChangeForm(request.POST, instance=request.user)
-        profile_form = ProfileChangeForm(request.POST, instance=request.user.profile)
+        profile_form = ProfileUpdateForm(request.POST, instance=request.user.profile)
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
@@ -52,5 +52,5 @@ def update(request):
             messages.error(request, "Please correct the error below.")
     else:
         user_form = UserChangeForm(instance=request.user)
-        profile_form = ProfileChangeForm(instance=request.user.profile)
+        profile_form = ProfileUpdateForm(instance=request.user.profile)
     return render(request, "user/update.html", {"user_form": user_form, "profile_form": profile_form})

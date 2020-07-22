@@ -28,9 +28,6 @@ class Profile(models.Model):
     department = models.CharField(max_length=100, choices=((name, name) for name in DEPARTMENTS))
     program = models.CharField(max_length=100, choices=((name, name) for name in PROGRAMS))
     nationality = models.CharField(max_length=100, choices=((country, country) for country in NATIONALITIES))
-    gender = models.CharField(
-        max_length=10, choices=(("Male", "Male"), ("Female", "Female"), ("Other", "I'd rather not say"))
-    )
     tue_id = models.CharField(verbose_name="TU/e Number", max_length=25)
     card_number = models.CharField(max_length=25)
     key_access = models.CharField(max_length=3, default="No")

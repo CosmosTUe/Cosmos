@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.shortcuts import redirect, render
 
-from cosmos.forms import ProfileCreateForm, ProfileUpdateForm, MemberCreateForm, MemberUpdateForm
+from cosmos.forms import MemberCreateForm, MemberUpdateForm, ProfileCreateForm, ProfileUpdateForm
 
 
 def register(request):

@@ -1,3 +1,3 @@
-from .profile import ProfileCreateForm, ProfileUpdateForm, MemberCreateForm, MemberUpdateForm
+from .profile import MemberCreateForm, MemberUpdateForm, ProfileCreateForm, ProfileUpdateForm
 
-__all__ = ["ProfileCreateForm", "ProfileUpdateForm", "MemberCreateForm", "MemberUpdateForm"]
+__all__ = ["MemberCreateForm", "MemberUpdateForm", "ProfileCreateForm", "ProfileUpdateForm"]

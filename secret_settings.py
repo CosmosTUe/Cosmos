@@ -14,8 +14,12 @@ secrets = {
     "DATABASE_PASSWORD": "2020123",
     "DATABASE_HOST": "localhost",
     "DATABASE_PORT": "",
+    "PRETIX_DOMAIN": "http://localhost:8345",
+    # TODO store tokens per team
+    "PRETIX_AUTHORIZATION_HEADER": {
+        "Authorization": "Token qe7op3k271qtdi1pspbdpxlhcm7oyve4fgkxdrkcucrjmiwdey8bdebcokz4ar8y"
+    },
 }
-
 
 if path.exists("/etc/secrets.json"):
     with open("/etc/secrets.json", "r") as f:

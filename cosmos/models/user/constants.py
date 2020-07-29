@@ -194,17 +194,17 @@ NATIONALITIES = [
 ]
 
 DEPARTMENTS = [
+    "Biomedical Engineering",
+    "Built Environment",
+    "Chemical Engineering",
+    "Electrical Engineering",
+    "Industrial Design",
+    "Industrial Engineering",
     "Mathematics and Computer Science",
+    "Mechanical Engineering",
+    "Physics",
     "Psychology and Technology",
     "Sustainable Innovation",
-    "Industrial Design",
-    "Physics",
-    "Biomedical Engineering",
-    "Chemical Engineering",
-    "Industrial Engineering",
-    "Mechanical Engineering",
-    "Electrical Engineering",
-    "Built Environment",
 ]
 
 PROGRAMS = [
@@ -215,3 +215,5 @@ PROGRAMS = [
     "Exchange",
     "Other",
 ]
+
+STATUSES = ["Member", "Pending", "Rejected"]

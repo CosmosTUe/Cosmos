@@ -19,9 +19,9 @@ class Board(models.Model):
 
     group = models.OneToOneField(Group, on_delete=models.CASCADE)
     description = models.TextField(blank=True)
-    period_from = models.DateField()
+    period_from = models.DateField(blank=False)
     period_to = models.DateField()
-    pretix_organizer = models.CharField(max_length=20)
+    pretix_organizer_token = models.CharField(max_length=20)
 
     @property
     def name(self):

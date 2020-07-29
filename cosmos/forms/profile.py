@@ -1,21 +1,31 @@
+import re
+
 from cms.utils.compat.forms import UserChangeForm, UserCreationForm
 from django import forms
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
 from cosmos.models.user import Profile
 
 
-class SignUpForm(UserCreationForm):
-    class Meta:
-        model = User
-        fields = (
-            "username",
-            "first_name",
-            "last_name",
-            "email",
-            "password1",
-            "password2",
+def _member_clean_username(username):
+    """
+    Common form cleaning function for member creations and upates
+
+    :param username: Given username to be tested
+    :return: username as TUe email
+    :raise ValidationError:
+    """
+    if User.objects.filter(username=username).exists():
+        raise ValidationError(
+            "There is already a user with this email in our system, please try with a different one.",
+            code="duplicate_user",
         )
+    if not re.search("([@.])tue.nl$", username):
+        # Ensures email is from TUe (endswith ".tue.nl" or "@tue.nl"
+        raise ValidationError("This field must be a valid TU/e email address", code="nontue_email")
+    # Cleaning requires a return
+    return username
 
 
 class MemberCreateForm(UserCreationForm):
@@ -32,6 +42,9 @@ class MemberCreateForm(UserCreationForm):
         model = User
         fields = ["first_name", "last_name", "username", "email", "password1", "password2"]
 
+    def clean_username(self):
+        return _member_clean_username(self.cleaned_data.get("username"))
+
 
 class MemberUpdateForm(UserChangeForm):
     username = forms.EmailField(
@@ -44,6 +57,9 @@ class MemberUpdateForm(UserChangeForm):
     class Meta:
         model = User
         fields = ["first_name", "last_name", "username", "email"]
+
+    def clean_username(self):
+        return _member_clean_username(self.cleaned_data.get("username"))
 
 
 class ProfileCreateForm(forms.ModelForm):
@@ -65,12 +81,12 @@ class ProfileUpdateForm(ProfileCreateForm):
             "program",
             "tue_id",
             "card_number",
-            "member_type",
+            "status",
             "key_access",
         ]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.fields["member_type"].disabled = True
+        self.fields["status"].disabled = True
         self.fields["key_access"].disabled = True

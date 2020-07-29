@@ -56,8 +56,18 @@ DATABASES = {
         "PASSWORD": secret_settings.secrets["DATABASE_PASSWORD"],
         "HOST": secret_settings.secrets["DATABASE_HOST"],
         "PORT": secret_settings.secrets["DATABASE_PORT"],
-    }
+    },
+    "legacy": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": secret_settings.secrets["DATABASE_LEGACY_NAME"],
+        "USER": secret_settings.secrets["DATABASE_LEGACY_USER"],
+        "PASSWORD": secret_settings.secrets["DATABASE_LEGACY_PASSWORD"],
+        "HOST": secret_settings.secrets["DATABASE_LEGACY_HOST"],
+        "PORT": secret_settings.secrets["DATABASE_LEGACY_PORT"],
+    },
 }
+
+DATABASE_ROUTERS = ["legacy.legacy_router.LegacyRouter"]
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -176,6 +186,7 @@ INSTALLED_APPS = [
     "djangocms_googlemap",
     "djangocms_video",
     "cosmos",
+    "legacy",
 ]
 
 LANGUAGES = (

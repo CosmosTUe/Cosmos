@@ -14,6 +14,11 @@ secrets = {
     "DATABASE_PASSWORD": "2020123",
     "DATABASE_HOST": "localhost",
     "DATABASE_PORT": "",
+    "DATABASE_LEGACY_NAME": "cosmos_website_test_legacy",
+    "DATABASE_LEGACY_USER": "cosmos_website_tester_legacy",
+    "DATABASE_LEGACY_PASSWORD": "2020123",
+    "DATABASE_LEGACY_HOST": "localhost",
+    "DATABASE_LEGACY_PORT": "",
     "PRETIX_DOMAIN": "http://localhost:8345",
     # TODO store tokens per team
     "PRETIX_AUTHORIZATION_HEADER": {

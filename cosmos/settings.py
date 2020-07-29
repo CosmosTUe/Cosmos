@@ -89,7 +89,7 @@ LANGUAGE_CODE = "en"
 
 TIME_ZONE = "Europe/Amsterdam"
 
-USE_I18N = True
+USE_I18N = False
 
 USE_L10N = True
 

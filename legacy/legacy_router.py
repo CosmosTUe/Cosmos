@@ -25,7 +25,9 @@ class LegacyRouter:
         """
         Disallows relations if a model in the legacy app is involved.
         """
-        if obj1._meta.app_label in self.route_app_labels or obj2._meta.app_label in self.route_app_labels:
+        if obj1._meta.app_label in self.route_app_labels and obj2._meta.app_label in self.route_app_labels:
+            return True
+        elif obj1._meta.app_label in self.route_app_labels or obj2._meta.app_label in self.route_app_labels:
             return False
         return None
 

@@ -1,10 +1,9 @@
 import re
-
-from cms.utils.compat.forms import UserChangeForm, UserCreationForm
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
+from cms.utils.compat.forms import UserChangeForm, UserCreationForm
 from cosmos.models.user import Profile
 
 

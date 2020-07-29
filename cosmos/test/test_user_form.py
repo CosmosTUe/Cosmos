@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 
-from cosmos.forms import MemberCreateForm, ProfileCreateForm, MemberUpdateForm, ProfileUpdateForm
+from cosmos.forms import MemberCreateForm, MemberUpdateForm, ProfileCreateForm, ProfileUpdateForm
 
 
 class UserFormTestCase(TestCase):

@@ -51,23 +51,25 @@ WSGI_APPLICATION = "cosmos.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": secret_settings.secrets["DATABASE_NAME"],
-        "USER": secret_settings.secrets["DATABASE_USER"],
-        "PASSWORD": secret_settings.secrets["DATABASE_PASSWORD"],
-        "HOST": secret_settings.secrets["DATABASE_HOST"],
-        "PORT": secret_settings.secrets["DATABASE_PORT"],
+        "NAME": secret_settings.secrets["DATABASES"]["DEFAULT"]["NAME"],
+        "USER": secret_settings.secrets["DATABASES"]["DEFAULT"]["USER"],
+        "PASSWORD": secret_settings.secrets["DATABASES"]["DEFAULT"]["PASSWORD"],
+        "HOST": secret_settings.secrets["DATABASES"]["DEFAULT"]["HOST"],
+        "PORT": secret_settings.secrets["DATABASES"]["DEFAULT"]["PORT"],
     },
     "legacy": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": secret_settings.secrets["DATABASE_LEGACY_NAME"],
-        "USER": secret_settings.secrets["DATABASE_LEGACY_USER"],
-        "PASSWORD": secret_settings.secrets["DATABASE_LEGACY_PASSWORD"],
-        "HOST": secret_settings.secrets["DATABASE_LEGACY_HOST"],
-        "PORT": secret_settings.secrets["DATABASE_LEGACY_PORT"],
+        "NAME": secret_settings.secrets["DATABASES"]["LEGACY"]["NAME"],
+        "USER": secret_settings.secrets["DATABASES"]["LEGACY"]["USER"],
+        "PASSWORD": secret_settings.secrets["DATABASES"]["LEGACY"]["PASSWORD"],
+        "HOST": secret_settings.secrets["DATABASES"]["LEGACY"]["HOST"],
+        "PORT": secret_settings.secrets["DATABASES"]["LEGACY"]["PORT"],
     },
 }
 
 DATABASE_ROUTERS = ["legacy.legacy_router.LegacyRouter"]
+
+SILENCED_SYSTEM_CHECKS = ["models.W035"]
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators

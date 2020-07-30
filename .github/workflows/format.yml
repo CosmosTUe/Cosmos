@@ -1,4 +1,4 @@
-name: Lint
+name: Format
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
       - development
 
 jobs:
-  lint:
+  format:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -19,9 +19,9 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: '3.8'
-      - name: Install requirements
-        run: pip install -r requirements.txt  
-      - name: Set up Flake8
-        run: pip install flake8 flake8-django pep8-naming
-      - name: Run flake8
-        run: flake8 .
+      - name: Run black
+        uses: psf/black@fcf97961061982656a1384ecc1628e217a52a88c # upstream broke stable, change back to stable when bug has been patched
+      - name: Set up isort
+        run: pip install isort
+      - name: Run isort
+        run: isort **/*.py -c

@@ -12,13 +12,29 @@ on:
 
 jobs:
   tox:
-    runs-on: ubuntu-latest
+
+    runs-on: ubuntu-18.04
+    services:
+      mariadb:
+        image: mariadb:latest
+        env:
+          MYSQL_ROOT_PASSWORD: 2020123
+          MYSQL_USER: github_actions
+          MYSQL_PASSWORD: 2020123
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3 --name mariadb
+
+    strategy:
+      matrix:
+          python: [3.6, 3.7, 3.8]
+
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.8'
+          python-version: ${{ matrix.python }}
       - name: Install Tox and any other packages
         run: pip install Tox
       - name: Run Tox

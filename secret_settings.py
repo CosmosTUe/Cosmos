@@ -3,17 +3,28 @@ Contains all the secrets for the website. Production uses a different file, that
 """
 
 import json
-from os import path
+import os
 
 secrets = {
     "SECRET_KEY": "j@7*rtssewjfhix2f^7&1iypigm=o4ju1qtdd!)ad$s1*hlkj2",
     "DEBUG": True,
     "ALLOWED_HOSTS": [],
-    "DATABASE_NAME": "cosmos_website_test",
-    "DATABASE_USER": "cosmos_website_tester",
-    "DATABASE_PASSWORD": "2020123",
-    "DATABASE_HOST": "localhost",
-    "DATABASE_PORT": "",
+    "DATABASES": {
+        "DEFAULT": {
+            "NAME": "cosmos_website_test",
+            "USER": "cosmos_website_tester",
+            "PASSWORD": "2020123",
+            "HOST": "localhost",
+            "PORT": "",
+        },
+        "LEGACY": {
+            "NAME": "cosmos_website_test_legacy",
+            "USER": "cosmos_website_tester_legacy",
+            "PASSWORD": "2020123",
+            "HOST": "localhost",
+            "PORT": "",
+        },
+    },
     "PRETIX_DOMAIN": "http://localhost:8345",
     # TODO store tokens per team
     "PRETIX_AUTHORIZATION_HEADER": {
@@ -21,6 +32,9 @@ secrets = {
     },
 }
 
-if path.exists("/etc/secrets.json"):
+if os.path.exists("/etc/secrets.json"):
     with open("/etc/secrets.json", "r") as f:
+        secrets = json.load(f)
+elif os.getenv("GITHUB_WORKFLOW"):
+    with open("tests/secrets.json", "r") as f:
         secrets = json.load(f)

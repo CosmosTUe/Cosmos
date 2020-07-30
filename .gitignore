@@ -12,3 +12,5 @@ media
 
 # PyCharm
 .idea/
+
+UNKNOWN.egg-info/

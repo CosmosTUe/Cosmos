@@ -35,6 +35,6 @@ secrets = {
 if os.path.exists("/etc/secrets.json"):
     with open("/etc/secrets.json", "r") as f:
         secrets = json.load(f)
-elif os.getenv("GITHUB_WORKFLOW"):
+elif os.path.exists("tests/secrets.json"):
     with open("tests/secrets.json", "r") as f:
         secrets = json.load(f)

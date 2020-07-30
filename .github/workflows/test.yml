@@ -13,7 +13,7 @@ on:
 jobs:
   tox:
 
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     services:
       mariadb:
         image: mariadb:latest
@@ -37,5 +37,9 @@ jobs:
           python-version: ${{ matrix.python }}
       - name: Install Tox and any other packages
         run: pip install Tox
+      - name: Move secrets
+        run: mv tests/secrets.json.template tests/secrets.json
       - name: Run Tox
+        env:
+          CI: test
         run: tox -e py

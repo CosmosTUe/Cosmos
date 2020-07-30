@@ -3,8 +3,7 @@ Contains all the secrets for the website. Production uses a different file, that
 """
 
 import json
-
-# import os
+import os
 
 secrets = {
     "SECRET_KEY": "j@7*rtssewjfhix2f^7&1iypigm=o4ju1qtdd!)ad$s1*hlkj2",
@@ -33,9 +32,9 @@ secrets = {
     },
 }
 
-# if os.path.exists("/etc/secrets.json"):
-#    with open("/etc/secrets.json", "r") as f:
-#        secrets = json.load(f)
-# elif os.getenv("CI"):
-with open("tests/secrets.json", "r") as f:
-    secrets = json.load(f)
+if os.path.exists("/etc/secrets.json"):
+    with open("/etc/secrets.json", "r") as f:
+        secrets = json.load(f)
+elif os.path.exists("tests/secrets.json"):
+    with open("tests/secrets.json", "r") as f:
+        secrets = json.load(f)

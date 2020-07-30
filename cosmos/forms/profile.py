@@ -8,26 +8,6 @@ from django.core.exceptions import ValidationError
 from cosmos.models.user import Profile
 
 
-def _member_clean_username(username):
-    """
-    Common form cleaning function for member creations and upates
-
-    :param username: Given username to be tested
-    :return: username as TUe email
-    :raise ValidationError:
-    """
-    if User.objects.filter(username=username).exists():
-        raise ValidationError(
-            "There is already a user with this email in our system, please try with a different one.",
-            code="duplicate_user",
-        )
-    if not re.search("([@.])tue.nl$", username):
-        # Ensures email is from TUe (endswith ".tue.nl" or "@tue.nl"
-        raise ValidationError("This field must be a valid TU/e email address", code="nontue_email")
-    # Cleaning requires a return
-    return username
-
-
 class MemberCreateForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=True)
     last_name = forms.CharField(max_length=30, required=True)
@@ -43,7 +23,18 @@ class MemberCreateForm(UserCreationForm):
         fields = ["first_name", "last_name", "username", "email", "password1", "password2"]
 
     def clean_username(self):
-        return _member_clean_username(self.cleaned_data.get("username"))
+        username = self.cleaned_data.get("username")
+        # When registering check if user already exists
+        if User.objects.filter(username=username).exists():
+            raise ValidationError(
+                "There is already a user with this email in our system, please try with a different one.",
+                code="duplicate_user",
+            )
+        if not re.search("([@.])tue.nl$", username):
+            # Ensures email is from TUe (endswith ".tue.nl" or "@tue.nl"
+            raise ValidationError("This field must be a valid TU/e email address", code="nontue_email")
+        # Cleaning requires a return
+        return username
 
 
 class MemberUpdateForm(UserChangeForm):
@@ -59,17 +50,19 @@ class MemberUpdateForm(UserChangeForm):
         fields = ["first_name", "last_name", "username", "email"]
 
     def clean_username(self):
-        return _member_clean_username(self.cleaned_data.get("username"))
+        username = self.cleaned_data.get("username")
+        # When updating, only check if email valid
+        if not re.search("([@.])tue.nl$", username):
+            # Ensures email is from TUe (endswith ".tue.nl" or "@tue.nl"
+            raise ValidationError("This field must be a valid TU/e email address", code="nontue_email")
+        # Cleaning requires a return
+        return username
 
 
 class ProfileCreateForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ["nationality", "department", "program"]
-
-    def save(self, user_ref):
-        self.instance.user = user_ref
-        return super().save()
 
 
 class ProfileUpdateForm(ProfileCreateForm):

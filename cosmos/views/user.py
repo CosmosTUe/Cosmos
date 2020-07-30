@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.shortcuts import redirect, render
@@ -14,13 +15,21 @@ def register(request):
     :return:
     """
     if request.method == "POST":
-        user_form = MemberCreateForm(request.POST, instance=request.user)
-        profile_form = ProfileCreateForm(request.POST, instance=request.user.profile)
-        if user_form.is_valid() and profile_form.is_valid():
-            user_form.save()
-            profile_form.save()
-            messages.success(request, "Account created successfully")
-            return redirect("register")
+        user_form = MemberCreateForm(request.POST)
+        if user_form.is_valid():
+            user = user_form.save()
+            user.refresh_from_db()  # load the profile instance created by the signal
+            profile_form = ProfileCreateForm(request.POST, instance=user.profile)
+            if profile_form.is_valid():
+                user.profile = profile_form.save(user)
+                messages.success(request, "Account created successfully")
+                # Log in automatically
+                raw_password = user_form.cleaned_data.get("password1")
+                user = authenticate(username=user.username, password=raw_password)
+                login(request, user)
+                return redirect("/")
+        else:
+            profile_form = ProfileCreateForm(request.POST)
     else:
         user_form = MemberCreateForm()
         profile_form = ProfileCreateForm()
@@ -46,7 +55,7 @@ def update(request):
             user_form.save()
             profile_form.save()
             messages.success(request, "Your profile was successfully updated!")
-            return redirect("settings:profile")
+            return redirect("/")
         else:
             messages.error(request, "Please correct the error below.")
     else:

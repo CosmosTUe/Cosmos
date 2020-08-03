@@ -51,11 +51,11 @@ WSGI_APPLICATION = "cosmos.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": secret_settings.secrets["DATABASE_NAME"],
-        "USER": secret_settings.secrets["DATABASE_USER"],
-        "PASSWORD": secret_settings.secrets["DATABASE_PASSWORD"],
-        "HOST": secret_settings.secrets["DATABASE_HOST"],
-        "PORT": secret_settings.secrets["DATABASE_PORT"],
+        "NAME": secret_settings.secrets["DATABASES"]["DEFAULT"]["NAME"],
+        "USER": secret_settings.secrets["DATABASES"]["DEFAULT"]["USER"],
+        "PASSWORD": secret_settings.secrets["DATABASES"]["DEFAULT"]["PASSWORD"],
+        "HOST": secret_settings.secrets["DATABASES"]["DEFAULT"]["HOST"],
+        "PORT": secret_settings.secrets["DATABASES"]["DEFAULT"]["PORT"],
     }
 }
 

@@ -1,4 +1,7 @@
-django-cms>=3.7,<3.8
+wheel
+
+#django-cms>=3.7,<3.8
+-e git+git://github.com/bcvandendool/django-cms@release/3.7.x#egg=django-cms
 djangocms-admin-style>=1.5,<1.6
 django-treebeard>=4.0,<5.0
 
@@ -22,3 +25,4 @@ pytz>=2020.1
 gunicorn
 mysqlclient>=2.0.1
 requests>=2.24.0
+

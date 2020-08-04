@@ -5,6 +5,7 @@ from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode
 
 from cosmos.forms import MemberCreateForm, ProfileCreateForm
+from cosmos.models.user import Profile
 from legacy.models import AuthUser
 from legacy.tokens import account_import_token
 
@@ -16,7 +17,11 @@ def import_user(request, uidb64, token):
     except (TypeError, ValueError, OverflowError, AuthUser.DoesNotExist):
         old_user = None
 
-    if old_user is not None and account_import_token.check_token(old_user, token):
+    if (
+        old_user is not None
+        and account_import_token.check_token(old_user, token)
+        and not Profile.objects.filter(user__username=uid).exists()
+    ):
         if request.method == "POST":
             user_form = MemberCreateForm(request.POST, instance=request.user)
             profile_form = ProfileCreateForm(request.POST, instance=request.user.profile)

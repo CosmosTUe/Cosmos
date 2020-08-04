@@ -9,6 +9,13 @@ from cosmos.models.user import Profile
 
 
 class MemberCreateForm(UserCreationForm):
+    """
+    A form that creates a user for a COSMOS member, with a given TU/e email. Makes use built-in User model of Django:
+    stores first name, last name, TU/e email (saved as username in the database), email (personal email) and password.
+
+    Extra fields are defined in ProfileCreateForm.
+    """
+
     first_name = forms.CharField(max_length=30, required=True)
     last_name = forms.CharField(max_length=30, required=True)
     username = forms.EmailField(
@@ -38,6 +45,13 @@ class MemberCreateForm(UserCreationForm):
 
 
 class MemberUpdateForm(UserChangeForm):
+    """
+    A form that allows a user to update their personal information inside of the User model of Django. This includes:
+    first name, last name, TU/e email (username in the database), and email (personal email)
+
+    Extra fields are defined in ProfileUpdateForm.
+    """
+
     username = forms.EmailField(
         max_length=254, label="TU/e email", help_text="Required. Inform a valid TU/e email address."
     )
@@ -60,12 +74,20 @@ class MemberUpdateForm(UserChangeForm):
 
 
 class ProfileCreateForm(forms.ModelForm):
+    """
+    A form that creates additional information about a COSMOS member.
+    """
+
     class Meta:
         model = Profile
         fields = ["nationality", "department", "program"]
 
 
 class ProfileUpdateForm(ProfileCreateForm):
+    """
+    A form that modifies additional information about a COSMOS member.
+    """
+
     class Meta:
         model = Profile
         fields = [

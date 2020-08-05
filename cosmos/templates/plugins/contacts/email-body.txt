@@ -1,0 +1,11 @@
+Hi {{ contact.board }}!
+
+You have a new message from {{ contact.from_name }}!
+
+Email: {{ contact.email }}
+Telephone: {% if contact.telephone %}{{contact.telephone}}{% else %}[not supplied]{%end if}
+Message:
+{{ contact.message }}
+
+Beep Boop,
+COSMOS Email Bot

@@ -1,3 +1,6 @@
+import re
+
+from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
@@ -6,10 +9,6 @@ from django.utils.http import urlsafe_base64_encode
 
 from legacy.models import AuthUser, MysiteProfile
 from legacy.tokens import account_import_token
-
-from django.contrib.auth.models import User
-
-import re
 
 
 class LegacyTestCase(TestCase):

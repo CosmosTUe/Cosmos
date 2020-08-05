@@ -1,41 +1,49 @@
 {% load cms_tags menu_tags sekizai_tags %}
+{% load static %}
 <!doctype html>
 <html>
-    <head>
-        <title>{% block title %}This is my new project home page{% endblock title %}</title>
-        <meta name="viewport" content="width=device-width,initial-scale=1">
-        <style type="text/css">
-            .nav {
-                padding-left: 0;
-            }
-            .nav li {
-                display: inline;
-                list-style-type: none;
-                padding-right: 20px;
-            }
-            .container {
-                width: 940px;
-                margin: 0 auto
-            }
-            .content {
-                float: left;
-                width: 80%;
-            }
-            .sidebar {
-                float: left;
-                width: 20%;
-            }
-        </style>
-        {% render_block "css" %}
-    </head>
-    <body>
-        {% cms_toolbar %}
-        <div class="container">
-            <ul class="nav">
-                {% show_menu 0 100 100 100 %}
-            </ul>
-            {% block content %}{% endblock content %}
-        </div>
-        {% render_block "js" %}
-    </body>
+
+<head>
+
+    <!-- Page title on the browser-->
+    <title>{% block title %} COSMOS {% endblock title %}</title>
+
+    <!-- Custom CSS + Bootstrap CSS/Jquery-->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <!-- Blocks documenetation:
+         https://django-sekizai.readthedocs.io/en/latest/   
+    -->
+    {% render_block "css" %}
+
+
+</head>
+
+<body>
+    {% cms_toolbar %}
+    <div class="container">
+
+        <!--Menu documentation: 
+            http://docs.django-cms.org/en/latest/reference/navigation.html
+        -->
+
+        <ul class="nav">
+            {% show_menu 0 100 100 100 %}
+        </ul>
+        {% block content %}{% endblock content %}
+    </div>
+    {% render_block "js" %}
+</body>
+
 </html>

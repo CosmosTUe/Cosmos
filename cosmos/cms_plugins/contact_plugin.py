@@ -2,6 +2,7 @@ import os
 
 from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
+from django.urls import reverse
 
 from cosmos.forms.contact import ContactForm
 from cosmos.models.plugins.contact import ContactPluginModel
@@ -22,12 +23,5 @@ class ContactPlugin(CMSPluginBase):
         path = "" if request is None else request.path
 
         form = ContactForm(initial={"referer": path})
-        print(f"{instance} : {type(instance)}")
-        context.update(
-            {
-                "title": instance.title,
-                "form": form,
-                # "form_action": reverse("multi_form")
-            }
-        )
+        context.update({"title": instance.title, "form": form, "form_action": reverse("ajax_contact")})
         return context

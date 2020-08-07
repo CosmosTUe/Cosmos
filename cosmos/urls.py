@@ -12,6 +12,7 @@ from django.urls import path
 from django.views.static import serve
 
 from cosmos.views import user
+from cosmos.views.plugins.contact import ContactFormAjaxView
 
 admin.autodiscover()
 
@@ -23,6 +24,7 @@ urlpatterns = [
     # https://docs.djangoproject.com/en/3.0/topics/auth/default/#using-the-views
     # TODO consider manualy adding URL's to only allow password_reset or _change
     path("accounts/", include("django.contrib.auth.urls")),
+    url(r"^ajax/contact$", ContactFormAjaxView.as_view(), name="ajax_contact"),
     # --- Sitemap --- #
     url(r"^sitemap\.xml$", sitemap, {"sitemaps": {"cmspages": CMSSitemap}}),
 ]

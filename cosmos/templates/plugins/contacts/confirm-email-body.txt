@@ -1,0 +1,11 @@
+Dear {{ from_name }},
+
+Please be assured knowing that your email has been sent to {{ recipient }}. We strive to reply within 5 working days.
+
+Message:
+
+{{ message }}
+
+Kind regards,
+Beep Boop,
+COSMOS Email Bot

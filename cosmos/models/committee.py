@@ -24,6 +24,8 @@ class Committee(models.Model):
     board = models.ForeignKey(Board, on_delete=models.CASCADE)
     pretix_team_token = models.CharField(max_length=64)
 
+    photo = models.ImageField(upload_to="committees", default="boards/default.jpg")
+
     @property
     def name(self):
         return self.group.name

@@ -23,6 +23,8 @@ class Board(models.Model):
     period_to = models.DateField()
     pretix_organizer_token = models.CharField(max_length=20)
 
+    photo = models.ImageField(upload_to="boards", default="boards/default.jpg")
+
     @property
     def name(self):
         return self.group.name

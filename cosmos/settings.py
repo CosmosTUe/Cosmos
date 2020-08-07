@@ -176,6 +176,7 @@ INSTALLED_APPS = [
     "djangocms_googlemap",
     "djangocms_video",
     "cosmos",
+    "cosmos_cms",
 ]
 
 LANGUAGES = (

@@ -1,6 +1,7 @@
 wheel
 
 #django-cms>=3.7,<3.8
+# Modified django-cms that fixes migrations to support multiple databases
 -e git+git://github.com/bcvandendool/django-cms@release/3.7.x#egg=django-cms
 djangocms-admin-style>=1.5,<1.6
 django-treebeard>=4.0,<5.0

@@ -5,19 +5,18 @@
 
 <head>
 
-    <!-- Page title on the browser-->
+    {# Page title on the browser #}
     <title>{% block title %} COSMOS {% endblock title %}</title>
 
-    <!-- Custom CSS + Bootstrap CSS/Jquery-->
+    {# Custom CSS + Bootstrap CSS/Jquery #}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 
 
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <!-- Blocks documenetation:
-         https://django-sekizai.readthedocs.io/en/latest/   
-    -->
+    {# Blocks documenetation:  https://django-sekizai.readthedocs.io/en/latest/ #}
+
     {% render_block "css" %}
 
 
@@ -27,9 +26,7 @@
     {% cms_toolbar %}
     <div class="container">
 
-        <!--Menu documentation: 
-            http://docs.django-cms.org/en/latest/reference/navigation.html
-        -->
+        {# Menu documentation: http://docs.django-cms.org/en/latest/reference/navigation.html #}
 
         <ul class="nav">
             {% show_menu 0 100 100 100 %}

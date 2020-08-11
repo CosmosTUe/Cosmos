@@ -18,13 +18,11 @@ import secret_settings
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR = os.path.dirname(os.path.dirname(__file__))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = secret_settings.secrets["SECRET_KEY"]
-
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = secret_settings.secrets["DEBUG"]
@@ -35,15 +33,12 @@ AUTHORIZATION_HEADER = secret_settings.secrets["PRETIX_AUTHORIZATION_HEADER"]
 
 ALLOWED_HOSTS = secret_settings.secrets["ALLOWED_HOSTS"]
 
-
 # Application definition
 
 
 ROOT_URLCONF = "cosmos.urls"
 
-
 WSGI_APPLICATION = "cosmos.wsgi.application"
-
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -69,7 +64,6 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
@@ -83,7 +77,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
@@ -94,7 +87,6 @@ STATIC_ROOT = os.path.join(DATA_DIR, "static")
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "cosmos", "static"),)
 SITE_ID = 1
-
 
 TEMPLATES = [
     {
@@ -118,7 +110,6 @@ TEMPLATES = [
         },
     },
 ]
-
 
 MIDDLEWARE = [
     "cms.middleware.utils.ApphookReloadMiddleware",
@@ -208,3 +199,12 @@ THUMBNAIL_PROCESSORS = (
     "filer.thumbnail_processors.scale_and_crop_with_subject_location",
     "easy_thumbnails.processors.filters",
 )
+
+# Email
+# https://docs.djangoproject.com/en/3.1/topics/email/
+
+EMAIL_HOST = secret_settings.secrets["EMAIL"]["HOST"]
+EMAIL_PORT = secret_settings.secrets["EMAIL"]["PORT"]
+EMAIL_HOST_USER = secret_settings.secrets["EMAIL"]["USERNAME"]
+EMAIL_HOST_PASSWORD = secret_settings.secrets["EMAIL"]["PASSWORD"]
+EMAIL_USE_TLS = secret_settings.secrets["EMAIL"]["USE_TLS"]

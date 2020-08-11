@@ -1,15 +1,20 @@
+import logging
 import os
+from smtplib import SMTPSenderRefused, SMTPAuthenticationError
 
-# from django.core.mail import send_mail
+from django.core.mail import send_mail
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 
-# from django.template.loader import render_to_string
+from django.template.loader import render_to_string
 from django.views.generic import FormView
 from cms.models.pagemodel import Page
 
 # from cosmos import settings
-from cosmos.cms_plugins.contact_plugin import ContactForm
+from cosmos import settings
+from cosmos.forms.contact import CONTACTS, ContactForm
+
+logger = logging.getLogger(__name__)
 
 
 class ContactFormView(FormView):
@@ -31,38 +36,56 @@ class ContactFormView(FormView):
 
     def form_valid(self, form):
         """
-        TODO Send the email if the form is valid
+        Sends the email if the form is valid
         """
+        data = form.cleaned_data
+        # Add title of board onto data
+        data["board"] = CONTACTS.get(data["recipient"])
+        # TODO change to your own email for testing purposes
+        # data["recipient"] = "testing@email.pp"
 
-        # email_subject = render_to_string(
-        #     os.path.join("plugins", "contacts", "contact-email-subject.txt"),
-        #     {field: form.cleaned_data.get(field) for field in ["name", "subject"]},
-        # )
-        # email_body = render_to_string(
-        #     os.path.join("plugins", "contacts", "contact-email-body.txt"),
-        #     {
-        #         field: form.cleaned_data.get(field)
-        #         for field in ["board", "from_name", "from_email", "telephone", "message"]
-        #     },
-        # )
-        #
-        # FROM_EMAIL = "test@test.test"
-        # RECIPIENT_LIST = "test@test.test"
-        # try:
-        #     print("I am attempting to send!")
-        #     # send_mail(email_subject, email_body, FROM_EMAIL, RECIPIENT_LIST, fail_silently=(not settings.DEBUG))
-        # except Exception:
-        #     # TODO explore more specific errors
-        #     if settings.DEBUG:
-        #         raise
-        # confirm_email_subject = render_to_string(
-        #     os.path.join("plugins", "contacts", "confirm-email-subject.txt"),
-        #     {field: form.cleaned_data.get(field) for field in ["name", "subject"]},
-        # )
-        # confirm_email_body = render_to_string(
-        #     os.path.join("plugins", "contacts", "confirm-email-body.txt"),
-        #     {field: form.cleaned_data.get(field) for field in ["from_name", "recipient", "message"]},
-        # )
+        # Create contact email to board member
+        board_email_subject = render_to_string(
+            os.path.join("plugins", "contacts", "board-email-subject.txt"), {"data": data}
+        )
+        board_email_body = render_to_string(os.path.join("plugins", "contacts", "board-email-body.txt"), {"data": data})
+
+        # Create confirmation email to sender
+        confirm_email_subject = render_to_string(
+            os.path.join("plugins", "contacts", "confirm-email-subject.txt"), {"data": data}
+        )
+        confirm_email_body = render_to_string(
+            os.path.join("plugins", "contacts", "confirm-email-body.txt"), {"data": data}
+        )
+        try:
+            # TODO consider sending the same email to sender and recipient, one as bcc?
+            logger.info("Sending to board...")
+            # Send contact email to board member
+            send_mail(
+                board_email_subject,
+                board_email_body,
+                settings.EMAIL_HOST_USER,
+                [data["recipient"]],
+                fail_silently=(not settings.DEBUG),
+            )
+
+            # Send confirmation email to sender
+            logger.info("Sending confirmation to sender...")
+            send_mail(
+                confirm_email_subject,
+                confirm_email_body,
+                settings.EMAIL_HOST_USER,
+                [data["from_email"]],
+                fail_silently=(not settings.DEBUG),
+            )
+        except (SMTPAuthenticationError, SMTPSenderRefused):
+            if settings.DEBUG:
+                raise
+            # TODO inform usere that email is not configured correctly
+            # form.add_error(django.forms.forms.NON_FIELD_ERRORS, "Email is not configured on the server side")
+            # return JsonResponse(form.errors, status=501)
+
+        logger.info("Emails sent!")
         return super().form_valid(form)
 
 

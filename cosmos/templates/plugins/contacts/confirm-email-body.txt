@@ -1,10 +1,12 @@
-Dear {{ from_name }},
+Dear {{ data.from_name }},
 
-Please be assured knowing that your email has been sent to {{ recipient }}. We strive to reply within 5 working days.
+Please be assured knowing that your email has been sent to {{ data.recipient }}.
+We strive to reply within 5 working days.
 
+Contacting: {{ data.board }}
+Subject: {{ data.subject }}
 Message:
-
-{{ message }}
+{{ data.message }}
 
 Kind regards,
 Beep Boop,

@@ -1,1 +1,1 @@
-Your Question to COSMOS: {{ subject }}
+Your Question to COSMOS {{ data.board }}: {{ data.subject }}

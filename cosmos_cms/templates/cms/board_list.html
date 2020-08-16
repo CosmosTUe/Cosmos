@@ -1,30 +1,35 @@
-<div class="container" style="background-color: #90cad5;">
+{% load sekizai_tags %}
+{% load static %}
+
+{% addtoblock "css" %} <link rel="stylesheet" type="text/css" href="{% static 'css/cosmos_cms.css' %}"></link> {% endaddtoblock %}
+
+<div>
 
 {% for board in instance.boards.all %}
 
-    {% if forloop.first %} <div class="row" style="padding-bottom: 30px;"> {% endif %}
+    {% if forloop.first %} <div class="row board-row"> {% endif %}
 
     <div class="col-sm-6">
 
-        <img src="{{ board.photo.url }}" style="width: 100%;padding: 10px;">
-        <h2 class="text-center" style="color: rgb(255,255,255); font-family: Raleway, sans-serif;">{{ board.name }}</h2>
+        <img src="{{ board.photo.url }}" class="board-image">
+        <h2 class="text-center board-name">{{ board.name }}</h2>
 
         {% for member in board.group.user_set.all %}
 
-            {% if forloop.first %} <div class="row" style="padding-left: 25px;padding-right: 25px;"> {% endif %}
+            {% if forloop.first %} <div class="row board-member-row"> {% endif %}
 
                 <div class="col-sm-6">
-                    <span style="text-align: center; color: rgb(0,0,0); font-family: Raleway, sans-serif; font-size: 0.8rem"> {{ member.first_name }} {{ member.last_name }} (title) </span>
+                    <span class="board-member-name"> {{ member.first_name }} {{ member.last_name }} (title) </span>
                 </div>
 
-            {% if forloop.counter|divisibleby:2 %} </div> <div class="row" style="padding-left: 25px;padding-right: 25px;"> {% endif %}
+            {% if forloop.counter|divisibleby:2 %} </div> <div class="row board-member-row"> {% endif %}
             {% if forloop.last %} </div> {% endif %}
 
         {% endfor %}
 
     </div>
 
-    {% if forloop.counter|divisibleby:3 %} </div> <div class="row" style="padding-bottom: 30px;"> {% endif %}
+    {% if forloop.counter|divisibleby:3 %} </div> <div class="row board-row"> {% endif %}
     {% if forloop.last %} </div> {% endif %}
 
 {% endfor %}

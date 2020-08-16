@@ -1,7 +1,7 @@
 from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
 
-from .models import CommitteeListPluginModel, BoardListPluginModel
+from .models import BoardListPluginModel, CommitteeListPluginModel
 
 
 @plugin_pool.register_plugin

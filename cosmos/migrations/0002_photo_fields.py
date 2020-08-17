@@ -8,8 +8,6 @@ import cosmos.models.committee
 
 class Migration(migrations.Migration):
 
-    replaces = [("cosmos", "0002_photo_fields"), ("cosmos", "0003_auto_20200817_0852")]
-
     dependencies = [
         ("cosmos", "0001_init_models"),
     ]
@@ -26,7 +24,7 @@ class Migration(migrations.Migration):
             model_name="committee",
             name="photo",
             field=models.ImageField(
-                default="committees/default.jpg",
+                default="committees/default.png",
                 upload_to="committees",
                 validators=[cosmos.models.committee.validate_aspect_ratio],
             ),

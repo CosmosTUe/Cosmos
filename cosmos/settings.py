@@ -104,6 +104,25 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(DATA_DIR, "media")
 STATIC_ROOT = os.path.join(DATA_DIR, "static")
 
+STATICFILES_STORAGE = "pipeline.storage.PipelineStorage"
+
+STATICFILES_FINDERS = [
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    "pipeline.finders.PipelineFinder",
+]
+
+PIPELINE = {
+    "CSS_COMPRESSOR": "pipeline.compressors.yuglify.YuglifyCompressor",
+    "YUGLIFY_BINARY": "node_modules/.bin/yuglify",
+    "JS_COMPRESSOR": "pipeline.compressors.closure.ClosureCompressor",
+    "CLOSURE_BINARY": "node_modules/.bin/google-closure-compiler",
+    "STYLESHEETS": {
+        "cosmos": {"source_filenames": {"cosmos/css/main.css"}, "output_filename": "cosmos/css/cosmos.css"},
+    },
+    "JAVASCRIPT": {},
+}
+
 SITE_ID = 1
 
 TEMPLATES = [
@@ -185,6 +204,7 @@ INSTALLED_APPS = [
     "djangocms_snippet",
     "djangocms_googlemap",
     "djangocms_video",
+    "pipeline",
     "cosmos",
     "legacy",
 ]

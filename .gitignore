@@ -15,4 +15,5 @@ media
 
 UNKNOWN.egg-info/
 
-static/
+/static
+node_modules/

@@ -22,3 +22,15 @@ class BoardListPluginModel(CMSPlugin):
 
     def __str__(self):
         return "BoardList:".join(board.name for board in self.boards.all())
+
+
+class TextImagePluginModel(CMSPlugin):
+    title = models.CharField()
+    text = models.CharField()
+    buttonLink = models.URLField()
+    buttonText = models.CharField(max_length=20)
+    image = models.ImageField(uploadt_to="cardImg", default="cardImg/default.jpg")
+    orientation = models.BooleanField(default=0)
+
+    def __str__(self):
+        return "TextImageCard:".join(self.title)

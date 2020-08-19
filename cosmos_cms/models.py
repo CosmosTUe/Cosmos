@@ -25,12 +25,12 @@ class BoardListPluginModel(CMSPlugin):
 
 
 class TextImagePluginModel(CMSPlugin):
-    title = models.CharField()
-    text = models.CharField()
-    buttonLink = models.URLField()
-    buttonText = models.CharField(max_length=20)
-    image = models.ImageField(uploadt_to="cardImg", default="cardImg/default.jpg")
+    title = models.CharField(max_length=50)
+    text = models.CharField(max_length=400)
+    ButtonLink = models.URLField()
+    ButtonText = models.CharField(max_length=20)
+    image = models.ImageField(upload_to="cardImg", default="cardImg/default.jpg")
     orientation = models.BooleanField(default=0)
 
     def __str__(self):
-        return "TextImageCard:".join(self.title)
+        return "TextImageCard:" + self.title

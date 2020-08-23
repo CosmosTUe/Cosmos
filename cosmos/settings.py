@@ -118,7 +118,10 @@ PIPELINE = {
     "JS_COMPRESSOR": "pipeline.compressors.closure.ClosureCompressor",
     "CLOSURE_BINARY": "node_modules/.bin/google-closure-compiler",
     "STYLESHEETS": {
-        "cosmos": {"source_filenames": {"cosmos/css/main.css"}, "output_filename": "cosmos/css/cosmos.css"},
+        "cosmos": {
+            "source_filenames": {"cosmos/css/main.css", "cosmos/css/registration.css"},
+            "output_filename": "cosmos/css/cosmos.css",
+        },
     },
     "JAVASCRIPT": {},
 }

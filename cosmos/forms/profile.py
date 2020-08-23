@@ -25,6 +25,9 @@ class MemberCreateForm(UserCreationForm):
         max_length=254, label="Personal email", required=False, help_text="Optional. Inform a valid email address."
     )
 
+    error_css_class = "is-invalid"
+    required_css_class = "required"
+
     class Meta:
         model = User
         fields = ["first_name", "last_name", "username", "email", "password1", "password2"]
@@ -78,30 +81,41 @@ class ProfileCreateForm(forms.ModelForm):
     A form that creates additional information about a COSMOS member.
     """
 
+    terms_confirmed = forms.BooleanField(initial=False, required=True)
+
     class Meta:
         model = Profile
-        fields = ["nationality", "department", "program"]
+        fields = ["nationality", "department", "program", "terms_confirmed"]
+
+    error_css_class = "error"
+    required_css_class = "required"
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["nationality"].choices = [("", "Please select your nationality")] + list(
+            self.fields["nationality"].choices
+        )[1:]
+        self.fields["department"].choices = [("", "Please select your department")] + list(
+            self.fields["department"].choices
+        )[1:]
+        self.fields["program"].choices = [("", "Please select your program")] + list(self.fields["program"].choices)[1:]
 
 
-class ProfileUpdateForm(ProfileCreateForm):
+class ProfileUpdateForm(forms.ModelForm):
     """
     A form that modifies additional information about a COSMOS member.
     """
 
     class Meta:
         model = Profile
-        fields = [
-            "nationality",
-            "department",
-            "program",
-            "tue_id",
-            "card_number",
-            "status",
-            "key_access",
-        ]
+        fields = ["nationality", "department", "program", "tue_id", "card_number", "subscribed_newsletter"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
-        self.fields["status"].disabled = True
-        self.fields["key_access"].disabled = True
+        self.fields["nationality"].choices = [("", "Please select your nationality")] + list(
+            self.fields["nationality"].choices
+        )[1:]
+        self.fields["department"].choices = [("", "Please select your department")] + list(
+            self.fields["department"].choices
+        )[1:]
+        self.fields["program"].choices = [("", "Please select your program")] + list(self.fields["program"].choices)[1:]

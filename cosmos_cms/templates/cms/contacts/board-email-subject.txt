@@ -1,0 +1,1 @@
+COSMOS Contact Form: {{ data.from_name }} - {{ data.subject }}

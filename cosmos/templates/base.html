@@ -12,7 +12,13 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-
+    <!--js fonts-->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
+        integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous">
+    </script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"
+        integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous">
+    </script>
 
     <meta name="viewport" content="width=device-width,initial-scale=1">
     {# Blocks documenetation:  https://django-sekizai.readthedocs.io/en/latest/ #}
@@ -24,42 +30,55 @@
 
 <body>
     {% cms_toolbar %}
-    <div id="main" class="container">
+    <div class="wrapper">
 
         {# Menu documentation: http://docs.django-cms.org/en/latest/reference/navigation.html #}
 
         <ul class="nav">
             {% show_menu 0 100 100 100 %}
         </ul>
-        <ul class="topbar">
-            <button class="toggle_open" onclick="openBar()">&#9776</button>
-            <!-- this puts the button on the same level as the navbar-->
-            {% static_placeholder 'topbar' %}
+        <div id="page">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light ">
+                <div class="container-fluid">
+                    <button type="button" id="SidebarCollapse" class="btn btn-info">
+                        <i class="fas fa-align-left"></i>
+                    </button>
+                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-align-justify"></i>
+                    </button>
 
-        </ul>
-        <ul id="sidebar" class="sidenav_left">
-            <a href="javascript:void(0)" class="toggle_close" onclick="closeBar()">&times</a>
-            {% static_placeholder 'sidebar' %}
-        </ul>
-        <ul class="footer">
-            {% static_placeholder 'footer' %}
-        </ul>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav ml-auto">
+                            <li class="nav-item active">
+                                {% static_placeholder 'topbar' %}
+                            </li>
+                        </ul>
+                    </div>
+            </nav>
+            <nav class="footer">
+                {$ static_placeholder "footer" %}
+            </nav>
+        </div>
+        <nav id="sidebar">
+            <ul class="list-unstyled components">
+                <li class="active">
+                    {% static_placeholder 'sidebar' %}
+                </li>
+            </ul>
+        </nav>
 
     </div>
     <script>
-        function openBar() {
-            document.getElementById("sidebar").style.width = "250px";
-            document.getElementById("main").style.marginLeft = "250px";
-        }
+        $(document).ready(function () {
+
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+
+        });
     </script>
-    <!--the js function that triggers the opening of the sidebar-->
-    <script>
-        function closeBar() {
-            document.getElementById("sidebar").style.width = "0";
-            document.getElementById("main").style.marginLeft = "0";
-        }
-    </script>
-    <!--the js function that triggers the close of the sidebar-->
 
     {% render_block "js" %}
 

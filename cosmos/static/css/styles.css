@@ -1,4 +1,6 @@
-.nav {
+@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+
+nav {
     padding-left: 0;
 }
 
@@ -8,72 +10,89 @@
     padding-right: 20px;
 }
 
-.container {
-    width: 940px;
-    margin: 0 auto;
-    transition: margin-left .5s;
-    padding: 20px;
+.wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
 }
 
 .sidebar {
-    float: left;
-    width: 20%;
+    min-width: 250px;
+    max-width: 250px;
+    background: #7386D5;
+    color: #fff;
+    transition: all 0.3s;
+}
+
+.sidebar.active {
+    margin-left: -250px;
+}
+
+#sidebar ul.components {
+    padding: 20px 0;
+    border-bottom: 1px solid #47748b;
+}
+
+#sidebar ul p {
+    color: #fff;
+    padding: 10px;
+}
+
+#sidebar ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+}
+
+#sidebar ul li a:hover {
+    color: #7386D5;
+    background: #fff;
+}
+
+#sidebar ul li.active>a,
+a[aria-expanded="true"] {
+    color: #fff;
+    background: #6d7fcc;
+}
+
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+.dropdown-toggle::after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+
+ul ul a {
+    font-size: 0.9em !important;
+    padding-left: 30px !important;
+    background: #6d7fcc;
+}
+
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -250px;
+    }
+
+    #sidebar.active {
+        margin-left: 0;
+    }
+
+    #sidebarCollapse span {
+        display: none;
+    }
 }
 
 .content {
-    float: left;
-    width: 0%;
+    width: 100%;
+    padding: 20px;
+    min-height: 100vh;
+    transition: all 0.3s;
 }
-
-.sidenav_left {
-    height: 100%;
-    width: 0;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    background-color: navy;
-    overflow-x: hidden;
-    padding-top: 60px;
-    transition: 0.5s;
-}
-
-.sidenav_left a {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    color: yellow;
-    display: block;
-    transition: 0.3s;
-}
-
-.sidenav_left a:hover {
-    color: #f1f1f1;
-}
-
-.sidenav_left .toggle_close {
-    font-size: 20px;
-    cursor: pointer;
-    color: white;
-    padding-left: 5px;
-    float: right;
-
-}
-
-.toggle_open:hover {
-    background-color: #444;
-}
-
-@media screen and (max-height: 450px) {
-    .sidenav_left {
-        padding-top: 15px;
-    }
-
-    .sidenav_left a {
-        font-size: 18px;
-    }
-}
-
 
 .footer {
     /*small issue with footer positioning */
@@ -86,18 +105,24 @@
     text-align: center;
 }
 
-.topbar {
-    position: sticky;
-    top: 0;
-    background-color: teal;
-    width: 150%;
+.navbar {
+    padding: 15px 10px;
+    background: #fff;
+    border: none;
+    border-radius: 0;
+    margin-bottom: 40px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
 
-
+.navbar-btn {
+    box-shadow: none;
+    outline: none !important;
+    border: none;
 }
 
 body {
-    background-color: black !important;
-    color: white !important;
+    background-color: white !important;
+    color: black !important;
     /* Or we could change the theme of the Bootstrap */
 }
 

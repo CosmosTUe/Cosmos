@@ -141,13 +141,8 @@
                             <button class="btn btn-primary btn-block" type="submit" name="save_preferences" value="save_preferences">Save preferences</button>
                         </div>
 
-                    </form>
-
-                    <form method="post" action={% url 'user_delete' %}>
-                        {% csrf_token %}
-                        
                         <h2>Delete account</h2>
-                        <button class="btn btn-danger btn-block" data-toggle="modal" data-target="#deleteModal">Delete account</button>
+                        <button class="btn btn-danger btn-block" type="button" data-toggle="modal" data-target="#deleteModal">Delete account</button>
 
                     </form>
 
@@ -161,6 +156,9 @@
                         {% csrf_token %}
 
                         <h2>Update your key access info:</h2>
+                        </br>
+
+                        Key access: {{ user.profile.key_access }}
                         </br>
 
                         <div class="form-group">
@@ -197,7 +195,10 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-danger">Delete</button>
+                <form method="post" action="{% url 'user_delete' %}" class="delete">
+                    {% csrf_token %}
+                    <button class="btn btn-danger">Delete</button>
+                </form>   
             </div>
         </div>
     </div>

@@ -67,11 +67,19 @@ def profile(request):
                 return redirect(reverse("user_profile") + "#profile")
             print("save_profile")
         elif "save_password" in request.POST:
-            pass
+            if password_form.is_valid():
+                password_form.save()
+                messages.success(request, "Your password was succesfully updated!")
+                return redirect(reverse("user_profile") + "#password")
         elif "save_preferences" in request.POST:
-            pass
+            if profile_form.is_valid():
+                profile_form.save()
+                messages.success(request, "Your preferences were succesfully updated!")
         elif "save_key_access" in request.POST:
-            print("save_key_access")
+            if profile_form.is_valid():
+                profile_form.save()
+                messages.success(request, "Your key access settings were succesfully updated!")
+                return redirect(reverse("user_profile") + "#key-access")
 
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()

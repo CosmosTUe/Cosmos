@@ -34,3 +34,7 @@ class TextImagePluginModel(CMSPlugin):
 
     def __str__(self):
         return "TextImageCard:" + self.title
+
+
+class ContactPluginModel(CMSPlugin):
+    title = models.CharField("title", blank=True, help_text="Optional. Title of the widget.", max_length=64,)

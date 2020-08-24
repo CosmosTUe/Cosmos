@@ -1,18 +1,16 @@
 import logging
 import os
-from smtplib import SMTPSenderRefused, SMTPAuthenticationError
+from smtplib import SMTPAuthenticationError, SMTPSenderRefused
 
+from cms.models.pagemodel import Page
 from django.core.mail import send_mail
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
-
 from django.template.loader import render_to_string
 from django.views.generic import FormView
-from cms.models.pagemodel import Page
 
-# from cosmos import settings
 from cosmos import settings
-from cosmos.forms.contact import CONTACTS, ContactForm
+from cosmos_cms.forms import CONTACTS, ContactForm
 
 logger = logging.getLogger(__name__)
 

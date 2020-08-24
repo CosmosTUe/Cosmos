@@ -11,7 +11,7 @@ from django.urls import path
 from django.views.static import serve
 
 from cosmos.views import user
-from cosmos.views.plugins.contact import ContactFormAjaxView
+from cosmos_cms.views import ContactFormAjaxView
 from legacy.views import legacy
 
 admin.autodiscover()

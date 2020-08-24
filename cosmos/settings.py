@@ -116,7 +116,7 @@ PIPELINE = {
             "output_filename": "cosmos/css/cosmos.css",
         },
     },
-    "JAVASCRIPT": {},
+    "JAVASCRIPT": {"cosmos": {"source_filenames": {"cosmos/js/sidebar.js"}, "output_filename": "cosmos/js/cosmos.js"}},
 }
 
 SITE_ID = 1
@@ -244,3 +244,6 @@ EMAIL_PORT = secret_settings.secrets["EMAIL"]["PORT"]
 EMAIL_HOST_USER = secret_settings.secrets["EMAIL"]["USERNAME"]
 EMAIL_HOST_PASSWORD = secret_settings.secrets["EMAIL"]["PASSWORD"]
 EMAIL_USE_TLS = secret_settings.secrets["EMAIL"]["USE_TLS"]
+
+
+LOGOUT_REDIRECT_URL = "/"

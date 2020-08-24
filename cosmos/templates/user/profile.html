@@ -34,7 +34,7 @@
                     <form method="post" action="{% url "user_profile" %}">
                         {% csrf_token %}
 
-                        <h2>Your profile:</h2>
+                        <h3>Your profile:</h3>
                         </br>
 
                         <div class="form-group">
@@ -98,7 +98,7 @@
                     <form method="post">
                         {% csrf_token %}
 
-                        <h2>Change your password:</h2>
+                        <h3>Change your password:</h3>
                         </br>
 
                         <div class="form-group">
@@ -127,7 +127,7 @@
                     <form method="post">
                         {% csrf_token %}
 
-                        <h2>Update your preferences:</h2>
+                        <h3>Update your preferences:</h3>
                         </br>
 
                         <div class="form-group">
@@ -155,7 +155,7 @@
                     <form method="post">
                         {% csrf_token %}
 
-                        <h2>Update your key access info:</h2>
+                        <h3>Update your key access info:</h3>
                         </br>
 
                         Key access: {{ user.profile.key_access }}
@@ -214,7 +214,7 @@ window.addEventListener("load", function() {
     });
 
     $('.nav-pills a').on('shown.bs.tab', function (e) {
-        window.location.hash = e.target.hash;
+        history.pushState(null, null, e.target.hash);
     });
 });
 </script>

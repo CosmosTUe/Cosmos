@@ -24,26 +24,54 @@
 
 <body>
     {% cms_toolbar %}
-    <div class="container">
+    <div id="main" class="container">
 
         {# Menu documentation: http://docs.django-cms.org/en/latest/reference/navigation.html #}
 
         <ul class="nav">
             {% show_menu 0 100 100 100 %}
         </ul>
-        {% block content %}{% endblock content %}
+        <ul class="topbar">
+            <button class="toggle_open" onclick="openBar()">&#9776</button>
+            <!-- this puts the button on the same level as the navbar-->
+            {% static_placeholder 'topbar' %}
+
+        </ul>
+        <ul id="sidebar" class="sidenav_left">
+            <a href="javascript:void(0)" class="toggle_close" onclick="closeBar()">&times</a>
+            {% static_placeholder 'sidebar' %}
+        </ul>
+        <ul class="footer">
+            {% static_placeholder 'footer' %}
+        </ul>
+
     </div>
+    <script>
+        function openBar() {
+            document.getElementById("sidebar").style.width = "250px";
+            document.getElementById("main").style.marginLeft = "250px";
+        }
+    </script>
+    <!--the js function that triggers the opening of the sidebar-->
+    <script>
+        function closeBar() {
+            document.getElementById("sidebar").style.width = "0";
+            document.getElementById("main").style.marginLeft = "0";
+        }
+    </script>
+    <!--the js function that triggers the close of the sidebar-->
+
     {% render_block "js" %}
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-        crossorigin="anonymous"></script>
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
+    </script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
-        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
-        crossorigin="anonymous"></script>
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous">
+    </script>
 
 
 </body>

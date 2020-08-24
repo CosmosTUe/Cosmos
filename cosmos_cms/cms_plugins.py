@@ -27,5 +27,5 @@ class TextImagePluginPublisher(CMSPluginBase):
     model = TextImagePluginModel
     render_template = "cms/image_text_card.html"
     cache = False
-    module = ""
+    module = "Cosmos"
     name = "Text and Image Card"

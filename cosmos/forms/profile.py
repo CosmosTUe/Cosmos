@@ -16,13 +16,21 @@ class MemberCreateForm(UserCreationForm):
     Extra fields are defined in ProfileCreateForm.
     """
 
-    first_name = forms.CharField(max_length=30, required=True)
-    last_name = forms.CharField(max_length=30, required=True)
+    first_name = forms.CharField(max_length=30, required=True, initial="")
+    last_name = forms.CharField(max_length=30, required=True, initial="")
     username = forms.EmailField(
-        max_length=254, label="TU/e email", help_text="Required. Inform a valid TU/e email address."
+        max_length=254,
+        label="TU/e email",
+        help_text="Required. Inform a valid TU/e email address.",
+        required=True,
+        initial="",
     )
     email = forms.EmailField(
-        max_length=254, label="Personal email", required=False, help_text="Optional. Inform a valid email address."
+        max_length=254,
+        label="Personal email",
+        required=False,
+        help_text="Optional. Inform a valid email address.",
+        initial="",
     )
 
     error_css_class = "is-invalid"
@@ -45,6 +53,11 @@ class MemberCreateForm(UserCreationForm):
             raise ValidationError("This field must be a valid TU/e email address", code="nontue_email")
         # Cleaning requires a return
         return username
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["password1"].initial = ""
+        self.fields["password2"].initial = ""
 
 
 class MemberUpdateForm(UserChangeForm):

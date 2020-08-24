@@ -10,6 +10,14 @@
 
     <div class="login">
 
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
          <form method="post">
             {% csrf_token %}
             
@@ -17,21 +25,29 @@
                 <img src="{% static "cosmos/img/cosmos_white_horizontal.png" %}" class="img-fluid mx-auto d-block" alt="Cosmos logo">
             </div>
 
-            <div class="form-group">
-                <input class="form-control" type="text" name="username" autofocus="" autocapitalize="none" autocomplete="username" maxlength="150" required="" id="id_username" placeholder="TU/e email">
-                {{ form.username.errors }}
-            </div>
-            <div class="form-group">
-                <input class="form-control" type="password" name="password" autocomplete="current-password" required="" id="id_password" placeholder="Password">
-                {{ form.password.errors }}
-            </div>
-            <div class="form-group form-check remove-form-group-border">
-                <input type="checkbox" class="form-check-input" id="remember" name="remember">
-                <label for="remember" class="form-check-label">Remember Me</label>
-                <p class="float-right">
-                    <a href="{% url 'password_reset' %}" class="no-underline text-primary">Forgot your password?</a>
-                </p>
-            </div>
+            {% if form.non_field_errors|length > 0 %}
+                <div class="alert alert-danger">
+                    {% for error in form.non_field_errors%}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% for field in form %}
+
+                <div class="form-group">
+                    <input class="form-control {% if field.errors|length > 0 %} is-invalid {% endif %} {% if field.field.required %} required {% endif %}" name="{{ field.html_name }}" type="{{ field.field.widget.input_type }}" maxlength="{{ field.max_length }}" id="{{ field.id_for_label}}" placeholder="{% if field.label == "Username" %}TU/e email {% else %}{{ field.label }}{% endif %}" data-toggle="tooltip" data-placement="top" data-html="true" title="{{ field.help_text|safe }}">
+                    <div class="invalid-feedback">
+                        <ul>
+                        {% for error in field.errors %}
+                            <li> {{error}} </li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+            {% endfor %}
+
             <div class="form-group">
                 <button class="btn btn-primary btn-block" type="submit" value="login">Log In</button>
             </div>

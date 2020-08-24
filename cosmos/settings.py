@@ -45,7 +45,7 @@ WSGI_APPLICATION = "cosmos.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.mysql",
+        "ENGINE": "django.db.backends.postgresql",
         "NAME": secret_settings.secrets["DATABASES"]["DEFAULT"]["NAME"],
         "USER": secret_settings.secrets["DATABASES"]["DEFAULT"]["USER"],
         "PASSWORD": secret_settings.secrets["DATABASES"]["DEFAULT"]["PASSWORD"],
@@ -53,7 +53,7 @@ DATABASES = {
         "PORT": secret_settings.secrets["DATABASES"]["DEFAULT"]["PORT"],
     },
     "legacy": {
-        "ENGINE": "django.db.backends.mysql",
+        "ENGINE": "django.db.backends.postgresql",
         "NAME": secret_settings.secrets["DATABASES"]["LEGACY"]["NAME"],
         "USER": secret_settings.secrets["DATABASES"]["LEGACY"]["USER"],
         "PASSWORD": secret_settings.secrets["DATABASES"]["LEGACY"]["PASSWORD"],

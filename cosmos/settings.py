@@ -209,6 +209,7 @@ INSTALLED_APPS = [
     "djangocms_video",
     "pipeline",
     "cosmos",
+    "cosmos_cms",
     "legacy",
 ]
 

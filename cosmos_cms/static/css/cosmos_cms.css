@@ -1,0 +1,44 @@
+.committee-image {
+    width: 100%;
+    padding: 0.625rem;
+}
+
+.committee-name {
+    color: rgb(255, 255, 255);
+    font-family: Raleway, sans-serif;
+}
+
+.committee-list-title {
+    color: rgb(255, 255, 255);
+    font-family: Raleway, sans-serif;
+}
+
+.committee-row {
+    padding-bottom: 1.875rem;
+}
+
+.board-row {
+    padding-bottom: 1.875rem;
+}
+
+.board-image {
+    width: 100%;
+    padding: 0.625rem;
+}
+
+.board-name {
+    color: rgb(255, 255, 255);
+    font-family: Raleway, sans-serif;
+}
+
+.board-member-row {
+    padding-left: 1.5625rem;
+    padding-right: 1.5625rem;
+}
+
+.board-member-name {
+    text-align: center;
+    color: rgb(0, 0, 0);
+    font-family: Raleway, sans-serif;
+    font-size: 0.8rem;
+}

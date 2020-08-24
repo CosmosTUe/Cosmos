@@ -5,30 +5,95 @@
 <head>
     {# Page title on the browser #}
     <title>{% block title %} COSMOS {% endblock title %}</title>
-    {# Custom CSS + Bootstrap CSS/Jquery #}
+
+    {# Bootstrap CSS #}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    {# Custom CSS #}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+    {# Scrollbar Custom CSS #}
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+    {# Font Awesome JS #}
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
+            integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous">
+    </script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"
+            integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous">
+    </script>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     {# Blocks documenetation:  https://django-sekizai.readthedocs.io/en/latest/ #}
     {% render_block "css" %}
 </head>
 <body>
-    {% cms_toolbar %}
-    <div class="container-sm  px-0" style="background-color: #90cad5;">
-        {# Menu documentation: http://docs.django-cms.org/en/latest/reference/navigation.html #}
-        <ul class="nav">
-            {% show_menu 0 100 100 100 %}
-        </ul>
-        {% block content %}{% endblock content %}
+
+{% cms_toolbar %}
+{# Top bar #}
+<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+    <div class="container-fluid">
+        {# Toggle sidebar button #}
+        <button type="button" id="sidebarCollapse" class="btn btn-outline-light d-inline-block ml-auto"
+                style="margin-right: 25px">
+            <i class="fas fa-align-left"></i>
+        </button>
+        {# COSMOS Logo #}
+        <a href="/"><img src="{% static 'images/cosmos_white_horizontal.png' %}" height="100"/></a>
+
+        <button class="btn btn-outline-light d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-align-justify"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            {# Menu documentation: http://docs.django-cms.org/en/latest/reference/navigation.html #}
+            <ul class="navbar-nav mr-auto">
+                {% with dropdown=True %}
+                    {% show_menu 0 100 100 100 "include/menu.html" %}
+                {% endwith %}
+            </ul>
+        </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
-        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
-        crossorigin="anonymous"></script>
-    {% render_block "js" %}
+</nav>
+
+<div class="wrapper">
+    {# Sidebar #}
+    <nav id="sidebar">
+        <div id="dismiss">
+            <i class="fas fa-arrow-left"></i>
+        </div>
+        {% static_placeholder 'sidebar-header' %}
+    </nav>
+
+    {# Content #}
+    <div id="content" class="container-fluid  px-0" style="background-color: #90cad5;">
+        {% block content %}{% endblock content %}
+        <ul class="footer">
+            {% static_placeholder 'footer' %}
+        </ul>
+    </div>
+
+</div>
+
+<div class="overlay"></div>
+
+
+{# jQuery CDN #}
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+{# Popper.JS #}
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
+</script>
+{# Bootstrap JS #}
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous">
+</script>
+{# jQuery Custom Scroller CDN #}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+{# Sidebar custom JS #}
+<script src="{% static 'js/sidebar.js' %}"></script>
+{% render_block "js" %}
+
 </body>
 </html>

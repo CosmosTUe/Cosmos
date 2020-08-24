@@ -1,0 +1,37 @@
+{% load sekizai_tags %}
+{% load static %}
+
+{% addtoblock "css" %} <link rel="stylesheet" type="text/css" href="{% static 'css/cosmos_cms.css' %}"></link> {% endaddtoblock %}
+
+<div>
+
+{% for board in instance.boards.all %}
+
+    {% if forloop.first %} <div class="row board-row"> {% endif %}
+
+    <div class="col-sm-6">
+
+        <img src="{{ board.photo.url }}" class="board-image">
+        <h2 class="text-center board-name">{{ board.name }}</h2>
+
+        {% for member in board.group.user_set.all %}
+
+            {% if forloop.first %} <div class="row board-member-row"> {% endif %}
+
+                <div class="col-sm-6">
+                    <span class="board-member-name"> {{ member.first_name }} {{ member.last_name }} (title) </span>
+                </div>
+
+            {% if forloop.counter|divisibleby:2 %} </div> <div class="row board-member-row"> {% endif %}
+            {% if forloop.last %} </div> {% endif %}
+
+        {% endfor %}
+
+    </div>
+
+    {% if forloop.counter|divisibleby:3 %} </div> <div class="row board-row"> {% endif %}
+    {% if forloop.last %} </div> {% endif %}
+
+{% endfor %}
+
+</div>

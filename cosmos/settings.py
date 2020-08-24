@@ -97,6 +97,28 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(DATA_DIR, "media")
 STATIC_ROOT = os.path.join(DATA_DIR, "static")
 
+STATICFILES_STORAGE = "pipeline.storage.PipelineStorage"
+
+STATICFILES_FINDERS = [
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    "pipeline.finders.PipelineFinder",
+]
+
+PIPELINE = {
+    "CSS_COMPRESSOR": "pipeline.compressors.yuglify.YuglifyCompressor",
+    "YUGLIFY_BINARY": "node_modules/.bin/yuglify",
+    "JS_COMPRESSOR": "pipeline.compressors.closure.ClosureCompressor",
+    "CLOSURE_BINARY": "node_modules/.bin/google-closure-compiler",
+    "STYLESHEETS": {
+        "cosmos": {
+            "source_filenames": {"cosmos/css/registration.css", "cosmos/css/core.css"},
+            "output_filename": "cosmos/css/cosmos.css",
+        },
+    },
+    "JAVASCRIPT": {"cosmos": {"source_filenames": {"cosmos/js/sidebar.js"}, "output_filename": "cosmos/js/cosmos.js"}},
+}
+
 SITE_ID = 1
 
 TEMPLATES = [
@@ -177,6 +199,7 @@ INSTALLED_APPS = [
     "djangocms_snippet",
     "djangocms_googlemap",
     "djangocms_video",
+    "pipeline",
     "cosmos",
     "cosmos_cms",
     "legacy",
@@ -221,3 +244,6 @@ EMAIL_PORT = secret_settings.secrets["EMAIL"]["PORT"]
 EMAIL_HOST_USER = secret_settings.secrets["EMAIL"]["USERNAME"]
 EMAIL_HOST_PASSWORD = secret_settings.secrets["EMAIL"]["PASSWORD"]
 EMAIL_USE_TLS = secret_settings.secrets["EMAIL"]["USE_TLS"]
+
+
+LOGOUT_REDIRECT_URL = "/"

@@ -1,8 +1,11 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.models import User
 from django.db import transaction
 from django.shortcuts import redirect, render
+from django.urls import reverse
 
 from cosmos.forms import MemberCreateForm, MemberUpdateForm, ProfileCreateForm, ProfileUpdateForm
 
@@ -28,6 +31,8 @@ def register(request):
                 user = authenticate(username=user.username, password=raw_password)
                 login(request, user)
                 return redirect("/")
+            else:
+                profile_form = ProfileCreateForm(request.POST)
         else:
             profile_form = ProfileCreateForm(request.POST)
     else:
@@ -38,9 +43,9 @@ def register(request):
 
 @login_required
 @transaction.atomic
-def update(request):
+def profile(request):
     """
-    Process User update form.
+    Process User profile form.
 
     - @login_required: Ensures authenticated user
     - @transaction.atomic: Ensures both queries to the database are transactions
@@ -49,8 +54,33 @@ def update(request):
     :return:
     """
     if request.method == "POST":
-        user_form = MemberUpdateForm(request.POST, instance=request.user)
-        profile_form = ProfileUpdateForm(request.POST, instance=request.user.profile)
+
+        user_form = MemberUpdateForm(data=request.POST, instance=request.user)
+        profile_form = ProfileUpdateForm(data=request.POST, instance=request.user.profile)
+        password_form = PasswordChangeForm(data=request.POST, user=request.user)
+
+        if "save_profile" in request.POST:
+            if user_form.is_valid() and profile_form.is_valid():
+                user_form.save()
+                profile_form.save()
+                messages.success(request, "Your profile was successfully updated!")
+                return redirect(reverse("user_profile") + "#profile")
+            print("save_profile")
+        elif "save_password" in request.POST:
+            if password_form.is_valid():
+                password_form.save()
+                messages.success(request, "Your password was succesfully updated!")
+                return redirect(reverse("user_profile") + "#password")
+        elif "save_preferences" in request.POST:
+            if profile_form.is_valid():
+                profile_form.save()
+                messages.success(request, "Your preferences were succesfully updated!")
+        elif "save_key_access" in request.POST:
+            if profile_form.is_valid():
+                profile_form.save()
+                messages.success(request, "Your key access settings were succesfully updated!")
+                return redirect(reverse("user_profile") + "#key-access")
+
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
@@ -61,4 +91,16 @@ def update(request):
     else:
         user_form = MemberUpdateForm(instance=request.user)
         profile_form = ProfileUpdateForm(instance=request.user.profile)
-    return render(request, "user/update.html", {"user_form": user_form, "profile_form": profile_form})
+        password_form = PasswordChangeForm(user=request.user)
+    return render(
+        request,
+        "user/profile.html",
+        {"user_form": user_form, "profile_form": profile_form, "password_form": password_form},
+    )
+
+
+@login_required
+def delete(request):
+    if request.method == "POST":
+        User.objects.get(username=request.user.username).delete()
+    return redirect("/")

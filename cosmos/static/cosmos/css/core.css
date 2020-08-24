@@ -1,6 +1,10 @@
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+html {
+    height: 100%;
+}
 body {
-    font-family: 'Poppins', sans-serif;
+    height: 100%;
+    font-family: "Poppins", sans-serif;
     background: #fafafa;
 }
 
@@ -42,6 +46,7 @@ a:focus {
     border-bottom: 1px dashed #ddd;
     margin: 40px 0;
 }
+
 
 /* ---------------------------------------------------
     SIDEBAR STYLE
@@ -174,6 +179,7 @@ a.article:hover {
     color: #fff !important;
 }
 
+
 /* ---------------------------------------------------
     CONTENT STYLE
 ----------------------------------------------------- */
@@ -189,6 +195,8 @@ a.article:hover {
     top: 0;
     right: 0;
 }
+
+
 
 
 /* ---------------------------------------------------

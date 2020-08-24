@@ -1,0 +1,11 @@
+{
+  "name": "cosmos",
+  "version": "0.1.0",
+  "description": "Website for Cosmos, the international students association at the TU/e.",
+  "private": true,
+  "dependencies": {
+    "google-closure-compiler": "^20200719.0.0",
+    "yuglify": "^2.0.0"
+  },
+  "devDependencies": {}
+}

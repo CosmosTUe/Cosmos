@@ -1,5 +1,7 @@
 {% load cms_tags menu_tags sekizai_tags %}
+{% load pipeline %}
 {% load static %}
+
 <!doctype html>
 <html>
 <head>
@@ -10,7 +12,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     {# Custom CSS #}
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    {% stylesheet "cosmos" %}
 
     {# Scrollbar Custom CSS #}
     <link rel="stylesheet"
@@ -38,7 +40,7 @@
             <i class="fas fa-align-left"></i>
         </button>
         {# COSMOS Logo #}
-        <a href="/"><img src="{% static 'images/cosmos_white_horizontal.png' %}" height="100"/></a>
+        <a href="/"><img src="{% static 'cosmos/img/cosmos_white_horizontal.png' %}" height="60px"/></a>
 
         <button class="btn btn-outline-light d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
                 data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -48,11 +50,23 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             {# Menu documentation: http://docs.django-cms.org/en/latest/reference/navigation.html #}
-            <ul class="navbar-nav mr-auto">
-                {% with dropdown=True %}
-                    {% show_menu 0 100 100 100 "include/menu.html" %}
-                {% endwith %}
+            <ul class="navbar-nav mr-auto">100
             </ul>
+            <a class="btn btn-secondary my-2 my-sm-0 mx-1" href="/accounts/login" role="button">Log In</a>
+            <a class="btn btn-secondary my-2 my-sm-0 mx-1" href="/accounts/register" role="button">Sign Up</a>
+            {% if user.is_authenticated %}
+                <div class="dropdown mx-1">
+                    <button class="btn btn-default" type="button" id="profileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="{% static "cosmos/img/profile.png" %}" height="38px"/>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
+                        <a class="dropdown-item" href="#">Hello, {{ user.first_name }}</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/accounts/profile">Settings</a>
+                        <a class="dropdown-item" href="/accounts/logout">Log Out</a>
+                    </div>
+                </div>
+            {% endif %}
         </div>
     </div>
 </nav>
@@ -67,7 +81,7 @@
     </nav>
 
     {# Content #}
-    <div id="content" class="container-fluid  px-0" style="background-color: #90cad5;">
+    <div id="content" class="container-fluid  px-0">
         {% block content %}{% endblock content %}
         <ul class="footer">
             {% static_placeholder 'footer' %}
@@ -92,6 +106,7 @@
 {# jQuery Custom Scroller CDN #}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 {# Sidebar custom JS #}
+{% javascript "cosmos" %}
 <script src="{% static 'js/sidebar.js' %}"></script>
 {% render_block "js" %}
 

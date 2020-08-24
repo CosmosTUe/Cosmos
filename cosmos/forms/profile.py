@@ -16,14 +16,25 @@ class MemberCreateForm(UserCreationForm):
     Extra fields are defined in ProfileCreateForm.
     """
 
-    first_name = forms.CharField(max_length=30, required=True)
-    last_name = forms.CharField(max_length=30, required=True)
+    first_name = forms.CharField(max_length=30, required=True, initial="")
+    last_name = forms.CharField(max_length=30, required=True, initial="")
     username = forms.EmailField(
-        max_length=254, label="TU/e email", help_text="Required. Inform a valid TU/e email address."
+        max_length=254,
+        label="TU/e email",
+        help_text="Required. Inform a valid TU/e email address.",
+        required=True,
+        initial="",
     )
     email = forms.EmailField(
-        max_length=254, label="Personal email", required=False, help_text="Optional. Inform a valid email address."
+        max_length=254,
+        label="Personal email",
+        required=False,
+        help_text="Optional. Inform a valid email address.",
+        initial="",
     )
+
+    error_css_class = "is-invalid"
+    required_css_class = "required"
 
     class Meta:
         model = User
@@ -42,6 +53,11 @@ class MemberCreateForm(UserCreationForm):
             raise ValidationError("This field must be a valid TU/e email address", code="nontue_email")
         # Cleaning requires a return
         return username
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["password1"].initial = ""
+        self.fields["password2"].initial = ""
 
 
 class MemberUpdateForm(UserChangeForm):
@@ -78,30 +94,41 @@ class ProfileCreateForm(forms.ModelForm):
     A form that creates additional information about a COSMOS member.
     """
 
+    terms_confirmed = forms.BooleanField(initial=False, required=True)
+
     class Meta:
         model = Profile
-        fields = ["nationality", "department", "program"]
+        fields = ["nationality", "department", "program", "terms_confirmed"]
+
+    error_css_class = "error"
+    required_css_class = "required"
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["nationality"].choices = [("", "Please select your nationality")] + list(
+            self.fields["nationality"].choices
+        )[1:]
+        self.fields["department"].choices = [("", "Please select your department")] + list(
+            self.fields["department"].choices
+        )[1:]
+        self.fields["program"].choices = [("", "Please select your program")] + list(self.fields["program"].choices)[1:]
 
 
-class ProfileUpdateForm(ProfileCreateForm):
+class ProfileUpdateForm(forms.ModelForm):
     """
     A form that modifies additional information about a COSMOS member.
     """
 
     class Meta:
         model = Profile
-        fields = [
-            "nationality",
-            "department",
-            "program",
-            "tue_id",
-            "card_number",
-            "status",
-            "key_access",
-        ]
+        fields = ["nationality", "department", "program", "tue_id", "card_number", "subscribed_newsletter"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
-        self.fields["status"].disabled = True
-        self.fields["key_access"].disabled = True
+        self.fields["nationality"].choices = [("", "Please select your nationality")] + list(
+            self.fields["nationality"].choices
+        )[1:]
+        self.fields["department"].choices = [("", "Please select your department")] + list(
+            self.fields["department"].choices
+        )[1:]
+        self.fields["program"].choices = [("", "Please select your program")] + list(self.fields["program"].choices)[1:]

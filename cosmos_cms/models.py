@@ -28,8 +28,8 @@ class TextImagePluginModel(CMSPlugin):
     title = models.CharField(max_length=50)
     text = models.CharField(max_length=400)
     Button = models.BooleanField(default=False, verbose_name="use button")
-    ButtonLink = models.URLField()
-    ButtonText = models.CharField(max_length=20)
+    ButtonLink = models.URLField(blank=True)
+    ButtonText = models.CharField(max_length=20, blank=True)
     image = models.ImageField(upload_to="cardImg", default="img/default.jpg")
     orientation = models.BooleanField(default=False, verbose_name="image on the left")
 

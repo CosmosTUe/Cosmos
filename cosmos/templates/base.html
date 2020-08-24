@@ -34,50 +34,49 @@
 
 <body>
 {% cms_toolbar %}
-<div id="main" class="container" style="background-color: #90cad5;">
+{# Top bar #}
+<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+    <div class="container-fluid">
+        {# Toggle sidebar button #}
+        <button type="button" id="sidebarCollapse" class="btn btn-outline-light d-inline-block ml-auto"
+                style="margin-right: 25px">
+            <i class="fas fa-align-left"></i>
+        </button>
+        {# COSMOS Logo #}
+        <a href="/"><img src="{% static 'images/cosmos_white_horizontal.png' %}" height="100"/></a>
 
-    <div class="wrapper">
-        {# Sidebar #}
-        <nav id="sidebar">
-            <div id="dismiss">
-                <i class="fas fa-arrow-left"></i>
-            </div>
-            {% static_placeholder 'sidebar-header' %}
-        </nav>
+        <button class="btn btn-outline-light d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-align-justify"></i>
+        </button>
 
-        <div id="content">
-            {# Top bar #}
-            <nav class="navbar navbar-expand-lg navbar-light bg-dark">
-                <div class="container-fluid">
-                    {# Toggle sidebar button #}
-                    <button type="button" id="sidebarCollapse" class="btn btn-outline-light d-inline-block ml-auto" style="margin-right: 25px">
-                        <i class="fas fa-align-left"></i>
-                    </button>
-                    {# COSMOS Logo #}
-                    <a href="/"><img src="{% static 'images/cosmos_white_horizontal.png' %}" height="100"/></a>
-
-                    <button class="btn btn-outline-light d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse"
-                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="fas fa-align-justify"></i>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        {# Menu documentation: http://docs.django-cms.org/en/latest/reference/navigation.html #}
-                        <ul class="navbar-nav mr-auto">
-                            {% with dropdown=True %}
-                                {% show_menu 0 100 100 100 "menu.html" %}
-                            {% endwith %}
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-            {# Content #}
-            {% block content %}{% endblock content %}
-            <ul class="footer">
-                {% static_placeholder 'footer' %}
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            {# Menu documentation: http://docs.django-cms.org/en/latest/reference/navigation.html #}
+            <ul class="navbar-nav mr-auto">
+                {% with dropdown=True %}
+                    {% show_menu 0 100 100 100 "include/menu.html" %}
+                {% endwith %}
             </ul>
         </div>
+    </div>
+</nav>
+
+<div class="wrapper">
+    {# Sidebar #}
+    <nav id="sidebar">
+        <div id="dismiss">
+            <i class="fas fa-arrow-left"></i>
+        </div>
+        {% static_placeholder 'sidebar-header' %}
+    </nav>
+
+    {# Content #}
+    <div id="content">
+        {% block content %}{% endblock content %}
+        <ul class="footer">
+            {% static_placeholder 'footer' %}
+        </ul>
     </div>
 </div>
 

@@ -16,7 +16,7 @@
         </a>
         {% if child.children and dropdown %}
             <div class="dropdown-menu" aria-labelledby="dropdown-{{ child.get_menu_title|slugify }}">
-                {% show_menu from_level to_level extra_inactive extra_active "dropdown.html" "" "" child %}
+                {% show_menu from_level to_level extra_inactive extra_active "include/dropdown.html" "" "" child %}
             </div>
         {% endif %}
     </li>

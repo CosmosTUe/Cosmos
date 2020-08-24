@@ -2,9 +2,7 @@
 {% load static %}
 <!doctype html>
 <html>
-
 <head>
-
     {# Page title on the browser #}
     <title>{% block title %} COSMOS {% endblock title %}</title>
 
@@ -13,6 +11,7 @@
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     {# Custom CSS #}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
     {# Scrollbar Custom CSS #}
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
@@ -23,16 +22,12 @@
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"
             integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous">
     </script>
-
     <meta name="viewport" content="width=device-width,initial-scale=1">
     {# Blocks documenetation:  https://django-sekizai.readthedocs.io/en/latest/ #}
-
     {% render_block "css" %}
-
-
 </head>
-
 <body>
+
 {% cms_toolbar %}
 {# Top bar #}
 <nav class="navbar navbar-expand-lg navbar-light bg-dark">
@@ -72,12 +67,13 @@
     </nav>
 
     {# Content #}
-    <div id="content">
+    <div id="content" class="container-fluid  px-0" style="background-color: #90cad5;">
         {% block content %}{% endblock content %}
         <ul class="footer">
             {% static_placeholder 'footer' %}
         </ul>
     </div>
+
 </div>
 
 <div class="overlay"></div>
@@ -100,5 +96,4 @@
 {% render_block "js" %}
 
 </body>
-
 </html>

@@ -1,0 +1,23 @@
+{% load sekizai_tags static %}
+{% addtoblock "js" %}<script src="{% static 'js/contacts.js' %}"></script>{% endaddtoblock %}
+<h1>Contact Us!!</h1>
+<div class="contacts-plugin plugin">
+    <div class="inner">
+        <div class="contact-form">
+            {% if title %}<h3>{{ title }}</h3>{% endif %}
+            <form method="post" action="{{ form_action }}">
+                {% csrf_token %}
+                <table>
+                    {{ form.as_table }}
+                    <tr>
+                        <td></td>
+                        <td><input type="submit" name="submit" value="Send"/></td>
+                    </tr>
+                </table>
+            </form>
+            <div class="legend"><span class="required">*</span> Required field</div>
+            <div class="success" style="display:none">Thank you, a member of our team will contact you shortly, if appropriate.</div>
+            <div class="errors" style="display:none"><span class="form-errors"></span></div>
+        </div>
+    </div>
+</div>

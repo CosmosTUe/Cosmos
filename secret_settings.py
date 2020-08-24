@@ -25,6 +25,15 @@ secrets = {
             "PORT": "",
         },
     },
+    # Gmail SMTP Relay
+    # https://support.google.com/a/answer/2956491?hl=en
+    "EMAIL": {
+        "HOST": "smtp-relay.gmail.com",
+        "PORT": 587,
+        "USERNAME": "noreply@cosmostue.nl",
+        "PASSWORD": "fakepassword",
+        "USE_TLS": True,
+    },
     "PRETIX_DOMAIN": "http://localhost:8345",
     # TODO store tokens per team
     "PRETIX_AUTHORIZATION_HEADER": {

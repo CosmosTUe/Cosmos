@@ -22,3 +22,20 @@ class BoardListPluginModel(CMSPlugin):
 
     def __str__(self):
         return "BoardList:".join(board.name for board in self.boards.all())
+
+
+class TextImagePluginModel(CMSPlugin):
+    title = models.CharField(max_length=50)
+    text = models.CharField(max_length=400)
+    Button = models.BooleanField(default=False, verbose_name="use button")
+    ButtonLink = models.URLField(blank=True)
+    ButtonText = models.CharField(max_length=20, blank=True)
+    image = models.ImageField(upload_to="cardImg", default="img/default.jpg")
+    orientation = models.BooleanField(default=False, verbose_name="image on the left")
+
+    def __str__(self):
+        return "TextImageCard:" + self.title
+
+
+class ContactPluginModel(CMSPlugin):
+    title = models.CharField("title", blank=True, help_text="Optional. Title of the widget.", max_length=64,)

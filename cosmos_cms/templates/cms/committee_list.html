@@ -1,0 +1,29 @@
+{% load sekizai_tags %}
+{% load static %}
+
+{% addtoblock "css" %} <link rel="stylesheet" type="text/css" href="{% static 'css/cosmos_cms.css' %}"></link> {% endaddtoblock %}
+
+<div>
+
+    <h1 class="text-center committee-list-title"> Committees </h1>
+    </br>
+    <div class="col text-center">
+        <button type="button" class="btn btn-light" onclick="location.href=''"> Committee page </button>
+    </div>
+
+    <div class="row committee-row">
+
+    {% for committee in instance.committees.all %}
+
+        <div class="col-sm-4">
+
+            <img src="{{ committee.photo.url }}" class="committee-image">
+            <h4 class="text-center committee-name">{{ committee.name }}</h4>
+
+        </div>
+
+    {% endfor %}
+
+    </div>
+
+</div>

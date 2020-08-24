@@ -10,7 +10,7 @@
 
     {# Custom CSS + Bootstrap CSS/Jquery #}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <!--js fonts-->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
@@ -32,7 +32,21 @@
     {% cms_toolbar %}
     <div class="wrapper">
 
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-toggler" href="#">Brand</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
         {# Menu documentation: http://docs.django-cms.org/en/latest/reference/navigation.html #}
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                {% with dropdown=True %}
+                    {% show_menu 0 100 100 100 "menu.html" %}
+                {% endwith %}
+            </ul>
+        </div>
+    </nav>
 
         <ul class="nav">
             {% show_menu 0 100 100 100 %}
@@ -82,6 +96,27 @@
 
     {% render_block "js" %}
 
+    {% block content %}{% endblock content %}
+
+    <ul class="footer">
+        {% static_placeholder 'footer' %}
+    </ul>
+
+    <script>
+        function openBar() {
+            document.getElementById("sidebar").style.width = "250px";
+            document.getElementById("main").style.marginLeft = "250px";
+        }
+    </script>
+    <!--the js function that triggers the opening of the sidebar-->
+    <script>
+        function closeBar() {
+            document.getElementById("sidebar").style.width = "0";
+            document.getElementById("main").style.marginLeft = "0";
+        }
+    </script>
+    <!--the js function that triggers the close of the sidebar-->
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
     </script>
@@ -92,6 +127,7 @@
         integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous">
     </script>
 
+    {% render_block "js" %}
 
 </body>
 

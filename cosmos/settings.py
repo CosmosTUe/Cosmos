@@ -56,8 +56,20 @@ DATABASES = {
         "PASSWORD": secret_settings.secrets["DATABASES"]["DEFAULT"]["PASSWORD"],
         "HOST": secret_settings.secrets["DATABASES"]["DEFAULT"]["HOST"],
         "PORT": secret_settings.secrets["DATABASES"]["DEFAULT"]["PORT"],
-    }
+    },
+    "legacy": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": secret_settings.secrets["DATABASES"]["LEGACY"]["NAME"],
+        "USER": secret_settings.secrets["DATABASES"]["LEGACY"]["USER"],
+        "PASSWORD": secret_settings.secrets["DATABASES"]["LEGACY"]["PASSWORD"],
+        "HOST": secret_settings.secrets["DATABASES"]["LEGACY"]["HOST"],
+        "PORT": secret_settings.secrets["DATABASES"]["LEGACY"]["PORT"],
+    },
 }
+
+DATABASE_ROUTERS = ["legacy.legacy_router.LegacyRouter"]
+
+SILENCED_SYSTEM_CHECKS = ["models.W035"]
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -77,7 +89,7 @@ LANGUAGE_CODE = "en"
 
 TIME_ZONE = "Europe/Amsterdam"
 
-USE_I18N = True
+USE_I18N = False
 
 USE_L10N = True
 
@@ -174,6 +186,8 @@ INSTALLED_APPS = [
     "djangocms_googlemap",
     "djangocms_video",
     "cosmos",
+    "cosmos_cms",
+    "legacy",
 ]
 
 LANGUAGES = (

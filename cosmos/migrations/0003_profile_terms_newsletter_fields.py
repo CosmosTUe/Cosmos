@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("cosmos", "0001_init_models"),
+        ("cosmos", "0002_photo_fields"),
     ]
 
     operations = [

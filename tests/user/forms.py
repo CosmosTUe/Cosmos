@@ -25,7 +25,12 @@ class UserForms(TestCase):
 
         profile_form = ProfileCreateForm(
             instance=user.profile,
-            data={"nationality": "Dutch", "department": "Sustainable Innovation", "program": "Other"},
+            data={
+                "nationality": "Dutch",
+                "department": "Sustainable Innovation",
+                "program": "Other",
+                "terms_confirmed": True,
+            },
         )
         self.assertTrue(profile_form.is_valid())
         # Save for further tests

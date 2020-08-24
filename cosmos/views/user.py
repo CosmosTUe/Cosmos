@@ -32,10 +32,8 @@ def register(request):
                 login(request, user)
                 return redirect("/")
             else:
-                print("test")
                 profile_form = ProfileCreateForm(request.POST)
         else:
-            print("invalid")
             profile_form = ProfileCreateForm(request.POST)
     else:
         user_form = MemberCreateForm()

@@ -1,21 +1,3 @@
-.committee-image {
-    width: 100%;
-    padding: 0.625rem;
-}
-
-.committee-name {
-    color: rgb(255, 255, 255);
-    font-family: Raleway, sans-serif;
-}
-
-.committee-list-title {
-    color: rgb(255, 255, 255);
-    font-family: Raleway, sans-serif;
-}
-
-.committee-row {
-    padding-bottom: 1.875rem;
-}
 
 .board-row {
     padding-bottom: 1.875rem;
@@ -27,7 +9,7 @@
 }
 
 .board-name {
-    color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
     font-family: Raleway, sans-serif;
 }
 

@@ -1,5 +1,8 @@
-{% load sekizai_tags static %}
-{% addtoblock "js" %}<script src="{% static 'js/contacts.js' %}"></script>{% endaddtoblock %}
+{% load sekizai_tags %}
+{% load pipeline %}
+
+{% addtoblock "js" %} {% javascript "cosmos_cms" %} {% endaddtoblock %}
+
 <h1>Contact Us!!</h1>
 <div class="contacts-plugin plugin">
     <div class="inner">

@@ -1,7 +1,7 @@
 {% load sekizai_tags %}
-{% load static %}
+{% load pipeline %}
 
-{% addtoblock "css" %} <link rel="stylesheet" type="text/css" href="{% static 'css/cosmos_cms.css' %}"></link> {% endaddtoblock %}
+{% addtoblock "css" %} {% stylesheet "cosmos_cms" %} {% endaddtoblock %}
 
 <div>
 

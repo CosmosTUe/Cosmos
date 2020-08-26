@@ -1,0 +1,18 @@
+.committee-image {
+    width: 100%;
+    padding: 0.625rem;
+}
+
+.committee-name {
+    color: rgb(0, 0, 0);
+    font-family: Raleway, sans-serif;
+}
+
+.committee-list-title {
+    color: rgb(0, 0, 0);
+    font-family: Raleway, sans-serif;
+}
+
+.committee-row {
+    padding-bottom: 1.875rem;
+}

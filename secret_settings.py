@@ -16,6 +16,7 @@ secrets = {
             "PASSWORD": "2020123",
             "HOST": "",
             "PORT": "",
+            "OPTIONS": {"options": "-c search_path=public"},
         },
         "LEGACY": {
             "NAME": "cosmos_website_test_legacy",
@@ -23,6 +24,7 @@ secrets = {
             "PASSWORD": "2020123",
             "HOST": "",
             "PORT": "",
+            "OPTIONS": {"options": "-c search_path=public"},
         },
     },
     # Gmail SMTP Relay

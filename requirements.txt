@@ -27,3 +27,4 @@ gunicorn
 mysqlclient>=2.0.1
 requests>=2.24.0
 django-pipeline>=2.0.5,<3
+psycopg2>=2.8.5,<3

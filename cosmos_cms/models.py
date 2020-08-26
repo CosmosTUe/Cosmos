@@ -1,5 +1,6 @@
 from cms.plugin_base import CMSPlugin
 from django.db import models
+from django.db.models import CASCADE
 
 from cosmos.models import Board, Committee
 
@@ -39,3 +40,16 @@ class TextImagePluginModel(CMSPlugin):
 
 class ContactPluginModel(CMSPlugin):
     title = models.CharField("title", blank=True, help_text="Optional. Title of the widget.", max_length=64,)
+
+
+class CommitteeSubpageTitlePluginModel(CMSPlugin):
+    committee = models.OneToOneField(Committee, on_delete=CASCADE)
+    subtitle = models.CharField(default="", max_length=100)
+    description = models.CharField(default="", max_length=400)
+    image = models.ImageField(upload_to="committeeImg", default="img/default.jpg")
+
+    def copy_relations(self, old_instance):
+        self.committee.set(old_instance.committee.all())
+
+    def __str__(self):
+        return f"CommitteeSubpage: {self.committee.name}"

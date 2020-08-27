@@ -1,0 +1,10 @@
+{% load sekizai_tags %}
+{% load static %}
+{% load pipeline %}
+
+{% addtoblock "css" %} <link rel="stylesheet" type="text/css" href="{% static 'css/board_title.css' %}"></link> {% endaddtoblock %}
+<div class="text board-subpage-title">
+    <h1>{{ instance.title }}</h1>
+    <h2>{{ instance.subtitle }}</h2>
+    <p>{{ instance.description }}</p>
+</div>

@@ -53,3 +53,15 @@ class CommitteeSubpageTitlePluginModel(CMSPlugin):
 
     def __str__(self):
         return f"CommitteeSubpage: {self.committee.name}"
+
+
+class BoardSubpageTitlePluginModel(CMSPlugin):
+    board = models.OneToOneField(Board, on_delete=CASCADE)
+    subtitle = models.CharField(default="", max_length=100)
+    description = models.CharField(default="", max_length=400)
+
+    def copy_relations(self, old_instance):
+        self.board.set(old_instance.board.all())
+
+    def __str__(self):
+        return f"CommitteeSubpage: {self.board.name}"

@@ -9,6 +9,7 @@ from .models import (
     ContactPluginModel,
     TextImagePluginModel,
     CommitteeSubpageTitlePluginModel,
+    BoardSubpageTitlePluginModel,
 )
 
 MODULE_NAME = "Cosmos"
@@ -39,6 +40,15 @@ class CommitteeSubpageTitlePluginPublisher(CMSPluginBase):
     cache = False
     module = MODULE_NAME
     name = "Committee Subpage Title"
+
+
+@plugin_pool.register_plugin
+class BoardSubpageTitlePluginPublisher(CMSPluginBase):
+    model = BoardSubpageTitlePluginModel
+    render_template = "cms/board_subpage_title.html"
+    cache = False
+    module = MODULE_NAME
+    name = "Board Subpage Title"
 
 
 @plugin_pool.register_plugin

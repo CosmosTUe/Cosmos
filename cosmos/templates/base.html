@@ -51,7 +51,7 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             {# Menu documentation: http://docs.django-cms.org/en/latest/reference/navigation.html #}
-            <ul class="navbar-nav mr-auto">100
+            <ul class="navbar-nav mr-auto">
             </ul>
             <a class="btn btn-secondary my-2 my-sm-0 mx-1" href="/accounts/login" role="button">Log In</a>
             <a class="btn btn-secondary my-2 my-sm-0 mx-1" href="/accounts/register" role="button">Sign Up</a>
@@ -78,7 +78,9 @@
         <div id="dismiss">
             <i class="fas fa-arrow-left"></i>
         </div>
+        <a href="/"><img src="{% static 'cosmos/img/cosmos_white_horizontal.png' %}" height="60px"/></a>
         {% static_placeholder 'sidebar-header' %}
+        <hr>
     </nav>
 
     {# Content #}
@@ -108,7 +110,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 {# Sidebar custom JS #}
 {% javascript "cosmos" %}
-<script src="{% static 'js/sidebar.js' %}"></script>
 {% render_block "js" %}
 
 </body>

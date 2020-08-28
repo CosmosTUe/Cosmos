@@ -30,7 +30,7 @@ class Committee(models.Model):
 
     group = models.OneToOneField(Group, on_delete=models.CASCADE)
     description = models.TextField(blank=True)
-    board = models.ForeignKey(Board, on_delete=models.CASCADE)
+    board = models.ForeignKey(Board, on_delete=models.CASCADE, blank=True)
     pretix_team_token = models.CharField(max_length=64)
 
     photo = models.ImageField(

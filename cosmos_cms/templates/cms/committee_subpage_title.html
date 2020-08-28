@@ -1,13 +1,11 @@
 {% load sekizai_tags %}
-{% load static %}
 {% load pipeline %}
 
-{% addtoblock "css" %} <link rel="stylesheet" type="text/css" href="{% static 'css/comm_title.css' %}"></link> {% endaddtoblock %}
-<div>
+{% addtoblock "css" %} {% stylesheet "cosmos_cms" %} {% endaddtoblock %}
+<div class="committee-subpage-title">
     <img src={{ instance.image.url }} class="img-fluid w-100">
-    <div class="text committee-subpage-title">
-        <h1>{{ instance.title }}</h1>
-        <h2>{{ instance.subtitle }}</h2>
-        <p>{{ instance.description }}</p>
+    <div class="text">
+        <h1>{{ instance.committee.name }}</h1>
+        <p>{{ instance.committee.description }}</p>
     </div>
 </div>

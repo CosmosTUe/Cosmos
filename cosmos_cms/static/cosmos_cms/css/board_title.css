@@ -1,5 +1,8 @@
 .board-subpage-title {
-    /*padding: 40px;*/
+    position: relative;
+}
+
+.board-subpage-title .text {
     margin: 64px;
     padding: 64px 0px 28px calc((100% - 980px) * 0.5);
 }

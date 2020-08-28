@@ -44,8 +44,6 @@ class ContactPluginModel(CMSPlugin):
 
 class CommitteeSubpageTitlePluginModel(CMSPlugin):
     committee = models.OneToOneField(Committee, on_delete=CASCADE)
-    subtitle = models.CharField(default="", max_length=100)
-    description = models.CharField(default="", max_length=400)
     image = models.ImageField(upload_to="committeeImg", default="img/default.jpg")
 
     def copy_relations(self, old_instance):
@@ -57,8 +55,6 @@ class CommitteeSubpageTitlePluginModel(CMSPlugin):
 
 class BoardSubpageTitlePluginModel(CMSPlugin):
     board = models.OneToOneField(Board, on_delete=CASCADE)
-    subtitle = models.CharField(default="", max_length=100)
-    description = models.CharField(default="", max_length=400)
 
     def copy_relations(self, old_instance):
         self.board.set(old_instance.board.all())

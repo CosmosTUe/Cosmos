@@ -118,7 +118,12 @@ PIPELINE = {
             "output_filename": "cosmos/css/cosmos.css",
         },
         "cosmos_cms": {
-            "source_filenames": {"cosmos_cms/css/board_list.css", "cosmos_cms/css/committee_list.css"},
+            "source_filenames": {
+                "cosmos_cms/css/board_list.css",
+                "cosmos_cms/css/board_title.css",
+                "cosmos_cms/css/committee_list.css",
+                "cosmos_cms/css/committee_title.css",
+            },
             "output_filename": "cosmos_cms/css/cosmos_cms.css",
         },
     },
@@ -256,6 +261,5 @@ EMAIL_PORT = secret_settings.secrets["EMAIL"]["PORT"]
 EMAIL_HOST_USER = secret_settings.secrets["EMAIL"]["USERNAME"]
 EMAIL_HOST_PASSWORD = secret_settings.secrets["EMAIL"]["PASSWORD"]
 EMAIL_USE_TLS = secret_settings.secrets["EMAIL"]["USE_TLS"]
-
 
 LOGOUT_REDIRECT_URL = "/"

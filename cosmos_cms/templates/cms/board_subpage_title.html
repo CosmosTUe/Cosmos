@@ -1,10 +1,10 @@
 {% load sekizai_tags %}
-{% load static %}
 {% load pipeline %}
 
-{% addtoblock "css" %} <link rel="stylesheet" type="text/css" href="{% static 'css/board_title.css' %}"></link> {% endaddtoblock %}
-<div class="text board-subpage-title">
-    <h1>{{ instance.title }}</h1>
-    <h2>{{ instance.subtitle }}</h2>
-    <p>{{ instance.description }}</p>
+{% addtoblock "css" %} {% stylesheet "cosmos_cms" %} {% endaddtoblock %}
+<div class="board-subpage-title">
+    <div class="text">
+        <h1>{{ instance.board.name }}</h1>
+        <p>{{ instance.board.description }}</p>
+    </div>
 </div>

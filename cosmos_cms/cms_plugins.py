@@ -59,12 +59,6 @@ class TextImagePluginPublisher(CMSPluginBase):
     module = MODULE_NAME
     name = "Text and Image Card"
 
-    def render(self, context, instance, placeholder):
-        context.update(
-            {"title": instance.committee.name, "subtitle": instance.subtitle, "description": instance.description}
-        )
-        return context
-
 
 @plugin_pool.register_plugin
 class ContactPlugin(CMSPluginBase):

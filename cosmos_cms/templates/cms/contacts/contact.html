@@ -3,23 +3,45 @@
 
 {% addtoblock "js" %} {% javascript "cosmos_cms" %} {% endaddtoblock %}
 
-<h1>Contact Us!!</h1>
+<h1>Contact Us</h1>
 <div class="contacts-plugin plugin">
     <div class="inner">
         <div class="contact-form">
             {% if title %}<h3>{{ title }}</h3>{% endif %}
             <form method="post" action="{{ form_action }}">
                 {% csrf_token %}
-                <table>
-                    {{ form.as_table }}
-                    <tr>
-                        <td></td>
-                        <td><input type="submit" name="submit" value="Send"/></td>
-                    </tr>
-                </table>
+                {% for field in form %}
+                    <div class="form-group">
+                        <input class="form-control
+                               {% if field.errors|length > 0 %} is-invalid {% endif %}
+                               {% if field.field.required %} required {% endif %}"
+                               name="{{ field.html_name }}"
+                               type="{{ field.field.widget.input_type }}"
+                               maxlength="{{ field.max_length }}"
+                               id="{{ field.id_for_label }}"
+                               placeholder="{{ field.label }}"
+                               data-toggle="tooltip" data-placement="top" data-html="true"
+                               title="{{ field.help_text|safe }}">
+                        <div class="invalid-feedback">
+                            <ul>
+                                {% for error in field.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                {% endfor %}
+
+                <div class="form-group">
+                    <button class="btn btn-primary btn-block" background-color="#90cad5" type="submit" name="submit"
+                            value="Send">Send
+                    </button>
+                </div>
             </form>
             <div class="legend"><span class="required">*</span> Required field</div>
-            <div class="success" style="display:none">Thank you, a member of our team will contact you shortly, if appropriate.</div>
+            <div class="success" style="display:none">Thank you, a member of our team will contact you shortly, if
+                appropriate.
+            </div>
             <div class="errors" style="display:none"><span class="form-errors"></span></div>
         </div>
     </div>

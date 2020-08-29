@@ -3,11 +3,10 @@
 
 {% addtoblock "js" %} {% javascript "cosmos_cms" %} {% endaddtoblock %}
 
-<h1>Contact Us</h1>
 <div class="contacts-plugin plugin">
     <div class="inner">
         <div class="contact-form">
-            {% if title %}<h3>{{ title }}</h3>{% endif %}
+            <h3 style="text-align: center;">{% if title %}{{ title }}{% else %}Contact Us{% endif %}</h3>
             <form method="post" action="{{ form_action }}" style="max-width: 720px">
                 <div class="container">
                     <div class="row">

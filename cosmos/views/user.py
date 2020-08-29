@@ -65,7 +65,6 @@ def profile(request):
                 profile_form.save()
                 messages.success(request, "Your profile was successfully updated!")
                 return redirect(reverse("user_profile") + "#profile")
-            print("save_profile")
         elif "save_password" in request.POST:
             if password_form.is_valid():
                 password_form.save()
@@ -75,6 +74,7 @@ def profile(request):
             if profile_form.is_valid():
                 profile_form.save()
                 messages.success(request, "Your preferences were succesfully updated!")
+                return redirect(request("user_profile") + "#preferences")
         elif "save_key_access" in request.POST:
             if profile_form.is_valid():
                 profile_form.save()

@@ -3,23 +3,89 @@
 
 {% addtoblock "js" %} {% javascript "cosmos_cms" %} {% endaddtoblock %}
 
-<h1>Contact Us!!</h1>
 <div class="contacts-plugin plugin">
     <div class="inner">
         <div class="contact-form">
-            {% if title %}<h3>{{ title }}</h3>{% endif %}
-            <form method="post" action="{{ form_action }}">
-                {% csrf_token %}
-                <table>
-                    {{ form.as_table }}
-                    <tr>
-                        <td></td>
-                        <td><input type="submit" name="submit" value="Send"/></td>
-                    </tr>
-                </table>
+            <h3 style="text-align: center;">{% if title %}{{ title }}{% else %}Contact Us{% endif %}</h3>
+            <form method="post" action="{{ form_action }}" style="max-width: 720px">
+                <div class="container">
+                    <div class="row">
+                        {% csrf_token %}
+                        {# Non-message fields #}
+                        <div class="col-sm">
+                            {% for field in form %}
+                                <div class="form-group">
+                                    {% if field.field.widget.input_type == "select" %}
+                                        <select class="form-control
+                                            {% if field.errors|length > 0 %} is-invalid {% endif %}
+                                            {% if field.field.required %} required {% endif %}"
+                                                id="{{ field.id_for_label }}"
+                                                name="{{ field.html_name }}"
+                                                data-toggle="tooltip"
+                                                data-placement="top"
+                                                data-html="true"
+                                                title="{{ field.help_text|safe }}">
+                                            {% for id, name in field.field.choices %}
+                                                <option value="{{ id }}"{% if field.value == id %}
+                                                        selected{% endif %}>{{ name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    {% elif field.field.widget.input_type == "text" or field.field.widget.input_type == "email" %}
+                                        <input class="form-control
+                                            {% if field.errors|length > 0 %} is-invalid {% endif %}
+                                            {% if field.field.required %} required {% endif %}"
+                                               name="{{ field.html_name }}"
+                                               type="{{ field.field.widget.input_type }}"
+                                               maxlength="{{ field.max_length }}"
+                                               id="{{ field.id_for_label }}"
+                                               placeholder="{{ field.label }}"
+                                               data-toggle="tooltip" data-placement="top" data-html="true"
+                                               title="{{ field.help_text|safe }}">
+                                    {% else %}
+                                    {% endif %}
+                                    <div class="invalid-feedback">
+                                        <ul>
+                                            {% for error in field.errors %}
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {# Message #}
+                        <div class="form-group col-sm">
+                            <textarea class="form-control
+                                    {% if form.message.errors|length > 0 %} is-invalid {% endif %}
+                                    {% if form.message.field.required %} required {% endif %}"
+                                      id="{{ form.message.id_for_label }}"
+                                      placeholder="{{ form.message.label }}"
+                                      style="min-height: 42px; height: 216px;"
+                                      rows="3"></textarea>
+                            <div class="invalid-feedback">
+                                <ul>
+                                    {% for error in form.message.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    {# Submit button #}
+                    <div class="row">
+                        <div class="form-group w-100">
+                            <button class="btn btn-primary btn-block" background-color="#90cad5" type="submit"
+                                    name="submit"
+                                    value="Send">Send
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </form>
             <div class="legend"><span class="required">*</span> Required field</div>
-            <div class="success" style="display:none">Thank you, a member of our team will contact you shortly, if appropriate.</div>
+            <div class="success" style="display:none">Thank you, a member of our team will contact you shortly, if
+                appropriate.
+            </div>
             <div class="errors" style="display:none"><span class="form-errors"></span></div>
         </div>
     </div>

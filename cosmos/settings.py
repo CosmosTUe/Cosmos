@@ -211,6 +211,7 @@ INSTALLED_APPS = [
     "djangocms_snippet",
     "djangocms_googlemap",
     "djangocms_video",
+    "django_better_admin_arrayfield",
     "pipeline",
     "cosmos",
     "cosmos_cms",

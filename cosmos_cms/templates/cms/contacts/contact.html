@@ -16,10 +16,25 @@
                         <div class="col-sm">
                             {% for field in form %}
                                 <div class="form-group">
-                                    {% if field.field.widget.input_type != null %}
+                                    {% if field.field.widget.input_type == "select" %}
+                                        <select class="form-control
+                                            {% if field.errors|length > 0 %} is-invalid {% endif %}
+                                            {% if field.field.required %} required {% endif %}"
+                                                id="{{ field.id_for_label }}"
+                                                name="{{ field.html_name }}"
+                                                data-toggle="tooltip"
+                                                data-placement="top"
+                                                data-html="true"
+                                                title="{{ field.help_text|safe }}">
+                                            {% for id, name in field.field.choices %}
+                                                <option value="{{ id }}"{% if field.value == id %}
+                                                        selected{% endif %}>{{ name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    {% elif field.field.widget.input_type == "text" or field.field.widget.input_type == "email" %}
                                         <input class="form-control
-                                    {% if field.errors|length > 0 %} is-invalid {% endif %}
-                                    {% if field.field.required %} required {% endif %}"
+                                            {% if field.errors|length > 0 %} is-invalid {% endif %}
+                                            {% if field.field.required %} required {% endif %}"
                                                name="{{ field.html_name }}"
                                                type="{{ field.field.widget.input_type }}"
                                                maxlength="{{ field.max_length }}"
@@ -59,11 +74,12 @@
                     </div>
                     {# Submit button #}
                     <div class="row">
-                    <div class="form-group w-100">
-                        <button class="btn btn-primary btn-block" background-color="#90cad5" type="submit" name="submit"
-                                value="Send">Send
-                        </button>
-                    </div>
+                        <div class="form-group w-100">
+                            <button class="btn btn-primary btn-block" background-color="#90cad5" type="submit"
+                                    name="submit"
+                                    value="Send">Send
+                            </button>
+                        </div>
                     </div>
                 </div>
             </form>

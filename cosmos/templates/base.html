@@ -83,12 +83,13 @@
     </nav>
 
     {# Content #}
+    {% block content %}
     <div id="content" class="container-md mt-0">
-        {% block content %}{% endblock content %}
         <ul class="footer">
             {% static_placeholder 'footer' %}
         </ul>
     </div>
+    {% endblock content %}
 
 </div>
 

@@ -3,17 +3,17 @@
         <div class="col-sm-6">
             <img src={{instance.image.url}} class="img-fluid w-100">
         </div>
-        <div class="col-sm-6 text-center bg-secondary text-light py-2">
+        <div class="col-sm-6 text-center bg-secondary text-light p-3">
             <h2>{{instance.title}}</h2>
-            <p>{{instance.text}}</p>
+            <p>{{instance.text | safe}}</p>
             {% if instance.Button %}
                 <a href="{{instance.ButtonLink}}" role="button" class="btn btn-primary" >{{instance.ButtonText}}</button></a>
             {% endif %}
         </div>
     {% else %}
-        <div class="col-sm-6 text-center bg-secondary text-light py-2">
+        <div class="col-sm-6 text-center bg-secondary text-light p-3">
             <h2>{{instance.title}}</h2>
-            <p>{{instance.text}}</p>
+            <p>{{instance.text | safe}}</p>
             {% if instance.Button %}
                 <a href="{{instance.ButtonLink}}" role="button" class="btn btn-primary">{{instance.ButtonText}}</button></a>
             {% endif %}

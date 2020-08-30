@@ -18,8 +18,7 @@
                 <a href="{{instance.ButtonLink}}" role="button" class="btn btn-primary">{{instance.ButtonText}}</button></a>
             {% endif %}
         </div>
-        <div class="col-sm-6">
-            <img src={{instance.image.url}} class="img-fluid w-100">
+        <div class="col-sm-6 background-image" style="background: url({{instance.image.url}}) no-repeat center; background-size: cover;">
         </div>
     {% endif %}
 

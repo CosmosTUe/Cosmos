@@ -2,7 +2,7 @@ form:not(.delete) {
     max-width: 480px;
     width: 90%;
     margin: 0 auto;
-    background-color: #343a40;
+    background-color: #053d58;
     padding: 40px;
     border-radius: 4px;
     color: #505e6c;
@@ -13,7 +13,7 @@ form:not(.delete) {
     max-width: 480px;
     width: 90%;
     margin: 0 auto;
-    background-color: #343a40;
+    background-color: #053d58;
     padding: 40px;
     border-radius: 4px;
     color: #ffffff;

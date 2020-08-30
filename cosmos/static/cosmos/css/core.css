@@ -5,7 +5,7 @@ html {
 body {
     height: 100%;
     font-family: "Poppins", sans-serif;
-    background: #fafafa;
+    background: #dfdfdf;
 }
 
 p {
@@ -26,7 +26,7 @@ a:focus {
 
 .navbar {
     padding: 15px 10px;
-    background: #fff;
+    background: #053d58;
     border: none;
     border-radius: 0;
     margin-bottom: 40px;
@@ -191,16 +191,6 @@ a.article:hover {
     margin-top: 130px;
     /*min-height: 100vh;*/
     transition: all 0.3s;
+    background-color: #053d58;
 }
 
-
-
-
-/* ---------------------------------------------------
-    WRAPPER STYLE
------------------------------------------------------ */
-.wrapper {
-    margin-top: 130px;
-    height: 100vh;
-    min-height: calc(100vh - 130px);
-}

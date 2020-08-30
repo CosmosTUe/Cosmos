@@ -1,7 +1,9 @@
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+
 html {
     height: 100%;
 }
+
 body {
     height: 100%;
     font-family: "Poppins", sans-serif;
@@ -117,6 +119,7 @@ a:focus {
     opacity: 0;
     transition: all 0.5s ease-in-out;
 }
+
 .overlay.active {
     display: block;
     opacity: 1;

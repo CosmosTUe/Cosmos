@@ -1,10 +1,7 @@
-{% load sekizai_tags %}
-{% load pipeline %}
+{% extends "cms/group_subpage_title_template.html" %}
+{% block image_src %}{{ instance.board.photo }}{% endblock image_src %}
 
-{% addtoblock "css" %} {% stylesheet "cosmos_cms" %} {% endaddtoblock %}
-<div class="board-subpage-title">
-    <div class="text">
-        <h1>{{ instance.board.name }}</h1>
-        <p>{{ instance.board.description }}</p>
-    </div>
-</div>
+{% block text_content %}
+    <h1>{{ instance.board.name }}</h1>
+    <p>{{ instance.board.description }}</p>
+{% endblock text_content %}

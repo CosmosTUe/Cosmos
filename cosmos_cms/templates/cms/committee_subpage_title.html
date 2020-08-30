@@ -1,11 +1,7 @@
-{% load sekizai_tags %}
-{% load pipeline %}
+{% extends "cms/group_subpage_title_template.html" %}
+{% block image_src %}{{ instance.committee.photo }}{% endblock image_src %}
 
-{% addtoblock "css" %} {% stylesheet "cosmos_cms" %} {% endaddtoblock %}
-<div class="committee-subpage-title">
-    <img src={{ instance.image.url }} class="img-fluid w-100">
-    <div class="text">
-        <h1>{{ instance.committee.name }}</h1>
-        <p>{{ instance.committee.description }}</p>
-    </div>
-</div>
+{% block text_content %}
+    <h1>{{ instance.committee.name }}</h1>
+    <p>{{ instance.committee.description }}</p>
+{% endblock text_content %}

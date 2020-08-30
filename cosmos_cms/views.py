@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 class ContactFormView(FormView):
     form_class = ContactForm
-    template_name = os.path.join("plugins", "contacts", "contact.html")
+    template_name = os.path.join("cms/contacts/contact.html")
 
     def get_initial(self):
         """
@@ -43,18 +43,12 @@ class ContactFormView(FormView):
         # data["recipient"] = "testing@email.pp"
 
         # Create contact email to board member
-        board_email_subject = render_to_string(
-            os.path.join("plugins", "contacts", "board-email-subject.txt"), {"data": data}
-        )
-        board_email_body = render_to_string(os.path.join("plugins", "contacts", "board-email-body.txt"), {"data": data})
+        board_email_subject = render_to_string(os.path.join("cms/contacts/board-email-subject.txt"), {"data": data})
+        board_email_body = render_to_string(os.path.join("cms/contacts/board-email-body.txt"), {"data": data})
 
         # Create confirmation email to sender
-        confirm_email_subject = render_to_string(
-            os.path.join("plugins", "contacts", "confirm-email-subject.txt"), {"data": data}
-        )
-        confirm_email_body = render_to_string(
-            os.path.join("plugins", "contacts", "confirm-email-body.txt"), {"data": data}
-        )
+        confirm_email_subject = render_to_string(os.path.join("cms/contacts/confirm-email-subject.txt"), {"data": data})
+        confirm_email_body = render_to_string(os.path.join("cms/contacts/confirm-email-body.txt"), {"data": data})
         try:
             # TODO consider sending the same email to sender and recipient, one as bcc?
             logger.info("Sending to board...")

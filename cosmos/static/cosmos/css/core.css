@@ -187,7 +187,7 @@ a.article:hover {
 #content {
     width: 100%;
     padding: 20px;
-    height: 100%;
+    height: auto;
     margin-top: 130px;
     /*min-height: 100vh;*/
     transition: all 0.3s;

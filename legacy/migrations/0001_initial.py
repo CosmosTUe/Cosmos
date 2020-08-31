@@ -1009,7 +1009,10 @@ class Migration(migrations.Migration):
             ],
             options={"db_table": "cms_pageuser", "managed": True},
         ),
-        migrations.AlterUniqueTogether(name="cmspage", unique_together={("node", "publisher_is_draft")},),
+        migrations.AlterUniqueTogether(
+            name="cmspage",
+            unique_together={("node", "publisher_is_draft")},
+        ),
         migrations.CreateModel(
             name="CmsAliaspluginmodel",
             fields=[

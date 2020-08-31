@@ -22,7 +22,9 @@ class Migration(migrations.Migration):
             ),
         ),
         migrations.AlterField(
-            model_name="board", name="pretix_organizer_token", field=models.CharField(blank=True, max_length=20),
+            model_name="board",
+            name="pretix_organizer_token",
+            field=models.CharField(blank=True, max_length=20),
         ),
         migrations.AlterField(
             model_name="committee",
@@ -30,7 +32,9 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(blank=True, on_delete=django.db.models.deletion.CASCADE, to="cosmos.Board"),
         ),
         migrations.AlterField(
-            model_name="committee", name="pretix_team_token", field=models.CharField(blank=True, max_length=64),
+            model_name="committee",
+            name="pretix_team_token",
+            field=models.CharField(blank=True, max_length=64),
         ),
         migrations.AlterField(
             model_name="committee",

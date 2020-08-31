@@ -91,7 +91,10 @@ class UserViews(TestCase):
 
         # Create logged in client
         c = Client()
-        login_response = c.login(username="tosti@student.tue.nl", password="ikbeneenbrood",)
+        login_response = c.login(
+            username="tosti@student.tue.nl",
+            password="ikbeneenbrood",
+        )
         self.assertTrue(login_response)
 
         # Attempt POST request

@@ -9,7 +9,7 @@
 }
 
 .board-name {
-    color: rgb(0, 0, 0);
+    color: #eee;
     font-family: Raleway, sans-serif;
 }
 
@@ -20,7 +20,7 @@
 
 .board-member-name {
     text-align: center;
-    color: rgb(0, 0, 0);
+    color: #eee;
     font-family: Raleway, sans-serif;
     font-size: 0.8rem;
 }

@@ -10,8 +10,14 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(model_name="profile", name="terms_confirmed", field=models.BooleanField(default=False),),
         migrations.AddField(
-            model_name="profile", name="subscribed_newsletter", field=models.BooleanField(default=False),
+            model_name="profile",
+            name="terms_confirmed",
+            field=models.BooleanField(default=False),
+        ),
+        migrations.AddField(
+            model_name="profile",
+            name="subscribed_newsletter",
+            field=models.BooleanField(default=False),
         ),
     ]

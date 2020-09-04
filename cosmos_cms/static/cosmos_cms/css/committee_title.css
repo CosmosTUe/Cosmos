@@ -9,3 +9,8 @@
     left: 0px;
     padding-left: calc((100% - 980px) * 0.5);
 }
+
+hr {
+    border-color: white;
+    background-color: white;
+}

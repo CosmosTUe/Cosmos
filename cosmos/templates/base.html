@@ -33,7 +33,7 @@
 
 {% cms_toolbar %}
 {# Top bar #}
-<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+<nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
         {# Toggle sidebar button #}
         <button type="button" id="sidebarCollapse" class="btn btn-outline-light d-inline-block ml-auto"
@@ -84,12 +84,13 @@
     </nav>
 
     {# Content #}
-    <div id="content" class="container-fluid  px-0">
-        {% block content %}{% endblock content %}
+    {% block content %}
+    <div id="content" class="container-md mt-0">
         <ul class="footer">
             {% static_placeholder 'footer' %}
         </ul>
     </div>
+    {% endblock content %}
 
 </div>
 

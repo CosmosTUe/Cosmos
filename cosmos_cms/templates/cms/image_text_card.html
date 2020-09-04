@@ -1,25 +1,23 @@
 <div class="row no-gutters">
     {% if instance.orientation %}
-        <div class="col-sm-6">
-            <img src={{instance.image.url}} class="img-fluid w-100">
+        <div class="col-sm-6 background-image" style="background: url({{instance.image.url}}) no-repeat center; background-size: cover;">
         </div>
-        <div class="col-sm-6 text-center bg-secondary text-light py-2">
+        <div class="col-sm-6 text-center text-light p-3">
             <h2>{{instance.title}}</h2>
-            <p>{{instance.text}}</p>
+            <p>{{instance.text | safe}}</p>
             {% if instance.Button %}
                 <a href="{{instance.ButtonLink}}" role="button" class="btn btn-primary" >{{instance.ButtonText}}</button></a>
             {% endif %}
         </div>
     {% else %}
-        <div class="col-sm-6 text-center bg-secondary text-light py-2">
+        <div class="col-sm-6 text-center text-light p-3">
             <h2>{{instance.title}}</h2>
-            <p>{{instance.text}}</p>
+            <p>{{instance.text | safe}}</p>
             {% if instance.Button %}
                 <a href="{{instance.ButtonLink}}" role="button" class="btn btn-primary">{{instance.ButtonText}}</button></a>
             {% endif %}
         </div>
-        <div class="col-sm-6">
-            <img src={{instance.image.url}} class="img-fluid w-100">
+        <div class="col-sm-6 background-image" style="background: url({{instance.image.url}}) no-repeat center; background-size: cover;">
         </div>
     {% endif %}
 </div>

@@ -30,11 +30,13 @@ class Committee(models.Model):
 
     group = models.OneToOneField(Group, on_delete=models.CASCADE)
     description = models.TextField(blank=True)
-    board = models.ForeignKey(Board, on_delete=models.CASCADE)
-    pretix_team_token = models.CharField(max_length=64)
+    board = models.ForeignKey(Board, on_delete=models.CASCADE, blank=True, null=True)
+    pretix_team_token = models.CharField(max_length=64, blank=True)
 
     photo = models.ImageField(
-        upload_to="committees", default="committees/default.png", validators=[validate_aspect_ratio],
+        upload_to="committees",
+        default="committees/default.png",
+        validators=[validate_aspect_ratio],
     )
 
     @property

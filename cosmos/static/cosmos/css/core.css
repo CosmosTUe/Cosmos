@@ -5,7 +5,11 @@ html {
 body {
     height: 100%;
     font-family: "Poppins", sans-serif;
-    background: #fafafa;
+    background: #dfdfdf;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    color: #eee;
 }
 
 p {
@@ -13,7 +17,6 @@ p {
     font-size: 1.1em;
     font-weight: 300;
     line-height: 1.7em;
-    color: #999;
 }
 
 a,
@@ -26,10 +29,10 @@ a:focus {
 
 .navbar {
     padding: 15px 10px;
-    background: #fff;
+    background: #053d58;
     border: none;
     border-radius: 0;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
     z-index: 888;
 }
@@ -187,23 +190,13 @@ a.article:hover {
 #content {
     width: 100%;
     padding: 20px;
-    height: 100%;
+    height: auto;
     margin-top: 130px;
     /*min-height: 100vh;*/
     transition: all 0.3s;
-    position: absolute;
-    top: 0;
-    right: 0;
 }
 
-
-
-
-/* ---------------------------------------------------
-    WRAPPER STYLE
------------------------------------------------------ */
-.wrapper {
-    margin-top: 130px;
-    height: 100vh;
-    min-height: calc(100vh - 130px);
+#content.dark {
+    background-color: #053d58;
 }
+

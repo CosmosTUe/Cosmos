@@ -33,7 +33,10 @@ class Migration(migrations.Migration):
                 ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
                 ("role", models.CharField(choices=list(enumerate(ROLES)), default="General Member", max_length=20)),
                 ("group", models.OneToOneField(on_delete=models.deletion.CASCADE, to="auth.Group")),
-                ("user", models.OneToOneField(on_delete=models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),),
+                (
+                    "user",
+                    models.OneToOneField(on_delete=models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+                ),
             ],
         ),
         migrations.CreateModel(
@@ -57,7 +60,10 @@ class Migration(migrations.Migration):
                 ("card_number", models.CharField(blank=True, max_length=25)),
                 ("key_access", models.BooleanField(default=False, max_length=3)),
                 ("status", models.CharField(choices=list(zip(STATUSES, STATUSES)), default="Pending", max_length=50)),
-                ("user", models.OneToOneField(on_delete=models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),),
+                (
+                    "user",
+                    models.OneToOneField(on_delete=models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+                ),
             ],
         ),
     ]

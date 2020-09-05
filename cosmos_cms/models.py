@@ -10,7 +10,7 @@ class CommitteeListPluginModel(CMSPlugin):
 
     @property
     def sorted_committees(self):
-        return self.committees.all().order_by("diplay_name")
+        return self.committees.all().order_by("display_name")
 
     def copy_relations(self, oldinstance):
         self.committees.set(oldinstance.committees.all())

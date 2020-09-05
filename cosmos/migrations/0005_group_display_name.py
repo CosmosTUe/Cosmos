@@ -5,8 +5,6 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    replaces = [("cosmos", "0005_committee_board_display_names"), ("cosmos", "0006_auto_20200905_2228")]
-
     dependencies = [
         ("cosmos", "0004_board_commitee_blank_array"),
     ]

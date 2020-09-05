@@ -44,7 +44,6 @@ class ContactPluginModel(CMSPlugin):
 
 class CommitteeSubpageTitlePluginModel(CMSPlugin):
     committee = models.OneToOneField(Committee, on_delete=CASCADE)
-    image = models.ImageField(upload_to="committeeImg", default="img/default.jpg")
 
     def copy_relations(self, old_instance):
         self.committee.set(old_instance.committee.all())

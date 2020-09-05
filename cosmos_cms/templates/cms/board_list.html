@@ -12,7 +12,7 @@
     <div class="col-sm-6">
 
         <img src="{{ board.photo.url }}" class="board-image">
-        <h2 class="text-center board-name">{{ board.name }}</h2>
+        <h2 class="text-center board-name">{{ board.display_name }}</h2>
 
         {% for member in board.members %}
 

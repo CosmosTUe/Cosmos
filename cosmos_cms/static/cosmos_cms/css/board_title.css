@@ -1,0 +1,13 @@
+.board-subpage-title {
+    position: relative;
+}
+
+.board-subpage-title .text {
+    margin: 64px;
+    padding: 64px 0px 28px calc((100% - 980px) * 0.5);
+}
+
+hr {
+    border-color: white;
+    background-color: white;
+}

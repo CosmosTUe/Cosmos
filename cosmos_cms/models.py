@@ -8,6 +8,10 @@ from cosmos.models import Board, Committee
 class CommitteeListPluginModel(CMSPlugin):
     committees = models.ManyToManyField(Committee)
 
+    @property
+    def sorted_committees(self):
+        return self.committees.all().order_by("diplay_name")
+
     def copy_relations(self, oldinstance):
         self.committees.set(oldinstance.committees.all())
 

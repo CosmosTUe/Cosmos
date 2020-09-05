@@ -32,7 +32,7 @@ class Committee(models.Model):
     description = models.TextField(blank=True)
     board = models.ForeignKey(Board, on_delete=models.CASCADE, blank=True, null=True)
     pretix_team_token = models.CharField(max_length=64, blank=True)
-    display_name = models.CharField(max_length=30, blank=False, default="None")
+    display_name = models.CharField(max_length=50, blank=False, default="None")
 
     photo = models.ImageField(
         upload_to="committees", default="committees/default.png", validators=[validate_aspect_ratio],

@@ -33,7 +33,7 @@ class Board(models.Model):
     period_to = models.DateField()
     pretix_organizer_token = models.CharField(max_length=20, blank=True)
     members = ArrayField(models.CharField(max_length=100, blank=True), blank=True, default=list)
-    display_name = models.CharField(max_length=30, blank=False, default="None")
+    display_name = models.CharField(max_length=50, blank=False, default="None")
 
     photo = models.ImageField(upload_to="boards", default="boards/default.jpg", validators=[validate_aspect_ratio],)
 

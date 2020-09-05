@@ -13,7 +13,7 @@
 
     <div class="row committee-row">
 
-    {% for committee in instance.committees.all %}
+    {% for committee in instance.sorted_committees.all %}
 
         {% if forloop.first %} <div class="row committee-row"> {% endif %}
 

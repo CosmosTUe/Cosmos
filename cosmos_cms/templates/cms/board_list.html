@@ -5,7 +5,7 @@
 
 <div>
 
-{% for board in instance.boards.all %}
+{% for board in instance.sorted_boards.all %}
 
     {% if forloop.first %} <div class="row board-row"> {% endif %}
 

@@ -18,6 +18,10 @@ class CommitteeListPluginModel(CMSPlugin):
 class BoardListPluginModel(CMSPlugin):
     boards = models.ManyToManyField(Board)
 
+    @property
+    def sorted_boards(self):
+        return self.boards.all().order_by("-group__name")
+
     def copy_relations(self, oldinstance):
         self.boards.set(oldinstance.boards.all())
 

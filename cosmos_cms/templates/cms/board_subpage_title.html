@@ -2,6 +2,6 @@
 {% block image_src %}{{ instance.board.photo.url }}{% endblock image_src %}
 
 {% block text_content %}
-    <h1>{{ instance.board.name }}</h1>
+    <h1>{{ instance.board.display_name }}</h1>
     <p>{{ instance.board.description }}</p>
 {% endblock text_content %}

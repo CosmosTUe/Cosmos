@@ -43,8 +43,6 @@
         <a class="mr-auto" href="/"><img src="{% static 'cosmos/img/cosmos_white_horizontal.png' %}" height="60px"/></a>
 
         <div class="row align-items-center ml-auto" id="userinfo-navbar">
-            <a class="btn btn-secondary my-2 my-sm-0 mx-1" href="/accounts/login" role="button">Log In</a>
-            <a class="btn btn-secondary my-2 my-sm-0 mx-1" href="/accounts/register" role="button">Sign Up</a>
             {% if user.is_authenticated %}
                 <div class="dropdown mx-1">
                     <button class="btn btn-default" type="button" id="profileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -57,6 +55,9 @@
                         <a class="dropdown-item" href="/accounts/logout">Log Out</a>
                     </div>
                 </div>
+            {% else %}
+            <a class="btn btn-secondary my-2 my-sm-0 mx-1" href="/accounts/login" role="button">Log In</a>
+            <a class="btn btn-secondary my-2 my-sm-0 mx-1" href="/accounts/register" role="button">Sign Up</a>
             {% endif %}
         </div>
     </div>
@@ -73,14 +74,8 @@
         <hr>
         <div class="container">
             <div class="row align-items-center" id="userinfo-sidebar">
+                {% if user.is_authenticated %}
                 <div class="col px-0">
-                    <a class="btn btn-secondary my-2 my-sm-0" href="/accounts/login" role="button">Log In</a>
-                </div>
-                <div class="col px-0">
-                    <a class="btn btn-secondary my-2 my-sm-0" href="/accounts/register" role="button">Sign Up</a>
-                </div>
-                <div class="col px-0">
-                    {% if user.is_authenticated %}
                         <div class="dropdown mx-1">
                             <button class="btn btn-default" type="button" id="profileDropdown2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <img src="{% static "cosmos/img/profile.png" %}" height="38px"/>
@@ -92,8 +87,15 @@
                                 <a class="dropdown-item" href="/accounts/logout">Log Out</a>
                             </div>
                         </div>
-                    {% endif %}
                 </div>
+                {% else %}
+                <div class="col px-0">
+                    <a class="btn btn-secondary my-2 my-sm-0" href="/accounts/login" role="button">Log In</a>
+                </div>
+                <div class="col px-0">
+                    <a class="btn btn-secondary my-2 my-sm-0" href="/accounts/register" role="button">Sign Up</a>
+                </div>
+                {% endif %}
             </div>
         </div>
     </nav>

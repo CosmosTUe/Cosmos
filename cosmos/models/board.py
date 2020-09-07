@@ -35,7 +35,11 @@ class Board(models.Model):
     members = ArrayField(models.CharField(max_length=100, blank=True), blank=True, default=list)
     display_name = models.CharField(max_length=50, blank=False, default="None")
 
-    photo = models.ImageField(upload_to="boards", default="boards/default.jpg", validators=[validate_aspect_ratio],)
+    photo = models.ImageField(
+        upload_to="boards",
+        default="boards/default.jpg",
+        validators=[validate_aspect_ratio],
+    )
 
     @property
     def name(self):

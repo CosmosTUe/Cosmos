@@ -35,7 +35,9 @@ class Committee(models.Model):
     display_name = models.CharField(max_length=50, blank=False, default="None")
 
     photo = models.ImageField(
-        upload_to="committees", default="committees/default.png", validators=[validate_aspect_ratio],
+        upload_to="committees",
+        default="committees/default.png",
+        validators=[validate_aspect_ratio],
     )
 
     @property

@@ -5,11 +5,11 @@ from django.urls import reverse
 from .forms import ContactForm
 from .models import (
     BoardListPluginModel,
+    BoardSubpageTitlePluginModel,
     CommitteeListPluginModel,
+    CommitteeSubpageTitlePluginModel,
     ContactPluginModel,
     TextImagePluginModel,
-    CommitteeSubpageTitlePluginModel,
-    BoardSubpageTitlePluginModel,
 )
 
 MODULE_NAME = "Cosmos"

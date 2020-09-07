@@ -264,3 +264,10 @@ EMAIL_HOST_PASSWORD = secret_settings.secrets["EMAIL"]["PASSWORD"]
 EMAIL_USE_TLS = secret_settings.secrets["EMAIL"]["USE_TLS"]
 
 LOGOUT_REDIRECT_URL = "/"
+
+# Security
+
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+SECURE_REFERRER_POLICY = "same-origin"

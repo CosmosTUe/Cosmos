@@ -47,7 +47,12 @@ class TextImagePluginModel(CMSPlugin):
 
 
 class ContactPluginModel(CMSPlugin):
-    title = models.CharField("title", blank=True, help_text="Optional. Title of the widget.", max_length=64,)
+    title = models.CharField(
+        "title",
+        blank=True,
+        help_text="Optional. Title of the widget.",
+        max_length=64,
+    )
 
 
 class CommitteeSubpageTitlePluginModel(CMSPlugin):

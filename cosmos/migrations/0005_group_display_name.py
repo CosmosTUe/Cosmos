@@ -11,9 +11,13 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AddField(
-            model_name="board", name="display_name", field=models.CharField(default="None", max_length=50),
+            model_name="board",
+            name="display_name",
+            field=models.CharField(default="None", max_length=50),
         ),
         migrations.AddField(
-            model_name="committee", name="display_name", field=models.CharField(default="None", max_length=50),
+            model_name="committee",
+            name="display_name",
+            field=models.CharField(default="None", max_length=50),
         ),
     ]

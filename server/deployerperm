@@ -1,7 +1,0 @@
-## goes in /etc/sudoers.d
-## this is to gives the group 'www-data' permission to start/stop/restart the systemd service that starts the website
-
-
-%www-data ALL=(root) NOPASSWD: /bin/systemctl start   cosmos-website.service
-%www-data ALL=(root) NOPASSWD: /bin/systemctl stop    cosmos-website.service
-%www-data ALL=(root) NOPASSWD: /bin/systemctl restart cosmos-website.service

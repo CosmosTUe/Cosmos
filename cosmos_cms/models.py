@@ -7,6 +7,7 @@ from cosmos.models import Board, Committee
 
 class CommitteeListPluginModel(CMSPlugin):
     committees = models.ManyToManyField(Committee)
+    button = models.BooleanField(default=True, verbose_name="use button")
 
     @property
     def sorted_committees(self):
@@ -47,12 +48,7 @@ class TextImagePluginModel(CMSPlugin):
 
 
 class ContactPluginModel(CMSPlugin):
-    title = models.CharField(
-        "title",
-        blank=True,
-        help_text="Optional. Title of the widget.",
-        max_length=64,
-    )
+    title = models.CharField("title", blank=True, help_text="Optional. Title of the widget.", max_length=64,)
 
 
 class CommitteeSubpageTitlePluginModel(CMSPlugin):

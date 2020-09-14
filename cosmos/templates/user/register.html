@@ -59,7 +59,9 @@
                 {% elif field.field.widget.input_type == "checkbox" %}
                     <label class="form-check {% if field.errors|length > 0 %} is-invalid {% endif %} {% if field.field.required %} required {% endif %}">
                         <input class="form-check-input" type="checkbox" id="{{ field.id_for_label }}" name="{{ field.html_name}}"/>
-                        I agree to the <a id="termsLink" href="#" data-toggle="modal" data-target="#termsModal">terms and conditions</a>.
+                        I agree to
+                        {% if field.html_name == "terms_confirmed" %} the <a id="termsLink" href="#" data-toggle="modal" data-target="#termsModal">terms and conditions</a>.
+                        {% else %}{{ field.label.lower }}{% endif %}
                     </label>
                 {% else %}
                     <input class="form-control {% if field.errors|length > 0 %} is-invalid {% endif %} {% if field.field.required %} required {% endif %}" value="{{ field.value }}" name="{{ field.html_name }}" type="{{ field.field.widget.input_type }}" maxlength="{{ field.maxlength }}" id="{{ field.id_for_label }}" placeholder="{{ field.label }}" data-toggle="tooltip" data-placement="top" data-html="true" title="{{ field.help_text|safe }}">

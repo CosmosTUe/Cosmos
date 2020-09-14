@@ -128,7 +128,14 @@ PIPELINE = {
         },
     },
     "JAVASCRIPT": {
-        "cosmos": {"source_filenames": {"cosmos/js/sidebar.js"}, "output_filename": "cosmos/js/cosmos.js"},
+        "cosmos": {
+            "source_filenames": {
+                "cosmos/js/sidebar.js",
+                "cosmos/js/register.js",
+                "cosmos/js/profile.js",
+            },
+            "output_filename": "cosmos/js/cosmos.js",
+        },
         "cosmos_cms": {
             "source_filenames": {"cosmos_cms/js/contacts.js"},
             "output_filename": "cosmos_cms/js/cosmos_cms.js",

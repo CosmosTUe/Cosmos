@@ -64,7 +64,7 @@ DATABASES = {
     },
 }
 
-DATABASE_ROUTERS = ["legacy.legacy_router.LegacyRouter"]
+DATABASE_ROUTERS = ["apps.legacy.legacy_router.LegacyRouter"]
 
 SILENCED_SYSTEM_CHECKS = ["models.W035"]
 
@@ -219,8 +219,10 @@ INSTALLED_APPS = [
     "django_better_admin_arrayfield",
     "pipeline",
     "cosmos",
-    "cosmos_cms",
-    "legacy",
+    "apps.users",
+    "apps.legacy",
+    "apps.cms_plugins",
+    "apps.events",
 ]
 
 LANGUAGES = (

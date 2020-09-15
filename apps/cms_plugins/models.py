@@ -47,15 +47,6 @@ class TextImagePluginModel(CMSPlugin):
         return "TextImageCard:" + self.title
 
 
-class ContactPluginModel(CMSPlugin):
-    title = models.CharField(
-        "title",
-        blank=True,
-        help_text="Optional. Title of the widget.",
-        max_length=64,
-    )
-
-
 class CommitteeSubpageTitlePluginModel(CMSPlugin):
     committee = models.OneToOneField(Committee, on_delete=CASCADE)
 

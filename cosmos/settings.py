@@ -136,10 +136,6 @@ PIPELINE = {
             },
             "output_filename": "cosmos/js/cosmos.js",
         },
-        "cosmos_cms": {
-            "source_filenames": {"cosmos_cms/js/contacts.js"},
-            "output_filename": "cosmos_cms/js/cosmos_cms.js",
-        },
     },
 }
 

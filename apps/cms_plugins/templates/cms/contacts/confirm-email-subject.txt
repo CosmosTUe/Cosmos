@@ -1,1 +1,0 @@
-Your Question to COSMOS {{ data.board }}: {{ data.subject }}

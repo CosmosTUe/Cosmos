@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("cms_plugins", "0002_auto_20200914_1746"),
+        ("cms_plugins", "0002_initial_fields"),
     ]
 
     operations = [

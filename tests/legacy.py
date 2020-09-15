@@ -6,8 +6,9 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
-from legacy.models import AuthUser, MysiteProfile
-from legacy.tokens import account_import_token
+
+from apps.legacy.models import AuthUser, MysiteProfile
+from apps.legacy.tokens import account_import_token
 
 
 class LegacyTestCase(TestCase):

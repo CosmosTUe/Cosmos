@@ -7,6 +7,7 @@ from apps.users.models import Board, Committee
 
 class CommitteeListPluginModel(CMSPlugin):
     committees = models.ManyToManyField(Committee)
+    button = models.BooleanField(default=True, verbose_name="use button")
 
     @property
     def sorted_committees(self):

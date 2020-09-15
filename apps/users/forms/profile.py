@@ -95,10 +95,11 @@ class ProfileCreateForm(forms.ModelForm):
     """
 
     terms_confirmed = forms.BooleanField(initial=False, required=True)
+    subscribed_newsletter = forms.BooleanField(label="Receive newsletter via email", initial=False, required=False)
 
     class Meta:
         model = Profile
-        fields = ["nationality", "department", "program", "terms_confirmed"]
+        fields = ["nationality", "department", "program", "subscribed_newsletter", "terms_confirmed"]
 
     error_css_class = "error"
     required_css_class = "required"

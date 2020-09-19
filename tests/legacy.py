@@ -7,8 +7,8 @@ from django.utils import timezone
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 
-from legacy.models import AuthUser, MysiteProfile
-from legacy.tokens import account_import_token
+from apps.legacy.models import AuthUser, MysiteProfile
+from apps.legacy.tokens import account_import_token
 
 
 class LegacyTestCase(TestCase):
@@ -30,7 +30,7 @@ class LegacyTestCase(TestCase):
         uidb64 = urlsafe_base64_encode(force_bytes(auth.username))
         token = account_import_token.make_token(auth)
 
-        response = self.client.get(reverse("import_user", args=(uidb64, token)))
+        response = self.client.get(reverse("cosmos_legacy:import_user", args=(uidb64, token)))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
             re.findall(r" value=\"(.*?)\"", str(response.context["user_form"]["username"]))[0], auth.username
@@ -53,7 +53,7 @@ class LegacyTestCase(TestCase):
         uidb64 = urlsafe_base64_encode(force_bytes(auth.username))
         token = account_import_token.make_token(auth)
 
-        response = self.client.get(reverse("import_user", args=(uidb64, token)))
+        response = self.client.get(reverse("cosmos_legacy:import_user", args=(uidb64, token)))
         self.assertContains(response, "Account import link is invalid!")
 
     def test_import_legacy_user(self):
@@ -77,7 +77,7 @@ class LegacyTestCase(TestCase):
         uidb64 = urlsafe_base64_encode(force_bytes(auth.username))
         token = account_import_token.make_token(auth)
 
-        response = self.client.get(reverse("import_user", args=(uidb64, token)))
+        response = self.client.get(reverse("cosmos_legacy:import_user", args=(uidb64, token)))
         self.assertEqual(
             re.findall(r" value=\"(.*?)\"", str(response.context["user_form"]["username"]))[0], auth.username
         )

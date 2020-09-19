@@ -1,0 +1,208 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Your Profile
+{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-md-2">
+        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <a class="nav-link active" id="profile-tab" data-toggle="pill" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Profile</a>
+            <a class="nav-link" id="password-tab" data-toggle="pill" href="#password" role="tab" aria-controls="password" aria-selected="false">Password</a>
+            <a class="nav-link" id="preferences-tab" data-toggle="pill" href="#preferences" role="tab" aria-controls="preferences" aria-selected="false">Preferences</a>
+            <a class="nav-link" id="key-access-tab" data-toggle="pill" href="#key-access" role="tab" aria-controls="key-access" aria-selected="false">Key access</a>
+        </div>
+    </div>
+
+
+    <div class="col-md-6">
+        <div class="tab-content" id="v-pills-tabContent">
+            <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="update">
+
+                    {% if messages %}
+                    <ul>
+                        {% for message in messages %}
+                        <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+
+                    <form method="post" action="{% url "cosmos_users:user_profile" %}">
+                        {% csrf_token %}
+
+                        <h3>Your profile:</h3>
+                        </br>
+
+                        <div class="form-group">
+                            {{ user_form.first_name.label_tag }}
+                            <input class="form-control" type="text" name="first_name" value="{{ user_form.first_name.value }}" maxlength="30" id="id_first_name">
+                        </div>
+
+                        <div class="form-group">
+                            {{ user_form.last_name.label_tag }}
+                            <input class="form-control" type="text" name="last_name" value="{{ user_form.last_name.value }}" maxlength="150" id="id_last_name">
+                        </div>
+
+                        <div class="form-group">
+                            {{ user_form.username.label_tag }}
+                            <input class="form-control" type="email" name="username" value="{{ user_form.username.value }}" maxlength="30" id="id_username">
+                        </div>
+
+                        <div class="form-group">
+                            {{ user_form.email.label_tag }}
+                            <input class="form-control" type="email" name="email" value="{{ user_form.email.value }}" maxlength="30" id="id_email" placeholder="(optional)">
+                        </div>
+
+                        <div class="form-group">
+                        {{ profile_form.nationality.label_tag }}
+                            <select class="form-control" id="{{ profile_form.nationality.id_for_label }}" name="{{ profile_form.nationality.html_name }}">
+                                {% for id, name in profile_form.nationality.field.choices %}
+                                <option value="{{ id }}"{% if profile_form.nationality.value == id %} selected{% endif %}>{{ name }}</option>
+                                {% endfor %}
+                            </select> 
+                        </div>
+
+                        <div class="form-group">
+                        {{ profile_form.department.label_tag }}
+                            <select class="form-control" id="{{ profile_form.department.id_for_label }}" name="{{ profile_form.department.html_name }}">
+                                {% for id, name in profile_form.department.field.choices %}
+                                <option value="{{ id }}"{% if profile_form.department.value == id %} selected{% endif %}>{{ name }}</option>
+                                {% endfor %}
+                            </select> 
+                        </div>
+
+                        <div class="form-group">
+                        {{ profile_form.program.label_tag }}
+                            <select class="form-control" id="{{ profile_form.program.id_for_label }}" name="{{ profile_form.program.html_name }}">
+                                {% for id, name in profile_form.program.field.choices %}
+                                <option value="{{ id }}"{% if profile_form.program.value == id %} selected{% endif %}>{{ name }}</option>
+                                {% endfor %}
+                            </select> 
+                        </div>
+
+                        <div class="form-group">
+                            <button class="btn btn-primary btn-block" type="submit" name="save_profile" value="Save">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+            <div class="tab-pane fade" id="password" role="tabpanel" aria-labelledby="password-tab">
+
+                <div class="update">
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <h3>Change your password:</h3>
+                        </br>
+
+                        <div class="form-group">
+                            <input class="form-control" type="password" name="old_password" autocomplete="current-password" autofocus="" required="" id="id_old_password" placeholder="Current password">
+                        </div>
+
+                        <div class="form-group">
+                            <input class="form-control" type="password" name="new_password1" autocomplete="new-password" required="" id="id_new_password1" placeholder="New password">
+                        </div>
+
+                        <div class="form-group">
+                            <input class="form-control" type="password" name="new_password2" autocomplete="new-password" required="" id="id_new_password2" placeholder="New password confirmation">
+                        </div>
+
+                        <div class="form-group">
+                            <button class="btn btn-primary btn-block" type="submit" name="submit" value="Change password">Change password</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+            <div class="tab-pane fade" id="preferences" role="tabpanel" aria-labelledby="preferences-tab">
+
+                <div class="update">
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <h3>Update your preferences:</h3>
+                        </br>
+
+                        <div class="form-group">
+                            <label class="form-check">
+                                <input class="form-check-input" type="checkbox" name="subscribed_newsletter" id="id_subscribed_newsletter">
+                                Receive newsletter via email
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <button class="btn btn-primary btn-block" type="submit" name="save_preferences" value="save_preferences">Save preferences</button>
+                        </div>
+
+                        <h2>Delete account</h2>
+                        <button class="btn btn-danger btn-block" type="button" data-toggle="modal" data-target="#deleteModal">Delete account</button>
+
+                    </form>
+
+                </div>
+            </div>
+
+
+            <div class="tab-pane fade" id="key-access" role="tabpanel" aria-labelledby="key-access-tab">
+                <div class="update">
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <h3>Update your key access info:</h3>
+                        </br>
+
+                        Key access: {{ user.profile.key_access }}
+                        </br>
+
+                        <div class="form-group">
+                            {{ profile_form.tue_id.label_tag }}
+                            <input class="form-control" type="text" name="tue_id" value="{{ profile_form.tue_id.value }}" maxlength="30" id="id_tue_id" placeholder="(optional)">
+                        </div>
+
+                        <div class="form-group">
+                            {{ profile_form.card_number.label_tag }}
+                            <input class="form-control" type="text" name="card_number" value="{{ profile_form.card_number.value }}" maxlength="30" id="id_card_number" placeholder="(optional)">
+                        </div>
+
+                        <div class="form-group">
+                            <button class="btn btn-primary btn-block" type="submit" name="save_key_access" value="save_key_access">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalTitle">Delete your account</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Lorem ipsum dolor sit amet</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <form method="post" action="{% url 'cosmos_users:user_delete' %}" class="delete">
+                    {% csrf_token %}
+                    <button class="btn btn-danger">Delete</button>
+                </form>   
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

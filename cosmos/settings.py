@@ -64,7 +64,7 @@ DATABASES = {
     },
 }
 
-DATABASE_ROUTERS = ["legacy.legacy_router.LegacyRouter"]
+DATABASE_ROUTERS = ["apps.legacy.legacy_router.LegacyRouter"]
 
 SILENCED_SYSTEM_CHECKS = ["models.W035"]
 
@@ -135,10 +135,6 @@ PIPELINE = {
                 "cosmos/js/profile.js",
             },
             "output_filename": "cosmos/js/cosmos.js",
-        },
-        "cosmos_cms": {
-            "source_filenames": {"cosmos_cms/js/contacts.js"},
-            "output_filename": "cosmos_cms/js/cosmos_cms.js",
         },
     },
 }
@@ -226,8 +222,10 @@ INSTALLED_APPS = [
     "django_better_admin_arrayfield",
     "pipeline",
     "cosmos",
-    "cosmos_cms",
-    "legacy",
+    "apps.users",
+    "apps.legacy",
+    "apps.cms_plugins",
+    "apps.events",
 ]
 
 LANGUAGES = (

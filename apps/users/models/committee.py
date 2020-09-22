@@ -3,6 +3,7 @@ import math
 from django.contrib.auth.models import Group
 from django.core.validators import ValidationError
 from django.db import models
+from djangocms_text_ckeditor.fields import HTMLField
 
 from apps.users.models.board import Board
 
@@ -29,7 +30,7 @@ class Committee(models.Model):
     """
 
     group = models.OneToOneField(Group, on_delete=models.CASCADE)
-    description = models.TextField(blank=True)
+    description = HTMLField(blank=True)
     board = models.ForeignKey(Board, on_delete=models.CASCADE, blank=True, null=True)
     pretix_team_token = models.CharField(max_length=64, blank=True)
     display_name = models.CharField(max_length=50, blank=False, default="None")

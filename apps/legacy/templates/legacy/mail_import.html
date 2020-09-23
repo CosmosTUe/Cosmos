@@ -4,6 +4,6 @@ Hi {{ name }},
 
 Please click on the link to import your old account to the new website,
 
-https://{{ domain }}{% url 'import_user' uidb64=uid token=token %}
+https://{{ domain }}{% url 'cosmos_legacy:import_user' uidb64=uid token=token %}
 
 {% endautoescape %}

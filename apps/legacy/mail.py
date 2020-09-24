@@ -17,4 +17,5 @@ def create_legacy_account_email(profile):
         },
     )
     email = EmailMessage(mail_subject, message, to=[profile.user.username])
+    email.content_subtype = "html"
     return email

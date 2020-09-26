@@ -1,6 +1,7 @@
 from cms.plugin_base import CMSPlugin
 from django.db import models
 from django.db.models import CASCADE
+from djangocms_text_ckeditor.fields import HTMLField
 
 from apps.users.models import Board, Committee
 
@@ -36,7 +37,7 @@ class BoardListPluginModel(CMSPlugin):
 
 class TextImagePluginModel(CMSPlugin):
     title = models.CharField(max_length=50)
-    text = models.CharField(max_length=400)
+    text = HTMLField(blank=True)
     Button = models.BooleanField(default=False, verbose_name="use button")
     ButtonLink = models.URLField(blank=True)
     ButtonText = models.CharField(max_length=20, blank=True)

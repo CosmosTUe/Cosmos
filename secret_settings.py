@@ -27,9 +27,16 @@ secrets = {
             "OPTIONS": {"options": "-c search_path=public"},
         },
     },
+    "EMAIL": {
+        "HOST": "smtp.sendgrid.net",
+        "PORT": 587,
+        "USERNAME": "apikey",
+        "PASSWORD": "fakekey",
+        "USE_TLS": True,
+    },
     # Gmail SMTP Relay
     # https://support.google.com/a/answer/2956491?hl=en
-    "EMAIL": {
+    "EMAIL_GSUITE": {
         "HOST": "smtp-relay.gmail.com",
         "PORT": 587,
         "USERNAME": "noreply@cosmostue.nl",

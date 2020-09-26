@@ -19,6 +19,7 @@ def create_legacy_account_email(profile):
     email = EmailMessage(
         mail_subject,
         message,
+        from_email="noreply@cosmostue.nl",
         to=[profile.user.username],
         headers={"List-Unsubscribe", "mailto:webcom@cosmostue.nl"},
     )

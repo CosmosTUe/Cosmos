@@ -16,6 +16,11 @@ def create_legacy_account_email(profile):
             "token": account_import_token.make_token(profile.user),
         },
     )
-    email = EmailMessage(mail_subject, message, to=[profile.user.username])
+    email = EmailMessage(
+        mail_subject,
+        message,
+        to=[profile.user.username],
+        headers={"List-Unsubscribe", "mailto:webcom@cosmostue.nl"},
+    )
     email.content_subtype = "html"
     return email

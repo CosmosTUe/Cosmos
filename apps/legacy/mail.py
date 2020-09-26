@@ -16,6 +16,6 @@ def create_legacy_account_email(profile):
             "token": account_import_token.make_token(profile.user),
         },
     )
-    email = EmailMessage(mail_subject, message, to=[profile.user.username])
+    email = EmailMessage(mail_subject, message, from_email="noreply@cosmostue.nl", to=[profile.user.username])
     email.content_subtype = "html"
     return email

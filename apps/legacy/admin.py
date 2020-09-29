@@ -1,8 +1,7 @@
 from django.contrib import admin
-from django.core import mail
 
-from apps.legacy.mail import create_legacy_account_email
 from apps.legacy.models import MysiteProfile
+from apps.legacy.tasks import send_migration_emails_task
 
 
 @admin.register(MysiteProfile)
@@ -19,11 +18,7 @@ class LegacyProfileAdmin(admin.ModelAdmin):
     get_username.admin_order_field = "user__username"
 
     def send_migration_email(self, request, queryset):
-        emails = []
-        for profile in queryset:
-            emails.append(create_legacy_account_email(profile))
-        connection = mail.get_connection()
-        connection.send_messages(emails)
+        send_migration_emails_task.delay([u for u in queryset.values_list("id", flat=True)])
         self.message_user(request, f"{len(queryset)} emails sent!")
 
     send_migration_email.short_description = "Send migration email"

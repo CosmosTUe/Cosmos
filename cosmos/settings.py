@@ -221,6 +221,7 @@ INSTALLED_APPS = [
     "djangocms_video",
     "django_better_admin_arrayfield",
     "pipeline",
+    "django_celery_results",
     "cosmos",
     "apps.users",
     "apps.legacy",
@@ -279,3 +280,8 @@ SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
 SECURE_REFERRER_POLICY = "same-origin"
+
+# Celery
+CELERY_BROKER_URL = "amqp://guest:guest@localhost//"
+CELERY_RESULT_BACKEND = "django-db"
+CELERY_CACHE_BACKEND = "django-cache"

@@ -1,3 +1,5 @@
+# This file is used to create new plugins for the CMS
+
 from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
 
@@ -9,13 +11,18 @@ from .models import (
     TextImagePluginModel,
 )
 
+# name used to group custom plugins in plugin picker
 MODULE_NAME = "Cosmos"
 
 
+# register_plugin is necessary for django cms to use the created plugin
 @plugin_pool.register_plugin
 class CommitteeListPluginPublisher(CMSPluginBase):
+    # defines the model used for the plugin
     model = CommitteeListPluginModel
+    # defines the template used by the plugin
     render_template = "cms/committee_list.html"
+    # define if whether the plugin is cachable
     cache = False
     module = MODULE_NAME
     name = "Committee List"

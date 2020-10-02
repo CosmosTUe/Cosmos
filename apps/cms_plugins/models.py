@@ -24,6 +24,8 @@ class CommitteeListPluginModel(CMSPlugin):
 class BoardListPluginModel(CMSPlugin):
     boards = models.ManyToManyField(Board)
 
+    # https://docs.python.org/3/library/functions.html#property
+    # @property is used to return the output of a function as type of variable so that the template can use it
     @property
     def sorted_boards(self):
         return self.boards.all().order_by("-group__name")

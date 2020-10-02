@@ -5,7 +5,7 @@ from . import views
 app_name = "cosmos_users"
 
 urlpatterns = [
-    path("accounts/register/", views.register, name="user_register"),
-    path("accounts/profile/", views.profile, name="user_profile"),
-    path("accounts/delete", views.delete, name="user_delete"),
+    path("register/", views.register, name="user_register"),
+    path("profile/", views.profile, name="user_profile"),
+    path("delete/", views.delete, name="user_delete"),
 ]

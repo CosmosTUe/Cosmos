@@ -49,20 +49,20 @@ class TextImagePluginModel(CMSPlugin):
 
 
 class CommitteeSubpageTitlePluginModel(CMSPlugin):
-    committee = models.OneToOneField(Committee, on_delete=CASCADE)
+    committee = models.ForeignKey(Committee, on_delete=CASCADE)
 
     def copy_relations(self, old_instance):
-        self.committee.set(old_instance.committee.all())
+        self.committee = old_instance.committee
 
     def __str__(self):
         return f"CommitteeSubpage: {self.committee.name}"
 
 
 class BoardSubpageTitlePluginModel(CMSPlugin):
-    board = models.OneToOneField(Board, on_delete=CASCADE)
+    board = models.ForeignKey(Board, on_delete=CASCADE)
 
     def copy_relations(self, old_instance):
-        self.board.set(old_instance.board.all())
+        self.board = old_instance.board
 
     def __str__(self):
         return f"CommitteeSubpage: {self.board.name}"

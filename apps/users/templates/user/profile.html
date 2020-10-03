@@ -132,7 +132,7 @@
 
                         <div class="form-group">
                             <label class="form-check">
-                                <input class="form-check-input" type="checkbox" name="subscribed_newsletter" id="id_subscribed_newsletter">
+                                <input class="form-check-input" type="checkbox" name="subscribed_newsletter" id="id_subscribed_newsletter" {% if user.profile.subscribed_newsletter %}checked{% endif %}>
                                 Receive newsletter via email
                             </label>
                         </div>

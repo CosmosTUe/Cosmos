@@ -63,7 +63,7 @@ a:focus {
     padding: 20px;
     height: 100vh;
     z-index: 999;
-    background: #4CB9EE;
+    background: #042e3f;
     color: #fff;
     transition: all 0.3s;
     overflow-y: scroll;
@@ -79,7 +79,7 @@ a:focus {
     height: 35px;
     line-height: 35px;
     text-align: center;
-    background: #7386D5;
+    background: #075472;
     position: absolute;
     top: 10px;
     right: 10px;
@@ -87,6 +87,7 @@ a:focus {
     -webkit-transition: all 0.3s;
     -o-transition: all 0.3s;
     transition: all 0.3s;
+    border-radius: .25rem;
 }
 
 #dismiss:hover {
@@ -198,6 +199,16 @@ a.article:hover {
     }
 }
 
+.sidebar-button {
+    background-color: #075472;
+    border-color: #075472;
+}
+
+.sidebar-button:hover {
+    background-color: #FFFFFF;
+    border-color: #FFFFFF;
+}
+
 /* ---------------------------------------------------
     CONTENT STYLE
 ----------------------------------------------------- */
@@ -214,4 +225,3 @@ a.article:hover {
 #content.dark {
     background-color: #053d58;
 }
-

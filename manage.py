@@ -5,7 +5,6 @@ import sys
 
 
 def main():
-    """Main entry function to manage django for development purposes."""
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "cosmos.settings")
     try:
         from django.core.management import execute_from_command_line

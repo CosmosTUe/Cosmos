@@ -2,20 +2,43 @@ name: Test
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
+      - development
   pull_request:
-    branches: [ master ]
+    branches:
+      - master
+      - development
 
 jobs:
-  build:
+  tox:
+
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: 2020123
+          POSTGRES_USER: github_actions
+        ports:
+          - 5432:5432
+        options: --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=5 --name postgres
+
+    strategy:
+      matrix:
+          python: [3.6, 3.7, 3.8]
+
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.8'
+          python-version: ${{ matrix.python }}
       - name: Install Tox and any other packages
         run: pip install Tox
+      - name: Move secrets
+        run: mv tests/secrets.json.template tests/secrets.json
       - name: Run Tox
+        env:
+          CI: test
         run: tox -e py

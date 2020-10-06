@@ -2,12 +2,16 @@ name: Lint
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
+      - development
   pull_request:
-    branches: [ master ]
+    branches:
+      - master
+      - development
 
 jobs:
-  black:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -15,17 +19,9 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: '3.8'
-      - name: Run black
-        uses: psf/black@fcf97961061982656a1384ecc1628e217a52a88c # upstream broke stable, change back to stable when bug has been patched
-  flake8:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.8'
+      - name: Install requirements
+        run: pip install -r requirements.txt  
       - name: Set up Flake8
-        run: pip install flake8 flake8-django pep8-naming flake8-isort
+        run: pip install flake8 flake8-django pep8-naming
       - name: Run flake8
         run: flake8 .

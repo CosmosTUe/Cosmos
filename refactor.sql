@@ -1,0 +1,14 @@
+ALTER TABLE cosmos_profile RENAME TO users_profile;
+ALTER TABLE cosmos_groupmember RENAME TO users_groupmember;
+ALTER TABLE cosmos_board RENAME TO users_board;
+ALTER TABLE cosmos_committee RENAME TO users_committee;
+
+ALTER TABLE cosmos_cms_boardlistpluginmodel RENAME TO cms_plugins_boardlistpluginmodel;
+ALTER TABLE cosmos_cms_boardlistpluginmodel_boards RENAME TO cms_plugins_boardlistpluginmodel_boards;
+ALTER TABLE cosmos_cms_boardsubpagetitlepluginmodel RENAME TO cms_plugins_boardsubpagetitlepluginmodel;
+
+ALTER TABLE cosmos_cms_committeelistpluginmodel RENAME TO cms_plugins_committeelistpluginmodel;
+ALTER TABLE cosmos_cms_committeelistpluginmodel_committees RENAME TO cms_plugins_committeelistpluginmodel_committees;
+ALTER TABLE cosmos_cms_committeesubpagetitlepluginmodel RENAME TO cms_plugins_committeesubpagetitlepluginmodel;
+
+ALTER TABLE cosmos_cms_textimagepluginmodel RENAME TO cms_plugins_textimagepluginmodel;

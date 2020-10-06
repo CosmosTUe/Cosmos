@@ -9,3 +9,11 @@
 __pycache__
 db.sqlite3
 media
+
+# PyCharm
+.idea/
+
+UNKNOWN.egg-info/
+
+/static
+/node_modules/

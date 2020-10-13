@@ -180,6 +180,11 @@ MIDDLEWARE = [
 ]
 
 INSTALLED_APPS = [
+    "cosmos",
+    "apps.users",
+    "apps.legacy",
+    "apps.cms_plugins",
+    "apps.events",
     "djangocms_admin_style",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -222,11 +227,6 @@ INSTALLED_APPS = [
     "django_better_admin_arrayfield",
     "pipeline",
     "django_celery_results",
-    "cosmos",
-    "apps.users",
-    "apps.legacy",
-    "apps.cms_plugins",
-    "apps.events",
 ]
 
 LANGUAGES = (

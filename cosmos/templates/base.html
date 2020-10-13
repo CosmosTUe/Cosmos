@@ -70,8 +70,9 @@
             <i class="fas fa-arrow-left"></i>
         </div>
         <a href="/"><img src="{% static 'cosmos/img/cosmos_white_horizontal.png' %}" height="60px"/></a>
-        {% static_placeholder 'sidebar-header' %}
         <hr>
+        {% static_placeholder 'sidebar-header' %}
+        
         <div class="container">
             <div class="row align-items-center" id="userinfo-sidebar">
                 {% if user.is_authenticated %}

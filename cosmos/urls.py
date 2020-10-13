@@ -13,11 +13,12 @@ from django.views.static import serve
 admin.autodiscover()
 
 urlpatterns = [
-    path("", include("apps.users.urls")),
-    path("", include("apps.legacy.urls")),
-    re_path(r"^sitemap\.xml$", sitemap, {"sitemaps": {"cmspages": CMSSitemap}}),
     path("admin/", admin.site.urls),
+    path("accounts/", include("django.contrib.auth.urls")),
+    path("accounts/", include("apps.users.urls")),
+    path("accounts/", include("apps.legacy.urls")),
     path("", include("cms.urls")),
+    re_path(r"^sitemap\.xml$", sitemap, {"sitemaps": {"cmspages": CMSSitemap}}),
 ]
 
 # This is only needed when using runserver.

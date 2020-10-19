@@ -5,11 +5,21 @@ from djangocms_text_ckeditor.fields import HTMLField
 
 from apps.users.models import Board, Committee
 
+# These are the models that are used for the cms plugins to store any configuration
+# CMSPlugin is a child of the django model class and functions similarly to django models
+# When publishing a page, a copy of the current instance is made, which does not transfer external relationships,
+# therefore a copy_relations function must be added to copy over any ForeignKey, ManyToOne, or ManyToMany relations
+# to the new instance.
+# http://docs.django-cms.org/en/latest/how_to/custom_plugins.html#storing-configuration
+# http://docs.django-cms.org/en/latest/how_to/custom_plugins.html#handling-relations
+
 
 class CommitteeListPluginModel(CMSPlugin):
     committees = models.ManyToManyField(Committee)
     button = models.BooleanField(default=True, verbose_name="use button")
 
+    # @property is used to return the output of a function as type of variable so it can be used in the template
+    # https://docs.python.org/3/library/functions.html#property
     @property
     def sorted_committees(self):
         return self.committees.all().order_by("display_name")
@@ -24,8 +34,8 @@ class CommitteeListPluginModel(CMSPlugin):
 class BoardListPluginModel(CMSPlugin):
     boards = models.ManyToManyField(Board)
 
+    # @property is used to return the output of a function as type of variable so it can be used in the template
     # https://docs.python.org/3/library/functions.html#property
-    # @property is used to return the output of a function as type of variable so that the template can use it
     @property
     def sorted_boards(self):
         return self.boards.all().order_by("-group__name")

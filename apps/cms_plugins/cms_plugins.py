@@ -12,6 +12,15 @@ from .models import (
 MODULE_NAME = "Cosmos"
 
 
+# Here the django cms plugins are defined and registered.
+# (Almost) every plugin will need a model associated with it to store the information needed
+# The render template is the html file that this plugin uses
+# Currently no caching is used on the website so it is disabled (enabled by default)
+# Caching cannot be applied to plugins that are dynamic on the current user or other dynamic properties of the request
+# http://docs.django-cms.org/en/latest/how_to/custom_plugins.html
+# http://docs.django-cms.org/en/latest/how_to/caching.html
+
+
 @plugin_pool.register_plugin
 class CommitteeListPluginPublisher(CMSPluginBase):
     model = CommitteeListPluginModel

@@ -11,21 +11,25 @@
 
     <div class="col-sm-6">
 
-        <img src="{{ board.photo.url }}" class="board-image">
-        <h2 class="text-center board-name">{{ board.display_name }}</h2>
+        <a href="/boards/{{ board.slug }}/">
 
-        {% for member in board.members %}
+            <img src="{{ board.photo.url }}" class="board-image">
+            <h2 class="text-center board-name">{{ board.display_name }}</h2>
 
-            {% if forloop.first %} <div class="row board-member-row"> {% endif %}
+            {% for member in board.members %}
 
-                <div class="col-sm-6">
-                    <span class="board-member-name"> {{ member }} </span>
-                </div>
+                {% if forloop.first %} <div class="row board-member-row"> {% endif %}
 
-            {% if forloop.counter|divisibleby:2 %} </div> <div class="row board-member-row"> {% endif %}
-            {% if forloop.last %} </div> {% endif %}
+                    <div class="col-sm-6">
+                        <span class="board-member-name"> {{ member }} </span>
+                    </div>
 
-        {% endfor %}
+                {% if forloop.counter|divisibleby:2 %} </div> <div class="row board-member-row"> {% endif %}
+                {% if forloop.last %} </div> {% endif %}
+
+            {% endfor %}
+
+        </a>
 
     </div>
 

@@ -1,0 +1,27 @@
+name: Format
+
+on:
+  push:
+    branches:
+      - master
+      - development
+  pull_request:
+    branches:
+      - master
+      - development
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+      - name: Run black
+        uses: psf/black@fcf97961061982656a1384ecc1628e217a52a88c # upstream broke stable, change back to stable when bug has been patched
+      - name: Set up isort
+        run: pip install isort
+      - name: Run isort
+        run: isort **/*.py -c

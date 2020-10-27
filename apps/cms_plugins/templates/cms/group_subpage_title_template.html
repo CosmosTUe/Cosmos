@@ -1,0 +1,15 @@
+{% load sekizai_tags %}
+{% load pipeline %}
+
+{% addtoblock "css" %} {% stylesheet "cosmos_cms" %} {% endaddtoblock %}
+
+<div class="row align-items-center">
+    <div class="col-sm-6">
+        <img src="{% block image_src %}{% endblock image_src %}" class="img-fluid w-100">
+    </div>
+    <div class="col-sm-6 text-center text-light">
+        {% block text_content %}{% endblock text_content %}
+    </div>
+</div>
+
+<hr class="divider my-4" />

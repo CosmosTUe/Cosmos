@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+    Create User
+{% endblock %}
+
+{% block content %}
+
+<div class="register">
+
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="post" action="{% url 'cosmos_users:user_register' %}" novalidate>
+        {% csrf_token %}
+
+        <div class="mb-5">
+            <img src="{% static "cosmos/img/cosmos_white_horizontal.png" %}" class="img-fluid mx-auto d-block" alt="Cosmos logo">
+        </div>
+
+        {% if user_form.non_field_errors|length > 0 or profile_form.non_field_errors|length > 0 %}
+            <div class="alert alert-danger">
+                {{ user_form.non_field_errors }}
+                {{ profile_form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        {% for field in user_form %}
+
+            <div class="form-group">
+                <input class="form-control {% if field.errors|length > 0 %} is-invalid {% endif %} {% if field.field.required %} required {% endif %}" value="{{ field.value }}" name="{{ field.html_name }}" type="{{ field.field.widget.input_type }}" maxlength="{{ field.max_length }}" id="{{ field.id_for_label}}" placeholder="{{ field.label }}" data-toggle="tooltip" data-placement="top" data-html="true" title="{{ field.help_text|safe }}">
+                <div class="invalid-feedback">
+                    <ul>
+                    {% for error in field.errors %}
+                        <li> {{error}} </li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+        {% endfor %}
+
+        {% for field in profile_form %}
+
+            <div class="form-group">
+                {% if field.field.widget.input_type == "select" %}
+                    <select class="form-control {% if field.errors|length > 0 %} is-invalid {% endif %} {% if field.field.required %} required {% endif %}" id="{{ field.id_for_label }}" name="{{ field.html_name }}" data-toggle="tooltip" data-placement="top" data-html="true" title="{{ field.help_text|safe }}">
+                    {% for id, name in field.field.choices %}
+                        <option value="{{ id }}"{% if field.value == id %} selected{% endif %}>{{ name }}</option>
+                    {% endfor %}
+                    </select> 
+                {% elif field.field.widget.input_type == "checkbox" %}
+                    <label class="form-check {% if field.errors|length > 0 %} is-invalid {% endif %} {% if field.field.required %} required {% endif %}">
+                        <input class="form-check-input" type="checkbox" id="{{ field.id_for_label }}" name="{{ field.html_name}}"/>
+                        I agree to
+                        {% if field.html_name == "terms_confirmed" %} the <a id="termsLink" href="#" data-toggle="modal" data-target="#termsModal">terms and conditions</a>.
+                        {% else %}{{ field.label.lower }}{% endif %}
+                    </label>
+                {% else %}
+                    <input class="form-control {% if field.errors|length > 0 %} is-invalid {% endif %} {% if field.field.required %} required {% endif %}" value="{{ field.value }}" name="{{ field.html_name }}" type="{{ field.field.widget.input_type }}" maxlength="{{ field.maxlength }}" id="{{ field.id_for_label }}" placeholder="{{ field.label }}" data-toggle="tooltip" data-placement="top" data-html="true" title="{{ field.help_text|safe }}">
+                {% endif %}
+                <div class="invalid-feedback">
+                    <ul>
+                    {% for error in field.errors %}
+                        <li> {{error}} </li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+        {% endfor %}
+
+        <div class="form-group">
+            <button class="btn btn-primary btn-block" background-color="#90cad5" type="submit" name="submit" value="Register">Register</button>
+        </div>
+    </form>
+</div>
+
+<div class="modal fade" id="termsModal" tabindex="-1" role="dialog" aria-labelledby="termsModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="termsModalTitle">Terms and Conditions</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p> <b>Introduction</b> </p>
+                <p>Welcome to the Cosmos Website.</p>
+                <p>These Terms of Use govern your use of our website and provide information about the services included therein. When you register for Cosmos or use the website, you agree to these terms.</p>
+                <p>The Cosmos Website is part of the Cosmos Digital Footprint, provided by Cosmos (association with full legal capacity). These Terms of Use therefore constitute an agreement between you and Cosmos.</p>
+
+                <p> <b>Our Service</b> </p>
+                <p>The Service allows you to access information about the Cosmos association and events, as well as sign up for said events through a registered account. In the case of some events, the Service allows you to pay for entry tickets.</p>
+                
+                <p>Who may use the Service?</p>
+                <p>Age Requirements</p>
+                <p>You may use this service if you are at least 13 years old and have parent or legal guardian’s permission if under 18. If you are under 18, please have your parent or legal guardian read this Agreement with you.</p>
+                <p>If you are a parent or legal guardian of a user under the age of 18, by allowing your child to use the Service, you are subject to the terms of this Agreement and responsible for your child’s activity on the Service.</p>
+
+                <p> <b>Your Use of the Service</b> </p>
+                <p>Content on the Service</p>
+                <p>The content on the Service includes videos, graphics, photos, text (such as comments and scripts), branding (including trade names, trademarks, service marks, or logos), interactive features, software, and other materials (collectively, "Content”).</p>
+
+                <p> <b>Cosmos Accounts</b> </p>
+                <p>You can use parts of the Service, such as accessing information on the association and information on events, without registering as a Cosmos member. However, you do need a Cosmos account to use some features. Through a Cosmos account, you may be able to sign up for events and pay for entry tickets.</p>
+                <p>To protect your account, keep your password confidential. You should not reuse your Cosmos account password on third-party applications.</p>
+                <p>In order to make a Cosmos account, and therefore registering as a member of Cosmos, you must either be affiliated with TU Eindhoven or an educational center that has entered an agreement with Cosmos. If this is not the case or if you have any doubts, feel free to reach out to us through the methods outlined in the homepage of the website.</p>
+
+                <p> <b>Your Information</b> </p>
+                <p> <b>Things you provide to us</b> </p>
+                <p>When you create a Cosmos Account, you provide us with personal information that includes your name, educational institution email, and a password.</p>
+
+                <p> <b>Your activity</b> </p>
+                <p>We collect information about your activity in our Service. The activity information we collect includes:</p>
+                <ul>
+                    <li> <p>Events you sign up for</p> </li>
+                </ul>
+
+                <p> <b>Privacy Controls</b> </p>
+                <p>Under the General Data Protection Regulation, you have the right to access, rectify, port and erase your data we hold.</p>
+
+                <p> <b>When Cosmos shares your information</b> </p>
+                <p>We do not share your personal information with companies, organizations, or individuals outside of Cosmos except in the following case:</p>
+
+                <p> <b>For legal reasons</b> </p>
+                <p>We will share personal information outside of Cosmos if we have a good-faith belief that access, use, preservation, or disclosure of the information is reasonably necessary to:</p>
+                <ul>
+                    <li> <p>Meet any applicable law, regulation, legal process, or enforceable governmental request. We share information about the number and type of requests we receive from governments in our Transparency Report.</p> </li>
+                    <li> <p>Enforce applicable Terms of Service, including investigation of potential violations.</p> </li>
+                    <li> <p>Detect, prevent, or otherwise address fraud, security, or technical issues.</p> </li>
+                    <li> <p>Protect against harm to the rights, property or safety of Cosmos, our users, or the public as required or permitted by law.</p> </li>
+                </ul>
+                <p>We also allow specific partners to collect information from your browser or device for advertising and measurement purposes using their own cookies or similar technologies.</p>
+                <p>If Cosmos is involved in a merger, we’ll continue to ensure the confidentiality of your personal information and give affected users notice before personal information is transferred or becomes subject to a different privacy policy.</p>
+
+                <p> <b>For external processing</b> </p>
+                <p>We may share non-personally identifiable information publicly and with our partners — like TU Eindhoven and advertisers. For example, we may provide TU Eindhoven with the number of people from differing countries of origin or provide sponsors with membership figures.</p>
+                <p>This information is shared in compliance with our Privacy Policy and any other appropriate confidentiality and security measures. This information is provided on request and anonymously.</p>
+
+                <p> <b>Respect Others</b> </p>
+                <p>Our service allows you to interact with others. As we wish to maintain a respectful environment for everyone, you must follow the following rules of conduct:</p>
+                <p>Don’t abuse or harm others or yourself (or threaten or encourage such abuse or harm) — for example, by misleading, defrauding, defaming, bullying, harassing, or stalking others</p>
+                <p>Don’t abuse, harm, interfere with, or disrupt the Service</p>
+                <p>Members of Cosmos are subject to additional rules of conduct, as can be read in the Cosmos Statutes.</p>
+
+                <p> <b>About these terms</b> </p>
+                <p>If you don’t follow these terms and we don’t take action right away, that doesn’t mean we’re giving up any rights that we may have, such as taking action in the future.</p>
+                <p>We may change our Service and policies, and we may need to make changes to these Terms so that they accurately reflect our Service and policies. Unless otherwise required by law, we will notify you (for example, through our Service) at least 30 days before we make changes to these Terms and give you an opportunity to review them before they go into effect. Then, if you continue to use the Service, you will be bound by the updated Terms.</p>
+                <p>Last updated: 6 October 2020</p>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

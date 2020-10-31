@@ -9,7 +9,7 @@ from apps.users.models.user.constants import DEPARTMENTS, NATIONALITIES, PROGRAM
 class Profile(models.Model):
     """
     Extension of Django User model to store extra data of users.
-    Fields from Django user model are to be interpretted as follows:
+    Fields from Django user model are to be interpreted as follows:
 
     - `username`: TU/e email of the user; ensures uniqueness; mandatory
     - `email`: personal email of the user (Optional)

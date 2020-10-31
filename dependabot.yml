@@ -5,10 +5,12 @@ update_configs:
     target_branch: "staging"
     update_schedule: "weekly"
     default_labels:
-    - "update"
+    - "dependencies"
+    - "dependabot"
   - package_manager: "javascript"
     directory: "/"
     target_branch: "staging"
     update_schedule: "weekly"
     default_labels:
-    - "update"
+    - "dependencies"
+    - "dependabot"

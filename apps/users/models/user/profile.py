@@ -3,7 +3,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from apps.users.models.user.constants import DEPARTMENTS, NATIONALITIES, PROGRAMS, STATUSES
+from apps.users.models.user.constants import DEPARTMENTS, NATIONALITIES, PROGRAMS
 
 
 class Profile(models.Model):
@@ -31,7 +31,6 @@ class Profile(models.Model):
     tue_id = models.CharField(verbose_name="TU/e Number", blank=True, max_length=25)
     card_number = models.CharField(max_length=25, blank=True)
     key_access = models.BooleanField(max_length=3, default=False)
-    status = models.CharField(max_length=50, default="Pending", choices=list(zip(STATUSES, STATUSES)))
     terms_confirmed = models.BooleanField(default=False)
     subscribed_newsletter = models.BooleanField(default=False)
 

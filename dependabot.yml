@@ -1,0 +1,14 @@
+version: 1
+update_configs:
+  - package_manager: "python"
+    directory: "/"
+    target_branch: "staging"
+    update_schedule: "weekly"
+    default_labels:
+    - "update"
+  - package_manager: "javascript"
+    directory: "/"
+    target_branch: "staging"
+    update_schedule: "weekly"
+    default_labels:
+    - "update"

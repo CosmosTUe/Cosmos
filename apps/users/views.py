@@ -8,6 +8,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 
 from apps.users.forms import MemberCreateForm, MemberUpdateForm, ProfileCreateForm, ProfileUpdateForm
+from apps.users.newsletter import add_subscription, remove_subscription
 
 
 def register(request):
@@ -19,13 +20,20 @@ def register(request):
     """
     if request.method == "POST":
         user_form = MemberCreateForm(request.POST)
+
         if user_form.is_valid():
             user = user_form.save()
             user.refresh_from_db()  # load the profile instance created by the signal
             profile_form = ProfileCreateForm(request.POST, instance=user.profile)
+
             if profile_form.is_valid():
                 user.profile = profile_form.save(user)
                 messages.success(request, "Account created successfully")
+
+                # Subscribe user to newsletter when consented
+                if profile_form.cleaned_data.get("subscribed_newsletter"):
+                    add_subscription(user.profile)
+
                 # Log in automatically
                 raw_password = user_form.cleaned_data.get("password1")
                 user = authenticate(username=user.username, password=raw_password)
@@ -73,6 +81,13 @@ def profile(request):
         elif "save_preferences" in request.POST:
             if profile_form.is_valid():
                 profile_form.save()
+
+                # Subscribe user to newsletter when consented
+                if profile_form.cleaned_data.get("subscribed_newsletter"):
+                    add_subscription(request.user.profile)
+                else:
+                    remove_subscription(request.user.profile)
+
                 messages.success(request, "Your preferences were succesfully updated!")
                 return redirect(request("user_profile") + "#preferences")
         elif "save_key_access" in request.POST:
@@ -102,5 +117,7 @@ def profile(request):
 @login_required
 def delete(request):
     if request.method == "POST":
+        # Remove newsletter subscription before deleting the user
+        remove_subscription(request.user.profile)
         User.objects.get(username=request.user.username).delete()
     return redirect("/")

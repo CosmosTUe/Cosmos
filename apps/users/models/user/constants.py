@@ -215,5 +215,3 @@ PROGRAMS = [
     "Exchange",
     "Other",
 ]
-
-STATUSES = ["Member", "Pending", "Rejected"]

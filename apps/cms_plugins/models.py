@@ -18,8 +18,6 @@ class CommitteeListPluginModel(CMSPlugin):
     committees = models.ManyToManyField(Committee)
     button = models.BooleanField(default=True, verbose_name="use button")
 
-    # @property is used to return the output of a function as type of variable so it can be used in the template
-    # https://docs.python.org/3/library/functions.html#property
     @property
     def sorted_committees(self):
         return self.committees.all().order_by("display_name")
@@ -34,8 +32,6 @@ class CommitteeListPluginModel(CMSPlugin):
 class BoardListPluginModel(CMSPlugin):
     boards = models.ManyToManyField(Board)
 
-    # @property is used to return the output of a function as type of variable so it can be used in the template
-    # https://docs.python.org/3/library/functions.html#property
     @property
     def sorted_boards(self):
         return self.boards.all().order_by("-group__name")

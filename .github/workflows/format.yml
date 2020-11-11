@@ -4,11 +4,11 @@ on:
   push:
     branches:
       - master
-      - development
+      - staging
   pull_request:
     branches:
       - master
-      - development
+      - staging
 
 jobs:
   format:

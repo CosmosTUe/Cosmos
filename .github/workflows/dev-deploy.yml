@@ -1,7 +1,7 @@
 name: deploy to server
 on:
   push:
-    branches: [ development ]
+    branches: [ staging ]
     
 jobs:
   deploy:

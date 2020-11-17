@@ -30,6 +30,7 @@ class UserForms(TestCase):
                 "department": "Sustainable Innovation",
                 "program": "Other",
                 "terms_confirmed": True,
+                "newsletter_recipient": "TUE",
             },
         )
         self.assertTrue(profile_form.is_valid())
@@ -85,7 +86,12 @@ class UserForms(TestCase):
 
         profile_form = ProfileUpdateForm(
             instance=user.profile,
-            data={"nationality": "German", "department": "Sustainable Innovation", "program": "Other"},
+            data={
+                "nationality": "German",
+                "department": "Sustainable Innovation",
+                "program": "Other",
+                "newsletter_recipient": "TUE",
+            },
         )
         self.assertTrue(profile_form.is_valid())
         # Save for further tests

@@ -8,7 +8,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 
 from apps.users.forms import MemberCreateForm, MemberUpdateForm, ProfileCreateForm, ProfileUpdateForm
-from apps.users.newsletter import add_subscription, remove_subscription
+from apps.users.newsletter import remove_subscription
 
 
 def register(request):
@@ -30,10 +30,6 @@ def register(request):
                 user.profile = profile_form.save(user)
                 messages.success(request, "Account created successfully")
 
-                # Subscribe user to newsletter when consented
-                if profile_form.cleaned_data.get("subscribed_newsletter"):
-                    add_subscription(user.profile)
-
                 # Log in automatically
                 raw_password = user_form.cleaned_data.get("password1")
                 user = authenticate(username=user.username, password=raw_password)
@@ -51,7 +47,7 @@ def register(request):
 
 @login_required
 @transaction.atomic
-def profile(request):
+def process_profile_form(request):
     """
     Process User profile form.
 
@@ -62,7 +58,6 @@ def profile(request):
     :return:
     """
     if request.method == "POST":
-
         user_form = MemberUpdateForm(data=request.POST, instance=request.user)
         profile_form = ProfileUpdateForm(data=request.POST, instance=request.user.profile)
         password_form = PasswordChangeForm(data=request.POST, user=request.user)
@@ -81,13 +76,6 @@ def profile(request):
         elif "save_preferences" in request.POST:
             if profile_form.is_valid():
                 profile_form.save()
-
-                # Subscribe user to newsletter when consented
-                if profile_form.cleaned_data.get("subscribed_newsletter"):
-                    add_subscription(request.user.profile)
-                else:
-                    remove_subscription(request.user.profile)
-
                 messages.success(request, "Your preferences were succesfully updated!")
                 return redirect(request("user_profile") + "#preferences")
         elif "save_key_access" in request.POST:
@@ -118,6 +106,7 @@ def profile(request):
 def delete(request):
     if request.method == "POST":
         # Remove newsletter subscription before deleting the user
-        remove_subscription(request.user.profile)
+        remove_subscription(request.user.username)
+        remove_subscription(request.user.email)
         User.objects.get(username=request.user.username).delete()
     return redirect("/")

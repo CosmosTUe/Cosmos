@@ -22,6 +22,7 @@ class UserViews(TestCase):
                 "department": "Sustainable Innovation",
                 "program": "Other",
                 "terms_confirmed": True,
+                "newsletter_recipient": "TUE",
             },
         )
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
@@ -57,6 +58,7 @@ class UserViews(TestCase):
                 "department": "Sustainable Innovation",
                 "program": "Other",
                 "terms_confirmed": True,
+                "newsletter_recipient": "TUE",
             },
         )
         self.assertEqual(response.status_code, HTTPStatus.OK)
@@ -108,7 +110,11 @@ class UserViews(TestCase):
                 "nationality": "German",
                 "department": "Sustainable Innovation",
                 "program": "Other",
+                "newsletter_recipient": "TUE",
             },
         )
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
         self.assertEqual(response.url, "/")
+
+
+# TODO add newsletter preference tests

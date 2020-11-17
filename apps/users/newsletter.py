@@ -14,28 +14,14 @@ import json
 
 import sendgrid
 
-from apps.users.models import Profile
+from apps.users.models.user.profile import state_prefix, Profile
 from cosmos import settings
 
 sg = sendgrid.SendGridAPIClient(api_key=settings.EMAIL_HOST_PASSWORD)
 
 
-# TODO consider removing from newsletter list, not from contacts
-def __get_list_id(list_name):
-    # https://sendgrid.api-docs.io/v3.0/lists/get-all-lists
-    response = sg.client.marketing.lists.get()
-    data = json.loads(response.body.decode("utf-8"))
-    return data["result"][0]["id"]
-
-
-__newsletter_id = __get_list_id("Newsletter")
-
-
-def is_subscribed(email):
+def is_subscribed(email: str):
     # https://sendgrid.api-docs.io/v3.0/contacts/search-contacts
-    # TODO consider removing from newsletter list, not from contacts
-    # response = sg.client.marketing.contacts.search.post(request_body={
-    #     "query": f"email LIKE '{email}%%' AND CONTAINS(list_ids, '{__newsletter_id}')"})
     response = sg.client.marketing.contacts.search.post(request_body={"query": f"email LIKE '{email}%%'"})
     data = json.loads(response.body.decode("utf-8"))
     matches = data["contact_count"]
@@ -46,9 +32,9 @@ def is_subscribed(email):
     return matches == 1
 
 
-def __get_user_id(profile: Profile):
+def __get_user_id(email: str):
     # https://sendgrid.api-docs.io/v3.0/contacts/search-contacts
-    response = sg.client.marketing.contacts.search.post(request_body={"query": f"email LIKE '{profile.username}'"})
+    response = sg.client.marketing.contacts.search.post(request_body={"query": f"email LIKE '{email}'"})
     data = json.loads(response.body.decode("utf-8"))
     if data["contact_count"] == 0:
         return None
@@ -60,12 +46,16 @@ def __get_user_id(profile: Profile):
     return data["result"][0]["id"]
 
 
-def add_subscription(profile: Profile):
+def add_subscription(email: str, first_name: str, last_name: str):
     # https://sendgrid.api-docs.io/v3.0/contacts/add-or-update-a-contact
     response = sg.client.marketing.contacts.put(
         request_body={
             "contacts": [
-                {"email": profile.username, "first_name": profile.user.first_name, "last_name": profile.user.last_name}
+                {
+                    "email": email,
+                    "first_name": first_name,
+                    "last_name": last_name,
+                }
             ]
         }
     )
@@ -74,8 +64,39 @@ def add_subscription(profile: Profile):
     return response.status_code == 202
 
 
-def remove_subscription(profile: Profile):
+def remove_subscription(email: str):
     # https://sendgrid.api-docs.io/v3.0/contacts/delete-contacts
-    response = sg.client.marketing.contacts.delete(query_params={"ids": __get_user_id(profile)})
+    response = sg.client.marketing.contacts.delete(query_params={"ids": __get_user_id(email)})
     # return whether removal was successful
     return response.status_code == 202
+
+
+def update_newsletter_preferences(profile: Profile):
+    # Subscribe user to newsletter when consented
+
+    # extract attributes
+    old_is_sub = getattr(profile, f"{state_prefix}subscribed_newsletter")
+    old_recipient = getattr(profile, f"{state_prefix}newsletter_recipient")
+
+    is_sub = getattr(profile, "subscribed_newsletter")
+    recipient = getattr(profile, "newsletter_recipient")
+
+    # skip if no changes detected
+    if old_is_sub == is_sub and old_recipient == recipient:
+        return
+
+    # handle old email first
+    if old_is_sub:
+        # unsubscribe old email
+        if old_recipient == "TUE":
+            remove_subscription(profile.user.email)
+        else:
+            remove_subscription(profile.user.username)
+
+    # handle new email next
+    if is_sub:
+        # subscribe new email
+        if old_recipient == "TUE":
+            add_subscription(profile.user.email)
+        else:
+            add_subscription(profile.user.username)

@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
 from apps.users.models.user import Profile
+from apps.users.models.user.constants import NEWSLETTER_RECIPIENTS
+from apps.users.newsletter import update_newsletter_preferences
 
 
 class MemberCreateForm(UserCreationForm):
@@ -96,10 +98,20 @@ class ProfileCreateForm(forms.ModelForm):
 
     terms_confirmed = forms.BooleanField(initial=False, required=True)
     subscribed_newsletter = forms.BooleanField(label="Receive newsletter via email", initial=False, required=False)
+    newsletter_recipient = forms.ChoiceField(
+        label="Newsletter subscription email", initial="TUE", required=True, choices=NEWSLETTER_RECIPIENTS
+    )
 
     class Meta:
         model = Profile
-        fields = ["nationality", "department", "program", "subscribed_newsletter", "terms_confirmed"]
+        fields = [
+            "nationality",
+            "department",
+            "program",
+            "subscribed_newsletter",
+            "newsletter_recipient",
+            "terms_confirmed",
+        ]
 
     error_css_class = "error"
     required_css_class = "required"
@@ -114,6 +126,12 @@ class ProfileCreateForm(forms.ModelForm):
         )[1:]
         self.fields["program"].choices = [("", "Please select your program")] + list(self.fields["program"].choices)[1:]
 
+    def save(self, *args, **kwargs):
+        obj = super().save(*args, **kwargs)
+        if obj.has_changed():
+            update_newsletter_preferences(obj)
+        return self.instance
+
 
 class ProfileUpdateForm(forms.ModelForm):
     """
@@ -122,7 +140,15 @@ class ProfileUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = ["nationality", "department", "program", "tue_id", "card_number", "subscribed_newsletter"]
+        fields = [
+            "nationality",
+            "department",
+            "program",
+            "tue_id",
+            "card_number",
+            "subscribed_newsletter",
+            "newsletter_recipient",
+        ]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

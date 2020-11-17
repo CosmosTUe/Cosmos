@@ -3,7 +3,9 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from apps.users.models.user.constants import DEPARTMENTS, NATIONALITIES, PROGRAMS, STATUSES
+from apps.users.models.user.constants import DEPARTMENTS, NATIONALITIES, PROGRAMS, NEWSLETTER_RECIPIENTS, STATUSES
+
+state_prefix = "old_"
 
 
 class Profile(models.Model):
@@ -34,6 +36,21 @@ class Profile(models.Model):
     status = models.CharField(max_length=50, default="Pending", choices=list(zip(STATUSES, STATUSES)))
     terms_confirmed = models.BooleanField(default=False)
     subscribed_newsletter = models.BooleanField(default=False)
+    newsletter_recipient = models.CharField(
+        max_length=3, verbose_name="Newsletter subscription email", default="TUE", choices=NEWSLETTER_RECIPIENTS
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.states = ["subscribed_newsletter", "newsletter_recipient"]
+        for state in self.states:
+            setattr(self, f"{state_prefix}{state}", getattr(self, state))
+
+    def has_changed(self):
+        for state in self.states:
+            if getattr(self, state) != getattr(self, f"{state_prefix}{state}"):
+                return True
+        return False
 
     # Custom Properties
     @property

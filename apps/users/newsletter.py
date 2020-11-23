@@ -27,7 +27,7 @@ def is_subscribed(email: str):
     matches = data["contact_count"]
 
     if matches > 1:
-        print("WARNING: Duplicate emails registered")
+        raise AssertionError(f"Duplicate emails registered for {email}")
 
     return matches == 1
 
@@ -40,7 +40,7 @@ def __get_user_id(email: str):
         return None
 
     if data["contact_count"] > 1:
-        print("WARNING: Duplicate emails registered")
+        raise AssertionError(f"Duplicate emails registered for {email}")
 
     # assumes user is first on the list
     return data["result"][0]["id"]

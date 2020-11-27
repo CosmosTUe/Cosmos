@@ -245,6 +245,45 @@ THUMBNAIL_PROCESSORS = (
     "easy_thumbnails.processors.filters",
 )
 
+# Logging
+# https://docs.djangoproject.com/en/3.1/topics/logging/
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "filters": {
+        "require_debug_false": {
+            "()": "django.utils.log.RequireDebugFalse",
+        },
+        "require_debug_true": {
+            "()": "django.utils.log.RequireDebugTrue",
+        },
+    },
+    "formatters": {
+        # copied from DEFAULT_LOGGING https://github.com/django/django/blob/master/django/utils/log.py
+        "verbose": {"()": "django.utils.log.ServerFormatter", "format": "[{server_time}] {message}", "style": "{"}
+    },
+    "handlers": {
+        "console": {"class": "logging.StreamHandler", "filters": ["require_debug_true"], "formatter": "verbose"},
+        "file": {
+            "class": "logging.FileHandler",
+            "filename": "logs/debug.log",  # relative to root of project
+            "formatter": "verbose",
+        },
+        "mail_admins": {
+            "level": "ERROR",
+            "filters": ["require_debug_false"],
+            "class": "django.utils.log.AdminEmailHandler",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["file", "console", "mail_admins"],
+            "level": "INFO",
+            "propagate": True,
+        },
+    },
+}
+
 # Email
 # https://docs.djangoproject.com/en/3.1/topics/email/
 

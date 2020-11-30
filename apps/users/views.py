@@ -64,22 +64,22 @@ def profile(request):
                 user_form.save()
                 profile_form.save()
                 messages.success(request, "Your profile was successfully updated!")
-                return redirect(reverse("user_profile") + "#profile")
+                return redirect(reverse("cosmos_users:user_profile") + "#profile")
         elif "save_password" in request.POST:
             if password_form.is_valid():
                 password_form.save()
                 messages.success(request, "Your password was succesfully updated!")
-                return redirect(reverse("user_profile") + "#password")
+                return redirect(reverse("cosmos_users:user_profile") + "#password")
         elif "save_preferences" in request.POST:
             if profile_form.is_valid():
                 profile_form.save()
                 messages.success(request, "Your preferences were succesfully updated!")
-                return redirect(request("user_profile") + "#preferences")
+                return redirect(request("cosmos_users:user_profile") + "#preferences")
         elif "save_key_access" in request.POST:
             if profile_form.is_valid():
                 profile_form.save()
                 messages.success(request, "Your key access settings were succesfully updated!")
-                return redirect(reverse("user_profile") + "#key-access")
+                return redirect(reverse("cosmos_users:user_profile") + "#key-access")
 
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()

@@ -5,6 +5,11 @@
 #   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
+
+# This file should not ever need to be touched as it is related to the old database. It was created via an inspectdb
+# on the old database in order to access the old models. However this process is not checked except for the basic
+# functionality needed to migrate over the accounts to the new database.
+
 from django.db import models
 
 

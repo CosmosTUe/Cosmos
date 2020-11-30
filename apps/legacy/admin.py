@@ -4,10 +4,17 @@ from apps.legacy.models import MysiteProfile
 from apps.legacy.tasks import send_migration_emails_task
 
 
+# Reference used for implementation:
+# https://medium.com/@hakibenita/how-to-add-custom-action-buttons-to-django-admin-8d266f5b0d41'
 @admin.register(MysiteProfile)
-# TODO reference
-# https://medium.com/@hakibenita/how-to-add-custom-action-buttons-to-django-admin-8d266f5b0d41
 class LegacyProfileAdmin(admin.ModelAdmin):
+    """
+    Adds extra functionality to the django admin website regarding the sending out of legacy account
+    import emails for legacy profiles.
+    For more information see:
+    https://docs.djangoproject.com/en/3.1/ref/contrib/admin/
+    """
+
     list_display = ["get_username", "department"]
     actions = ["send_migration_email"]
 

@@ -1,6 +1,8 @@
 class LegacyRouter:
     """
     A router to control all database operations on models in the legacy application.
+    For more information see:
+    https://docs.djangoproject.com/en/3.1/topics/db/multi-db/#using-routers
     """
 
     route_app_labels = {"legacy"}
@@ -23,7 +25,7 @@ class LegacyRouter:
 
     def allow_relation(self, obj1, obj2, **hints):
         """
-        Disallows relations if a model in the legacy app is involved.
+        Only allow relations if models involved are exclusively from the legacy app.
         """
         if obj1._meta.app_label in self.route_app_labels and obj2._meta.app_label in self.route_app_labels:
             return True

@@ -247,6 +247,7 @@ THUMBNAIL_PROCESSORS = (
 
 # Logging
 # https://docs.djangoproject.com/en/3.1/topics/logging/
+LOGGING_FOLDER = secret_settings.secrets["LOGGING"]["FOLDER"]  # relative to root of project
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -265,8 +266,10 @@ LOGGING = {
     "handlers": {
         "console": {"class": "logging.StreamHandler", "filters": ["require_debug_true"], "formatter": "verbose"},
         "file": {
-            "class": "logging.FileHandler",
-            "filename": "logs/debug.log",  # relative to root of project
+            "class": "logging.handlers.TimedRotatingFileHandler",
+            "when": "midnight",
+            "interval": 1,
+            "filename": os.path.join(LOGGING_FOLDER, "debug.log"),
             "formatter": "verbose",
         },
         "mail_admins": {

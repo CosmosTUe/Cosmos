@@ -7,12 +7,10 @@ from django.db import transaction
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
+from apps.users.factory import get_newsletter_service
 from apps.users.forms import MemberCreateForm, MemberUpdateForm, ProfileCreateForm, ProfileUpdateForm
-from apps.users.sendgrid import SendgridService
-from cosmos import settings
-from mocks.newsletter import NewsletterServiceMock
 
-newsletter_service = NewsletterServiceMock() if settings.TESTING else SendgridService()
+newsletter_service = get_newsletter_service()
 
 
 def register(request):

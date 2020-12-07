@@ -5,13 +5,11 @@ from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
+from apps.users.factory import get_newsletter_service
 from apps.users.models.user import Profile
 from apps.users.models.user.constants import NEWSLETTER_RECIPIENTS
-from apps.users.sendgrid import SendgridService
-from cosmos import settings
-from mocks.newsletter import NewsletterServiceMock
 
-newsletter_service = NewsletterServiceMock() if settings.TESTING else SendgridService()
+newsletter_service = get_newsletter_service()
 
 
 class MemberCreateForm(UserCreationForm):

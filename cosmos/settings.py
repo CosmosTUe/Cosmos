@@ -256,8 +256,6 @@ THUMBNAIL_PROCESSORS = (
 EMAIL_HOST = secret_settings.secrets["EMAIL"]["HOST"]
 EMAIL_PORT = secret_settings.secrets["EMAIL"]["PORT"]
 EMAIL_HOST_USER = secret_settings.secrets["EMAIL"]["USERNAME"]
-# EMAIL_HOST_PASSWORD = secret_settings.secrets["EMAIL"]["PASSWORD"]
-EMAIL_HOST_PASSWORD = "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"
 EMAIL_HOST_PASSWORD = secret_settings.secrets["EMAIL"]["PASSWORD"]
 EMAIL_USE_TLS = secret_settings.secrets["EMAIL"]["USE_TLS"]
 

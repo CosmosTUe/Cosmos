@@ -115,6 +115,3 @@ class UserViews(TestCase):
         )
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
         self.assertEqual(response.url, "/")
-
-
-# TODO add newsletter preference tests

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import sys
 
 import secret_settings
 
@@ -26,6 +27,10 @@ SECRET_KEY = secret_settings.secrets["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = secret_settings.secrets["DEBUG"]
+
+# TESTING: detect when in testing mode
+# https://stackoverflow.com/questions/4088253/django-how-to-detect-test-environment-check-determine-if-tests-are-being-ru/7651002#7651002
+TESTING = len(sys.argv) > 1 and sys.argv[1] == "test"
 
 # Pretix config
 PRETIX_DOMAIN = secret_settings.secrets["PRETIX_DOMAIN"]
@@ -251,6 +256,8 @@ THUMBNAIL_PROCESSORS = (
 EMAIL_HOST = secret_settings.secrets["EMAIL"]["HOST"]
 EMAIL_PORT = secret_settings.secrets["EMAIL"]["PORT"]
 EMAIL_HOST_USER = secret_settings.secrets["EMAIL"]["USERNAME"]
+# EMAIL_HOST_PASSWORD = secret_settings.secrets["EMAIL"]["PASSWORD"]
+EMAIL_HOST_PASSWORD = "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"
 EMAIL_HOST_PASSWORD = secret_settings.secrets["EMAIL"]["PASSWORD"]
 EMAIL_USE_TLS = secret_settings.secrets["EMAIL"]["USE_TLS"]
 

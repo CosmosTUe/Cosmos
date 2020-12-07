@@ -8,7 +8,11 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 
 from apps.users.forms import MemberCreateForm, MemberUpdateForm, ProfileCreateForm, ProfileUpdateForm
-from apps.users.newsletter import remove_subscription
+from apps.users.sendgrid import SendgridService
+from cosmos import settings
+from mocks.newsletter import NewsletterServiceMock
+
+newsletter_service = NewsletterServiceMock() if settings.TESTING else SendgridService()
 
 
 def register(request):
@@ -106,7 +110,7 @@ def process_profile_form(request):
 def delete(request):
     if request.method == "POST":
         # Remove newsletter subscription before deleting the user
-        remove_subscription(request.user.username)
-        remove_subscription(request.user.email)
+        newsletter_service.remove_subscription(request.user.username)
+        newsletter_service.remove_subscription(request.user.email)
         User.objects.get(username=request.user.username).delete()
     return redirect("/")

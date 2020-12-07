@@ -42,6 +42,9 @@ class Profile(models.Model):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.states = ["subscribed_newsletter", "newsletter_recipient"]
+        self.update_states()
+
+    def update_states(self):
         for state in self.states:
             setattr(self, f"{state_prefix}{state}", getattr(self, state))
 

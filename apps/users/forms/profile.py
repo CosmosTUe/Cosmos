@@ -7,7 +7,11 @@ from django.core.exceptions import ValidationError
 
 from apps.users.models.user import Profile
 from apps.users.models.user.constants import NEWSLETTER_RECIPIENTS
-from apps.users.newsletter import update_newsletter_preferences
+from apps.users.sendgrid import SendgridService
+from cosmos import settings
+from mocks.newsletter import NewsletterServiceMock
+
+newsletter_service = NewsletterServiceMock() if settings.TESTING else SendgridService()
 
 
 class MemberCreateForm(UserCreationForm):
@@ -127,9 +131,10 @@ class ProfileCreateForm(forms.ModelForm):
         self.fields["program"].choices = [("", "Please select your program")] + list(self.fields["program"].choices)[1:]
 
     def save(self, *args, **kwargs):
-        obj = super().save(*args, **kwargs)
+        obj: Profile = super().save(*args, **kwargs)
         if obj.has_changed():
-            update_newsletter_preferences(obj)
+            newsletter_service.update_newsletter_preferences(obj)
+        obj.update_states()
         return self.instance
 
 
@@ -159,3 +164,10 @@ class ProfileUpdateForm(forms.ModelForm):
             self.fields["department"].choices
         )[1:]
         self.fields["program"].choices = [("", "Please select your program")] + list(self.fields["program"].choices)[1:]
+
+    def save(self, *args, **kwargs):
+        obj: Profile = super().save(*args, **kwargs)
+        if obj.has_changed():
+            newsletter_service.update_newsletter_preferences(obj)
+        obj.update_states()
+        return self.instance

@@ -212,6 +212,7 @@ INSTALLED_APPS = [
     "django_better_admin_arrayfield",
     "pipeline",
     "django_celery_results",
+    "formtools",
 ]
 
 LANGUAGES = (

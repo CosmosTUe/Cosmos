@@ -1,8 +1,10 @@
 import json
-from typing import List
+from http.client import HTTPException
+from typing import Dict
 
 import sendgrid
 
+from apps.users.exceptions import AuthorizationException
 from apps.users.newsletter import NewsletterService
 from cosmos import settings
 
@@ -11,7 +13,16 @@ class SendgridService(NewsletterService):
     def __init__(self):
         self.sg = sendgrid.SendGridAPIClient(api_key=settings.EMAIL_HOST_PASSWORD)
 
-    def __get_sandbox_json(self, request_body: List):
+    @staticmethod
+    def __process_status_code(response, expected_status):
+        if response.status_code == expected_status:
+            return True
+        elif response.status_code == 401:
+            raise AuthorizationException
+        else:
+            raise HTTPException
+
+    def __get_sandbox_json(self, request_body: Dict):
         # https://sendgrid.com/docs/for-developers/sending-email/sandbox-mode/
         if settings.DEBUG or settings.TESTING:
             request_body["mail_settings"] = {"sandbox_mode": {"enable": True}}
@@ -22,6 +33,8 @@ class SendgridService(NewsletterService):
         response = self.sg.client.marketing.contacts.search.post(
             request_body=self.__get_sandbox_json({"query": f"email LIKE '{email}'"})
         )
+        self.__process_status_code(response, 200)
+
         data = json.loads(response.body.decode("utf-8"))
         if data["contact_count"] == 0:
             return None
@@ -37,6 +50,8 @@ class SendgridService(NewsletterService):
         response = self.sg.client.marketing.contacts.search.post(
             request_body=self.__get_sandbox_json({"query": f"email LIKE '{email}%%'"})
         )
+        self.__process_status_code(response)
+
         data = json.loads(response.body.decode("utf-8"))
         matches = data["contact_count"]
 
@@ -60,9 +75,8 @@ class SendgridService(NewsletterService):
                 }
             )
         )
-
         # return whether removal was successful
-        return response.status_code == 202
+        return self.__process_status_code(response, 202)
 
     def remove_subscription(self, email: str):
         # https://sendgrid.api-docs.io/v3.0/contacts/delete-contacts
@@ -70,4 +84,4 @@ class SendgridService(NewsletterService):
             query_params=self.__get_sandbox_json({"ids": self.__get_user_id(email)})
         )
         # return whether removal was successful
-        return response.status_code == 202
+        return self.__process_status_code(response, 202)

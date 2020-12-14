@@ -28,7 +28,7 @@ class NewsletterService(metaclass=ABCMeta):
     def remove_subscription(self, email: str):
         pass
 
-    def update_newsletter_preferences(self, profile: Profile):
+    def update_newsletter_preferences(self, profile: Profile, force=False):
         # Subscribe user to newsletter when consented
 
         # extract attributes
@@ -39,7 +39,7 @@ class NewsletterService(metaclass=ABCMeta):
         recipient = getattr(profile, "newsletter_recipient")
 
         # skip if no changes detected
-        if old_is_sub == is_sub and old_recipient == recipient:
+        if not force and old_is_sub == is_sub and old_recipient == recipient:
             return
 
         # handle old email first

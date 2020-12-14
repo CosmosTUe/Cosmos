@@ -17,5 +17,6 @@ class ProfileAdmin(admin.ModelAdmin):
     actions = ["sync_newsletter_subscriptions"]
 
     def sync_newsletter_subscriptions(self, request, queryset: QuerySet):
-        sync_newsletter_subcriptions_task.delay([u for u in queryset.values_list("id", flat=True)])
+        self.message_user(request, f"Sending {len(queryset)} messages...")
+        sync_newsletter_subcriptions_task.delay([u for u in queryset.values_list("id", flat=True)]).get()
         self.message_user(request, f"{len(queryset)} newsletter preferences updated!")

@@ -317,3 +317,4 @@ SECURE_REFERRER_POLICY = "same-origin"
 CELERY_BROKER_URL = "amqp://guest:guest@localhost//"
 CELERY_RESULT_BACKEND = "django-db"
 CELERY_CACHE_BACKEND = "django-cache"
+CELERY_WORKER_HIJACK_ROOT_LOGGER = True

@@ -1,4 +1,6 @@
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
+import json
+
 from django.db.models import Count
 
 # Profile.objects.values('nationality').annotate(Count('nationality'))
@@ -18,11 +20,13 @@ def get_stats(query):
     nationality = {item["nationality"]: item["nationality__count"] for item in nationality_list}
 
     # Call the plotting function (used in case the plotting function wants to be changed)
-    make_plot(department)
-    make_plot(program)
-    make_plot(nationality)
+    # make_plot(department)
+    # make_plot(program)
+    # make_plot(nationality)
+    stats = json.dumps(department) + "\n" + json.dumps(program) + "\n" + json.dumps(nationality)
+    return stats
 
 
-def make_plot(data):
-
-    plt.bar(data)
+# def make_plot(data):
+#
+#    plt.bar(data)

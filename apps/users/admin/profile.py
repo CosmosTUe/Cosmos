@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.http import HttpResponse
 from django.urls import path
 
 from apps.users.models import Profile
@@ -23,4 +24,8 @@ class ProfileAdmin(admin.ModelAdmin):
         return my_urls + urls
 
     def send_stats(self, request):
-        get_stats(Profile.objects)
+        stats = get_stats(self.model.objects)
+        response = HttpResponse(stats, content_type="application/text")
+        response["Content-Disposition"] = "attachment; filename=User_Statistics_Cosmos_website.txt"
+
+        return response

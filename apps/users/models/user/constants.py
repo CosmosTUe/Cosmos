@@ -215,3 +215,5 @@ PROGRAMS = [
     "Exchange",
     "Other",
 ]
+
+NEWSLETTER_RECIPIENTS = [("TUE", "TU/e email"), ("ALT", "Personal email")]

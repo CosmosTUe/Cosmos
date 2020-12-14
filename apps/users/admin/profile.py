@@ -26,6 +26,6 @@ class ProfileAdmin(admin.ModelAdmin):
     def send_stats(self, request):
         stats = get_stats(self.model.objects)
         response = HttpResponse(stats, content_type="application/text")
-        response["Content-Disposition"] = "attachment; filename=User_Statistics_Cosmos_website.txt"
+        response["Content-Disposition"] = "attachment; filename=User_Statistics_Cosmos_website.json"
 
         return response

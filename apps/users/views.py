@@ -22,23 +22,22 @@ def register(request):
     """
     if request.method == "POST":
         user_form = MemberCreateForm(request.POST)
+        profile_form = ProfileCreateForm(request.POST)
 
-        if user_form.is_valid():
+        if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
             user.refresh_from_db()  # load the profile instance created by the signal
             profile_form = ProfileCreateForm(request.POST, instance=user.profile)
 
-            if profile_form.is_valid():
-                user.profile = profile_form.save(user)
-                messages.success(request, "Account created successfully")
+            user.profile = profile_form.save(user)
+            messages.success(request, "Account created successfully")
 
-                # Log in automatically
-                raw_password = user_form.cleaned_data.get("password1")
-                user = authenticate(username=user.username, password=raw_password)
-                login(request, user)
-                return redirect("/")
-            else:
-                profile_form = ProfileCreateForm(request.POST)
+            # Log in automatically
+            raw_password = user_form.cleaned_data.get("password1")
+            user = authenticate(username=user.username, password=raw_password)
+            login(request, user)
+            return redirect("/")
+
         else:
             profile_form = ProfileCreateForm(request.POST)
     else:

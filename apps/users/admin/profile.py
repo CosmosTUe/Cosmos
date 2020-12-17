@@ -10,7 +10,7 @@ newsletter_service = get_newsletter_service()
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ("username", "key_access")
+    list_display = ("username", "department", "program", "nationality", "terms_confirmed", "subscribed_newsletter")
 
     search_fields = ["user__username"]
 

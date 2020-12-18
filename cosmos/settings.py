@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import sys
 
 import secret_settings
 
@@ -26,6 +27,10 @@ SECRET_KEY = secret_settings.secrets["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = secret_settings.secrets["DEBUG"]
+
+# TESTING: detect when in testing mode
+# https://stackoverflow.com/questions/4088253/django-how-to-detect-test-environment-check-determine-if-tests-are-being-ru/7651002#7651002
+TESTING = len(sys.argv) > 1 and sys.argv[1] == "test"
 
 # Pretix config
 PRETIX_DOMAIN = secret_settings.secrets["PRETIX_DOMAIN"]
@@ -201,6 +206,17 @@ INSTALLED_APPS = [
     "djangocms_text_ckeditor",
     "filer",
     "easy_thumbnails",
+    "djangocms_file",
+    "djangocms_icon",
+    "djangocms_link",
+    "djangocms_picture",
+    "djangocms_style",
+    "djangocms_snippet",
+    "djangocms_googlemap",
+    "djangocms_video",
+    "django_better_admin_arrayfield",
+    "pipeline",
+    "django_celery_results",
     "djangocms_bootstrap4",
     "djangocms_bootstrap4.contrib.bootstrap4_alerts",
     "djangocms_bootstrap4.contrib.bootstrap4_badge",
@@ -216,17 +232,6 @@ INSTALLED_APPS = [
     "djangocms_bootstrap4.contrib.bootstrap4_picture",
     "djangocms_bootstrap4.contrib.bootstrap4_tabs",
     "djangocms_bootstrap4.contrib.bootstrap4_utilities",
-    "djangocms_file",
-    "djangocms_icon",
-    "djangocms_link",
-    "djangocms_picture",
-    "djangocms_style",
-    "djangocms_snippet",
-    "djangocms_googlemap",
-    "djangocms_video",
-    "django_better_admin_arrayfield",
-    "pipeline",
-    "django_celery_results",
 ]
 
 LANGUAGES = (
@@ -260,6 +265,48 @@ THUMBNAIL_PROCESSORS = (
     "easy_thumbnails.processors.filters",
 )
 
+# Logging
+# https://docs.djangoproject.com/en/3.1/topics/logging/
+# LOGGING_FOLDER = secret_settings.secrets["LOGGING"]["FOLDER"]  # relative to root of project
+# LOGGING = {
+#    "version": 1,
+#    "disable_existing_loggers": False,
+#    "filters": {
+#        "require_debug_false": {
+#            "()": "django.utils.log.RequireDebugFalse",
+#        },
+#        "require_debug_true": {
+#            "()": "django.utils.log.RequireDebugTrue",
+#        },
+#    },
+#    "formatters": {
+#        # copied from DEFAULT_LOGGING https://github.com/django/django/blob/master/django/utils/log.py
+#        "verbose": {"()": "django.utils.log.ServerFormatter", "format": "[{server_time}] {message}", "style": "{"}
+#    },
+#    "handlers": {
+#        "console": {"class": "logging.StreamHandler", "filters": ["require_debug_true"], "formatter": "verbose"},
+#        "file": {
+#            "class": "logging.handlers.TimedRotatingFileHandler",
+#            "when": "midnight",
+#            "interval": 1,
+#            "filename": os.path.join(LOGGING_FOLDER, "debug.log"),
+#            "formatter": "verbose",
+#        },
+#        "mail_admins": {
+#            "level": "ERROR",
+#            "filters": ["require_debug_false"],
+#            "class": "django.utils.log.AdminEmailHandler",
+#        },
+#    },
+#    "loggers": {
+#        "django": {
+#            "handlers": ["file", "console", "mail_admins"],
+#            "level": "INFO",
+#            "propagate": True,
+#        },
+#    },
+# }
+
 # Email
 # https://docs.djangoproject.com/en/3.1/topics/email/
 
@@ -276,8 +323,8 @@ LOGOUT_REDIRECT_URL = "/"
 
 # Security
 
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
 
 SECURE_REFERRER_POLICY = "same-origin"
 
@@ -285,3 +332,4 @@ SECURE_REFERRER_POLICY = "same-origin"
 CELERY_BROKER_URL = "amqp://guest:guest@localhost//"
 CELERY_RESULT_BACKEND = "django-db"
 CELERY_CACHE_BACKEND = "django-cache"
+CELERY_WORKER_HIJACK_ROOT_LOGGER = True

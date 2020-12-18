@@ -1,32 +1,48 @@
-wheel
+wheel # helps with package management
 
-#django-cms>=3.7,<3.8
+##################
+#  dependencies  #
+##################
+six # compatibility library between py2 and py3
+psycopg2-binary>=2.8.5,<3 # postgresql adapter
+pytz>=2020.1 # timezone library
+
 # Modified django-cms that fixes migrations to support multiple databases
 -e git+git://github.com/bcvandendool/django-cms@release/3.7.x#egg=django-cms
-djangocms-admin-style>=1.5,<1.6
-django-treebeard>=4.0,<5.0
 
-djangocms-text-ckeditor>=3.7,<4.0
-djangocms-link>=2.5,<2.7
-djangocms-icon>=1.4,<1.6
-djangocms-style>=2.2,<2.4
-djangocms-googlemap>=1.3,<1.5
-djangocms-snippet>=2.2,<2.4
-djangocms-video>=2.1,<2.4
-djangocms-file>=2.3,<2.5
-djangocms-picture>=2.3,<2.5
-djangocms-bootstrap4>=1.5,<1.7
+# djangocms apps
+django-treebeard>=4.0,<5.0         # dependency for djangocms-admin-style
+djangocms-admin-style>=1.5,<2.1    # CSS for djangocms-admin
+djangocms-text-ckeditor>=3.7,<5.0
+djangocms-link>=2.5,<3.1
+djangocms-icon>=1.4,<2.1
+djangocms-style>=2.2,<3.1
+djangocms-googlemap>=1.3,<2.1
+djangocms-snippet>=2.2,<3.1
+djangocms-video>=2.1,<3.1
+djangocms-file>=2.3,<3.1
+djangocms-picture>=2.3,<3.1
 easy_thumbnails
-django-filer>=1.3
+django-filer>=1.3 # file manager app
 Django<3.1
-html5lib>=1.0.1
-Pillow>=3.0
-six
-pytz>=2020.1
+djangocms-bootstrap4>=1.5,<1.7
+
+##################
+#   deployment   #
+##################
+
+# hosting
 gunicorn
 requests>=2.24.0
+
+# asset packaging
 django-pipeline>=2.0.5,<3
-psycopg2-binary>=2.8.5,<3
 django-better-admin-arrayfield>=1.3.0, <2
-celery>=4.4.0, <5
-django-celery-results>=1.2.1, <2
+
+# async task queuing
+celery>=4.4.0, <6
+django-celery-results>=1.2.1, <3
+
+# XHR
+sendgrid>=6.4.7
+python-http-client>=3.3.1

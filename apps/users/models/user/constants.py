@@ -216,4 +216,4 @@ PROGRAMS = [
     "Other",
 ]
 
-STATUSES = ["Member", "Pending", "Rejected"]
+NEWSLETTER_RECIPIENTS = [("TUE", "TU/e email"), ("ALT", "Personal email")]

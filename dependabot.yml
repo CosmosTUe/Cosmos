@@ -1,0 +1,17 @@
+#https://docs.github.com/en/free-pro-team@latest/github/administering-a-repository/configuration-options-for-dependency-updates
+version: 1
+update_configs:
+  - package_manager: "python"
+    directory: "/"
+    target_branch: "staging"
+    update_schedule: "weekly"
+    default_labels:
+    - "dependencies"
+    - "dependabot"
+  - package_manager: "javascript"
+    directory: "/"
+    target_branch: "staging"
+    update_schedule: "weekly"
+    default_labels:
+    - "dependencies"
+    - "dependabot"

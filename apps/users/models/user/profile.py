@@ -3,13 +3,15 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from apps.users.models.user.constants import DEPARTMENTS, NATIONALITIES, PROGRAMS, STATUSES
+from apps.users.models.user.constants import DEPARTMENTS, NATIONALITIES, PROGRAMS, NEWSLETTER_RECIPIENTS
+
+state_prefix = "old_"
 
 
 class Profile(models.Model):
     """
     Extension of Django User model to store extra data of users.
-    Fields from Django user model are to be interpretted as follows:
+    Fields from Django user model are to be interpreted as follows:
 
     - `username`: TU/e email of the user; ensures uniqueness; mandatory
     - `email`: personal email of the user (Optional)
@@ -31,9 +33,26 @@ class Profile(models.Model):
     tue_id = models.CharField(verbose_name="TU/e Number", blank=True, max_length=25)
     card_number = models.CharField(max_length=25, blank=True)
     key_access = models.BooleanField(max_length=3, default=False)
-    status = models.CharField(max_length=50, default="Pending", choices=list(zip(STATUSES, STATUSES)))
     terms_confirmed = models.BooleanField(default=False)
     subscribed_newsletter = models.BooleanField(default=False)
+    newsletter_recipient = models.CharField(
+        max_length=3, verbose_name="Newsletter subscription email", default="TUE", choices=NEWSLETTER_RECIPIENTS
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.states = ["subscribed_newsletter", "newsletter_recipient"]
+        self.update_states()
+
+    def update_states(self):
+        for state in self.states:
+            setattr(self, f"{state_prefix}{state}", getattr(self, state))
+
+    def has_changed(self):
+        for state in self.states:
+            if getattr(self, state) != getattr(self, f"{state_prefix}{state}"):
+                return True
+        return False
 
     # Custom Properties
     @property

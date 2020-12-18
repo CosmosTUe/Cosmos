@@ -11,6 +11,13 @@ from apps.users.models.user import Profile
 
 
 def import_user(request, uidb64, token):
+    """
+    View which handles the importing of the legacy user to the new website. Uses the information
+    from the unique link to determine the user and verifies this link belongs to them using the
+    token. Redirects the user to the account creation page with filled in information, as there
+    may be stricter requirements on the supplied information, and a new password needs to be
+    chosen.
+    """
     try:
         uid = force_text(urlsafe_base64_decode(uidb64))
         old_user = AuthUser.objects.get(username=uid)

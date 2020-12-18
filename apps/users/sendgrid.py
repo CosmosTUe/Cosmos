@@ -65,6 +65,9 @@ class SendgridService(NewsletterService):
         response = self.sg.client.marketing.contacts.put(
             request_body=self.__get_sandbox_json(
                 {
+                    "list_ids": [
+                        "2ce9f995-6276-4600-81e6-27f8ae7d3e6c"
+                    ],
                     "contacts": [
                         {
                             "email": email,

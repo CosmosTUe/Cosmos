@@ -217,6 +217,21 @@ INSTALLED_APPS = [
     "django_better_admin_arrayfield",
     "pipeline",
     "django_celery_results",
+    "djangocms_bootstrap4",
+    "djangocms_bootstrap4.contrib.bootstrap4_alerts",
+    "djangocms_bootstrap4.contrib.bootstrap4_badge",
+    "djangocms_bootstrap4.contrib.bootstrap4_card",
+    "djangocms_bootstrap4.contrib.bootstrap4_carousel",
+    "djangocms_bootstrap4.contrib.bootstrap4_collapse",
+    "djangocms_bootstrap4.contrib.bootstrap4_content",
+    "djangocms_bootstrap4.contrib.bootstrap4_grid",
+    "djangocms_bootstrap4.contrib.bootstrap4_jumbotron",
+    "djangocms_bootstrap4.contrib.bootstrap4_link",
+    "djangocms_bootstrap4.contrib.bootstrap4_listgroup",
+    "djangocms_bootstrap4.contrib.bootstrap4_media",
+    "djangocms_bootstrap4.contrib.bootstrap4_picture",
+    "djangocms_bootstrap4.contrib.bootstrap4_tabs",
+    "djangocms_bootstrap4.contrib.bootstrap4_utilities",
 ]
 
 LANGUAGES = (
@@ -252,45 +267,45 @@ THUMBNAIL_PROCESSORS = (
 
 # Logging
 # https://docs.djangoproject.com/en/3.1/topics/logging/
-LOGGING_FOLDER = secret_settings.secrets["LOGGING"]["FOLDER"]  # relative to root of project
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "filters": {
-        "require_debug_false": {
-            "()": "django.utils.log.RequireDebugFalse",
-        },
-        "require_debug_true": {
-            "()": "django.utils.log.RequireDebugTrue",
-        },
-    },
-    "formatters": {
-        # copied from DEFAULT_LOGGING https://github.com/django/django/blob/master/django/utils/log.py
-        "verbose": {"()": "django.utils.log.ServerFormatter", "format": "[{server_time}] {message}", "style": "{"}
-    },
-    "handlers": {
-        "console": {"class": "logging.StreamHandler", "filters": ["require_debug_true"], "formatter": "verbose"},
-        "file": {
-            "class": "logging.handlers.TimedRotatingFileHandler",
-            "when": "midnight",
-            "interval": 1,
-            "filename": os.path.join(LOGGING_FOLDER, "debug.log"),
-            "formatter": "verbose",
-        },
-        "mail_admins": {
-            "level": "ERROR",
-            "filters": ["require_debug_false"],
-            "class": "django.utils.log.AdminEmailHandler",
-        },
-    },
-    "loggers": {
-        "django": {
-            "handlers": ["file", "console", "mail_admins"],
-            "level": "INFO",
-            "propagate": True,
-        },
-    },
-}
+# LOGGING_FOLDER = secret_settings.secrets["LOGGING"]["FOLDER"]  # relative to root of project
+# LOGGING = {
+#    "version": 1,
+#    "disable_existing_loggers": False,
+#    "filters": {
+#        "require_debug_false": {
+#            "()": "django.utils.log.RequireDebugFalse",
+#        },
+#        "require_debug_true": {
+#            "()": "django.utils.log.RequireDebugTrue",
+#        },
+#    },
+#    "formatters": {
+#        # copied from DEFAULT_LOGGING https://github.com/django/django/blob/master/django/utils/log.py
+#        "verbose": {"()": "django.utils.log.ServerFormatter", "format": "[{server_time}] {message}", "style": "{"}
+#    },
+#    "handlers": {
+#        "console": {"class": "logging.StreamHandler", "filters": ["require_debug_true"], "formatter": "verbose"},
+#        "file": {
+#            "class": "logging.handlers.TimedRotatingFileHandler",
+#            "when": "midnight",
+#            "interval": 1,
+#            "filename": os.path.join(LOGGING_FOLDER, "debug.log"),
+#            "formatter": "verbose",
+#        },
+#        "mail_admins": {
+#            "level": "ERROR",
+#            "filters": ["require_debug_false"],
+#            "class": "django.utils.log.AdminEmailHandler",
+#        },
+#    },
+#    "loggers": {
+#        "django": {
+#            "handlers": ["file", "console", "mail_admins"],
+#            "level": "INFO",
+#            "propagate": True,
+#        },
+#    },
+# }
 
 # Email
 # https://docs.djangoproject.com/en/3.1/topics/email/

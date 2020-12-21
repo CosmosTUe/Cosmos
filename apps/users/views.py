@@ -1,4 +1,6 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
@@ -7,8 +9,9 @@ from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 from formtools.wizard.views import SessionWizardView
 
-# from apps.users.forms import MemberCreateForm, MemberUpdateForm, ProfileCreateForm, ProfileUpdateForm
-from apps.users.forms.registration import RegisterFontysForm, RegisterTueForm, RegisterUserForm
+from apps.users.forms.institution import InstitutionFontysForm, InstitutionTueForm
+from apps.users.forms.profile import KeyAccessUpdateForm, PreferencesUpdateForm, ProfileUpdateForm
+from apps.users.forms.registration import RegisterUserForm
 from apps.users.models.user import InstitutionFontys, InstitutionTue
 from apps.users.tokens import account_activation_token
 
@@ -25,8 +28,8 @@ def show_fontys_form_condition(wizard):
 
 FORMS = [
     ("register_user", RegisterUserForm),
-    ("register_tue", RegisterTueForm),
-    ("register_fontys", RegisterFontysForm),
+    ("register_tue", InstitutionTueForm),
+    ("register_fontys", InstitutionFontysForm),
 ]
 
 TEMPLATES = {
@@ -93,66 +96,68 @@ def activate(request, uidb64, token):
 def registration_done(request):
     return render(request, "user/register_done.html")
 
-# @login_required
-# @transaction.atomic
-# def profile(request):
-#    """
-#    Process User profile form.
-#
-#    - @login_required: Ensures authenticated user
-#    - @transaction.atomic: Ensures both queries to the database are transactions
-#
-#    :param request:
-#    :return:
-#    """
-#    if request.method == "POST":
-#
-#        user_form = MemberUpdateForm(data=request.POST, instance=request.user)
-#        profile_form = ProfileUpdateForm(data=request.POST, instance=request.user.profile)
-#        password_form = PasswordChangeForm(data=request.POST, user=request.user)
-#
-#        if "save_profile" in request.POST:
-#            if user_form.is_valid() and profile_form.is_valid():
-#                user_form.save()
-#                profile_form.save()
-#                messages.success(request, "Your profile was successfully updated!")
-#                return redirect(reverse("cosmos_users:user_profile") + "#profile")
-#        elif "save_password" in request.POST:
-#            if password_form.is_valid():
-#                password_form.save()
-#                messages.success(request, "Your password was succesfully updated!")
-#                return redirect(reverse("cosmos_users:user_profile") + "#password")
-#        elif "save_preferences" in request.POST:
-#            if profile_form.is_valid():
-#                profile_form.save()
-#                messages.success(request, "Your preferences were succesfully updated!")
-#                return redirect(request("cosmos_users:user_profile") + "#preferences")
-#        elif "save_key_access" in request.POST:
-#            if profile_form.is_valid():
-#                profile_form.save()
-#                messages.success(request, "Your key access settings were succesfully updated!")
-#                return redirect(reverse("cosmos_users:user_profile") + "#key-access")
-#
-#        if user_form.is_valid() and profile_form.is_valid():
-#            user_form.save()
-#            profile_form.save()
-#            messages.success(request, "Your profile was successfully updated!")
-#            return redirect("/")
-#        else:
-#            messages.error(request, "Please correct the error below.")
-#    else:
-#        user_form = MemberUpdateForm(instance=request.user)
-#        profile_form = ProfileUpdateForm(instance=request.user.profile)
-#        password_form = PasswordChangeForm(user=request.user)
-#    return render(
-#        request,
-#        "user/profile.html",
-#        {"user_form": user_form, "profile_form": profile_form, "password_form": password_form},
-#    )
+
+@login_required
+def profile(request):
+    if request.method == "POST":
+
+        profile_update_form = ProfileUpdateForm(data=request.POST, instance=request.user)
+        password_change_form = PasswordChangeForm(data=request.POST, user=request.user)
+        preferences_update_form = PreferencesUpdateForm(data=request.POST, instance=request.user.profile)
+
+        if request.user.profile.institution_name == "tue":
+            key_access_update_form = KeyAccessUpdateForm(data=request.POST, instance=request.profile.institution)
+        else:
+            key_access_update_form = None
+
+        if "save_profile" in request.POST:
+            if profile_update_form.is_valid():
+                profile_update_form.save()
+                messages.success(request, "Your profile has been updated!")
+                return redirect(reverse("cosmos_users:user_profile") + "#profile")
+        elif "save_password" in request.POST:
+            if password_change_form.is_valid():
+                password_change_form.save()
+                messages.succes(request, "Your password has been updated!")
+                return redirect(reverse("cosmos_users:user_profile") + "#password")
+        elif "save_preferences" in request.POST:
+            if preferences_update_form.is_valid():
+                preferences_update_form.save()
+                messages.succes(request, "Your preferences have been updated!")
+                return redirect(reverse("cosmos_users:user_profile") + "#preferences")
+        elif "save_key_access" in request.POST:
+            if key_access_update_form is not None and key_access_update_form.is_valid():
+                key_access_update_form.save()
+                messages.succes(request, "Your key access settings have been updated!")
+                return redirect(reverse("cosmos_users:user_profile") + "#key-access")
+
+    else:
+        profile_update_form = ProfileUpdateForm(instance=request.user)
+        password_change_form = PasswordChangeForm(user=request.user)
+        preferences_update_form = PreferencesUpdateForm(instance=request.user.profile)
+
+        if request.user.profile.institution_name == "tue":
+            profile_update_form.department = request.user.profile.institution.department
+            profile_update_form.program = request.user.profile.institution.program
+        elif request.user.profile.institution_name == "fontys":
+            profile_update_form.study = request.user.profile.institution.study
+            key_access_update_form = None
+
+    return render(
+        request,
+        "user/profile.html",
+        {
+            "profile_update_form": profile_update_form,
+            "password_change_form": password_change_form,
+            "preferences_update_form": preferences_update_form,
+            "key_access_update_form": key_access_update_form,
+        },
+    )
 
 
 @login_required
 def delete(request):
     if request.method == "POST":
         User.objects.get(username=request.user.username).delete()
+        messages.succes(request, "Your account has successfully been deleted")
     return redirect("/")

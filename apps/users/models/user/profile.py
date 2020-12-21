@@ -32,5 +32,22 @@ class Profile(models.Model):
     def username(self):
         return self.user.username
 
+    @property
+    def institution(self):
+        from apps.users.models.user.institution import InstitutionFontys, InstitutionTue
+        if self.user.username.endswith("tue.nl"):
+            return InstitutionTue.objects.get(profile=self)
+        elif self.user.username.endswith("fontys.nl"):
+            return InstitutionFontys.objects.get(profile=self)
+        return None
+
+    @property
+    def institution_name(self):
+        if self.user.username.endswith("tue.nl"):
+            return "tue"
+        elif self.user.username.endswith("fontys.nl"):
+            return "fontys"
+        return None
+
     def __str__(self):
         return f"{self.username}"

@@ -3,23 +3,71 @@
 # from cms.utils.compat.forms import UserChangeForm, UserCreationForm
 from django import forms
 from django.contrib.auth.forms import UserChangeForm
+from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
-# from django.contrib.auth.models import User
-# from django.core.exceptions import ValidationError
-
-# from apps.users.models.user import Profile
+from apps.users.models.user.constants import FONTYS_STUDIES, NATIONALITIES, TUE_DEPARTMENTS, TUE_PROGRAMS
+from apps.users.models.user.institution import InstitutionFontys, InstitutionTue
+from apps.users.models.user.profile import Profile
 
 
 class ProfileUpdateForm(UserChangeForm):
-    pass
+
+    username = forms.EmailField(
+        max_length=254, label="TU/e email", help_text="Required. Inform a valid TU/e email address."
+    )
+    email = forms.EmailField(
+        max_length=254, label="Personal email", required=False, help_text="Optional. Inform a valid email address."
+    )
+    nationality = forms.ChoiceField(choices=list(zip(NATIONALITIES, NATIONALITIES)))
+
+    # Tue:
+    department = forms.ChoiceField(choices=list(zip(TUE_DEPARTMENTS, TUE_DEPARTMENTS)))
+    program = forms.ChoiceField(choices=list(zip(TUE_PROGRAMS, TUE_PROGRAMS)))
+
+    # Fontys:
+    study = forms.ChoiceField(choices=list(zip(FONTYS_STUDIES, FONTYS_STUDIES)))
+
+    class Meta:
+        model = User
+        fields = ["first_name", "last_name", "username", "email"]
+
+    def clean_username(self):
+        data = self.cleaned_data["username"]
+        if (
+            not data.endswith("@student.tue.nl")
+            or not data.endswith("@alumni.tue.nl")
+            or not data.endswith("@fontys.nl")
+        ):
+            raise ValidationError("Please enter your institutional email.")
+        return data
+
+    def save(self, commit=True):
+        instance = super().save(commit=True)
+        profile = instance.profile
+        profile.nationality = self.cleaned_data["nationality"]
+        if self.cleaned_data["username"].endswith("tue.nl"):
+            institution = InstitutionTue.objects.get(profile=profile)
+            institution.department = self.cleaned_data["department"]
+            institution.program = self.cleaned_data["program"]
+        elif self.cleaned_data["username"].endswith("fontys.nl"):
+            institution = InstitutionFontys.objects.get(profile=profile)
+            institution.study = self.cleaned_data["study"]
 
 
 class PreferencesUpdateForm(forms.ModelForm):
-    pass
+
+    class Meta:
+        model = Profile
+        fields = ["subscribed_newsletter"]
 
 
 class KeyAccessUpdateForm(forms.ModelForm):
-    pass
+
+    class Meta:
+        model = InstitutionTue
+        fields = ["tue_id", "card_number"]
+
 
 # class MemberCreateForm(UserCreationForm):
 #     """

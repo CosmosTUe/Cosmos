@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
 from apps.users.models.user.constants import NATIONALITIES
+from apps.users.models.user.institution import InstitutionFontys, InstitutionTue
 from apps.users.models.user.profile import Profile
-from apps.users.models.user.institution import InstitutionTue, InstitutionFontys
 
 
 class RegisterUserForm(UserCreationForm):
@@ -42,6 +42,12 @@ class RegisterUserForm(UserCreationForm):
         data = self.cleaned_data["nationality"]
         if data not in NATIONALITIES:
             raise ValidationError("Please enter your nationality.")
+        return data
+
+    def clean_username(self):
+        data = self.cleaned_data["username"]
+        if not data.endswith("@student.tue.nl") or not data.endswith("@alumni.tue.nl") or not data.endswith("@fontys.nl"):
+            raise ValidationError("Please enter your institutional email.")
         return data
 
     def save(self, commit=True):

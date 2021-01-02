@@ -29,6 +29,13 @@ class NewsletterService(metaclass=ABCMeta):
         pass
 
     def update_newsletter_preferences(self, profile: Profile, force=False):
+        """
+        Updates newsletter preferences
+
+        :param profile: profile to change prefernces
+        :param force: force update to backend (optional)
+        :raises AuthorizationException:
+        """
         # Subscribe user to newsletter when consented
 
         # extract attributes

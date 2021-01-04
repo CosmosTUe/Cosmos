@@ -160,9 +160,6 @@ class ProfileUpdateForm(forms.ModelForm):
             "newsletter_recipient",
         ]
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
     def save(self, *args, **kwargs):
         obj: Profile = super().save(*args, **kwargs)
         if obj.has_changed():

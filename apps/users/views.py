@@ -8,9 +8,8 @@ from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 from formtools.wizard.views import SessionWizardView
 
-from apps.users.forms.institution import InstitutionFontysForm, InstitutionTueForm
 from apps.users.forms.profile import KeyAccessUpdateForm, PasswordUpdateForm, PreferencesUpdateForm, ProfileUpdateForm
-from apps.users.forms.registration import RegisterUserForm
+from apps.users.forms.registration import RegisterFontysForm, RegisterTueForm, RegisterUserForm
 from apps.users.models.user import InstitutionFontys, InstitutionTue
 from apps.users.tokens import account_activation_token
 
@@ -27,8 +26,8 @@ def show_fontys_form_condition(wizard):
 
 FORMS = [
     ("register_user", RegisterUserForm),
-    ("register_tue", InstitutionTueForm),
-    ("register_fontys", InstitutionFontysForm),
+    ("register_tue", RegisterTueForm),
+    ("register_fontys", RegisterFontysForm),
 ]
 
 TEMPLATES = {

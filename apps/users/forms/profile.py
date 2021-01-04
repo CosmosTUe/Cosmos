@@ -7,7 +7,7 @@ from django.core.exceptions import ValidationError
 
 from apps.users.factory import get_newsletter_service
 from apps.users.models.user import Profile
-from apps.users.models.user.constants import NEWSLETTER_RECIPIENTS
+from apps.users.models.user.constants import DEPARTMENTS, NATIONALITIES, NEWSLETTER_RECIPIENTS, PROGRAMS
 
 newsletter_service = get_newsletter_service()
 
@@ -141,6 +141,13 @@ class ProfileUpdateForm(forms.ModelForm):
     A form that modifies additional information about a COSMOS member.
     """
 
+    nationality = forms.ChoiceField(required=False, choices=list(zip(NATIONALITIES, NATIONALITIES)))
+    department = forms.ChoiceField(required=False, choices=list(zip(DEPARTMENTS, DEPARTMENTS)))
+    program = forms.ChoiceField(required=False, choices=list(zip(PROGRAMS, PROGRAMS)))
+    newsletter_recipient = forms.ChoiceField(
+        required=False, choices=list(zip(NEWSLETTER_RECIPIENTS, NEWSLETTER_RECIPIENTS))
+    )
+
     class Meta:
         model = Profile
         fields = [
@@ -155,13 +162,6 @@ class ProfileUpdateForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["nationality"].choices = [("", "Please select your nationality")] + list(
-            self.fields["nationality"].choices
-        )[1:]
-        self.fields["department"].choices = [("", "Please select your department")] + list(
-            self.fields["department"].choices
-        )[1:]
-        self.fields["program"].choices = [("", "Please select your program")] + list(self.fields["program"].choices)[1:]
 
     def save(self, *args, **kwargs):
         obj: Profile = super().save(*args, **kwargs)

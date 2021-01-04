@@ -1,6 +1,5 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
@@ -10,7 +9,7 @@ from django.utils.http import urlsafe_base64_decode
 from formtools.wizard.views import SessionWizardView
 
 from apps.users.forms.institution import InstitutionFontysForm, InstitutionTueForm
-from apps.users.forms.profile import KeyAccessUpdateForm, PreferencesUpdateForm, ProfileUpdateForm
+from apps.users.forms.profile import KeyAccessUpdateForm, PasswordUpdateForm, PreferencesUpdateForm, ProfileUpdateForm
 from apps.users.forms.registration import RegisterUserForm
 from apps.users.models.user import InstitutionFontys, InstitutionTue
 from apps.users.tokens import account_activation_token
@@ -102,11 +101,11 @@ def profile(request):
     if request.method == "POST":
 
         profile_update_form = ProfileUpdateForm(data=request.POST, instance=request.user)
-        password_change_form = PasswordChangeForm(data=request.POST, user=request.user)
+        password_change_form = PasswordUpdateForm(data=request.POST, user=request.user)
         preferences_update_form = PreferencesUpdateForm(data=request.POST, instance=request.user.profile)
 
         if request.user.profile.institution_name == "tue":
-            key_access_update_form = KeyAccessUpdateForm(data=request.POST, instance=request.profile.institution)
+            key_access_update_form = KeyAccessUpdateForm(data=request.POST, instance=request.user.profile.institution)
         else:
             key_access_update_form = None
 
@@ -133,14 +132,17 @@ def profile(request):
 
     else:
         profile_update_form = ProfileUpdateForm(instance=request.user)
-        password_change_form = PasswordChangeForm(user=request.user)
+        password_change_form = PasswordUpdateForm(user=request.user)
         preferences_update_form = PreferencesUpdateForm(instance=request.user.profile)
 
         if request.user.profile.institution_name == "tue":
             profile_update_form.department = request.user.profile.institution.department
             profile_update_form.program = request.user.profile.institution.program
+            key_access_update_form = KeyAccessUpdateForm(instance=request.user.profile.institution)
         elif request.user.profile.institution_name == "fontys":
             profile_update_form.study = request.user.profile.institution.study
+            key_access_update_form = None
+        else:
             key_access_update_form = None
 
     return render(

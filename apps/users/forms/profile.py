@@ -1,8 +1,10 @@
 # import re
 
 # from cms.utils.compat.forms import UserChangeForm, UserCreationForm
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Submit
 from django import forms
-from django.contrib.auth.forms import UserChangeForm
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
@@ -11,7 +13,7 @@ from apps.users.models.user.institution import InstitutionFontys, InstitutionTue
 from apps.users.models.user.profile import Profile
 
 
-class ProfileUpdateForm(UserChangeForm):
+class ProfileUpdateForm(forms.ModelForm):
 
     username = forms.EmailField(
         max_length=254, label="TU/e email", help_text="Required. Inform a valid TU/e email address."
@@ -54,6 +56,26 @@ class ProfileUpdateForm(UserChangeForm):
             institution = InstitutionFontys.objects.get(profile=profile)
             institution.study = self.cleaned_data["study"]
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_id = "id-profileUpdateForm"
+        self.helper.form_method = "post"
+        self.helper.form_action = "cosmos_users:user_profile"
+
+        self.helper.add_input(Submit("submit", "Submit"))
+
+
+class PasswordUpdateForm(PasswordChangeForm):
+    def __init__(self, *args, **kwargs):
+        super(PasswordUpdateForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_id = "id-passwordUpdateForm"
+        self.helper.form_method = "post"
+        self.helper.form_action = "cosmos_users:user_profile"
+
+        self.helper.add_input(Submit("submit", "Submit"))
+
 
 class PreferencesUpdateForm(forms.ModelForm):
 
@@ -61,12 +83,30 @@ class PreferencesUpdateForm(forms.ModelForm):
         model = Profile
         fields = ["subscribed_newsletter"]
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_id = "id-preferencesUpdateForm"
+        self.helper.form_method = "post"
+        self.helper.form_action = "cosmos_users:user_profile"
+
+        self.helper.add_input(Submit("submit", "Submit"))
+
 
 class KeyAccessUpdateForm(forms.ModelForm):
 
     class Meta:
         model = InstitutionTue
         fields = ["tue_id", "card_number"]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_id = "id-keyAccessUpdateForm"
+        self.helper.form_method = "post"
+        self.helper.form_action = "cosmos_users:user_profile"
+
+        self.helper.add_input(Submit("submit", "Submit"))
 
 
 # class MemberCreateForm(UserCreationForm):

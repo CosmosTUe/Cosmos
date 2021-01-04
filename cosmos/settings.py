@@ -213,6 +213,7 @@ INSTALLED_APPS = [
     "pipeline",
     "django_celery_results",
     "formtools",
+    "crispy_forms",
 ]
 
 LANGUAGES = (
@@ -313,3 +314,6 @@ SECURE_REFERRER_POLICY = "same-origin"
 CELERY_BROKER_URL = "amqp://guest:guest@localhost//"
 CELERY_RESULT_BACKEND = "django-db"
 CELERY_CACHE_BACKEND = "django-cache"
+
+# Crispy forms
+CRISPY_TEMPLATE_PACK = "bootstrap4"

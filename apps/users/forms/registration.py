@@ -46,7 +46,7 @@ class RegisterUserForm(UserCreationForm):
 
     def clean_username(self):
         data = self.cleaned_data["username"]
-        if not data.endswith("@student.tue.nl") or not data.endswith("@alumni.tue.nl") or not data.endswith("@fontys.nl"):
+        if not (data.endswith("@student.tue.nl") or data.endswith("@alumni.tue.nl") or data.endswith("@fontys.nl")):
             raise ValidationError("Please enter your institutional email.")
         return data
 

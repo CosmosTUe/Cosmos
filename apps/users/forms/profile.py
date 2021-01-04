@@ -144,9 +144,7 @@ class ProfileUpdateForm(forms.ModelForm):
     nationality = forms.ChoiceField(required=False, choices=list(zip(NATIONALITIES, NATIONALITIES)))
     department = forms.ChoiceField(required=False, choices=list(zip(DEPARTMENTS, DEPARTMENTS)))
     program = forms.ChoiceField(required=False, choices=list(zip(PROGRAMS, PROGRAMS)))
-    newsletter_recipient = forms.ChoiceField(
-        required=False, choices=list(zip(NEWSLETTER_RECIPIENTS, NEWSLETTER_RECIPIENTS))
-    )
+    newsletter_recipient = forms.ChoiceField(required=False, choices=NEWSLETTER_RECIPIENTS)
 
     class Meta:
         model = Profile

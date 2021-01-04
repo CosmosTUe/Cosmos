@@ -3,7 +3,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from apps.users.models.user.constants import DEPARTMENTS, NATIONALITIES, PROGRAMS, NEWSLETTER_RECIPIENTS
+from apps.users.models.user.constants import DEPARTMENTS, NATIONALITIES, NEWSLETTER_RECIPIENTS, PROGRAMS
 
 state_prefix = "old_"
 

@@ -3,7 +3,6 @@ import logging
 from django.contrib import admin
 from django.db.models.query import QuerySet
 
-from apps.users.exceptions import AuthorizationException
 from apps.users.factory import get_newsletter_service
 from apps.users.models import Profile
 
@@ -25,11 +24,6 @@ class ProfileAdmin(admin.ModelAdmin):
         self.message_user(request, f"Sending {len(queryset)} messages...")
         # breaks with celery, see https://github.com/sendgrid/python-http-client/issues/139
         # sync_newsletter_subscriptions_task.delay([u for u in queryset.values_list("id", flat=True)]).get()
-        try:
-            for u in queryset:
-                newsletter_service.update_newsletter_preferences(u, force=True)
-        except AuthorizationException:
-            msg = "AuthorizationException: Syncing profile with newsletter backend without authorization"
-            logger.error(msg)
-            self.message_user(request, msg)
+        for u in queryset:
+            newsletter_service.update_newsletter_preferences(u, force=True)
         self.message_user(request, f"{len(queryset)} newsletter preferences updated!")

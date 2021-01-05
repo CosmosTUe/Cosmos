@@ -9,7 +9,6 @@ from django.db import transaction
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
-from apps.users.exceptions import AuthorizationException
 from apps.users.factory import get_newsletter_service
 from apps.users.forms import MemberCreateForm, MemberUpdateForm, ProfileCreateForm, ProfileUpdateForm
 
@@ -111,11 +110,7 @@ def process_profile_form(request):
 def delete(request):
     if request.method == "POST":
         # Remove newsletter subscription before deleting the user
-        try:
-            newsletter_service.remove_subscription(request.user.username)
-            newsletter_service.remove_subscription(request.user.email)
-        except AuthorizationException:
-            # TODO handle deletion of username without deletion from newsletter?
-            logger.error("AuthorizationException: Deleting user unsynced with newsletter backend")
+        newsletter_service.remove_subscription(request.user.username)
+        newsletter_service.remove_subscription(request.user.email)
         User.objects.get(username=request.user.username).delete()
     return redirect("/")

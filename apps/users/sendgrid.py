@@ -1,11 +1,11 @@
 import json
+from collections import deque
 from http.client import HTTPException
 from typing import Dict
 
 import sendgrid
 from python_http_client import UnauthorizedError
 
-from apps.users.exceptions import AuthorizationException
 from apps.users.newsletter import NewsletterService
 from cosmos import settings
 
@@ -13,6 +13,7 @@ from cosmos import settings
 class SendgridService(NewsletterService):
     def __init__(self):
         self.sg = sendgrid.SendGridAPIClient(api_key=settings.EMAIL_HOST_PASSWORD)
+        self.fail_queue = deque()
 
     @staticmethod
     def __process_status_code(response, expected_status):
@@ -29,23 +30,20 @@ class SendgridService(NewsletterService):
 
     def __get_user_id(self, email: str):
         # https://sendgrid.api-docs.io/v3.0/contacts/search-contacts
-        try:
-            response = self.sg.client.marketing.contacts.search.post(
-                request_body=self.__get_sandbox_json({"query": f"email LIKE '{email}'"})
-            )
-            self.__process_status_code(response, 200)
+        response = self.sg.client.marketing.contacts.search.post(
+            request_body=self.__get_sandbox_json({"query": f"email LIKE '{email}'"})
+        )
+        self.__process_status_code(response, 200)
 
-            data = json.loads(response.body.decode("utf-8"))
-            if data["contact_count"] == 0:
-                return None
+        data = json.loads(response.body.decode("utf-8"))
+        if data["contact_count"] == 0:
+            return None
 
-            if data["contact_count"] > 1:
-                raise AssertionError(f"Duplicate emails registered for {email}")
+        if data["contact_count"] > 1:
+            raise AssertionError(f"Duplicate emails registered for {email}")
 
-            # assumes user is first on the list
-            return data["result"][0]["id"]
-        except UnauthorizedError:
-            raise AuthorizationException
+        # assumes user is first on the list
+        return data["result"][0]["id"]
 
     def is_subscribed(self, email: str):
         # https://sendgrid.api-docs.io/v3.0/contacts/search-contacts
@@ -63,7 +61,7 @@ class SendgridService(NewsletterService):
 
             return matches == 1
         except UnauthorizedError:
-            raise AuthorizationException()
+            self.fail_queue.append((self.is_subscribed, [email]))
 
     def add_subscription(self, email: str, first_name: str, last_name: str):
         # https://sendgrid.api-docs.io/v3.0/contacts/add-or-update-a-contact
@@ -85,7 +83,7 @@ class SendgridService(NewsletterService):
             # return whether removal was successful
             return self.__process_status_code(response, 202)
         except UnauthorizedError:
-            raise AuthorizationException()
+            self.fail_queue.append((self.add_subscription, [email, first_name, last_name]))
 
     def remove_subscription(self, email: str):
         # https://sendgrid.api-docs.io/v3.0/contacts/delete-contacts
@@ -96,4 +94,12 @@ class SendgridService(NewsletterService):
             # return whether removal was successful
             return self.__process_status_code(response, 202)
         except UnauthorizedError:
-            raise AuthorizationException()
+            self.fail_queue.append((self.remove_subscription, [email]))
+
+    def retry_failed_requests(self):
+        try:
+            for request, args in self.fail_queue:
+                request(*args)
+            self.fail_queue.clear()
+        except UnauthorizedError:
+            pass

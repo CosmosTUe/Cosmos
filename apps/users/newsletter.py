@@ -32,9 +32,8 @@ class NewsletterService(metaclass=ABCMeta):
         """
         Updates newsletter preferences
 
-        :param profile: profile to change prefernces
+        :param profile: profile to change preferences
         :param force: force update to backend (optional)
-        :raises AuthorizationException:
         """
         # Subscribe user to newsletter when consented
 

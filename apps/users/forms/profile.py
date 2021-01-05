@@ -6,7 +6,6 @@ from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
-from apps.users.exceptions import AuthorizationException
 from apps.users.factory import get_newsletter_service
 from apps.users.models.user import Profile
 from apps.users.models.user.constants import NEWSLETTER_RECIPIENTS
@@ -134,10 +133,7 @@ class ProfileCreateForm(forms.ModelForm):
     def save(self, *args, **kwargs):
         obj: Profile = super().save(*args, **kwargs)
         if obj.has_changed():
-            try:
-                newsletter_service.update_newsletter_preferences(obj)
-            except AuthorizationException:
-                logger.error("AuthorizationException: Creating profile unsynced with newsletter backend")
+            newsletter_service.update_newsletter_preferences(obj)
             obj.update_states()
         return self.instance
 
@@ -172,9 +168,6 @@ class ProfileUpdateForm(forms.ModelForm):
     def save(self, *args, **kwargs):
         obj: Profile = super().save(*args, **kwargs)
         if obj.has_changed():
-            try:
-                newsletter_service.update_newsletter_preferences(obj)
-            except AuthorizationException:
-                logger.error("AuthorizationException: Updating profile unsynced with newsletter backend")
+            newsletter_service.update_newsletter_preferences(obj)
             obj.update_states()
         return self.instance

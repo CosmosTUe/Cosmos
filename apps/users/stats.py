@@ -1,6 +1,4 @@
-# import matplotlib.pyplot as plt
-import json
-
+import matplotlib.pyplot as plt
 from django.db.models import Count
 
 # Profile.objects.values('nationality').annotate(Count('nationality'))
@@ -20,13 +18,16 @@ def get_stats(query):
     nationality = {item["nationality"]: item["nationality__count"] for item in nationality_list}
 
     # Call the plotting function (used in case the plotting function wants to be changed)
-    # make_plot(department)
-    # make_plot(program)
-    # make_plot(nationality)
-    stats = json.dumps(department) + "\n" + json.dumps(program) + "\n" + json.dumps(nationality)
-    return stats
+    plots = [make_plot(department, "department"), make_plot(program, "program"), make_plot(nationality, "nationality")]
+    return plots
 
 
-# def make_plot(data):
-#
-#    plt.bar(data)
+def make_plot(data, name):
+    # Makes a plot from the data and then returns the location of where it's saved
+    filepath = "/tmp/" + name + "-graph.jpg"
+    fig = plt.figure(1, [20, 8])
+    plt.bar(data.keys(), data.values())
+    plt.savefig(filepath)
+    plt.close()
+
+    return filepath

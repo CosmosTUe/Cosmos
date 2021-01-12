@@ -1,5 +1,8 @@
+import os
+from zipfile import ZipFile
+
 from django.contrib import admin
-from django.http import HttpResponse
+from django.http import HttpResponse, FileResponse
 from django.urls import path
 
 from apps.users.models import Profile
@@ -24,8 +27,18 @@ class ProfileAdmin(admin.ModelAdmin):
         return my_urls + urls
 
     def send_stats(self, request):
-        stats = get_stats(self.model.objects)
-        response = HttpResponse(stats, content_type="application/text")
-        response["Content-Disposition"] = "attachment; filename=User_Statistics_Cosmos_website.json"
+        # https://djangosnippets.org/snippets/365/
+        filenames = get_stats(self.model.objects)  # get file objects of plots
+        zip_path = "/tmp/user-stats.zip"
+        if os.path.exists(zip_path):
+            os.remove(zip_path)
+        zip_obj = ZipFile(zip_path, "w")
+        for files in filenames:
+            zip_obj.write(files, os.path.basename(files))
+            os.remove(files)
+        zip_obj.close()
+        # response = HttpResponse(open(zip_path).read(), content_type="application/zip")
+        # response["Content-Disposition"] = "attachment; filename=%s" % os.path.basename(zip_path)
+        response = FileResponse(open(zip_path, "rb"))
 
         return response

@@ -25,8 +25,9 @@ def get_stats(query):
 def make_plot(data, name):
     # Makes a plot from the data and then returns the location of where it's saved
     filepath = "/tmp/" + name + "-graph.jpg"
-    fig = plt.figure(1, [20, 8])
+    plt.figure(1, [20, 8])
     plt.bar(data.keys(), data.values())
+    plt.title(name.capitalize())
     plt.savefig(filepath)
     plt.close()
 

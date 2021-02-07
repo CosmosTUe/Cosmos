@@ -1,10 +1,16 @@
 import json
 
 from django.core.handlers.wsgi import WSGIRequest
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 
 from django.views.decorators.csrf import csrf_exempt
+from sendgrid import EventWebhookHeader
 
+from sendgrid.helpers.eventwebhook import EventWebhook
+
+from cosmos import settings
+
+webhook = EventWebhook()
 
 # TODO consider changing to /hook/sendgrid?
 # link is at `<domain>/accounts/hook/`
@@ -13,14 +19,34 @@ from django.views.decorators.csrf import csrf_exempt
 # https://sendgrid.com/docs/for-developers/tracking-events/getting-started-event-webhook/
 
 
+def is_valid_signature(request: WSGIRequest) -> bool:
+    """
+    Determines whether the request has a valid signature
+
+    https://github.com/sendgrid/sendgrid-python/blob/3f97a7fed7b48d7cbe3b80db81abf5bb170bf102/examples/helpers/eventwebhook/eventwebhook_example.py#L6
+
+    :param request: Django request
+    :returns: boolean
+    """
+    return webhook.verify_signature(
+        request.body.decode("utf-8"),
+        request.headers[EventWebhookHeader.SIGNATURE],
+        request.headers[EventWebhookHeader.TIMESTAMP],
+        webhook.convert_public_key_to_ecdsa(settings.SENDGRID_WEBHOOK_SIGNATURE),
+    )
+
+
 @csrf_exempt
 def sendgrid_webhook(request: WSGIRequest):
     if request.method != "POST":
         return
 
-    data = json.loads(request.body)
+    if not is_valid_signature(request):
+        return HttpResponseForbidden()
+
+    data = json.loads(request.body.decode("utf-8"))
     filtered_data = filter(lambda x: x["event"] == "unsubscribe", data)
     for thing in filtered_data:
         print(thing)
-    # print(json.loads(request.body))
+
     return HttpResponse()

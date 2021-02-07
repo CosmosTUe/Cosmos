@@ -1,5 +1,6 @@
 import json
 
+from django.contrib.auth.models import User
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpResponse, HttpResponseForbidden
 
@@ -47,6 +48,22 @@ def sendgrid_webhook(request: WSGIRequest):
     data = json.loads(request.body.decode("utf-8"))
     filtered_data = filter(lambda x: x["event"] == "unsubscribe", data)
     for thing in filtered_data:
-        print(thing)
+        # search amongst institution emails
+        query = User.objects.filter(username=thing["email"])
+
+        # if there are no institution emails found
+        # NOTE: institution emails are primary keys therefore cannot have duplicates
+        if len(query) != 1:
+            query = User.objects.filter(email=thing["email"])
+
+            # if there are no alt emails found, skip unsubscribing
+            # TODO or if there are more than than one alt emails found,
+            #  indicate multiple users sharing the same account?
+            if len(query) != 1:
+                continue
+
+        user = query.first()
+        user.profile.subscribed_newsletter = False
+        user.profile.save()
 
     return HttpResponse()

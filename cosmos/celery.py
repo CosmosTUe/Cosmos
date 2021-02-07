@@ -1,3 +1,4 @@
+from cosmos.tasks import execute_async_requests
 import os
 
 from celery import Celery
@@ -25,6 +26,11 @@ def config_loggers(*args, **kwags):
     from django.conf import settings
 
     dictConfig(settings.LOGGING)
+
+
+@app.on_after_configure.connect
+def setup_periodic_tasks(sender, **kwargs):
+    sender.add_periodic_task(300, execute_async_requests(), name="execute async requests")
 
 
 @app.task(bind=True)

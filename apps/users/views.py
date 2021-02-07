@@ -116,17 +116,17 @@ def profile(request):
         elif "save_password" in request.POST:
             if password_change_form.is_valid():
                 password_change_form.save()
-                messages.succes(request, "Your password has been updated!")
+                messages.success(request, "Your password has been updated!")
                 return redirect(reverse("cosmos_users:user_profile") + "#password")
         elif "save_preferences" in request.POST:
             if preferences_update_form.is_valid():
                 preferences_update_form.save()
-                messages.succes(request, "Your preferences have been updated!")
+                messages.success(request, "Your preferences have been updated!")
                 return redirect(reverse("cosmos_users:user_profile") + "#preferences")
         elif "save_key_access" in request.POST:
             if key_access_update_form is not None and key_access_update_form.is_valid():
                 key_access_update_form.save()
-                messages.succes(request, "Your key access settings have been updated!")
+                messages.success(request, "Your key access settings have been updated!")
                 return redirect(reverse("cosmos_users:user_profile") + "#key-access")
 
     else:

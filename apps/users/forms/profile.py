@@ -2,7 +2,7 @@
 
 # from cms.utils.compat.forms import UserChangeForm, UserCreationForm
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit
+from crispy_forms.layout import Layout, Submit, Field, ButtonHolder
 from django import forms
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
@@ -63,7 +63,29 @@ class ProfileUpdateForm(forms.ModelForm):
         self.helper.form_method = "post"
         self.helper.form_action = "cosmos_users:user_profile"
 
-        self.helper.add_input(Submit("submit", "Submit"))
+        if self.initial.get("username").endswith("tue.nl"):
+            hidden_tue = ""
+            hidden_fontys = "hidden"
+        elif self.initial.get("username").endswith("fontys.nl"):
+            hidden_tue = "hidden"
+            hidden_fontys = ""
+        else:
+            hidden_tue = ""
+            hidden_fontys = ""
+
+        self.helper.layout = Layout(
+            Field("first_name"),
+            Field("last_name"),
+            Field("username"),
+            Field("email"),
+            Field("nationality"),
+            Field("department", type=hidden_tue),
+            Field("program", type=hidden_tue),
+            Field("study", type=hidden_fontys),
+            ButtonHolder(
+                Submit("save_profile", "Submit")
+            )
+        )
 
 
 class PasswordUpdateForm(PasswordChangeForm):
@@ -74,7 +96,7 @@ class PasswordUpdateForm(PasswordChangeForm):
         self.helper.form_method = "post"
         self.helper.form_action = "cosmos_users:user_profile"
 
-        self.helper.add_input(Submit("submit", "Submit"))
+        self.helper.add_input(Submit("save_password", "Submit"))
 
 
 class PreferencesUpdateForm(forms.ModelForm):
@@ -90,7 +112,7 @@ class PreferencesUpdateForm(forms.ModelForm):
         self.helper.form_method = "post"
         self.helper.form_action = "cosmos_users:user_profile"
 
-        self.helper.add_input(Submit("submit", "Submit"))
+        self.helper.add_input(Submit("save_preferences", "Submit"))
 
 
 class KeyAccessUpdateForm(forms.ModelForm):
@@ -106,7 +128,7 @@ class KeyAccessUpdateForm(forms.ModelForm):
         self.helper.form_method = "post"
         self.helper.form_action = "cosmos_users:user_profile"
 
-        self.helper.add_input(Submit("submit", "Submit"))
+        self.helper.add_input(Submit("save_key_access", "Submit"))
 
 
 # class MemberCreateForm(UserCreationForm):

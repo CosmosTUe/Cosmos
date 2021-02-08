@@ -69,10 +69,6 @@ DATABASES = {
     },
 }
 
-DATABASE_ROUTERS = ["apps.legacy.legacy_router.LegacyRouter"]
-
-SILENCED_SYSTEM_CHECKS = ["models.W035"]
-
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -187,7 +183,6 @@ MIDDLEWARE = [
 INSTALLED_APPS = [
     "cosmos",
     "apps.users",
-    "apps.legacy",
     "apps.cms_plugins",
     "apps.events",
     "djangocms_admin_style",

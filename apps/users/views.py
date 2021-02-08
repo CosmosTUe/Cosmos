@@ -9,7 +9,7 @@ from django.db import transaction
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
-from apps.users.factory import get_newsletter_service
+from apps.async_requests.sendgrid.factory import get_newsletter_service
 from apps.users.forms import MemberCreateForm, MemberUpdateForm, ProfileCreateForm, ProfileUpdateForm
 
 logger = logging.getLogger(__name__)

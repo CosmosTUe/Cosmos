@@ -7,7 +7,7 @@ from django.db.models.query import QuerySet
 from django.http import FileResponse
 from django.urls import path
 
-from apps.users.factory import get_newsletter_service
+from apps.async_requests.sendgrid.factory import get_newsletter_service
 from apps.users.models import Profile
 from apps.users.stats import get_stats
 

@@ -1,8 +1,9 @@
-from cosmos.tasks import execute_async_requests
 import os
 
 from celery import Celery
 from celery.signals import setup_logging
+
+from apps.async_requests.tasks import execute_async_requests
 
 # set the default Django settings module for the 'celery' program.
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "cosmos.settings")

@@ -1,6 +1,6 @@
 import logging
 
-from cosmos.async_requests.commands.command import Command
+from apps.async_requests.commands.command import Command
 
 logger = logging.getLogger(__name__)
 

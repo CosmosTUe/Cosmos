@@ -1,6 +1,6 @@
 from celery import shared_task
 
-from cosmos.async_requests.executor import get_executor
+from apps.async_requests.executor import get_executor
 
 
 @shared_task

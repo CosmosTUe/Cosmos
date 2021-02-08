@@ -1,4 +1,4 @@
-from apps.users.newsletter import NewsletterService
+from apps.async_requests.sendgrid.newsletter import NewsletterService
 
 
 class NewsletterServiceMock(NewsletterService):

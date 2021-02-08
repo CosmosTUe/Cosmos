@@ -6,7 +6,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
-from apps.users.factory import get_newsletter_service
+from apps.async_requests.sendgrid.factory import get_newsletter_service
 from apps.users.models.user import Profile
 from apps.users.models.user.constants import DEPARTMENTS, NATIONALITIES, NEWSLETTER_RECIPIENTS, PROGRAMS
 

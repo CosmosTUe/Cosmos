@@ -1,6 +1,6 @@
 from django.core import mail
 
-from cosmos.async_requests.commands.command import Command
+from apps.async_requests.commands.command import Command
 
 
 class MailSendCommand(Command):

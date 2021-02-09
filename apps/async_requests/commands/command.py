@@ -1,4 +1,7 @@
-class Command():
+from abc import ABC, abstractmethod
+
+
+class Command(ABC):
 
     def __init__(self, can_merge, backoff_factor=2):
         self.can_merge = can_merge
@@ -9,8 +12,10 @@ class Command():
     def can_merge(self):
         return self.can_merge
 
+    @abstractmethod
     def merge(self, list_commands):
         pass
 
+    @abstractmethod
     def execute(self):
         pass

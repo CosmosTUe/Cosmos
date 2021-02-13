@@ -1,3 +1,4 @@
+import logging
 import re
 
 from cms.utils.compat.forms import UserChangeForm, UserCreationForm
@@ -9,6 +10,7 @@ from apps.users.factory import get_newsletter_service
 from apps.users.models.user import Profile
 from apps.users.models.user.constants import DEPARTMENTS, NATIONALITIES, NEWSLETTER_RECIPIENTS, PROGRAMS
 
+logger = logging.getLogger(__name__)
 newsletter_service = get_newsletter_service()
 
 
@@ -132,7 +134,7 @@ class ProfileCreateForm(forms.ModelForm):
         obj: Profile = super().save(*args, **kwargs)
         if obj.has_changed():
             newsletter_service.update_newsletter_preferences(obj)
-        obj.update_states()
+            obj.update_states()
         return self.instance
 
 
@@ -162,5 +164,5 @@ class ProfileUpdateForm(forms.ModelForm):
         obj: Profile = super().save(*args, **kwargs)
         if obj.has_changed():
             newsletter_service.update_newsletter_preferences(obj)
-        obj.update_states()
+            obj.update_states()
         return self.instance

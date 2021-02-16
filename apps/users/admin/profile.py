@@ -1,13 +1,11 @@
+import logging
 import os
 from zipfile import ZipFile
 
-from django.http import HttpResponse, FileResponse
-from django.urls import path
-import logging
-
 from django.contrib import admin
 from django.db.models.query import QuerySet
-
+from django.http import FileResponse
+from django.urls import path
 
 from apps.users.factory import get_newsletter_service
 from apps.users.models import Profile
@@ -24,7 +22,6 @@ class ProfileAdmin(admin.ModelAdmin):
     list_display = ("username", "department", "program", "nationality", "terms_confirmed", "subscribed_newsletter")
 
     search_fields = ["user__username"]
-
 
     # Used to extend the default admin page to add a button
     change_list_template = "user/admin_add_stats_button.html"
@@ -48,8 +45,6 @@ class ProfileAdmin(admin.ModelAdmin):
             zip_obj.write(files, os.path.basename(files))
             os.remove(files)
         zip_obj.close()
-        # response = HttpResponse(open(zip_path).read(), content_type="application/zip")
-        # response["Content-Disposition"] = "attachment; filename=%s" % os.path.basename(zip_path)
         response = FileResponse(open(zip_path, "rb"))
 
         return response

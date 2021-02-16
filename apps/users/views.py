@@ -1,3 +1,5 @@
+import logging
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -10,6 +12,7 @@ from django.urls import reverse
 from apps.users.factory import get_newsletter_service
 from apps.users.forms import MemberCreateForm, MemberUpdateForm, ProfileCreateForm, ProfileUpdateForm
 
+logger = logging.getLogger(__name__)
 newsletter_service = get_newsletter_service()
 
 

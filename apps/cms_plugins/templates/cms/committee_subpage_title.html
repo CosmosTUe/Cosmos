@@ -1,7 +1,0 @@
-{% extends "cms/group_subpage_title_template.html" %}
-{% block image_src %}{{ instance.committee.photo.url }}{% endblock image_src %}
-
-{% block text_content %}
-    <h1>{{ instance.committee.display_name }}</h1>
-    <p>{{ instance.committee.description }}</p>
-{% endblock text_content %}

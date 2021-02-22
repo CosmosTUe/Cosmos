@@ -6,6 +6,7 @@ wheel # helps with package management
 six # compatibility library between py2 and py3
 psycopg2-binary>=2.8.5,<3 # postgresql adapter
 pytz>=2020.1 # timezone library
+matplotlib>=3.3.4
 
 # Modified django-cms that fixes migrations to support multiple databases
 -e git+git://github.com/bcvandendool/django-cms@release/3.7.x#egg=django-cms

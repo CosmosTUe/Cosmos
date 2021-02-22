@@ -28,6 +28,8 @@ def make_plot(data, name):
     plt.figure(1, [20, 8])
     plt.bar(data.keys(), data.values())
     plt.title(name.capitalize())
+    plt.xticks(rotation=45, ha="right")
+    plt.tight_layout()
     plt.savefig(filepath)
     plt.close()
 

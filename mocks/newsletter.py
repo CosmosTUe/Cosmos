@@ -8,13 +8,15 @@ class NewsletterServiceMock(NewsletterService):
     def is_subscribed(self, email: str):
         return email in self.db
 
-    def add_subscription(self, email: str, first_name: str, last_name: str):
-        self.db.add(email)
+    def add_subscription(self, contacts):
+        for contact in contacts:
+            self.db.add(contact["email"])
         return True
 
-    def remove_subscription(self, email: str):
-        try:
-            self.db.remove(email)
-        except KeyError:
-            pass
+    def remove_subscription(self, emails):
+        for email in emails:
+            try:
+                self.db.remove(email)
+            except KeyError:
+                pass
         return True

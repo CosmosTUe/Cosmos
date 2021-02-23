@@ -4,7 +4,7 @@ from apps.async_requests.factory import Factory
 
 class UnsubscribeCommand(Command):
     def __init__(self, email):
-        super.__init__(self, True)
+        super(UnsubscribeCommand, self).__init__(True)
         self.emails = [email]
 
     def merge(self, list_commands):

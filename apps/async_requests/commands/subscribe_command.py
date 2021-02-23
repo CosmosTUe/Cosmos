@@ -4,7 +4,7 @@ from apps.async_requests.factory import Factory
 
 class SubscribeCommand(Command):
     def __init__(self, email, first_name, last_name):
-        super.__init__(self, True)
+        super(SubscribeCommand, self).__init__(True)
         self.contacts = [{"email": email, "first_name": first_name, "last_name": last_name}]
 
     def merge(self, list_commands):

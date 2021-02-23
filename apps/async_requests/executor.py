@@ -10,6 +10,7 @@ class _Executor:
     _command_list = []
 
     def add_command(self, command: Command):
+        # do the merging here!
         self._command_list.append(command)
 
     def remove_command(self, command):
@@ -22,9 +23,9 @@ class _Executor:
         for command in self._command_list:
             if command.timer == 0:
                 self._command_list.remove(command)
-                if command.can_merge():
+                if command.get_can_merge():
                     for command2 in self._command_list:
-                        if command2.can_merge() & type(command) == type(command2):
+                        if command2.get_can_merge() and type(command) == type(command2):
                             temp_list.append(command2)
                             self._command_list.remove(command2)
 

@@ -21,11 +21,11 @@ class NewsletterService(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def add_subscription(self, email: str, first_name: str, last_name: str):
+    def add_subscription(self, contacts):
         pass
 
     @abstractmethod
-    def remove_subscription(self, email: str):
+    def remove_subscription(self, emails):
         pass
 
     def update_newsletter_preferences(self, profile: Profile, force=False):

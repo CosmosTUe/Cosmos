@@ -1,8 +1,8 @@
 from celery import shared_task
 
-from apps.async_requests.factory import get_executor
+from apps.async_requests.factory import Factory
 
 
 @shared_task
 def execute_async_requests():
-    get_executor.execute()
+    Factory.get_executor().execute()

@@ -5,7 +5,7 @@ from apps.async_requests.commands.command import Command
 
 class MailSendCommand(Command):
     def __init__(self, email):
-        super.__init__(self, True)
+        super(MailSendCommand, self).__init__(True)
         self.emails = [email]
 
     def merge(self, list_commands):

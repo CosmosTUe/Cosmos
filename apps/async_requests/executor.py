@@ -8,7 +8,6 @@ logger = logging.getLogger(__name__)
 class _Executor:
 
     _command_list = []
-    _instance = None
 
     def add_command(self, command: Command):
         self._command_list.append(command)
@@ -37,7 +36,7 @@ class _Executor:
                 command.execute()
             except Exception as e:
                 logger.error(repr(e))
-                if (command.times_delayed == 3):
+                if command.times_delayed == 3:
                     logger.error(repr(e))
                 else:
                     logger.warning(repr(e))
@@ -49,9 +48,3 @@ class _Executor:
             temp_list = []
 
         self._command_list.extend(failed_list)
-
-
-def get_executor():
-    if _Executor._instance is None:
-        _Executor._instance = _Executor()
-    return _Executor._instance

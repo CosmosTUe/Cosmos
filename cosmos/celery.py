@@ -3,8 +3,6 @@ import os
 from celery import Celery
 from celery.signals import setup_logging
 
-from apps.async_requests.tasks import execute_async_requests
-
 # set the default Django settings module for the 'celery' program.
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "cosmos.settings")
 
@@ -31,7 +29,10 @@ def config_loggers(*args, **kwags):
 
 @app.on_after_configure.connect
 def setup_periodic_tasks(sender, **kwargs):
+    from apps.async_requests.tasks import execute_async_requests
+
     sender.add_periodic_task(300, execute_async_requests(), name="execute async requests")
+    pass
 
 
 @app.task(bind=True)

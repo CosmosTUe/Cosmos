@@ -37,6 +37,12 @@ class NewsletterService(metaclass=ABCMeta):
         """
         # Subscribe user to newsletter when consented
 
+        from apps.async_requests.commands.subscribe_command import SubscribeCommand
+        from apps.async_requests.commands.unsubscribe_command import UnsubscribeCommand
+        from apps.async_requests.factory import Factory
+
+        executor = Factory.get_executor()
+
         # extract attributes
         old_is_sub = getattr(profile, f"{state_prefix}subscribed_newsletter")
         old_recipient = getattr(profile, f"{state_prefix}newsletter_recipient")
@@ -52,9 +58,9 @@ class NewsletterService(metaclass=ABCMeta):
         if old_is_sub:
             # unsubscribe old email
             if old_recipient == "TUE":
-                self.remove_subscription(profile.user.username)
+                executor.add_command(UnsubscribeCommand(profile.user.username))
             else:
-                self.remove_subscription(profile.user.email)
+                executor.add_command(UnsubscribeCommand(profile.user.email))
 
         # handle new email next
         if is_sub:
@@ -63,4 +69,4 @@ class NewsletterService(metaclass=ABCMeta):
                 email = profile.user.username
             else:
                 email = profile.user.email
-            self.add_subscription(email, profile.user.first_name, profile.user.last_name)
+            executor.add_command(SubscribeCommand(email, profile.user.first_name, profile.user.last_name))

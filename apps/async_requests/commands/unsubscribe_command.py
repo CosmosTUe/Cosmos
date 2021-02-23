@@ -1,9 +1,8 @@
-from django.core import mail
-
 from apps.async_requests.commands.command import Command
+from apps.async_requests.factory import Factory
 
 
-class MailSendCommand(Command):
+class UnsubscribeCommand(Command):
     def __init__(self, email):
         super.__init__(self, True)
         self.emails = [email]
@@ -13,5 +12,5 @@ class MailSendCommand(Command):
             self.emails.extend(command.emails)
 
     def execute(self):
-        connection = mail.get_connection()
-        connection.send_messages(self.emails)
+        newsletter_service = Factory.get_newsletter_service()
+        newsletter_service.remove_subscription(self.emails)

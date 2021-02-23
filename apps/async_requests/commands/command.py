@@ -2,7 +2,6 @@ from abc import ABC, abstractmethod
 
 
 class Command(ABC):
-
     def __init__(self, can_merge, backoff_factor=2):
         self.can_merge = can_merge
         self.timer = 0

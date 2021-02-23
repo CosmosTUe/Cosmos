@@ -1,7 +1,8 @@
 from apps.async_requests.commands.command import Command
+from apps.async_requests.factory import Factory
 
 
-class SubscriptionCommand(Command):
+class SubscribeCommand(Command):
     def __init__(self, email, first_name, last_name):
         super.__init__(self, True)
         self.contacts = [{"email": email, "first_name": first_name, "last_name": last_name}]
@@ -11,4 +12,5 @@ class SubscriptionCommand(Command):
             self.contacts.extend(command.contacts)
 
     def execute(self):
-        pass
+        newsletter_service = Factory.get_newsletter_service()
+        newsletter_service.add_subscription(self.contacts)

@@ -7,6 +7,7 @@ from apps.async_requests.factory import Factory
 class NewsletterLogic(TestCase):
     def setUp(self) -> None:
         self.service = Factory.get_newsletter_service()
+        self.service.clear_db()
         self.test_tue = "tosti@student.tue.nl"
         self.test_alt = "tosti@gmail.com"
         self.test_user: User = User.objects.create_user(

@@ -9,6 +9,7 @@ secrets = {
     "SECRET_KEY": "j@7*rtssewjfhix2f^7&1iypigm=o4ju1qtdd!)ad$s1*hlkj2",
     "DEBUG": True,
     "ALLOWED_HOSTS": [],
+    "LOGGING": {"FOLDER": "logs"},
     "DATABASES": {
         "DEFAULT": {
             "NAME": "cosmos_website_test",

@@ -22,6 +22,7 @@ class UserViews(TestCase):
                 "department": "Sustainable Innovation",
                 "program": "Other",
                 "terms_confirmed": True,
+                "newsletter_recipient": "TUE",
             },
         )
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
@@ -57,6 +58,7 @@ class UserViews(TestCase):
                 "department": "Sustainable Innovation",
                 "program": "Other",
                 "terms_confirmed": True,
+                "newsletter_recipient": "TUE",
             },
         )
         self.assertEqual(response.status_code, HTTPStatus.OK)
@@ -108,7 +110,38 @@ class UserViews(TestCase):
                 "nationality": "German",
                 "department": "Sustainable Innovation",
                 "program": "Other",
+                "newsletter_recipient": "TUE",
             },
         )
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
         self.assertEqual(response.url, "/")
+
+    def test_fail_register_profile(self):
+        """
+        Test invalid register view when user already exists
+        """
+
+        # Create a logged out client
+        c = Client()
+        c.logout()
+
+        # Attempt POST request
+        c.post(
+            "/accounts/register/",
+            data={
+                "username": "mike@student.tue.nl",
+                "email": "tosti@gmail.com",
+                "first_name": "TostiFaker",
+                "last_name": "BroodjesFaker",
+                "password1": "ikbeneenbrood",
+                "password2": "ikbeneenbrood",
+                "nationality": "Dutch",
+                "department": "",
+                "program": "Other",
+                "terms_confirmed": True,
+                "newsletter_recipient": "TUE",
+            },
+        )
+
+        mike_user = User.objects.filter(username="mike@student.tue.nl")
+        self.assertFalse(mike_user.exists())

@@ -317,7 +317,7 @@ EMAIL_USE_TLS = secret_settings.secrets["EMAIL"]["USE_TLS"]
 # TODO Always set default to noreply
 DEFAULT_FROM_EMAIL = secret_settings.secrets["EMAIL"]["USERNAME"]
 
-LOGIN_URL = "/accounts/login"
+LOGIN_URL = "/accounts/login/"
 LOGOUT_REDIRECT_URL = "/"
 
 # Security

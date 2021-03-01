@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpResponse, HttpResponseForbidden
 
-from django.views.decorators.csrf import csrf_exempt
+from oauth2_provider.views.generic import ProtectedResourceView
 from sendgrid import EventWebhookHeader
 
 from sendgrid.helpers.eventwebhook import EventWebhook
@@ -15,9 +15,11 @@ webhook = EventWebhook()
 
 # TODO consider changing to /hook/sendgrid?
 # link is at `<domain>/accounts/hook/`
-# test with `ngrok http <django_port=8000>`
+# test with `ngrok http 127.0.0.1:<django_port=8000>`
 # fully setup with live server:
 # https://sendgrid.com/docs/for-developers/tracking-events/getting-started-event-webhook/
+# create token
+# https://django-oauth-toolkit.readthedocs.io/en/latest/getting_started.html#client-credential
 
 
 def is_valid_signature(request: WSGIRequest) -> bool:
@@ -37,33 +39,31 @@ def is_valid_signature(request: WSGIRequest) -> bool:
     )
 
 
-@csrf_exempt
-def sendgrid_webhook(request: WSGIRequest):
-    if request.method != "POST":
-        return
+class SendGridWebhook(ProtectedResourceView):
+    def post(self, request: WSGIRequest, *args, **kwargs) -> HttpResponse:
+        # TODO must be tested on live server (integration testing doesn't set signatures)
+        if not is_valid_signature(request):
+            return HttpResponseForbidden()
 
-    if not is_valid_signature(request):
-        return HttpResponseForbidden()
+        data = json.loads(request.body.decode("utf-8"))
+        filtered_data = filter(lambda x: x["event"] == "unsubscribe", data)
+        for thing in filtered_data:
+            # search amongst institution emails
+            query = User.objects.filter(username=thing["email"])
 
-    data = json.loads(request.body.decode("utf-8"))
-    filtered_data = filter(lambda x: x["event"] == "unsubscribe", data)
-    for thing in filtered_data:
-        # search amongst institution emails
-        query = User.objects.filter(username=thing["email"])
-
-        # if there are no institution emails found
-        # NOTE: institution emails are primary keys therefore cannot have duplicates
-        if len(query) != 1:
-            query = User.objects.filter(email=thing["email"])
-
-            # if there are no alt emails found, skip unsubscribing
-            # TODO or if there are more than than one alt emails found,
-            #  indicate multiple users sharing the same account?
+            # if there are no institution emails found
+            # NOTE: institution emails are primary keys therefore cannot have duplicates
             if len(query) != 1:
-                continue
+                query = User.objects.filter(email=thing["email"])
 
-        user = query.first()
-        user.profile.subscribed_newsletter = False
-        user.profile.save()
+                # if there are no alt emails found, skip unsubscribing
+                # TODO or if there are more than than one alt emails found,
+                #  indicate multiple users sharing the same account?
+                if len(query) != 1:
+                    continue
 
-    return HttpResponse()
+            user = query.first()
+            user.profile.subscribed_newsletter = False
+            user.profile.save()
+
+        return HttpResponse()

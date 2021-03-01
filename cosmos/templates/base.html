@@ -2,7 +2,9 @@
 <html>
 <head>
     {# Page title on the browser #}
-    <title> COSMOS </title>
+    <title>{% block title %} COSMOS {% endblock title %}</title>
+    {#Favicon for browser tab #}
+    <link rel="shortcut icon" type="image/png" href="{% static 'cosmos/img/favicon.ico' %}"/>
 
     {# Bootstrap CSS #}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"

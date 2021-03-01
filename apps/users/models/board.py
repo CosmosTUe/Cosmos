@@ -28,6 +28,7 @@ class Board(models.Model):
     """
 
     group = models.OneToOneField(Group, on_delete=models.CASCADE)
+    description = models.TextField(blank=True)
     period_from = models.DateField(blank=False)
     period_to = models.DateField()
     pretix_organizer_token = models.CharField(max_length=20, blank=True)
@@ -48,3 +49,8 @@ class Board(models.Model):
     @property
     def permissions(self):
         return self.group.permissions
+
+
+
+    def __str__(self):
+        return f"{self.name}: {self.description}"

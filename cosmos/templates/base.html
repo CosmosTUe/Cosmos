@@ -1,3 +1,7 @@
+{% load sekizai_tags %}
+{% load pipeline %}
+{% load static %}
+
 <!doctype html>
 <html>
 <head>
@@ -9,6 +13,8 @@
     {# Bootstrap CSS #}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    {# Custom CSS #}
+    {% stylesheet "cosmos" %}
 
     {# Scrollbar Custom CSS #}
     <link rel="stylesheet"
@@ -22,8 +28,22 @@
     </script>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     {# Blocks documenetation:  https://django-sekizai.readthedocs.io/en/latest/ #}
+    {% render_block "css" %}
 </head>
 <body>
+
+<div class="wrapper">
+    {# Content #}
+    {% block content %}
+    <div id="content" class="container-md mt-0">
+        <ul class="footer">
+{#            {% static_placeholder 'footer' %} Part of CMS_TAGS #}
+        </ul>
+    </div>
+    {% endblock content %}
+
+</div>
+
 
 {# jQuery CDN #}
 <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
@@ -38,6 +58,8 @@
 {# jQuery Custom Scroller CDN #}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 {# Sidebar custom JS #}
+{% javascript "cosmos" %}
+{% render_block "js" %}
 
 </body>
 </html>

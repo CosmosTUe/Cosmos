@@ -183,7 +183,6 @@ MIDDLEWARE = [
 INSTALLED_APPS = [
     "cosmos",
     "apps.users",
-    "apps.cms_plugins",
     "apps.events",
     "django.contrib.auth",
     "django.contrib.contenttypes",

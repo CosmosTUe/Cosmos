@@ -8,11 +8,13 @@ class NewsletterServiceMock(NewsletterService):
     def is_subscribed(self, email: str):
         return email in self.db
 
+    # contacts is a list of dictionaries which contain an email, first_name and last_name
     def add_subscription(self, contacts):
         for contact in contacts:
             self.db.add(contact["email"])
         return True
 
+    # emails is a a list of emails
     def remove_subscription(self, emails):
         for email in emails:
             try:

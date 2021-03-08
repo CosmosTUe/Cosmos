@@ -25,6 +25,7 @@ class SendgridService(NewsletterService):
             request_body["mail_settings"] = {"sandbox_mode": {"enable": True}}
         return request_body
 
+    # emails is a list of email addresses
     def __get_user_ids(self, emails):
         # https://sendgrid.api-docs.io/v3.0/contacts/search-contacts
         query = "email LIKE '" + emails.pop() + "'"
@@ -61,6 +62,7 @@ class SendgridService(NewsletterService):
 
         return matches == 1
 
+    # contacts is a list of dictionaries which contain an email, first_name and last_name
     def add_subscription(self, contacts):
         # https://sendgrid.api-docs.io/v3.0/contacts/add-or-update-a-contact
         response = self.sg.client.marketing.contacts.put(

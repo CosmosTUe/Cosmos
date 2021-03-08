@@ -36,7 +36,6 @@ class _Executor:
             try:
                 command.execute()
             except Exception as e:
-                logger.error(repr(e))
                 if command.times_delayed == 3:
                     logger.error(repr(e))
                 else:
@@ -44,7 +43,6 @@ class _Executor:
                     command.times_delayed += 1
                     command.timer = command.backoff_factor ** command.times_delayed
                     failed_list.append(command)
-                    failed_list.extend(temp_list)
 
             temp_list = []
 

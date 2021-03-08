@@ -1,5 +1,4 @@
 from apps.async_requests.commands.command import Command
-from apps.async_requests.factory import Factory
 
 
 class SubscribeCommand(Command):
@@ -12,5 +11,7 @@ class SubscribeCommand(Command):
             self.contacts.extend(command.contacts)
 
     def execute(self):
+        from apps.async_requests.factory import Factory
+
         newsletter_service = Factory.get_newsletter_service()
         newsletter_service.add_subscription(self.contacts)

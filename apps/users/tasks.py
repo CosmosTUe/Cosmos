@@ -1,7 +1,7 @@
 from celery import shared_task
 from celery.utils.log import get_task_logger
 
-from apps.users.factory import get_newsletter_service
+from apps.async_requests.sendgrid.factory import get_newsletter_service
 from apps.users.models import Profile
 
 logger = get_task_logger(__name__)

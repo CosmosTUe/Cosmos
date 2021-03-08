@@ -6,12 +6,12 @@ from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
-from apps.users.factory import get_newsletter_service
+from apps.async_requests.factory import Factory
 from apps.users.models.user import Profile
 from apps.users.models.user.constants import DEPARTMENTS, NATIONALITIES, NEWSLETTER_RECIPIENTS, PROGRAMS
 
 logger = logging.getLogger(__name__)
-newsletter_service = get_newsletter_service()
+newsletter_service = Factory.get_newsletter_service()
 
 
 class MemberCreateForm(UserCreationForm):

@@ -82,7 +82,7 @@ def process_profile_form(request):
             if profile_form.is_valid():
                 profile_form.save()
                 messages.success(request, "Your preferences were succesfully updated!")
-                return redirect(request("cosmos_users:user_profile") + "#preferences")
+                return redirect(reverse("cosmos_users:user_profile") + "#preferences")
         elif "save_key_access" in request.POST:
             if profile_form.is_valid():
                 profile_form.save()

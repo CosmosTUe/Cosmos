@@ -14,7 +14,7 @@ admin.autodiscover()
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("o/", include("oauth2_provider.urls", namespace="oauth2_provider")),
+    path("o/", include("oauth2_provider.urls", namespace="oauth2_provider")),  # django-oauth-toolkit
     path("accounts/", include("django.contrib.auth.urls")),
     path("accounts/", include("apps.users.urls")),
     path("", include("cms.urls")),

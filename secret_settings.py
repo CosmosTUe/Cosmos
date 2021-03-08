@@ -35,6 +35,7 @@ secrets = {
         "PASSWORD": "fakekey",
         "USE_TLS": True,
     },
+    "SENDGRID_WEBHOOK_SIGNATURE": "",
     # Gmail SMTP Relay
     # https://support.google.com/a/answer/2956491?hl=en
     "EMAIL_GSUITE": {

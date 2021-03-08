@@ -7,28 +7,62 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0005_auto_20201130_1854'),
+        ("users", "0005_auto_20201130_1854"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='InstitutionTue',
+            name="InstitutionTue",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('department', models.CharField(choices=[('Biomedical Engineering', 'Biomedical Engineering'), ('Built Environment', 'Built Environment'), ('Chemical Engineering', 'Chemical Engineering'), ('Electrical Engineering', 'Electrical Engineering'), ('Industrial Design', 'Industrial Design'), ('Industrial Engineering', 'Industrial Engineering'), ('Mathematics and Computer Science', 'Mathematics and Computer Science'), ('Mechanical Engineering', 'Mechanical Engineering'), ('Physics', 'Physics'), ('Psychology and Technology', 'Psychology and Technology'), ('Sustainable Innovation', 'Sustainable Innovation')], max_length=100)),
-                ('program', models.CharField(choices=[('Bachelor', 'Bachelor'), ('Master', 'Master'), ('PDEng', 'PDEng'), ('PHD', 'PHD'), ('Exchange', 'Exchange'), ('Other', 'Other')], max_length=100)),
-                ('tue_id', models.CharField(blank=True, max_length=25, verbose_name='TU/e Student Number')),
-                ('card_number', models.CharField(blank=True, max_length=25)),
-                ('key_access', models.BooleanField(default=False, max_length=3)),
-                ('profile', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='users.Profile')),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "department",
+                    models.CharField(
+                        choices=[
+                            ("Biomedical Engineering", "Biomedical Engineering"),
+                            ("Built Environment", "Built Environment"),
+                            ("Chemical Engineering", "Chemical Engineering"),
+                            ("Electrical Engineering", "Electrical Engineering"),
+                            ("Industrial Design", "Industrial Design"),
+                            ("Industrial Engineering", "Industrial Engineering"),
+                            ("Mathematics and Computer Science", "Mathematics and Computer Science"),
+                            ("Mechanical Engineering", "Mechanical Engineering"),
+                            ("Physics", "Physics"),
+                            ("Psychology and Technology", "Psychology and Technology"),
+                            ("Sustainable Innovation", "Sustainable Innovation"),
+                        ],
+                        max_length=100,
+                    ),
+                ),
+                (
+                    "program",
+                    models.CharField(
+                        choices=[
+                            ("Bachelor", "Bachelor"),
+                            ("Master", "Master"),
+                            ("PDEng", "PDEng"),
+                            ("PHD", "PHD"),
+                            ("Exchange", "Exchange"),
+                            ("Other", "Other"),
+                        ],
+                        max_length=100,
+                    ),
+                ),
+                ("tue_id", models.CharField(blank=True, max_length=25, verbose_name="TU/e Student Number")),
+                ("card_number", models.CharField(blank=True, max_length=25)),
+                ("key_access", models.BooleanField(default=False, max_length=3)),
+                ("profile", models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to="users.Profile")),
             ],
         ),
         migrations.CreateModel(
-            name='InstitutionFontys',
+            name="InstitutionFontys",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('study', models.CharField(choices=[('test', 'test')], max_length=100)),
-                ('profile', models.OneToOneField(blank=True, on_delete=django.db.models.deletion.CASCADE, to='users.Profile')),
+                ("id", models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("study", models.CharField(choices=[("test", "test")], max_length=100)),
+                (
+                    "profile",
+                    models.OneToOneField(blank=True, on_delete=django.db.models.deletion.CASCADE, to="users.Profile"),
+                ),
             ],
         ),
     ]

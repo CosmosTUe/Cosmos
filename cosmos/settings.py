@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import sys
 
 import secret_settings
 
@@ -26,6 +27,10 @@ SECRET_KEY = secret_settings.secrets["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = secret_settings.secrets["DEBUG"]
+
+# TESTING: detect when in testing mode
+# https://stackoverflow.com/questions/4088253/django-how-to-detect-test-environment-check-determine-if-tests-are-being-ru/7651002#7651002
+TESTING = len(sys.argv) > 1 and sys.argv[1] == "test"
 
 # Pretix config
 PRETIX_DOMAIN = secret_settings.secrets["PRETIX_DOMAIN"]
@@ -63,10 +68,6 @@ DATABASES = {
         "OPTIONS": secret_settings.secrets["DATABASES"]["LEGACY"]["OPTIONS"],
     },
 }
-
-DATABASE_ROUTERS = ["apps.legacy.legacy_router.LegacyRouter"]
-
-SILENCED_SYSTEM_CHECKS = ["models.W035"]
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -166,6 +167,7 @@ TEMPLATES = [
 
 MIDDLEWARE = [
     "cms.middleware.utils.ApphookReloadMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -182,7 +184,6 @@ MIDDLEWARE = [
 INSTALLED_APPS = [
     "cosmos",
     "apps.users",
-    "apps.legacy",
     "apps.cms_plugins",
     "apps.events",
     "djangocms_admin_style",
@@ -212,6 +213,23 @@ INSTALLED_APPS = [
     "django_better_admin_arrayfield",
     "pipeline",
     "django_celery_results",
+    "djangocms_bootstrap4",
+    "djangocms_bootstrap4.contrib.bootstrap4_alerts",
+    "djangocms_bootstrap4.contrib.bootstrap4_badge",
+    "djangocms_bootstrap4.contrib.bootstrap4_card",
+    "djangocms_bootstrap4.contrib.bootstrap4_carousel",
+    "djangocms_bootstrap4.contrib.bootstrap4_collapse",
+    "djangocms_bootstrap4.contrib.bootstrap4_content",
+    "djangocms_bootstrap4.contrib.bootstrap4_grid",
+    "djangocms_bootstrap4.contrib.bootstrap4_jumbotron",
+    "djangocms_bootstrap4.contrib.bootstrap4_link",
+    "djangocms_bootstrap4.contrib.bootstrap4_listgroup",
+    "djangocms_bootstrap4.contrib.bootstrap4_media",
+    "djangocms_bootstrap4.contrib.bootstrap4_picture",
+    "djangocms_bootstrap4.contrib.bootstrap4_tabs",
+    "djangocms_bootstrap4.contrib.bootstrap4_utilities",
+    "oauth2_provider",
+    "corsheaders",
     "formtools",
     "crispy_forms",
 ]
@@ -301,12 +319,15 @@ EMAIL_USE_TLS = secret_settings.secrets["EMAIL"]["USE_TLS"]
 # TODO Always set default to noreply
 DEFAULT_FROM_EMAIL = secret_settings.secrets["EMAIL"]["USERNAME"]
 
+LOGIN_URL = "/accounts/login/"
 LOGOUT_REDIRECT_URL = "/"
 
 # Security
 
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
+
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
+
 
 SECURE_REFERRER_POLICY = "same-origin"
 
@@ -314,6 +335,9 @@ SECURE_REFERRER_POLICY = "same-origin"
 CELERY_BROKER_URL = "amqp://guest:guest@localhost//"
 CELERY_RESULT_BACKEND = "django-db"
 CELERY_CACHE_BACKEND = "django-cache"
+CELERY_WORKER_HIJACK_ROOT_LOGGER = True
+
+SENDGRID_WEBHOOK_SIGNATURE = secret_settings.secrets["SENDGRID_WEBHOOK_SIGNATURE"]
 
 # Crispy forms
 CRISPY_TEMPLATE_PACK = "bootstrap4"

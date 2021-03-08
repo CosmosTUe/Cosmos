@@ -1,7 +1,9 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-from apps.users.models.user.constants import NATIONALITIES
+from apps.users.models.user.constants import NATIONALITIES, NEWSLETTER_RECIPIENTS
+
+state_prefix = "old_"
 
 
 class Profile(models.Model):
@@ -26,6 +28,24 @@ class Profile(models.Model):
     nationality = models.CharField(max_length=100, blank=False, choices=list(zip(NATIONALITIES, NATIONALITIES)))
     terms_confirmed = models.BooleanField(default=False)
     subscribed_newsletter = models.BooleanField(default=False)
+    newsletter_recipient = models.CharField(
+        max_length=3, verbose_name="Newsletter subscription email", default="TUE", choices=NEWSLETTER_RECIPIENTS
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.states = ["subscribed_newsletter", "newsletter_recipient"]
+        self.update_states()
+
+    def update_states(self):
+        for state in self.states:
+            setattr(self, f"{state_prefix}{state}", getattr(self, state))
+
+    def has_changed(self):
+        for state in self.states:
+            if getattr(self, state) != getattr(self, f"{state_prefix}{state}"):
+                return True
+        return False
 
     # Custom Properties
     @property
@@ -35,6 +55,7 @@ class Profile(models.Model):
     @property
     def institution(self):
         from apps.users.models.user.institution import InstitutionFontys, InstitutionTue
+
         if self.user.username.endswith("tue.nl"):
             return InstitutionTue.objects.get(profile=self)
         elif self.user.username.endswith("fontys.nl"):

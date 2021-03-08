@@ -6,28 +6,28 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0004_remove_profile_status'),
+        ("users", "0004_remove_profile_status"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='profile',
-            name='card_number',
+            model_name="profile",
+            name="card_number",
         ),
         migrations.RemoveField(
-            model_name='profile',
-            name='department',
+            model_name="profile",
+            name="department",
         ),
         migrations.RemoveField(
-            model_name='profile',
-            name='key_access',
+            model_name="profile",
+            name="key_access",
         ),
         migrations.RemoveField(
-            model_name='profile',
-            name='program',
+            model_name="profile",
+            name="program",
         ),
         migrations.RemoveField(
-            model_name='profile',
-            name='tue_id',
+            model_name="profile",
+            name="tue_id",
         ),
     ]

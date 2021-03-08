@@ -1,7 +1,15 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 
-from apps.users.forms import MemberCreateForm, MemberUpdateForm, ProfileCreateForm, ProfileUpdateForm
+from apps.users.forms import (
+    MemberCreateForm,
+    MemberUpdateForm,
+    ProfileCreateForm,
+    ProfileUpdateForm,
+    newsletter_service,
+)
+
+from apps.async_requests.factory import Factory
 
 
 class UserForms(TestCase):
@@ -30,11 +38,14 @@ class UserForms(TestCase):
                 "department": "Sustainable Innovation",
                 "program": "Other",
                 "terms_confirmed": True,
+                "subscribed_newsletter": False,
+                "newsletter_recipient": "TUE",
             },
         )
         self.assertTrue(profile_form.is_valid())
         # Save for further tests
         profile_form.save()
+        newsletter_service.db.clear()
 
     def test_fail_register_duplicate(self):
         """
@@ -85,15 +96,47 @@ class UserForms(TestCase):
 
         profile_form = ProfileUpdateForm(
             instance=user.profile,
-            data={"nationality": "German", "department": "Sustainable Innovation", "program": "Other"},
+            data={
+                "nationality": "German",
+                "department": "Sustainable Innovation",
+                "program": "Other",
+                "subscribed_newsletter": True,
+                "newsletter_recipient": "TUE",
+            },
         )
         self.assertTrue(profile_form.is_valid())
         # Save for further tests
         profile_form.save()
 
+        Factory.get_executor().execute()
+
+        self.assertTrue(newsletter_service.is_subscribed("tosti@student.tue.nl"))
+        self.assertFalse(newsletter_service.is_subscribed("tosti@gmail.com"))
+
+    def test_update_newsletter(self):
+        """
+        Test successful update.
+        """
+        user = User.objects.get(username="tosti@student.tue.nl")
+        profile_form = ProfileUpdateForm(
+            instance=user.profile,
+            data={
+                "nationality": "German",
+                "department": "Sustainable Innovation",
+                "program": "Other",
+                "subscribed_newsletter": True,
+                "newsletter_recipient": "ALT",
+            },
+        )
+        self.assertTrue(profile_form.is_valid())
+        # Save for further tests
+        profile_form.save()
+
+        Factory.get_executor().execute()
+
+        self.assertFalse(newsletter_service.is_subscribed("tosti@student.tue.nl"))
+        self.assertTrue(newsletter_service.is_subscribed("tosti@gmail.com"))
+
     def tearDown(self) -> None:
         User.objects.get(username="tosti@student.tue.nl").delete()
         super().tearDown()
-
-
-# TODO create test with invalid input: eg too long, weird characters

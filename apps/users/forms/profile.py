@@ -1,3 +1,5 @@
+import logging
+
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import ButtonHolder, Field, Layout, Submit
 from django import forms
@@ -5,9 +7,13 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
+from apps.async_requests.factory import Factory
+from apps.users.models.user import Profile
 from apps.users.models.user.constants import FONTYS_STUDIES, NATIONALITIES, TUE_DEPARTMENTS, TUE_PROGRAMS
 from apps.users.models.user.institution import InstitutionFontys, InstitutionTue
-from apps.users.models.user.profile import Profile
+
+logger = logging.getLogger(__name__)
+newsletter_service = Factory.get_newsletter_service()
 
 
 class ProfileUpdateForm(forms.ModelForm):

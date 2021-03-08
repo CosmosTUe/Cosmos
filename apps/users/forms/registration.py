@@ -1,5 +1,5 @@
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Button, Submit
+from crispy_forms.layout import Submit
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -89,7 +89,7 @@ class RegisterTueForm(forms.ModelForm):
         self.helper.form_method = "post"
         self.helper.form_action = "cosmos_users:user_register"
 
-        #self.helper.add_input(Button("wizard_goto_step", "0"))
+        # self.helper.add_input(Button("wizard_goto_step", "0"))
         self.helper.add_input(Submit("submit", "Submit"))
 
 
@@ -100,13 +100,11 @@ class RegisterFontysForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields["study"].choices = [("", "Please select your study")] + list(
-            self.fields["study"].choices
-        )[1:]
+        self.fields["study"].choices = [("", "Please select your study")] + list(self.fields["study"].choices)[1:]
         self.helper = FormHelper(self)
         self.helper.form_id = "id-profileUpdateForm"
         self.helper.form_method = "post"
         self.helper.form_action = "cosmos_users:user_register"
 
-        #self.helper.add_input(Button("wizard_goto_step", "0"))
+        # self.helper.add_input(Button("wizard_goto_step", "0"))
         self.helper.add_input(Submit("submit", "Submit"))

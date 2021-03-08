@@ -219,3 +219,5 @@ TUE_PROGRAMS = [
 ]
 
 FONTYS_STUDIES = ["test"]
+
+NEWSLETTER_RECIPIENTS = [("TUE", "TU/e email"), ("ALT", "Personal email")]

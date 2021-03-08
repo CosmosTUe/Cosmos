@@ -1,3 +1,15 @@
-from .profile import KeyAccessUpdateForm, PasswordUpdateForm, PreferencesUpdateForm, ProfileUpdateForm
+from .profile import (
+    KeyAccessUpdateForm,
+    PasswordUpdateForm,
+    PreferencesUpdateForm,
+    ProfileUpdateForm,
+    newsletter_service,
+)
 
-__all__ = ["ProfileUpdateForm", "PasswordUpdateForm", "PreferencesUpdateForm", "KeyAccessUpdateForm"]
+__all__ = [
+    "ProfileUpdateForm",
+    "PasswordUpdateForm",
+    "PreferencesUpdateForm",
+    "KeyAccessUpdateForm",
+    "newsletter_service",
+]

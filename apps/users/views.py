@@ -1,3 +1,5 @@
+import logging
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -8,10 +10,15 @@ from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 from formtools.wizard.views import SessionWizardView
 
+from apps.async_requests.commands.unsubscribe_command import UnsubscribeCommand
+from apps.async_requests.factory import Factory
 from apps.users.forms.profile import KeyAccessUpdateForm, PasswordUpdateForm, PreferencesUpdateForm, ProfileUpdateForm
 from apps.users.forms.registration import RegisterFontysForm, RegisterTueForm, RegisterUserForm
 from apps.users.models.user import InstitutionFontys, InstitutionTue
 from apps.users.tokens import account_activation_token
+
+logger = logging.getLogger(__name__)
+executor = Factory.get_executor()
 
 
 def show_tue_form_condition(wizard):
@@ -159,6 +166,9 @@ def profile(request):
 @login_required
 def delete(request):
     if request.method == "POST":
+        # Remove newsletter subscription before deleting the user
+        executor.add_command(UnsubscribeCommand(request.user.username))
+        executor.add_command(UnsubscribeCommand(request.user.email))
         User.objects.get(username=request.user.username).delete()
         messages.succes(request, "Your account has successfully been deleted")
     return redirect("/")

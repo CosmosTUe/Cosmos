@@ -9,6 +9,8 @@ from apps.users.forms import (
     newsletter_service,
 )
 
+from apps.async_requests.factory import Factory
+
 
 class UserForms(TestCase):
     def setUp(self) -> None:
@@ -105,6 +107,9 @@ class UserForms(TestCase):
         self.assertTrue(profile_form.is_valid())
         # Save for further tests
         profile_form.save()
+
+        Factory.get_executor().execute()
+
         self.assertTrue(newsletter_service.is_subscribed("tosti@student.tue.nl"))
         self.assertFalse(newsletter_service.is_subscribed("tosti@gmail.com"))
 
@@ -126,6 +131,9 @@ class UserForms(TestCase):
         self.assertTrue(profile_form.is_valid())
         # Save for further tests
         profile_form.save()
+
+        Factory.get_executor().execute()
+
         self.assertFalse(newsletter_service.is_subscribed("tosti@student.tue.nl"))
         self.assertTrue(newsletter_service.is_subscribed("tosti@gmail.com"))
 

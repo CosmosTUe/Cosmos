@@ -9,11 +9,12 @@ from django.db import transaction
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
-from apps.users.factory import get_newsletter_service
+from apps.async_requests.factory import Factory
+from apps.async_requests.commands.unsubscribe_command import UnsubscribeCommand
 from apps.users.forms import MemberCreateForm, MemberUpdateForm, ProfileCreateForm, ProfileUpdateForm
 
 logger = logging.getLogger(__name__)
-newsletter_service = get_newsletter_service()
+executor = Factory.get_executor()
 
 
 def register(request):
@@ -110,7 +111,7 @@ def process_profile_form(request):
 def delete(request):
     if request.method == "POST":
         # Remove newsletter subscription before deleting the user
-        newsletter_service.remove_subscription(request.user.username)
-        newsletter_service.remove_subscription(request.user.email)
+        executor.add_command(UnsubscribeCommand(request.user.username))
+        executor.add_command(UnsubscribeCommand(request.user.email))
         User.objects.get(username=request.user.username).delete()
     return redirect("/")

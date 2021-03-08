@@ -158,6 +158,7 @@ TEMPLATES = [
 
 MIDDLEWARE = [
     "cms.middleware.utils.ApphookReloadMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -218,6 +219,8 @@ INSTALLED_APPS = [
     "djangocms_bootstrap4.contrib.bootstrap4_picture",
     "djangocms_bootstrap4.contrib.bootstrap4_tabs",
     "djangocms_bootstrap4.contrib.bootstrap4_utilities",
+    "oauth2_provider",
+    "corsheaders",
 ]
 
 LANGUAGES = (
@@ -305,6 +308,7 @@ EMAIL_USE_TLS = secret_settings.secrets["EMAIL"]["USE_TLS"]
 # TODO Always set default to noreply
 DEFAULT_FROM_EMAIL = secret_settings.secrets["EMAIL"]["USERNAME"]
 
+LOGIN_URL = "/accounts/login/"
 LOGOUT_REDIRECT_URL = "/"
 
 # Security
@@ -321,3 +325,5 @@ CELERY_BROKER_URL = "amqp://guest:guest@localhost//"
 CELERY_RESULT_BACKEND = "django-db"
 CELERY_CACHE_BACKEND = "django-cache"
 CELERY_WORKER_HIJACK_ROOT_LOGGER = True
+
+SENDGRID_WEBHOOK_SIGNATURE = secret_settings.secrets["SENDGRID_WEBHOOK_SIGNATURE"]

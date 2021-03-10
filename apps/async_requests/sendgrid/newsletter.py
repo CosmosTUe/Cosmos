@@ -21,15 +21,27 @@ class NewsletterService(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def add_subscription(self, email: str, first_name: str, last_name: str):
+    def add_subscription(self, contacts):
         pass
 
     @abstractmethod
-    def remove_subscription(self, email: str):
+    def remove_subscription(self, emails):
         pass
 
     def update_newsletter_preferences(self, profile: Profile, force=False):
+        """
+        Updates newsletter preferences
+
+        :param profile: profile to change preferences
+        :param force: force update to backend (optional)
+        """
         # Subscribe user to newsletter when consented
+
+        from apps.async_requests.commands.subscribe_command import SubscribeCommand
+        from apps.async_requests.commands.unsubscribe_command import UnsubscribeCommand
+        from apps.async_requests.factory import Factory
+
+        executor = Factory.get_executor()
 
         # extract attributes
         old_is_sub = getattr(profile, f"{state_prefix}subscribed_newsletter")
@@ -46,9 +58,9 @@ class NewsletterService(metaclass=ABCMeta):
         if old_is_sub:
             # unsubscribe old email
             if old_recipient == "TUE":
-                self.remove_subscription(profile.user.username)
+                executor.add_command(UnsubscribeCommand(profile.user.username))
             else:
-                self.remove_subscription(profile.user.email)
+                executor.add_command(UnsubscribeCommand(profile.user.email))
 
         # handle new email next
         if is_sub:
@@ -57,4 +69,4 @@ class NewsletterService(metaclass=ABCMeta):
                 email = profile.user.username
             else:
                 email = profile.user.email
-            self.add_subscription(email, profile.user.first_name, profile.user.last_name)
+            executor.add_command(SubscribeCommand(email, profile.user.first_name, profile.user.last_name))

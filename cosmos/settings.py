@@ -58,20 +58,7 @@ DATABASES = {
         "PORT": secret_settings.secrets["DATABASES"]["DEFAULT"]["PORT"],
         "OPTIONS": secret_settings.secrets["DATABASES"]["DEFAULT"]["OPTIONS"],
     },
-    "legacy": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": secret_settings.secrets["DATABASES"]["LEGACY"]["NAME"],
-        "USER": secret_settings.secrets["DATABASES"]["LEGACY"]["USER"],
-        "PASSWORD": secret_settings.secrets["DATABASES"]["LEGACY"]["PASSWORD"],
-        "HOST": secret_settings.secrets["DATABASES"]["LEGACY"]["HOST"],
-        "PORT": secret_settings.secrets["DATABASES"]["LEGACY"]["PORT"],
-        "OPTIONS": secret_settings.secrets["DATABASES"]["LEGACY"]["OPTIONS"],
-    },
 }
-
-DATABASE_ROUTERS = ["apps.legacy.legacy_router.LegacyRouter"]
-
-SILENCED_SYSTEM_CHECKS = ["models.W035"]
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -171,6 +158,7 @@ TEMPLATES = [
 
 MIDDLEWARE = [
     "cms.middleware.utils.ApphookReloadMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -187,7 +175,6 @@ MIDDLEWARE = [
 INSTALLED_APPS = [
     "cosmos",
     "apps.users",
-    "apps.legacy",
     "apps.cms_plugins",
     "apps.events",
     "djangocms_admin_style",
@@ -232,6 +219,8 @@ INSTALLED_APPS = [
     "djangocms_bootstrap4.contrib.bootstrap4_picture",
     "djangocms_bootstrap4.contrib.bootstrap4_tabs",
     "djangocms_bootstrap4.contrib.bootstrap4_utilities",
+    "oauth2_provider",
+    "corsheaders",
 ]
 
 LANGUAGES = (
@@ -267,45 +256,45 @@ THUMBNAIL_PROCESSORS = (
 
 # Logging
 # https://docs.djangoproject.com/en/3.1/topics/logging/
-# LOGGING_FOLDER = secret_settings.secrets["LOGGING"]["FOLDER"]  # relative to root of project
-# LOGGING = {
-#    "version": 1,
-#    "disable_existing_loggers": False,
-#    "filters": {
-#        "require_debug_false": {
-#            "()": "django.utils.log.RequireDebugFalse",
-#        },
-#        "require_debug_true": {
-#            "()": "django.utils.log.RequireDebugTrue",
-#        },
-#    },
-#    "formatters": {
-#        # copied from DEFAULT_LOGGING https://github.com/django/django/blob/master/django/utils/log.py
-#        "verbose": {"()": "django.utils.log.ServerFormatter", "format": "[{server_time}] {message}", "style": "{"}
-#    },
-#    "handlers": {
-#        "console": {"class": "logging.StreamHandler", "filters": ["require_debug_true"], "formatter": "verbose"},
-#        "file": {
-#            "class": "logging.handlers.TimedRotatingFileHandler",
-#            "when": "midnight",
-#            "interval": 1,
-#            "filename": os.path.join(LOGGING_FOLDER, "debug.log"),
-#            "formatter": "verbose",
-#        },
-#        "mail_admins": {
-#            "level": "ERROR",
-#            "filters": ["require_debug_false"],
-#            "class": "django.utils.log.AdminEmailHandler",
-#        },
-#    },
-#    "loggers": {
-#        "django": {
-#            "handlers": ["file", "console", "mail_admins"],
-#            "level": "INFO",
-#            "propagate": True,
-#        },
-#    },
-# }
+LOGGING_FOLDER = secret_settings.secrets["LOGGING"]["FOLDER"]  # relative to root of project
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "filters": {
+        "require_debug_false": {
+            "()": "django.utils.log.RequireDebugFalse",
+        },
+        "require_debug_true": {
+            "()": "django.utils.log.RequireDebugTrue",
+        },
+    },
+    "formatters": {
+        # copied from DEFAULT_LOGGING https://github.com/django/django/blob/master/django/utils/log.py
+        "verbose": {"()": "django.utils.log.ServerFormatter", "format": "[{server_time}] {message}", "style": "{"}
+    },
+    "handlers": {
+        "console": {"class": "logging.StreamHandler", "filters": ["require_debug_true"], "formatter": "verbose"},
+        "file": {
+            "class": "logging.handlers.TimedRotatingFileHandler",
+            "when": "midnight",
+            "interval": 1,
+            "filename": os.path.join(LOGGING_FOLDER, "debug.log"),
+            "formatter": "verbose",
+        },
+        "mail_admins": {
+            "level": "ERROR",
+            "filters": ["require_debug_false"],
+            "class": "django.utils.log.AdminEmailHandler",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["file", "console", "mail_admins"],
+            "level": "INFO",
+            "propagate": True,
+        },
+    },
+}
 
 # Email
 # https://docs.djangoproject.com/en/3.1/topics/email/
@@ -319,12 +308,15 @@ EMAIL_USE_TLS = secret_settings.secrets["EMAIL"]["USE_TLS"]
 # TODO Always set default to noreply
 DEFAULT_FROM_EMAIL = secret_settings.secrets["EMAIL"]["USERNAME"]
 
+LOGIN_URL = "/accounts/login/"
 LOGOUT_REDIRECT_URL = "/"
 
 # Security
 
+
 SESSION_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_SECURE = not DEBUG
+
 
 SECURE_REFERRER_POLICY = "same-origin"
 
@@ -333,3 +325,5 @@ CELERY_BROKER_URL = "amqp://guest:guest@localhost//"
 CELERY_RESULT_BACKEND = "django-db"
 CELERY_CACHE_BACKEND = "django-cache"
 CELERY_WORKER_HIJACK_ROOT_LOGGER = True
+
+SENDGRID_WEBHOOK_SIGNATURE = secret_settings.secrets["SENDGRID_WEBHOOK_SIGNATURE"]

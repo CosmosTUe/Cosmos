@@ -58,15 +58,6 @@ DATABASES = {
         "PORT": secret_settings.secrets["DATABASES"]["DEFAULT"]["PORT"],
         "OPTIONS": secret_settings.secrets["DATABASES"]["DEFAULT"]["OPTIONS"],
     },
-    "legacy": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": secret_settings.secrets["DATABASES"]["LEGACY"]["NAME"],
-        "USER": secret_settings.secrets["DATABASES"]["LEGACY"]["USER"],
-        "PASSWORD": secret_settings.secrets["DATABASES"]["LEGACY"]["PASSWORD"],
-        "HOST": secret_settings.secrets["DATABASES"]["LEGACY"]["HOST"],
-        "PORT": secret_settings.secrets["DATABASES"]["LEGACY"]["PORT"],
-        "OPTIONS": secret_settings.secrets["DATABASES"]["LEGACY"]["OPTIONS"],
-    },
 }
 
 # Password validation

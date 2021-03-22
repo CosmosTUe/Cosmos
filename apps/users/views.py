@@ -14,6 +14,7 @@ from apps.async_requests.commands.unsubscribe_command import UnsubscribeCommand
 from apps.async_requests.factory import Factory
 from apps.users.forms.profile import KeyAccessUpdateForm, PasswordUpdateForm, PreferencesUpdateForm, ProfileUpdateForm
 from apps.users.forms.registration import RegisterFontysForm, RegisterTueForm, RegisterUserForm
+from apps.users.helper_functions import is_tue_email, is_fontys_email
 from apps.users.models.user import InstitutionFontys, InstitutionTue
 from apps.users.tokens import account_activation_token
 
@@ -23,12 +24,12 @@ executor = Factory.get_executor()
 
 def show_tue_form_condition(wizard):
     cleaned_data = wizard.get_cleaned_data_for_step("register_user") or {}
-    return cleaned_data.get("username", "None").endswith("tue.nl")
+    return is_tue_email(cleaned_data.get("username", "None"))
 
 
 def show_fontys_form_condition(wizard):
     cleaned_data = wizard.get_cleaned_data_for_step("register_user") or {}
-    return cleaned_data.get("username", "None").endswith("fontys.nl")
+    return is_fontys_email(cleaned_data.get("username", "None"))
 
 
 FORMS = [
@@ -52,10 +53,14 @@ CONDITION_DICT = {
 class RegistrationWizard(SessionWizardView):
     def done(self, form_list, form_dict, **kwargs):
         user_form = form_dict["register_user"]
-        if user_form.cleaned_data["username"].endswith("tue.nl"):
+        username = user_form.cleaned_data["username"]
+        if is_tue_email(username):
             institution_form = form_dict["register_tue"]
-        else:
+        elif is_fontys_email(username):
             institution_form = form_dict["register_fontys"]
+        else:
+            # TODO raise exception?
+            pass
 
         if user_form.is_valid() and institution_form.is_valid():
             user = user_form.save(commit=False)
@@ -65,15 +70,18 @@ class RegistrationWizard(SessionWizardView):
 
             profile = user.profile
 
-            if user_form.cleaned_data["username"].endswith("tue.nl"):
+            if is_tue_email(username):
                 institution = InstitutionTue.objects.get(profile=profile)
                 institution.department = institution_form.cleaned_data["department"]
                 institution.program = institution_form.cleaned_data["program"]
                 institution.save()
-            else:
+            elif is_fontys_email(username):
                 institution = InstitutionFontys.objects.get(profile=profile)
                 institution.study = institution_form.cleaned_data["study"]
                 institution.save()
+            else:
+                # TODO raise exception?
+                pass
 
         # send_confirmation_email_task.delay(profile.id)
 

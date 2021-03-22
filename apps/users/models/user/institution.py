@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+from apps.users.helper_functions import is_tue_email, is_fontys_email
 from apps.users.models.user.constants import FONTYS_STUDIES, TUE_DEPARTMENTS, TUE_PROGRAMS
 from apps.users.models.user.profile import Profile
 
@@ -38,13 +39,12 @@ class InstitutionFontys(models.Model):
 
 @receiver(post_save, sender=Profile)
 def profile_post_save(sender, instance: Profile, created, **kwargs):
-    if created:
-        if instance.user.username.endswith("tue.nl"):
-            InstitutionTue.objects.create(profile=instance)
-        elif instance.user.username.endswith("fontys.nl"):
-            InstitutionFontys.objects.create(profile=instance)
+    username = instance.user.username
+    if is_tue_email(username):
+        institution_model = InstitutionTue
+    elif is_fontys_email(username):
+        institution_model = InstitutionFontys
 
-    if instance.user.username.endswith("tue.nl"):
-        InstitutionTue.objects.get(profile=instance).save()
-    elif instance.user.username.endswith("fontys.nl"):
-        InstitutionFontys.objects.get(profile=instance).save()
+    if created:
+        institution_model.objects.create(profile=instance)
+    institution_model.objects.get(profile=instance).save()

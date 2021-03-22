@@ -5,6 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
+from apps.users.helper_functions import is_valid_institutional_email
 from apps.users.models.user.constants import NATIONALITIES
 from apps.users.models.user.institution import InstitutionFontys, InstitutionTue
 from apps.users.models.user.profile import Profile
@@ -48,7 +49,7 @@ class RegisterUserForm(UserCreationForm):
 
     def clean_username(self):
         data = self.cleaned_data["username"]
-        if not (data.endswith("@student.tue.nl") or data.endswith("@alumni.tue.nl") or data.endswith("@fontys.nl")):
+        if not is_valid_institutional_email(data):
             raise ValidationError("Please enter your institutional email.")
         return data
 

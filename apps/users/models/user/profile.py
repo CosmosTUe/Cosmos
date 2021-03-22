@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 
+from apps.users.helper_functions import is_tue_email, is_fontys_email
 from apps.users.models.user.constants import NATIONALITIES, NEWSLETTER_RECIPIENTS
 
 state_prefix = "old_"
@@ -56,17 +57,17 @@ class Profile(models.Model):
     def institution(self):
         from apps.users.models.user.institution import InstitutionFontys, InstitutionTue
 
-        if self.user.username.endswith("tue.nl"):
+        if is_tue_email(self.username):
             return InstitutionTue.objects.get(profile=self)
-        elif self.user.username.endswith("fontys.nl"):
+        elif is_fontys_email(self.username):
             return InstitutionFontys.objects.get(profile=self)
         return None
 
     @property
     def institution_name(self):
-        if self.user.username.endswith("tue.nl"):
+        if is_tue_email(self.username):
             return "tue"
-        elif self.user.username.endswith("fontys.nl"):
+        elif is_fontys_email(self.username):
             return "fontys"
         return None
 

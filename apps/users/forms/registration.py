@@ -28,8 +28,8 @@ class RegisterUserForm(UserCreationForm):
         help_text="Optional, Please fill in a valid email address.",
         initial="",
     )
-    password1 = forms.CharField(widget=forms.PasswordInput, required=True, initial="")
-    password2 = forms.CharField(widget=forms.PasswordInput, required=True, initial="")
+    password1 = forms.CharField(widget=forms.PasswordInput, label="Password", required=True, initial="")
+    password2 = forms.CharField(widget=forms.PasswordInput, label="Password confirmation", required=True, initial="")
 
     # profile fields
     nationality = forms.ChoiceField(choices=list(zip(NATIONALITIES, NATIONALITIES)))

@@ -86,7 +86,7 @@ class RegistrationWizard(SessionWizardView):
 def activate(request, uidb64, token):
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
-        user = User.Objects.get(pk=uid)
+        user = User.objects.get(pk=uid)
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
 
@@ -170,5 +170,5 @@ def delete(request):
         executor.add_command(UnsubscribeCommand(request.user.username))
         executor.add_command(UnsubscribeCommand(request.user.email))
         User.objects.get(username=request.user.username).delete()
-        messages.succes(request, "Your account has successfully been deleted")
+        messages.success(request, "Your account has successfully been deleted")
     return redirect("/")

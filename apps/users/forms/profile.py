@@ -19,7 +19,7 @@ newsletter_service = Factory.get_newsletter_service()
 class ProfileUpdateForm(forms.ModelForm):
 
     username = forms.EmailField(
-        max_length=254, label="TU/e email", help_text="Required. Inform a valid TU/e email address."
+        max_length=254, label="Institution email", help_text="Required. Inform a valid TU/e email address."
     )
     email = forms.EmailField(
         max_length=254, label="Personal email", required=False, help_text="Optional. Inform a valid email address."

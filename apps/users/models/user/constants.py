@@ -193,7 +193,9 @@ NATIONALITIES = [
     "Zimbabwean",
 ]
 
-DEPARTMENTS = [
+INSTITUTIONS = ["TUE", "FONTYS"]
+
+TUE_DEPARTMENTS = [
     "Biomedical Engineering",
     "Built Environment",
     "Chemical Engineering",
@@ -207,7 +209,7 @@ DEPARTMENTS = [
     "Sustainable Innovation",
 ]
 
-PROGRAMS = [
+TUE_PROGRAMS = [
     "Bachelor",
     "Master",
     "PDEng",
@@ -215,5 +217,7 @@ PROGRAMS = [
     "Exchange",
     "Other",
 ]
+
+FONTYS_STUDIES = ["test"]
 
 NEWSLETTER_RECIPIENTS = [("TUE", "TU/e email"), ("ALT", "Personal email")]

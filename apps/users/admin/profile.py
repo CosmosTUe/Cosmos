@@ -19,7 +19,7 @@ newsletter_service = Factory.get_newsletter_service()
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ("username", "department", "program", "nationality", "terms_confirmed", "subscribed_newsletter")
+    list_display = ("username", "nationality", "terms_confirmed", "subscribed_newsletter")
 
     search_fields = ["user__username"]
 

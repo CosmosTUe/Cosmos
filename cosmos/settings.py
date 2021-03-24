@@ -221,6 +221,8 @@ INSTALLED_APPS = [
     "djangocms_bootstrap4.contrib.bootstrap4_utilities",
     "oauth2_provider",
     "corsheaders",
+    "formtools",
+    "crispy_forms",
 ]
 
 LANGUAGES = (
@@ -327,3 +329,6 @@ CELERY_CACHE_BACKEND = "django-cache"
 CELERY_WORKER_HIJACK_ROOT_LOGGER = True
 
 SENDGRID_WEBHOOK_SIGNATURE = secret_settings.secrets["SENDGRID_WEBHOOK_SIGNATURE"]
+
+# Crispy forms
+CRISPY_TEMPLATE_PACK = "bootstrap4"

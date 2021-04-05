@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, print_function, unicode_literals
 
-from cms.sitemaps import CMSSitemap
 from django.conf import settings
 from django.conf.urls import include
 from django.contrib import admin
@@ -18,7 +17,7 @@ urlpatterns = [
     path("accounts/", include("django.contrib.auth.urls")),
     path("accounts/", include("apps.users.urls")),
     path("", include("cms.urls")),
-    re_path(r"^sitemap\.xml$", sitemap, {"sitemaps": {"cmspages": CMSSitemap}}),
+    re_path(r"^sitemap\.xml$", sitemap),
 ]
 
 # This is only needed when using runserver.

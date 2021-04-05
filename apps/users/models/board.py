@@ -4,7 +4,6 @@ from django.contrib.auth.models import Group
 from django.core.validators import ValidationError
 from django.db import models
 from django_better_admin_arrayfield.models.fields import ArrayField
-from djangocms_text_ckeditor.fields import HTMLField
 
 
 def validate_aspect_ratio(image):
@@ -29,7 +28,7 @@ class Board(models.Model):
     """
 
     group = models.OneToOneField(Group, on_delete=models.CASCADE)
-    description = HTMLField(blank=True)
+    description = models.TextField(blank=True)
     period_from = models.DateField(blank=False)
     period_to = models.DateField()
     pretix_organizer_token = models.CharField(max_length=20, blank=True)

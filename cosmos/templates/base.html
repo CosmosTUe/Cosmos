@@ -1,4 +1,4 @@
-{% load cms_tags menu_tags sekizai_tags %}
+{% load sekizai_tags %}
 {% load pipeline %}
 {% load static %}
 
@@ -32,82 +32,12 @@
 </head>
 <body>
 
-{% cms_toolbar %}
-{# Top bar #}
-<nav class="navbar navbar-expand-lg navbar-light">
-    <div class="container-fluid">
-        {# Toggle sidebar button #}
-        <button type="button" id="sidebarCollapse" class="btn btn-outline-light d-inline-block"
-                style="margin-right: 25px">
-            <i class="fas fa-align-left"></i>
-        </button>
-        {# COSMOS Logo #}
-        <a class="mr-auto" href="/"><img src="{% static 'cosmos/img/cosmos_white_horizontal.png' %}" height="60px"/></a>
-
-        <div class="row align-items-center ml-auto" id="userinfo-navbar">
-            {% if user.is_authenticated %}
-                <div class="dropdown mx-1">
-                    <button class="btn btn-default" type="button" id="profileDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img src="{% static "cosmos/img/profile.png" %}" height="38px"/>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
-                        <a class="dropdown-item" href="#">Hello, {{ user.first_name }}</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/accounts/profile">Settings</a>
-                        <a class="dropdown-item" href="/accounts/logout">Log Out</a>
-                    </div>
-                </div>
-            {% else %}
-            <a class="btn btn-secondary my-2 my-sm-0 mx-1" href="/accounts/login" role="button">Log In</a>
-            <a class="btn btn-secondary my-2 my-sm-0 mx-1" href="/accounts/register" role="button">Sign Up</a>
-            {% endif %}
-        </div>
-    </div>
-</nav>
-
 <div class="wrapper">
-    {# Sidebar #}
-    <nav id="sidebar">
-        <div id="dismiss">
-            <i class="fas fa-arrow-left"></i>
-        </div>
-        <a href="/"><img src="{% static 'cosmos/img/cosmos_white_horizontal.png' %}" height="60px"/></a>
-        <hr>
-        {% static_placeholder 'sidebar-header' %}
-        
-        <div class="container">
-            <div class="row align-items-center" id="userinfo-sidebar">
-                {% if user.is_authenticated %}
-                <div class="col px-0">
-                        <div class="dropdown mx-1">
-                            <button class="btn btn-default" type="button" id="profileDropdown2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="{% static "cosmos/img/profile.png" %}" height="38px"/>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown2">
-                                <a class="dropdown-item" href="#">Hello, {{ user.first_name }}</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/accounts/profile">Settings</a>
-                                <a class="dropdown-item" href="/accounts/logout">Log Out</a>
-                            </div>
-                        </div>
-                </div>
-                {% else %}
-                <div class="col px-0">
-                    <a class="btn btn-secondary my-2 my-sm-0" href="/accounts/login" role="button">Log In</a>
-                </div>
-                <div class="col px-0">
-                    <a class="btn btn-secondary my-2 my-sm-0" href="/accounts/register" role="button">Sign Up</a>
-                </div>
-                {% endif %}
-            </div>
-        </div>
-    </nav>
-
     {# Content #}
     {% block content %}
     <div id="content" class="container-md mt-0">
         <ul class="footer">
-            {% static_placeholder 'footer' %}
+{#            {% static_placeholder 'footer' %} Part of CMS_TAGS #}
         </ul>
     </div>
     {% endblock content %}

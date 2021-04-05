@@ -7,19 +7,19 @@ from django.db.models.query import QuerySet
 from django.http import FileResponse
 from django.urls import path
 
-from apps.users.factory import get_newsletter_service
+from apps.async_requests.factory import Factory
 from apps.users.models import Profile
 from apps.users.stats import get_stats
 
 # from apps.users.tasks import sync_newsletter_subcriptions_task
 
 logger = logging.getLogger(__name__)
-newsletter_service = get_newsletter_service()
+newsletter_service = Factory.get_newsletter_service()
 
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ("username", "department", "program", "nationality", "terms_confirmed", "subscribed_newsletter")
+    list_display = ("username", "nationality", "terms_confirmed", "subscribed_newsletter")
 
     search_fields = ["user__username"]
 

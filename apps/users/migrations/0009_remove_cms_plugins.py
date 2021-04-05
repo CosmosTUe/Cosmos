@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("users", "0005_merge_profile_newsletter_status"),
+        ("users", "0008_refactor_institutions"),
     ]
 
     operations = [

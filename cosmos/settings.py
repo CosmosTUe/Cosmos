@@ -193,6 +193,10 @@ INSTALLED_APPS = [
     "django_better_admin_arrayfield",
     "pipeline",
     "django_celery_results",
+    "oauth2_provider",
+    "corsheaders",
+    "formtools",
+    "crispy_forms",
 ]
 
 LANGUAGES = (

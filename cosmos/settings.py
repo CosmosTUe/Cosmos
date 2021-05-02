@@ -274,7 +274,7 @@ LOGGING = {
 
 # Email
 # https://docs.djangoproject.com/en/3.1/topics/email/
-
+# https://support.google.com/a/answer/2956491?hl=en
 EMAIL_HOST = secret_settings.secrets["EMAIL"]["HOST"]
 EMAIL_PORT = secret_settings.secrets["EMAIL"]["PORT"]
 EMAIL_HOST_USER = secret_settings.secrets["EMAIL"]["USERNAME"]

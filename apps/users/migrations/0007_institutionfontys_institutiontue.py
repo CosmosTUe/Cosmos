@@ -22,7 +22,7 @@ def update_profile(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("users", "0005_merge_profile_newsletter_status"),
+        ("users", "0006_alter_fields"),
     ]
 
     operations = [

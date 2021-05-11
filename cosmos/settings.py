@@ -149,7 +149,6 @@ TEMPLATES = [
                 "django.template.context_processors.tz",
                 "sekizai.context_processors.sekizai",
                 "django.template.context_processors.static",
-                "cms.context_processors.cms_settings",
             ],
             "loaders": ["django.template.loaders.filesystem.Loader", "django.template.loaders.app_directories.Loader"],
         },
@@ -157,7 +156,6 @@ TEMPLATES = [
 ]
 
 MIDDLEWARE = [
-    "cms.middleware.utils.ApphookReloadMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -166,10 +164,6 @@ MIDDLEWARE = [
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "cms.middleware.user.CurrentUserMiddleware",
-    "cms.middleware.page.CurrentPageMiddleware",
-    "cms.middleware.toolbar.ToolbarMiddleware",
-    "cms.middleware.language.LanguageCookieMiddleware",
 ]
 
 INSTALLED_APPS = [
@@ -184,12 +178,6 @@ INSTALLED_APPS = [
     "django.contrib.sitemaps",
     "django.contrib.staticfiles",
     "django.contrib.messages",
-    "cms",
-    "menus",
-    "sekizai",
-    "treebeard",
-    "filer",
-    "easy_thumbnails",
     "django_better_admin_arrayfield",
     "pipeline",
     "django_celery_results",
@@ -204,24 +192,7 @@ LANGUAGES = (
     ("en", "en"),
 )
 
-CMS_LANGUAGES = {
-    # Customize this
-    1: [{"code": "en", "name": "en", "redirect_on_fallback": True, "public": True, "hide_untranslated": False}],
-    "default": {"redirect_on_fallback": True, "public": True, "hide_untranslated": False},
-}
-
-CMS_TEMPLATES = (
-    # Customize this
-    ("fullwidth.html", "Fullwidth"),
-    ("sidebar_left.html", "Sidebar Left"),
-    ("sidebar_right.html", "Sidebar Right"),
-)
-
 X_FRAME_OPTIONS = "SAMEORIGIN"
-
-CMS_PERMISSION = True
-
-CMS_PLACEHOLDER_CONF = {}
 
 THUMBNAIL_PROCESSORS = (
     "easy_thumbnails.processors.colorspace",

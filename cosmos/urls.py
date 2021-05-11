@@ -9,6 +9,8 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path, re_path
 from django.views.static import serve
 
+import cosmos.views
+
 admin.autodiscover()
 
 urlpatterns = [
@@ -17,6 +19,7 @@ urlpatterns = [
     path("accounts/", include("django.contrib.auth.urls")),
     path("accounts/", include("apps.users.urls")),
     re_path(r"^sitemap\.xml$", sitemap),
+    path("", cosmos.views.index),
 ]
 
 # This is only needed when using runserver.

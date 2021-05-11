@@ -19,7 +19,7 @@ urlpatterns = [
     path("accounts/", include("django.contrib.auth.urls")),
     path("accounts/", include("apps.users.urls")),
     re_path(r"^sitemap\.xml$", sitemap),
-    path("", cosmos.views.index),
+    path("", cosmos.views.index, name="index"),
 ]
 
 # This is only needed when using runserver.

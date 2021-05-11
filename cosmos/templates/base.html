@@ -1,4 +1,3 @@
-{% load sekizai_tags %}
 {% load pipeline %}
 {% load static %}
 
@@ -15,19 +14,7 @@
     {# Custom CSS #}
     {% stylesheet "cosmos" %}
 
-    {# Scrollbar Custom CSS #}
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
-    {# Font Awesome JS #}
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
-            integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous">
-    </script>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"
-            integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous">
-    </script>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    {# Blocks documenetation:  https://django-sekizai.readthedocs.io/en/latest/ #}
-    {% render_block "css" %}
 </head>
 <body>
 
@@ -57,25 +44,15 @@
 <div class="wrapper">
     {# Content #}
     {% block content %}
-    <div id="content" class="container-md mt-0">
-        <ul class="footer">
-{#            {% static_placeholder 'footer' %} Part of CMS_TAGS #}
-        </ul>
-    </div>
     {% endblock content %}
 
 </div>
 
 
-{# jQuery CDN #}
-<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
 {# Bootstrap JS #}
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
-{# jQuery Custom Scroller CDN #}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-{# Sidebar custom JS #}
+{# Custom JS #}
 {% javascript "cosmos" %}
-{% render_block "js" %}
 
 </body>
 </html>

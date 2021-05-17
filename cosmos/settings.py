@@ -192,6 +192,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "formtools",
     "crispy_forms",
+    "crispy_bootstrap5",
 ]
 
 LANGUAGES = (
@@ -283,4 +284,5 @@ CELERY_WORKER_HIJACK_ROOT_LOGGER = True
 SENDGRID_WEBHOOK_SIGNATURE = secret_settings.secrets["SENDGRID_WEBHOOK_SIGNATURE"]
 
 # Crispy forms
-CRISPY_TEMPLATE_PACK = "bootstrap4"
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"

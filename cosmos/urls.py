@@ -10,6 +10,7 @@ from django.urls import path, re_path
 from django.views.static import serve
 
 import cosmos.views
+from apps.users.views import committee_overview, committee_subpage
 
 admin.autodiscover()
 
@@ -18,6 +19,8 @@ urlpatterns = [
     path("o/", include("oauth2_provider.urls", namespace="oauth2_provider")),  # django-oauth-toolkit
     path("accounts/", include("django.contrib.auth.urls")),
     path("accounts/", include("apps.users.urls")),
+    path("committee/", committee_overview, name="committee_overview"),
+    path("committee/<slug>/", committee_subpage, name="committee_subpage"),
     re_path(r"^sitemap\.xml$", sitemap),
     path("", cosmos.views.index, name="index"),
 ]

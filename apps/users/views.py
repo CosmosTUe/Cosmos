@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
@@ -15,6 +15,7 @@ from apps.async_requests.factory import Factory
 from apps.users.forms.profile import KeyAccessUpdateForm, PasswordUpdateForm, PreferencesUpdateForm, ProfileUpdateForm
 from apps.users.forms.registration import RegisterFontysForm, RegisterTueForm, RegisterUserForm
 from apps.users.helper_functions import is_tue_email, is_fontys_email
+from apps.users.models import Committee
 from apps.users.models.user import InstitutionFontys, InstitutionTue
 from apps.users.tokens import account_activation_token
 
@@ -180,3 +181,13 @@ def delete(request):
         User.objects.get(username=request.user.username).delete()
         messages.success(request, "Your account has successfully been deleted")
     return redirect("/")
+
+
+def committee_overview(request):
+    committees = Committee.objects.all()
+    return render(request, "committee/overview.html", {"committees": committees})
+
+
+def committee_subpage(request, slug):
+    committee = get_object_or_404(Committee, slug=str(slug))
+    return render(request, "committee/subpage.html", {"committee": committee})

@@ -16,5 +16,7 @@ urlpatterns = [
     ),
     path("register/done/", views.registration_done, name="registration_done"),
     path("confirm/<uidb64>/<token>/", views.activate, name="confirm_registration"),
+    path("committee/", views.committee_overview, name="committee_overview"),
+    path("committee/<slug>/", views.committee_subpage, name="committee_subpage"),
     url(r"hook/$", csrf_exempt(webhooks.SendGridWebhook.as_view()), name="email_hook"),
 ]

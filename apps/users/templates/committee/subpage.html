@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+Committee | {{ committee.display_name }}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ committee.display_name }}</h1>
+    <img src="{{ committee.photo }}">
+{% endblock %}

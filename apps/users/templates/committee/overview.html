@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+Committee
+{% endblock %}
+
+{% block content %}
+    <h1>Committees</h1>
+    {% for committee in committees %}
+        <h2><a href="{% url 'cosmos_users:committee_subpage' committee.slug %}">{{ committee.display_name }}</a></h2>
+        <img src="{{ committee.photo }}">
+    {% endfor %}
+{% endblock %}

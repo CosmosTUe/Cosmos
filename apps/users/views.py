@@ -185,9 +185,9 @@ def delete(request):
 
 def committee_overview(request):
     committees = Committee.objects.all()
-    return render(request, "committee/overview.html", {"committees": committees})
+    return render(request, "committees/overview.html", {"committees": committees})
 
 
 def committee_subpage(request, slug):
     committee = get_object_or_404(Committee, slug=str(slug))
-    return render(request, "committee/subpage.html", {"committee": committee})
+    return render(request, "committees/subpage.html", {"committees": committee})

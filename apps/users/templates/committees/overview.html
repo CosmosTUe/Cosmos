@@ -12,4 +12,24 @@ Committee
         <h2><a href="{% url 'committee_subpage' committee.slug %}">{{ committee.display_name }}</a></h2>
         <img src="{{ committee.photo }}" alt="Photo of {{ committee.name }}">
     {% endfor %}
+    
+
+    <div id="carouselCommittees" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+        {% for committee in committees %}
+            <div class="carousel-item">
+                <img src="{{ committee.photo }}" class="d-block w-100" alt="...">
+            </div>
+        {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselCommittees" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselCommittees" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    
 {% endblock %}

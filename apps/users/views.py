@@ -15,7 +15,7 @@ from apps.async_requests.factory import Factory
 from apps.users.forms.profile import KeyAccessUpdateForm, PasswordUpdateForm, PreferencesUpdateForm, ProfileUpdateForm
 from apps.users.forms.registration import RegisterFontysForm, RegisterTueForm, RegisterUserForm
 from apps.users.helper_functions import is_tue_email, is_fontys_email
-from apps.users.models import Committee
+from apps.users.models import Committee, Board
 from apps.users.models.user import InstitutionFontys, InstitutionTue
 from apps.users.tokens import account_activation_token
 
@@ -181,6 +181,12 @@ def delete(request):
         User.objects.get(username=request.user.username).delete()
         messages.success(request, "Your account has successfully been deleted")
     return redirect("/")
+
+
+def board_overview(request):
+    boards = Board.objects.all()
+    return render(request, "boards/overview.html", {"boards": boards})
+    pass
 
 
 def committee_overview(request):

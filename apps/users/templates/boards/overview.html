@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+    Board
+{% endblock %}
+
+{% block content %}
+    <h1>Board history</h1>
+    {% for board in boards %}
+        <h2>{{ board.display_name }}</h2>
+        <img src="{{ board.photo }}" alt="Photo of {{ board.display_name }}">
+    {% endfor %}
+{% endblock %}

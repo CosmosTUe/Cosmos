@@ -7,7 +7,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("users", "0007_remove_old_fields"),
+        ("users", "0008_remove_old_fields"),
     ]
 
     operations = [

@@ -1,12 +1,15 @@
 from django.db import models
-from filer.fields.file import FilerFileField
+from django.urls import reverse
 
 
 class GMM(models.Model):
     name = models.CharField(max_length=255)
     date = models.DateField()
-    slides = FilerFileField(null=True, blank=True, on_delete=models.CASCADE, related_name="GMM_slides")
-    minutes = FilerFileField(null=True, blank=True, on_delete=models.CASCADE, related_name="GMM_minutes")
+    slides = models.FileField(null=True, blank=True)
+    minutes = models.FileField(null=True, blank=True)
 
     def __str__(self):
         return self.name + " - " + str(self.date)
+
+    def get_absolute_url(self):
+        return reverse("resources")

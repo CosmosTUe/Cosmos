@@ -106,17 +106,8 @@ PIPELINE = {
     "CLOSURE_BINARY": "node_modules/.bin/google-closure-compiler",
     "STYLESHEETS": {
         "cosmos": {
-            "source_filenames": {"cosmos/css/registration.css", "cosmos/css/core.css"},
+            "source_filenames": {"cosmos/css/core.css"},
             "output_filename": "cosmos/css/cosmos.css",
-        },
-        "cosmos_cms": {
-            "source_filenames": {
-                "cosmos_cms/css/board_list.css",
-                "cosmos_cms/css/board_title.css",
-                "cosmos_cms/css/committee_list.css",
-                "cosmos_cms/css/committee_title.css",
-            },
-            "output_filename": "cosmos_cms/css/cosmos_cms.css",
         },
     },
     "JAVASCRIPT": {

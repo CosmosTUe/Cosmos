@@ -19,13 +19,6 @@ django-formtools>=2.2,<3
 django-crispy-forms>=1.10.0,<2
 crispy-bootstrap5>=0.3.1
 
-# file management
-django-filer
-django-mptt
-easy_thumbnails
-django-polymorphic
-pillow
-
 ##################
 #   deployment   #
 ##################

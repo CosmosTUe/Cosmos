@@ -2,13 +2,14 @@
 
 {% block content %}
 
+    {# TODO: add correct permissions #}
     {% if user.is_authenticated %}
     <div class="pb-2">
         <button class="btn btn-primary" type="button" onclick="switchGMMView()">Switch view</button>
-        <button class="btn btn-primary" type="button">
+        <a class="btn btn-primary" href="{% url 'gmm-add' %}">
             <i class="bi bi-plus-lg"></i>
             Add new GMM
-        </button>
+        </a>
     </div>
     {% endif %}
 
@@ -28,12 +29,28 @@
                     <th scope="row">{{ gmm.name }}</th>
                     <td>{{ gmm.date }}</td>
                     <td>
+                        {% if gmm.slides %}
                         <a href="{{ gmm.slides.url }}">Slides</a>
+                        {% endif %}
+
+                        {% if gmm.minutes %}
                         <a href="{{ gmm.minutes.url }}">Minutes</a>
+                        {% endif %}
+
+                        {% if not gmm.slides and not gmm.minutes %}
+                        No documents available.
+                        {% endif %}
+
+                        {# TODO: add correct permissions #}
                         {% if user.is_authenticated %}
-                        <button class="btn float-end p-0" type="button">
-                            <i class="bi bi-pencil-square"></i>
-                        </button>
+                        <div class="float-end">
+                            <a class="btn p-0" href="{% url 'gmm-update' gmm.id %}">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                            <a class="btn p-0" href="{% url 'gmm-delete' gmm.id %}">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </div>
                         {% endif %}
                     </td>
                 </tr>
@@ -64,9 +81,14 @@
                     
                         {# TODO: add correct permissions #}
                         {% if user.is_authenticated %}
-                        <button class="btn float-end p-0" type="button">
-                            <i class="bi bi-pencil-square"></i>
-                        </button>
+                        <div class="float-end">
+                            <a class="btn p-0" href="{% url 'gmm-update' gmm.id %}">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                            <a class="btn p-0" href="{% url 'gmm-delete' gmm.id %}">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </div>
                         {% endif %}
                     </div>
 

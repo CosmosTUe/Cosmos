@@ -2,15 +2,46 @@
 
 {% block content %}
 
-    {% if gmm_list %}
-        <div class="pb-2">
-            <button class="btn btn-primary" type="button">
-                <i class="bi bi-plus-lg"></i>
-                Add new GMM
-            </button>
-        </div>
+    {% if user.is_authenticated %}
+    <div class="pb-2">
+        <button class="btn btn-primary" type="button" onclick="switchGMMView()">Switch view</button>
+        <button class="btn btn-primary" type="button">
+            <i class="bi bi-plus-lg"></i>
+            Add new GMM
+        </button>
+    </div>
+    {% endif %}
 
-        <div class="row row-cols-1 row-cols-md-4 g-4">
+    {% if gmm_list %}
+
+        <table class="table table-hover" style="display: none;" id="GMMTable">
+            <thead>
+                <tr>
+                    <th scope="col">GMM</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Documents</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for gmm in gmm_list %}
+                <tr>
+                    <th scope="row">{{ gmm.name }}</th>
+                    <td>{{ gmm.date }}</td>
+                    <td>
+                        <a href="{{ gmm.slides.url }}">Slides</a>
+                        <a href="{{ gmm.minutes.url }}">Minutes</a>
+                        {% if user.is_authenticated %}
+                        <button class="btn float-end p-0" type="button">
+                            <i class="bi bi-pencil-square"></i>
+                        </button>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="row row-cols-1 row-cols-md-4 g-4" id="GMMGrid">
         {% for gmm in gmm_list %}
             <div class="col">
                 <div class="card">
@@ -43,6 +74,7 @@
             </div>
         {% endfor %}
         </div>
+
     {% else %}
         <p>No GMM information is available.</p>
     {% endif %}

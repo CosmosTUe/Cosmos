@@ -2,4 +2,5 @@ from django.apps import AppConfig
 
 
 class EventsConfig(AppConfig):
-    name = "cosmos_events"
+    name = "apps.events"
+    label = "cosmos_events"

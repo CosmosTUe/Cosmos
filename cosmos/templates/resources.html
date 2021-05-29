@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    {% if gmm_list %}
+        <div class="pb-2">
+            <button class="btn btn-primary" type="button">
+                <i class="bi bi-plus-lg"></i>
+                Add new GMM
+            </button>
+        </div>
+
+        <div class="row row-cols-1 row-cols-md-4 g-4">
+        {% for gmm in gmm_list %}
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-1">{{ gmm.name }}</h5>
+                        <small>{{ gmm.date }}</small>
+                    </div>
+                    <div class="card-body">
+                        {% if gmm.slides %}
+                        <a href="{{ gmm.slides.url }}" class="card-link">Slides</a>
+                        {% endif %}
+
+                        {% if gmm.minutes %}
+                        <a href="{{ gmm.minutes.url }}" class="card-link">Minutes</a>
+                        {% endif %}
+
+                        {% if not gmm.slides and not gmm.minutes %}
+                        No documents available.
+                        {% endif %}
+                    
+                        {# TODO: add correct permissions #}
+                        {% if user.is_authenticated %}
+                        <button class="btn float-end p-0" type="button">
+                            <i class="bi bi-pencil-square"></i>
+                        </button>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    {% else %}
+        <p>No GMM information is available.</p>
+    {% endif %}
+
+{% endblock content %}

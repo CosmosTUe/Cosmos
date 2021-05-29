@@ -2,4 +2,5 @@ from django.apps import AppConfig
 
 
 class UsersConfig(AppConfig):
-    name = "cosmos_users"
+    name = "apps.users"
+    label = "cosmos_users"

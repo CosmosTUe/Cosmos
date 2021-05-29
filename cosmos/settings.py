@@ -184,8 +184,6 @@ INSTALLED_APPS = [
     # "sekizai",
     # "treebeard",
     # "djangocms_text_ckeditor",
-    # "filer",
-    # "easy_thumbnails",
     "pipeline",
     "django_celery_results",
     "oauth2_provider",
@@ -193,6 +191,9 @@ INSTALLED_APPS = [
     "formtools",
     "crispy_forms",
     "crispy_bootstrap5",
+    "easy_thumbnails",
+    "filer",
+    "mptt",
 ]
 
 LANGUAGES = (
@@ -201,6 +202,8 @@ LANGUAGES = (
 )
 
 X_FRAME_OPTIONS = "SAMEORIGIN"
+
+THUMBNAIL_HIGH_RESOLUTION = True
 
 THUMBNAIL_PROCESSORS = (
     "easy_thumbnails.processors.colorspace",
@@ -267,11 +270,8 @@ LOGIN_URL = "/accounts/login/"
 LOGOUT_REDIRECT_URL = "/"
 
 # Security
-
-
 SESSION_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_SECURE = not DEBUG
-
 
 SECURE_REFERRER_POLICY = "same-origin"
 

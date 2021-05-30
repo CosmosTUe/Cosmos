@@ -180,9 +180,6 @@ INSTALLED_APPS = [
     "formtools",
     "crispy_forms",
     "crispy_bootstrap5",
-    "easy_thumbnails",
-    "filer",
-    "mptt",
 ]
 
 LANGUAGES = (

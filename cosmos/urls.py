@@ -18,7 +18,6 @@ urlpatterns = [
     path("o/", include("oauth2_provider.urls", namespace="oauth2_provider")),  # django-oauth-toolkit
     path("accounts/", include("django.contrib.auth.urls")),
     path("accounts/", include("apps.users.urls")),
-    path("filer/", include('filer.urls')),
     re_path(r"^sitemap\.xml$", sitemap),
     path("", cosmos.views.index, name="index"),
     path("resources/", cosmos.views.resources, name="resources"),

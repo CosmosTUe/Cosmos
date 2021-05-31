@@ -21,7 +21,7 @@ window.onload = function() {
             trigger: document.getElementById("id_date")
         });
 
-        document.getElementById("id_date").addEventListener('click', function() {
+        document.getElementById("id_calendar_button").addEventListener('click', function() {
             dialog.toggle();
         });
 

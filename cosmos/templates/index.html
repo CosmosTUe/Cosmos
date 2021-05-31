@@ -1,16 +1,61 @@
-{% extends "base.html" %} {% load static %} {% block content %}
-<header class="home-img min-vh-100">
+{% extends "base.html" %} {% load static %} {% block base-content %}
+<section class="home-img min-vh-100">
     <div class="container d-flex h-100">
         <div class="mx-auto text-center">
             <img class="img-fluid mh-50" src="{% static 'cosmos/img/cosmos_white_horizontal.png' %}">
         </div>
     </div>
-</header>
-<div class="container">
-    <section id="about">
+</section>
+<section id="stats">
+    <div class="container">
         <div class="row">
+            <div class="col-lg-3 col-6">
+                <div class="stat-box">
+                    <span>69</span>
+                    <p>Nationalities</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-6">
+                <div class="stat-box">
+                    <span>69</span>
+                    <p>Members</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-6">
+                <div class="stat-box">
+                    <span>69</span>
+                    <p>Active Years</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-6">
+                <div class="stat-box">
+                    <span>69</span>
+                    <p>Events Per Year</p>
+                </div>
+            </div>
         </div>
-    </section>
-</div>
+    </div>
+</section>
+<section id="about">
+    <div class="container">
+        <div class="section-title">
+            <h2> About Us</h2>
+        </div>
+        <div class="row content">
+            <div class="col-lg-6">
+                <p>
+                    We are an associationLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
 
-{% endblock content %}
+                </p>
+            </div>
+            <div class="col-lg-6 pt-4 pt-lg-0">
+                <p> We make drinks too!Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+                    culpa qui officia deserunt mollit anim id est laborum.
+                </p>
+                <a href="#" class="btn btn-outline-primary">Learn More</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock base-content %}

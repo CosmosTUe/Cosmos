@@ -43,13 +43,15 @@ h6 {
     height: calc(72px + 1rem);
 }
 
+
+/* 
 #about {
     padding: 80px 0;
 }
 
 #stats {
     padding: 60px 0;
-}
+} */
 
 .stat-box {
     text-align: center;

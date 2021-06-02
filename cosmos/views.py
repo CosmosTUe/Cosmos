@@ -1,13 +1,17 @@
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.template import loader
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, UpdateView
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django_sendfile import sendfile
 
 from cosmos.forms import GMMForm, GMMFormSet, GMMFormSetHelper
 from cosmos.models import GMM
+
+from .settings import SENDFILE_ROOT
 
 
 def index(request):
@@ -101,3 +105,12 @@ class GMMDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     # Permissions
     permission_required = "cosmos.gmm_delete"
     raise_exception = True
+
+
+def protected_media(request, file_path):
+    user = request.user
+
+    if file_path.startswith("gmm/") and not user.is_authenticated:
+        raise PermissionDenied()
+
+    return sendfile(request, SENDFILE_ROOT + file_path)

@@ -181,6 +181,7 @@ INSTALLED_APPS = [
     "formtools",
     "crispy_forms",
     "crispy_bootstrap5",
+    "django_sendfile",
 ]
 
 LANGUAGES = (
@@ -273,3 +274,10 @@ SENDGRID_WEBHOOK_SIGNATURE = secret_settings.secrets["SENDGRID_WEBHOOK_SIGNATURE
 # Crispy forms
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+if DEBUG:
+    SENDFILE_BACKEND = "django_sendfile.backends.development"
+else:
+    SENDFILE_BACKEND = "django_sendfile.backends.nginx"
+SENDFILE_ROOT = os.path.join(DATA_DIR, "media/")
+SENDFILE_URL = "/protected-media"

@@ -21,6 +21,8 @@ django-crispy-forms>=1.10.0,<2
 git+git://github.com/bcvandendool/crispy-bootstrap5@main#egg=crispy-bootstrap5
 django-crum
 
+django-sendfile2
+
 ##################
 #   deployment   #
 ##################

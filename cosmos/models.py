@@ -4,11 +4,6 @@ from django.db import models
 from django.urls import reverse
 
 
-# class FileContainer(models.Model):
-#     class Meta:
-#         abstract = True
-
-
 class GMM(models.Model):
     name = models.CharField(max_length=255)
     date = models.DateField()
@@ -33,7 +28,7 @@ class FileObject(models.Model):
         User, blank=True, null=True, default=None, on_delete=models.SET_NULL, related_name="modified_by"
     )
 
-    file = models.FileField(null=False, blank=False)
+    file = models.FileField(null=False, blank=False, upload_to="gmm/")
 
     container = models.ForeignKey(GMM, on_delete=models.CASCADE, related_name="has_files")
 

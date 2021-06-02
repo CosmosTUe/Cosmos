@@ -43,6 +43,7 @@ window.onload = function() {
         function addForm(e) {
             e.preventDefault();
 
+            fileForm = document.querySelectorAll(".file-form");
             let newForm = fileForm[formNum].cloneNode(true);
             let formRegex = RegExp(`has_files-(\\d){1}-`, `g`);
 
@@ -50,7 +51,7 @@ window.onload = function() {
             newForm.innerHTML = newForm.innerHTML.replace(formRegex, `has_files-${formNum}-`);
             container.insertBefore(newForm, addButton);
 
-            totalForms.setAttribute("value", formNum+1);
+            totalForms.setAttribute("value", `${formNum+1}`);
         }
     }
 };

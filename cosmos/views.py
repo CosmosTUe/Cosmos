@@ -1,12 +1,12 @@
+from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.template import loader
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, UpdateView
-from django.db import transaction
 
-from cosmos.models import GMM
 from cosmos.forms import GMMForm, GMMFormSet, GMMFormSetHelper
+from cosmos.models import GMM
 
 
 def index(request):
@@ -24,7 +24,7 @@ def resources(request):
 
 class GMMCreate(CreateView):
     model = GMM
-    template_name = "cosmos/gmm_form.html"
+    template_name = "cosmos/gmm_create.html"
     form_class = GMMForm
     success_url = None
 
@@ -56,7 +56,7 @@ class GMMCreate(CreateView):
 
 class GMMUpdate(UpdateView):
     model = GMM
-    template_name = "cosmos/gmm_form.html"
+    template_name = "cosmos/gmm_update.html"
     form_class = GMMForm
     success_url = None
 
@@ -64,7 +64,6 @@ class GMMUpdate(UpdateView):
         data = super(GMMUpdate, self).get_context_data(**kwargs)
         if self.request.POST:
             data["files"] = GMMFormSet(self.request.POST, self.request.FILES, instance=self.object)
-            print(self.request.POST | self.request.FILES)
             data["helper"] = GMMFormSetHelper()
         else:
             data["files"] = GMMFormSet(instance=self.object)
@@ -86,6 +85,5 @@ class GMMUpdate(UpdateView):
 
 
 class GMMDelete(DeleteView):
-#    form_class = GMMDeleteForm
     model = GMM
     success_url = reverse_lazy("resources")

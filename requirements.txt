@@ -19,6 +19,7 @@ django-formtools>=2.2,<3
 django-crispy-forms>=1.10.0,<2
 #crispy-bootstrap5>=0.3.1
 git+git://github.com/bcvandendool/crispy-bootstrap5@main#egg=crispy-bootstrap5
+django-crum
 
 ##################
 #   deployment   #

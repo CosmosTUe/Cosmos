@@ -1,6 +1,6 @@
+from crispy_forms.bootstrap import FieldWithButtons, StrictButton
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Button, Field, Layout, Submit
-from crispy_forms.bootstrap import StrictButton, FieldWithButtons
+from crispy_forms.layout import Field, Layout, Button
 from django import forms
 from django.forms.models import inlineformset_factory
 
@@ -24,13 +24,10 @@ class GMMFormSetHelper(FormHelper):
         self.form_method = "post"
         self.form_tag = False
         self.layout = Layout(
-            "name",
-            "file",
-            "DELETE",
-            #Button("test", "Add another file", css_class="btn-primary")
+            Field("name", wrapper_class="col-12"),
+            Field("file", wrapper_class="col-12"),
+            Field("DELETE", wrapper_class="col-12"),
         )
-        #self.add_input(Button("test", "Add another file", css_class="btn-primary"))
-        #self.add_input(Submit("submit", "Create", css_class="btn-primary"))
         self.render_required_fields = True
 
 
@@ -54,65 +51,3 @@ class GMMForm(forms.ModelForm):
                 ),
             ),
         )
-        #self.helper.add_input(Submit("submit", "Create", css_class="btn-primary"))
-
-# class GMMCreateForm(forms.ModelForm):
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(*args, **kwargs)
-#         self.helper = FormHelper()
-#         self.helper.layout = Layout(
-#             Field("name"),
-#             FieldWithButtons(
-#                 "date",
-#                 StrictButton(
-#                     """<i class="bi bi-calendar-date"></i>""",
-#                     css_class="btn-outline-secondary",
-#                     id="id_calendar_button",
-#                 ),
-#             ),
-#             Field("slides"),
-#             Field("minutes"),
-#             Field("files"),
-#             HTML("""<a class="btn btn-primary" href="/">Add file</a>"""),
-#             FormActions(Submit("submit", "Update", css_class="btn-primary")),
-#         )
-
-#     class Meta:
-#         model = GMM
-#         fields = ["name", "date", "slides", "minutes", "files"]
-
-
-# class GMMUpdateForm(forms.ModelForm):
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(*args, **kwargs)
-#         self.helper = FormHelper()
-#         self.helper.layout = Layout(
-#             Field("name"),
-#             FieldWithButtons(
-#                 "date",
-#                 StrictButton(
-#                     """<i class="bi bi-calendar-date"></i>""",
-#                     css_class="btn-outline-secondary",
-#                     id="id_calendar_button",
-#                 ),
-#             ),
-#             Field("slides"),
-#             Field("minutes"),
-#             Field("files"),
-#             FormActions(Submit("submit", "Update", css_class="btn-primary")),
-#         )
-
-#     class Meta:
-#         model = GMM
-#         fields = ["name", "date", "slides", "minutes", "files"]
-
-
-# class GMMDeleteForm(forms.ModelForm):
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(*args, **kwargs)
-#         self.helper = FormHelper()
-#         self.helper.add_input(Submit("submit", "Delete", css_class="btn-primary"))
-
-#     class Meta:
-#         model = GMM
-#         fields = []

@@ -38,7 +38,6 @@ class FileObject(models.Model):
     container = models.ForeignKey(GMM, on_delete=models.CASCADE, related_name="has_files")
 
     def save(self, *args, **kwargs):
-        print("Save called on file object")
         user = get_current_user()
         if user and not user.pk:
             user = None
@@ -49,6 +48,3 @@ class FileObject(models.Model):
 
     def __str__(self):
         return "FileObject: {" + self.name + ", " + str(self.date) + "}"
-
-
-

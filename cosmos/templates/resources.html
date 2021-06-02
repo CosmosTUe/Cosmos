@@ -29,19 +29,6 @@
                     <th scope="row">{{ gmm.name }}</th>
                     <td>{{ gmm.date }}</td>
                     <td>
-                        {% comment %}
-                        {% if gmm.slides %}
-                        <a href="{{ gmm.slides.url }}">Slides</a>
-                        {% endif %}
-
-                        {% if gmm.minutes %}
-                        <a href="{{ gmm.minutes.url }}">Minutes</a>
-                        {% endif %}
-
-                        {% if not gmm.slides and not gmm.minutes %}
-                        No documents available.
-                        {% endif %}
-                        {% endcomment %}
                         {% if not gmm.has_files %}
                         No documents available.
                         {% else %}
@@ -76,19 +63,6 @@
                         <small>{{ gmm.date }}</small>
                     </div>
                     <div class="card-body">
-                        {% comment %}
-                        {% if gmm.slides %}
-                        <a href="{{ gmm.slides.url }}" class="card-link">Slides</a>
-                        {% endif %}
-
-                        {% if gmm.minutes %}
-                        <a href="{{ gmm.minutes.url }}" class="card-link">Minutes</a>
-                        {% endif %}
-
-                        {% if not gmm.slides and not gmm.minutes %}
-                        No documents available.
-                        {% endif %}
-                        {% endcomment %}
 
                         {% if not gmm.has_files %}
                         No documents available.

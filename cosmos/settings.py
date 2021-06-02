@@ -153,6 +153,7 @@ MIDDLEWARE = [
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "crum.CurrentRequestUserMiddleware",
 ]
 
 INSTALLED_APPS = [

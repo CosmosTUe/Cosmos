@@ -21,7 +21,7 @@ urlpatterns = [
     re_path(r"^sitemap\.xml$", sitemap),
     path("", cosmos.views.index, name="index"),
     path("resources/", cosmos.views.resources, name="resources"),
-    path("gmm/add/", cosmos.views.GMMAdd.as_view(), name="gmm-add"),
+    path("gmm/add/", cosmos.views.GMMCreate.as_view(), name="gmm-create"),
     path("gmm/<int:pk>/", cosmos.views.GMMUpdate.as_view(), name="gmm-update"),
     path("gmm/<int:pk>/delete", cosmos.views.GMMDelete.as_view(), name="gmm-delete"),
 ]

@@ -6,7 +6,7 @@
     {% if user.is_authenticated %}
     <div class="pb-2">
         <button class="btn btn-primary" type="button" onclick="switchGMMView()">Switch view</button>
-        <a class="btn btn-primary" href="{% url 'gmm-add' %}">
+        <a class="btn btn-primary" href="{% url 'gmm-create' %}">
             <i class="bi bi-plus-lg"></i>
             Add new GMM
         </a>
@@ -29,6 +29,7 @@
                     <th scope="row">{{ gmm.name }}</th>
                     <td>{{ gmm.date }}</td>
                     <td>
+                        {% comment %}
                         {% if gmm.slides %}
                         <a href="{{ gmm.slides.url }}">Slides</a>
                         {% endif %}
@@ -40,6 +41,14 @@
                         {% if not gmm.slides and not gmm.minutes %}
                         No documents available.
                         {% endif %}
+                        {% endcomment %}
+                        {% if not gmm.has_files %}
+                        No documents available.
+                        {% else %}
+                        {% for document in gmm.has_files.all %}
+                            <a href="{{ document.file.url }}">{{ document.name }}</a>
+                        {% endfor %}
+                        {% endif%}
 
                         {# TODO: add correct permissions #}
                         {% if user.is_authenticated %}
@@ -67,6 +76,7 @@
                         <small>{{ gmm.date }}</small>
                     </div>
                     <div class="card-body">
+                        {% comment %}
                         {% if gmm.slides %}
                         <a href="{{ gmm.slides.url }}" class="card-link">Slides</a>
                         {% endif %}
@@ -78,6 +88,15 @@
                         {% if not gmm.slides and not gmm.minutes %}
                         No documents available.
                         {% endif %}
+                        {% endcomment %}
+
+                        {% if not gmm.has_files %}
+                        No documents available.
+                        {% else %}
+                        {% for document in gmm.has_files.all %}
+                            <a href="{{ document.file.url }}" class="card-link">{{ document.name }}</a>
+                        {% endfor %}
+                        {% endif%}
                     
                         {# TODO: add correct permissions #}
                         {% if user.is_authenticated %}

@@ -22,6 +22,11 @@ urlpatterns = [
     path("", cosmos.views.index, name="index"),
 ]
 
+handler400 = "cosmos.views.error400"
+handler403 = "cosmos.views.error403"
+handler404 = "cosmos.views.error404"
+handler500 = "cosmos.views.error500"
+
 # This is only needed when using runserver.
 if settings.DEBUG:
     urlpatterns = (

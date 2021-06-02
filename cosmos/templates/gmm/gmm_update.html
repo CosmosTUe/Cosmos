@@ -11,7 +11,7 @@
         <label class="form-label">Files</label>
         {{ files.management_form|crispy }}
         {% for file_form in files %}
-        <div class="file-form row row-cols-lg-auto border mb-2 align-items-center">
+        <div class="file-form row border mb-2 align-items-center">
             {{ file_form.id }}
             {% crispy file_form helper %}
         </div>

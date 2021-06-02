@@ -24,7 +24,7 @@ def resources(request):
 
 class GMMCreate(CreateView):
     model = GMM
-    template_name = "cosmos/gmm_create.html"
+    template_name = "gmm/gmm_create.html"
     form_class = GMMForm
     success_url = None
 
@@ -56,7 +56,7 @@ class GMMCreate(CreateView):
 
 class GMMUpdate(UpdateView):
     model = GMM
-    template_name = "cosmos/gmm_update.html"
+    template_name = "gmm/gmm_update.html"
     form_class = GMMForm
     success_url = None
 
@@ -86,4 +86,5 @@ class GMMUpdate(UpdateView):
 
 class GMMDelete(DeleteView):
     model = GMM
+    template_name = "gmm/gmm_confirm_delete.html"
     success_url = reverse_lazy("resources")

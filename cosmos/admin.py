@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from cosmos.models import FileObject, GMM
+from cosmos.models import GMM, FileObject
 
 
 @admin.register(GMM)

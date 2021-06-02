@@ -1,6 +1,6 @@
 from crispy_forms.bootstrap import FieldWithButtons, StrictButton
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Div, Field, Layout, Button
+from crispy_forms.layout import Div, Field, Layout
 from django import forms
 from django.forms.models import inlineformset_factory
 
@@ -27,7 +27,7 @@ class GMMFormSetHelper(FormHelper):
             Field("name", wrapper_class="col-4"),
             Field("file", wrapper_class="col-6"),
             Div("DELETE", css_class="col-2"),
-            #Field("DELETE", wrapper_class="col-2"),
+            # Field("DELETE", wrapper_class="col-2"),
         )
         self.render_required_fields = True
 

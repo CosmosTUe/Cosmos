@@ -28,7 +28,4 @@ urlpatterns = [
 
 # This is only needed when using runserver.
 if settings.DEBUG:
-    urlpatterns = (
-        staticfiles_urlpatterns()
-        + urlpatterns
-    )
+    urlpatterns = staticfiles_urlpatterns() + urlpatterns

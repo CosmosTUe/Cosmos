@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.template import loader
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from cosmos.forms import GMMForm, GMMFormSet, GMMFormSetHelper
 from cosmos.models import GMM
@@ -22,11 +23,15 @@ def resources(request):
     return HttpResponse(template.render(context, request))
 
 
-class GMMCreate(CreateView):
+class GMMCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = GMM
     template_name = "gmm/gmm_create.html"
     form_class = GMMForm
     success_url = None
+
+    # Permissions
+    permission_required = "cosmos.gmm_add"
+    raise_exception = True
 
     def get_context_data(self, **kwargs):
         data = super(GMMCreate, self).get_context_data(**kwargs)
@@ -54,11 +59,15 @@ class GMMCreate(CreateView):
         return reverse_lazy("resources")
 
 
-class GMMUpdate(UpdateView):
+class GMMUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = GMM
     template_name = "gmm/gmm_update.html"
     form_class = GMMForm
     success_url = None
+
+    # Permissions
+    permission_required = "cosmos.gmm_update"
+    raise_exception = True
 
     def get_context_data(self, **kwargs):
         data = super(GMMUpdate, self).get_context_data(**kwargs)
@@ -84,7 +93,11 @@ class GMMUpdate(UpdateView):
         return reverse_lazy("resources")
 
 
-class GMMDelete(DeleteView):
+class GMMDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = GMM
     template_name = "gmm/gmm_confirm_delete.html"
     success_url = reverse_lazy("resources")
+
+    # Permissions
+    permission_required = "cosmos.gmm_delete"
+    raise_exception = True

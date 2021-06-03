@@ -2,8 +2,11 @@
 :root {
     --link-blue: #0d6efd;
     --link-blue-hover: #67a4ff;
-    --blue: #0d6efd;
-    --black: #444444
+    --blue: #005274;
+    --blue-hover: #0e6e9e;
+    --black: #444444;
+    --white: #ffffff;
+    --light-blue: #f5faff;
 }
 
 html {
@@ -14,7 +17,7 @@ body {
     height: 100%;
     font-family: "Open Sans", sans-serif;
     color: var(--black);
-    background: #fff;
+    background: var(--white);
 }
 
 h1,
@@ -24,6 +27,25 @@ h4,
 h5,
 h6 {
     font-family: "Raleway", sans-serif;
+}
+
+.bg-cosmos-primary {
+    background-color: var(--blue)!important;
+}
+
+.btn-cosmos-primary {
+    color: var(--white);
+}
+
+.btn-cosmos-outline-primary {
+    color: var(--blue);
+    border-color: var(--blue);
+}
+
+.btn-cosmos-outline-primary:hover {
+    color: var(--white);
+    background-color: var(--blue);
+    border-color: var(--blue);
 }
 
 .home-img {
@@ -42,16 +64,6 @@ h6 {
 .navbar-filler {
     height: calc(72px + 1rem);
 }
-
-
-/* 
-#about {
-    padding: 80px 0;
-}
-
-#stats {
-    padding: 60px 0;
-} */
 
 .stat-box {
     text-align: center;
@@ -78,13 +90,14 @@ h6 {
     display: block;
 }
 
-footer {
-    background-color: #f8fbfe;
+.section-bg {
+    background-color: var(--light-blue);
 }
 
-#footer-top {
+
+/* #footer-top {
     background-color: rgb(185, 29, 29);
-}
+} */
 
 footer a {
     text-decoration: none;
@@ -101,15 +114,15 @@ footer a:hover {
 }
 
 footer .social-links a:hover {
-    background: var(--link-blue-hover);
-    color: #fff;
+    background: var(--blue-hover);
+    color: var(--white);
     text-decoration: none;
 }
 
 .social-links a {
     font-size: 18px;
     display: inline-block;
-    color: white;
+    color: var(--white);
     background: var(--blue);
     line-height: 1;
     padding: 8px 0 6px 0;

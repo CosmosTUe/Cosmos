@@ -3,39 +3,42 @@
 {% load static %}
 
 {% block title %}
-Committee
+    Committee
 {% endblock %}
 
 {% block content %}
     <h1>Committees</h1>
-    {% for committee in committees %}
-        <div class="card w-25">
-            <img src="{% get_media_prefix %}{{ committee.photo }}" class="card-img-top" alt="Photo of {{ committee.name }}">
-            <div class="card-body">
-                <h5 class="card-title">{{ committee.display_name }}</h5>
-                <p class="card-text">{{ committee.description }}</p>
-                <a href="{% url 'committee_subpage' committee.slug %}" class="btn btn-primary">See more</a>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for committee in committees %}
+            <div class="col">
+                <div class="card h-100">
+                    <img src="{% get_media_prefix %}{{ committee.photo }}" class="card-img-top"
+                         alt="Photo of {{ committee.name }}">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ committee.display_name }}</h5>
+                        <p class="card-text">{{ committee.description }}</p>
+                        <a href="{% url 'committee_subpage' committee.slug %}" class="btn btn-primary mt-auto">See more</a>
+                    </div>
+                </div>
             </div>
-        </div>
-    {% endfor %}
-    
+        {% endfor %}
+    </div>
 
     <div id="carouselCommittees" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
-        {% for committee in committees %}
-            <div class="carousel-item">
-                <img src="{% get_media_prefix %}{{ committee.photo }}" class="d-block w-100" alt="...">
-            </div>
-        {% endfor %}
+            {% for committee in committees %}
+                <div class="carousel-item">
+                    <img src="{% get_media_prefix %}{{ committee.photo }}" class="d-block w-100" alt="...">
+                </div>
+            {% endfor %}
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselCommittees" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
         </button>
         <button class="carousel-control-next" type="button" data-bs-target="#carouselCommittees" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
         </button>
     </div>
-    
 {% endblock %}

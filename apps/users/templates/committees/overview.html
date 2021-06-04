@@ -33,6 +33,10 @@
                     <div class="carousel-item">
                 {% endif %}
                     <img src="{% get_media_prefix %}{{ committee.photo }}" class="d-block w-100" alt="Photo of {{ committee.name }}">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>{{ committee.name }}</h5>
+                        <p>{{ committee.description }}</p>
+                    </div>
                 </div>
             {% endfor %}
         </div>

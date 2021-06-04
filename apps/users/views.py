@@ -186,7 +186,6 @@ def delete(request):
 def board_overview(request):
     boards = Board.objects.all()
     return render(request, "boards/overview.html", {"boards": boards})
-    pass
 
 
 def committee_overview(request):
@@ -196,4 +195,4 @@ def committee_overview(request):
 
 def committee_subpage(request, slug):
     committee = get_object_or_404(Committee, slug=str(slug))
-    return render(request, "committees/subpage.html", {"committees": committee})
+    return render(request, "committees/subpage.html", {"committee": committee})

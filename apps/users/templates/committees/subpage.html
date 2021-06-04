@@ -8,5 +8,5 @@ Committee | {{ committee.display_name }}
 
 {% block content %}
     <h1>{{ committee.display_name }}</h1>
-    <img src="{{ committee.photo }}">
+    <img src="{% get_media_prefix %}{{ committee.photo }}">
 {% endblock %}

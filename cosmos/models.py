@@ -8,6 +8,10 @@ class GMM(models.Model):
     name = models.CharField(max_length=255)
     date = models.DateField()
 
+    class Meta:
+        verbose_name = "GMM"
+        verbose_name_plural = "GMMs"
+
     def __str__(self):
         return "GMM: {" + self.name + ", " + str(self.date) + "}"
 

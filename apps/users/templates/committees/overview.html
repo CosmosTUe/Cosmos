@@ -7,8 +7,19 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Committees</h1>
-    <div class="container">
+    <br> 
+    <div class="container ">
+        <div class="row">
+            <div class="col">
+                <h3 class='m-0'>Committees</h3>
+            </div>
+            <div class="col text-end">
+                <h3 class='m-0'>Active: {{committees|length}} </h3>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="container p-0">
         <div class="row">
             <div id="carouselCommittees" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">

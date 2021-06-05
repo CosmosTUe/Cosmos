@@ -106,7 +106,7 @@ PIPELINE = {
     "CLOSURE_BINARY": "node_modules/.bin/google-closure-compiler",
     "STYLESHEETS": {
         "cosmos": {
-            "source_filenames": {},
+            "source_filenames": {"cosmos/css/core.css", "cosmos/css/registration.css"},
             "output_filename": "cosmos/css/cosmos.css",
         },
         "cosmos_cms": {

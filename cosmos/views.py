@@ -5,7 +5,21 @@ from django.template import loader
 
 
 def index(request):
-    return render(request, "index.html")
+    members = 0
+    nationalities = 0
+    active_years = 0
+    events_amount = 0
+
+    return render(
+        request,
+        "index.html",
+        {
+            "member_amount": members,
+            "nationality_amount": nationalities,
+            "active_years": active_years,
+            "events_amount": events_amount,
+        },
+    )
 
 
 def error400(request, exception):

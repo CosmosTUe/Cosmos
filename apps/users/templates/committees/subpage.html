@@ -3,10 +3,24 @@
 {% load static %}
 
 {% block title %}
-Committee | {{ committee.display_name }}
+    Committee | {{ committee.display_name }}
 {% endblock %}
 
 {% block content %}
-    <h1>{{ committee.display_name }}</h1>
-    <img src="{% get_media_prefix %}{{ committee.photo }}">
+    <div class="container">
+        <div class="card w-100">
+            <div class="row g-0">
+                <div class="col-md-6">
+                    <img src="{% get_media_prefix %}{{ committee.photo }}" class="w-100"
+                         alt="Photo of {{ committee.name }}">
+                </div>
+                <div class="col-md-6">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ committee.display_name }}</h5>
+                        <p class="card-text">{{ committee.description }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

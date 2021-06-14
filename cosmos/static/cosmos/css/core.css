@@ -29,12 +29,28 @@ h6 {
     font-family: "Raleway", sans-serif;
 }
 
+a {
+    text-decoration: none;
+    color: var(--link-blue);
+}
+
+a:hover {
+    text-decoration: none;
+    color: var(--link-blue-hover);
+}
+
 .bg-cosmos-primary {
     background-color: var(--blue)!important;
 }
 
 .btn-cosmos-primary {
     color: var(--white);
+    background-color: var(--blue)!important;
+}
+
+.btn-cosmos-primary:hover {
+    color: var(--white);
+    background-color: var(--blue-hover)!important;
 }
 
 .btn-cosmos-outline-primary {
@@ -99,18 +115,8 @@ h6 {
     background-color: rgb(185, 29, 29);
 } */
 
-footer a {
-    text-decoration: none;
-    color: var(--link-blue);
-}
-
 footer img {
     max-height: 200px;
-}
-
-footer a:hover {
-    text-decoration: none;
-    color: var(--link-blue-hover);
 }
 
 footer .social-links a:hover {

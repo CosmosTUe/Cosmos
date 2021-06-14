@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("users", "0009_refactor_institutions"),
+        ("users", "0010_change_to_bigautofield"),
     ]
 
     operations = [

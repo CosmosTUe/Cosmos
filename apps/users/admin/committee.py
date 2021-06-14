@@ -5,6 +5,6 @@ from apps.users.models import Committee
 
 @admin.register(Committee)
 class CommitteeAdmin(admin.ModelAdmin):
-    list_display = ("name", "description", "board")
+    list_display = ("name", "description")
 
-    search_fields = ["user__username", "board"]
+    search_fields = ["user__username"]

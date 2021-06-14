@@ -106,19 +106,14 @@ PIPELINE = {
     "CLOSURE_BINARY": "node_modules/.bin/google-closure-compiler",
     "STYLESHEETS": {
         "cosmos": {
-            "source_filenames": {"cosmos/css/core.css", "cosmos/css/registration.css"},
+            "source_filenames": {"cosmos/css/core.css", "cosmos/css/gmm.css"},
             "output_filename": "cosmos/css/cosmos.css",
-        },
-        "cosmos_cms": {
-            "source_filenames": {},
-            "output_filename": "cosmos_cms/css/cosmos_cms.css",
         },
     },
     "JAVASCRIPT": {
         "cosmos": {
             "source_filenames": {
-                "cosmos/js/register.js",
-                "cosmos/js/profile.js",
+                "cosmos/js/gmm.js",
             },
             "output_filename": "cosmos/js/cosmos.js",
         },
@@ -158,6 +153,7 @@ MIDDLEWARE = [
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "crum.CurrentRequestUserMiddleware",
 ]
 
 INSTALLED_APPS = [
@@ -178,8 +174,6 @@ INSTALLED_APPS = [
     # "sekizai",
     # "treebeard",
     # "djangocms_text_ckeditor",
-    # "filer",
-    # "easy_thumbnails",
     "pipeline",
     "django_celery_results",
     "oauth2_provider",
@@ -187,6 +181,8 @@ INSTALLED_APPS = [
     "formtools",
     "crispy_forms",
     "crispy_bootstrap5",
+    "django_sendfile",
+    "django_cleanup.apps.CleanupConfig",
 ]
 
 LANGUAGES = (
@@ -195,6 +191,8 @@ LANGUAGES = (
 )
 
 X_FRAME_OPTIONS = "SAMEORIGIN"
+
+THUMBNAIL_HIGH_RESOLUTION = True
 
 THUMBNAIL_PROCESSORS = (
     "easy_thumbnails.processors.colorspace",
@@ -261,11 +259,8 @@ LOGIN_URL = "/accounts/login/"
 LOGOUT_REDIRECT_URL = "/"
 
 # Security
-
-
 SESSION_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_SECURE = not DEBUG
-
 
 SECURE_REFERRER_POLICY = "same-origin"
 
@@ -280,5 +275,12 @@ SENDGRID_WEBHOOK_SIGNATURE = secret_settings.secrets["SENDGRID_WEBHOOK_SIGNATURE
 # Crispy forms
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+if DEBUG:
+    SENDFILE_BACKEND = "django_sendfile.backends.development"
+else:
+    SENDFILE_BACKEND = "django_sendfile.backends.nginx"
+SENDFILE_ROOT = os.path.join(DATA_DIR, "media/")
+SENDFILE_URL = "/protected-media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

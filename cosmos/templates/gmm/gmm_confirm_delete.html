@@ -1,0 +1,18 @@
+{% extends "subpage.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container">
+    <div class="mx-auto w-50">
+        <form method="post">
+            {% csrf_token %}
+            <p>Are you sure you want to delete "{{ object }}"?</p>
+            <input type="submit" class="btn btn-cosmos-primary" value="Confirm">
+            <a class="btn btn-secondary" href="{% url 'resources' %}">Cancel</a>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

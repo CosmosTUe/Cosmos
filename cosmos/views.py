@@ -1,5 +1,6 @@
 # from django.http import HttpResponse
 import datetime
+import random
 
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -13,7 +14,7 @@ def index(request):
     members = Profile.objects.count()
     nationalities = Profile.objects.values("nationality").distinct().count()
     active_years = int((datetime.date.today() - FOUNDING_DATE).days // 365.25)
-    events_amount = 0
+    events_amount = random.randint(0, 69)  # TODO include actual event number
 
     return render(
         request,

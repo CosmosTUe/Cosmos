@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="mx-auto w-50 mt-3">
+    <h1 class="text-center">{{ error_message }}</h1>
+    <p class="text-center">{{ detailed_message }}</p>
+    <div class="text-center">
+        <a href="/">Click here</a> to go back to the front page.
+    </div>
+</div>
+{% endblock%}

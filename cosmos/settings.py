@@ -282,3 +282,5 @@ else:
     SENDFILE_BACKEND = "django_sendfile.backends.nginx"
 SENDFILE_ROOT = os.path.join(DATA_DIR, "media/")
 SENDFILE_URL = "/protected-media"
+
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

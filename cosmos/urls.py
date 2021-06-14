@@ -9,6 +9,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path, re_path
 
 import cosmos.views
+from apps.users.views import board_overview, committee_overview, committee_subpage
 
 admin.autodiscover()
 
@@ -17,6 +18,9 @@ urlpatterns = [
     path("o/", include("oauth2_provider.urls", namespace="oauth2_provider")),  # django-oauth-toolkit
     path("accounts/", include("django.contrib.auth.urls")),
     path("accounts/", include("apps.users.urls")),
+    path("boards/", board_overview, name="boards_overview"),
+    path("committees/", committee_overview, name="committee_overview"),
+    path("committees/<slug>/", committee_subpage, name="committee_subpage"),
     re_path(r"^sitemap\.xml$", sitemap),
     path("", cosmos.views.index, name="index"),
     path("resources/", cosmos.views.resources, name="resources"),
@@ -25,6 +29,11 @@ urlpatterns = [
     path("gmm/<int:pk>/delete", cosmos.views.GMMDelete.as_view(), name="gmm-delete"),
     path("media/<path:file_path>", cosmos.views.protected_media, name="protected-media"),
 ]
+
+handler400 = "cosmos.views.error400"
+handler403 = "cosmos.views.error403"
+handler404 = "cosmos.views.error404"
+handler500 = "cosmos.views.error500"
 
 # This is only needed when using runserver.
 if settings.DEBUG:

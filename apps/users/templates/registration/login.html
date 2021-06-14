@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "subpage.html" %}
 
 {% load static %}
 
@@ -8,7 +8,7 @@
 
 {% block content %}
 
-    <div class="login">
+    <div class="login pb-5">
 
         {% if messages %}
             <ul>
@@ -35,7 +35,7 @@
 
             {% for field in form %}
 
-                <div class="form-group">
+                <div class="form-group py-2">
                     <input class="form-control {% if field.errors|length > 0 %} is-invalid {% endif %} {% if field.field.required %} required {% endif %}" name="{{ field.html_name }}" type="{{ field.field.widget.input_type }}" maxlength="{{ field.max_length }}" id="{{ field.id_for_label}}" placeholder="{% if field.label == "Username" %}TU/e email {% else %}{{ field.label }}{% endif %}" data-toggle="tooltip" data-placement="top" data-html="true" title="{{ field.help_text|safe }}">
                     <div class="invalid-feedback">
                         <ul>

@@ -182,6 +182,7 @@ INSTALLED_APPS = [
     "crispy_forms",
     "crispy_bootstrap5",
     "django_sendfile",
+    "django_cleanup.apps.CleanupConfig",
 ]
 
 LANGUAGES = (

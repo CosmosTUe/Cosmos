@@ -22,6 +22,7 @@ git+git://github.com/bcvandendool/crispy-bootstrap5@main#egg=crispy-bootstrap5
 django-crum
 
 django-sendfile2
+django-cleanup
 
 ##################
 #   deployment   #

@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
@@ -8,6 +10,8 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, UpdateView
 from django_sendfile import sendfile
 
+from apps.users.models import Profile
+from cosmos.constants import FOUNDING_DATE
 from cosmos.forms import GMMForm, GMMFormSet, GMMFormSetHelper
 from cosmos.models import GMM
 
@@ -15,7 +19,21 @@ from .settings import SENDFILE_ROOT
 
 
 def index(request):
-    return render(request, "index.html")
+    members = Profile.objects.count()
+    nationalities = Profile.objects.values("nationality").distinct().count()
+    active_years = int((datetime.date.today() - FOUNDING_DATE).days // 365.25)
+    events_amount = 69  # TODO include actual event number
+
+    return render(
+        request,
+        "index.html",
+        {
+            "member_amount": members,
+            "nationality_amount": nationalities,
+            "active_years": active_years,
+            "events_amount": events_amount,
+        },
+    )
 
 
 def error400(request, exception):

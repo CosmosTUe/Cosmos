@@ -1,0 +1,12 @@
+.form-control .text-break a {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    display: block;
+}
+
+.form-control .text-break a:hover {
+    text-overflow: clip;
+    white-space: normal;
+    word-break: break-all;
+}

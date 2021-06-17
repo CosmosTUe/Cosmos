@@ -35,6 +35,12 @@ h6 {
 
 .btn-cosmos-primary {
     color: var(--white);
+    background-color: var(--blue);
+}
+
+.btn-cosmos-primary:hover {
+    color: var(--white);
+    background-color: var(--blue-hover);
 }
 
 .btn-cosmos-outline-primary {

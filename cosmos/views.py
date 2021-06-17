@@ -10,13 +10,12 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, UpdateView
 from django_sendfile import sendfile
 
+from apps.users.models import Profile
+from cosmos.constants import FOUNDING_DATE
 from cosmos.forms import GMMForm, GMMFormSet, GMMFormSetHelper
 from cosmos.models import GMM
 
 from .settings import SENDFILE_ROOT
-
-from apps.users.models import Profile
-from cosmos.constants import FOUNDING_DATE
 
 
 def index(request):

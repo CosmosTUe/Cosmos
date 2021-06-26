@@ -5,7 +5,7 @@ Reference: `Django documentation <https://docs.djangoproject.com/en/3.0/ref/cont
 """
 from .board import BoardAdmin
 from .committee import CommitteeAdmin
+from .institutions import InstitutionFontysAdmin, InstitutionTueAdmin
 from .profile import ProfileAdmin
-from .institutions import InstitutionTueAdmin, InstitutionFontysAdmin
 
 __all__ = ["BoardAdmin", "CommitteeAdmin", "ProfileAdmin", "InstitutionTueAdmin", "InstitutionFontysAdmin"]

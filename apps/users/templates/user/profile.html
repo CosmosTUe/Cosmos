@@ -13,43 +13,53 @@
 <div class="row justify-content-center pb-5">
 
     <div class="col-md-2">
-        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-            <a class="nav-link active" id="profile-tab" data-toggle="pill" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Profile</a>
-            <a class="nav-link" id="password-tab" data-toggle="pill" href="#password" role="tab" aria-controls="password" aria-selected="false">Password</a>
-            <a class="nav-link" id="preferences-tab" data-toggle="pill" href="#preferences" role="tab" aria-controls="preferences" aria-selected="false">Preferences</a>
+        <ul class="nav nav-pills flex-column">
+            <li class="nav-item d-grid">
+                <button class="nav-link active" id="profile-pill" data-bs-toggle="pill" data-bs-target="#profile" role="tab" aria-current="page">Profile</a>
+            </li>
+            <li class="nav-item d-grid">
+                <button class="nav-link" id="password-pill" data-bs-toggle="pill" data-bs-target="#password" role="tab">Password</a>
+            </li>
+            <li class="nav-item d-grid">
+                <button class="nav-link" id="preferences-pill" data-bs-toggle="pill" data-bs-target="#preferences" role="tab">Preferences</a>
+            </li>
             {% if request.user.profile.institution_name == "tue" %}
-                <a class="nav-link" id="key-access-tab" data-toggle="pill" href="#key-access" role="tab" aria-controls="key-access" aria-selected="false">Key access</a>
+            <li class="nav-item d-grid">
+                <button class="nav-link" id="key-access-pill" data-bs-toggle="pill" data-bs-target="#key-access" role="tab">Key Access</a>
+            </li>
             {% endif %}
-        </div>
+        </ul>
     </div>
 
 
-    <div class="col-md-6">
-        <div class="tab-content" id="v-pills-tabContent">
-            <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                <div class="update">
+    <div class="col-md-4">
+        <div class="tab-content">
+            <div class="tab-pane active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="bg-cosmos-primary p-4">
+                    <h2 class="text-white pb-3">Profile</h2>
                     {% crispy profile_update_form %}
                 </div>
             </div>
-
-            <div class="tab-pane fade" id="password" role="tabpanel" aria-labelledby="password-tab">
-                <div class="update">
+            <div class="tab-pane" id="password" role="tabpanel" aria-labelledby="password-tab">
+                <div class="bg-cosmos-primary p-4">
+                    <h2 class="text-white pb-3">Password</h2>
                     {% crispy password_change_form %}
                 </div>
             </div>
-
-            <div class="tab-pane fade" id="preferences" role="tabpanel" aria-labelledby="preferences-tab">
-                <div class="update">
+            <div class="tab-pane" id="preferences" role="tabpanel" aria-labelledby="preferences-tab">
+                <div class="bg-cosmos-primary p-4">
+                    <h2 class="text-white pb-3">Preferences</h2>
                     {% crispy preferences_update_form %}
                 </div>
             </div>
 
             {% if request.user.profile.institution_name == "tue" %}
-                <div class="tab-pane fade" id="key-access" role="tabpanel" aria-labelledby="key-access-tab">
-                    <div class="update">
-                        {% crispy key_access_update_form %}
-                    </div>
-                </div>
+            <div class="tab-pane" id="key-access" role="tabpanel" aria-labelledby="key-access-tab">
+                <div class="bg-cosmos-primary p-4">
+                    <h2 class="text-white pb-3">Key Access</h2>
+                    {% crispy key_access_update_form %}
+                <div>
+            </div>
             {% endif %}
         </div>
     </div>

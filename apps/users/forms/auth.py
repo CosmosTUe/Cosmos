@@ -1,6 +1,6 @@
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Div, Field, HTML, Layout
 from crispy_bootstrap5.bootstrap5 import FloatingField
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import HTML, Div, Field, Layout
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm, PasswordResetForm, SetPasswordForm
 

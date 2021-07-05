@@ -169,3 +169,7 @@ def protected_media(request, file_path):
         raise PermissionDenied()
 
     return sendfile(request, SENDFILE_ROOT + file_path)
+
+
+def about(request):
+    return render(request, "about.html")

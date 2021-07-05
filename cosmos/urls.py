@@ -23,6 +23,7 @@ urlpatterns = [
     path("committees/<slug>/", committee_subpage, name="committee_subpage"),
     re_path(r"^sitemap\.xml$", sitemap),
     path("", cosmos.views.index, name="index"),
+    path("about/", cosmos.views.about, name="about"),
     path("resources/", cosmos.views.resources, name="resources"),
     path("gmm/add/", cosmos.views.GMMCreate.as_view(), name="gmm-create"),
     path("gmm/<int:pk>/", cosmos.views.GMMUpdate.as_view(), name="gmm-update"),

@@ -28,6 +28,8 @@ urlpatterns = [
     path("gmm/<int:pk>/", cosmos.views.GMMUpdate.as_view(), name="gmm-update"),
     path("gmm/<int:pk>/delete", cosmos.views.GMMDelete.as_view(), name="gmm-delete"),
     path("media/<path:file_path>", cosmos.views.protected_media, name="protected-media"),
+    path("privacy/", cosmos.views.privacy, name="privacy-policy"),
+    path("terms/", cosmos.views.terms, name="terms"),
 ]
 
 handler400 = "cosmos.views.error400"

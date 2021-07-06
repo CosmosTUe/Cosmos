@@ -6,6 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
+from apps.users.forms.errors import INVALID_EMAIL
 from apps.users.helper_functions import is_valid_institutional_email
 from apps.users.models.user.constants import NATIONALITIES
 from apps.users.models.user.institution import InstitutionFontys, InstitutionTue
@@ -49,7 +50,7 @@ class RegisterUserForm(UserCreationForm):
     def clean_username(self):
         data = self.cleaned_data["username"]
         if not is_valid_institutional_email(data):
-            raise ValidationError("Please enter your institutional email.")
+            raise ValidationError("Please enter your institutional email.", INVALID_EMAIL)
         return data
 
     def save(self, commit=True):

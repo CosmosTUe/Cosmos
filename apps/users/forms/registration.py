@@ -1,5 +1,6 @@
+from crispy_bootstrap5.bootstrap5 import FloatingField
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit
+from crispy_forms.layout import Field, Layout
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -18,15 +19,13 @@ class RegisterUserForm(UserCreationForm):
     username = forms.EmailField(
         max_length=254,
         label="Institutional Email",
-        help_text="Required. Please fill in your institutional email address.",
         required=True,
         initial="",
     )
     email = forms.EmailField(
         max_length=254,
-        label="Personal email",
+        label="Personal email (optional)",
         required=False,
-        help_text="Optional, Please fill in a valid email address.",
         initial="",
     )
     password1 = forms.CharField(widget=forms.PasswordInput, label="Password", required=True, initial="")
@@ -70,8 +69,18 @@ class RegisterUserForm(UserCreationForm):
         self.helper.form_id = "id-profileUpdateForm"
         self.helper.form_method = "post"
         self.helper.form_action = "cosmos_users:user_register"
-
-        self.helper.add_input(Submit("next", "Next"))
+        self.helper.form_tag = False
+        self.helper.layout = Layout(
+            FloatingField("first_name"),
+            FloatingField("last_name"),
+            FloatingField("username"),
+            FloatingField("email"),
+            FloatingField("password1"),
+            FloatingField("password2"),
+            FloatingField("nationality"),
+            Field("terms_confirmed"),
+            Field("subscribed_newsletter"),
+        )
 
 
 class RegisterTueForm(forms.ModelForm):
@@ -89,9 +98,14 @@ class RegisterTueForm(forms.ModelForm):
         self.helper.form_id = "id-profileUpdateForm"
         self.helper.form_method = "post"
         self.helper.form_action = "cosmos_users:user_register"
+        self.helper.form_tag = False
+        self.helper.layout = Layout(
+            FloatingField("department"),
+            FloatingField("program"),
+        )
 
         # self.helper.add_input(Button("wizard_goto_step", "0"))
-        self.helper.add_input(Submit("submit", "Submit"))
+        # self.helper.add_input(Submit("submit", "Submit"))
 
 
 class RegisterFontysForm(forms.ModelForm):
@@ -106,6 +120,8 @@ class RegisterFontysForm(forms.ModelForm):
         self.helper.form_id = "id-profileUpdateForm"
         self.helper.form_method = "post"
         self.helper.form_action = "cosmos_users:user_register"
+        self.helper.form_tag = False
+        self.helper.layout = Layout(FloatingField("study"))
 
         # self.helper.add_input(Button("wizard_goto_step", "0"))
-        self.helper.add_input(Submit("submit", "Submit"))
+        # self.helper.add_input(Submit("submit", "Submit"))

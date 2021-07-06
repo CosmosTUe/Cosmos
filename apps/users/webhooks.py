@@ -3,10 +3,8 @@ import json
 from django.contrib.auth.models import User
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpResponse, HttpResponseForbidden
-
 from oauth2_provider.views.generic import ProtectedResourceView
 from sendgrid import EventWebhookHeader
-
 from sendgrid.helpers.eventwebhook import EventWebhook
 
 from cosmos import settings

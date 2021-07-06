@@ -176,3 +176,15 @@ def resources(request):
 
 def policy(request):
     return render(request, "policy.html")
+
+
+def about(request):
+    return render(request, "about.html")
+
+
+def privacy(request):
+    return render(request, "privacy.html")
+
+
+def terms(request):
+    return render(request, "terms.html")

@@ -109,6 +109,10 @@ PIPELINE = {
             "source_filenames": {"cosmos/css/core.css", "cosmos/css/gmm.css"},
             "output_filename": "cosmos/css/cosmos.css",
         },
+        "cosmos_users": {
+            "source_filenames": {"cosmos_users/css/auth.css"},
+            "output_filename": "cosmos_users/css/cosmos_users.css",
+        },
     },
     "JAVASCRIPT": {
         "cosmos": {

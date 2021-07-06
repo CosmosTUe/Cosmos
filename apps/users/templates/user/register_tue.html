@@ -7,10 +7,14 @@
 {{ wizard.form.media }}
 {% endblock %}
 
+{% block title %}
+    Registration
+{% endblock %}
+
 {% block content %}
 
-<div class="pb-5">
-    <form action="" method="post">
+<div class="mx-auto bg-cosmos-primary rounded max-width-480">
+    <form action="" method="post" class="p-4">
         {% csrf_token %}
 
         <div class="mb-5">
@@ -19,6 +23,11 @@
 
         {{ wizard.management_form }}
         {% crispy wizard.form %}
+
+        <div class="btn-group d-flex">
+            <button class="btn btn-secondary me-2 rounded" type="submit" name="wizard_goto_step" value="{{ wizard.steps.prev }}" formnovalidate>Back</button>
+            <button class="btn btn-primary rounded" type="submit" value="submit">Complete</button>
+        </div>
 
     </form>
 </div>

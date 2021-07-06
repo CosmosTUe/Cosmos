@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
 from apps.async_requests.factory import Factory
-from apps.users.helper_functions import is_valid_institutional_email, is_tue_email, is_fontys_email
+from apps.users.helper_functions import is_fontys_email, is_tue_email, is_valid_institutional_email
 from apps.users.models.user import Profile
 from apps.users.models.user.constants import FONTYS_STUDIES, NATIONALITIES, TUE_DEPARTMENTS, TUE_PROGRAMS
 from apps.users.models.user.institution import InstitutionFontys, InstitutionTue

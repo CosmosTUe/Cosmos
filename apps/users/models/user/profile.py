@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-from apps.users.helper_functions import is_tue_email, is_fontys_email
+from apps.users.helper_functions import is_fontys_email, is_tue_email
 from apps.users.models.user.constants import NATIONALITIES, NEWSLETTER_RECIPIENTS
 
 state_prefix = "old_"

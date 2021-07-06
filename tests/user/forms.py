@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 
+from apps.async_requests.factory import Factory
 from apps.users.forms import (
     MemberCreateForm,
     MemberUpdateForm,
@@ -8,8 +9,6 @@ from apps.users.forms import (
     ProfileUpdateForm,
     newsletter_service,
 )
-
-from apps.async_requests.factory import Factory
 
 
 class UserForms(TestCase):

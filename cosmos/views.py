@@ -169,3 +169,11 @@ def protected_media(request, file_path):
         raise PermissionDenied()
 
     return sendfile(request, SENDFILE_ROOT + file_path)
+
+
+def privacy(request):
+    return render(request, "privacy.html")
+
+
+def terms(request):
+    return render(request, "terms.html")

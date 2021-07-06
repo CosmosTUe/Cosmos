@@ -171,6 +171,10 @@ def protected_media(request, file_path):
     return sendfile(request, SENDFILE_ROOT + file_path)
 
 
+def about(request):
+    return render(request, "about.html")
+
+
 def privacy(request):
     return render(request, "privacy.html")
 

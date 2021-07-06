@@ -5,7 +5,6 @@ Contains all the secrets for the website. Production uses a different file, that
 import json
 import os
 
-
 if os.path.exists("/etc/secrets.json"):
     with open("/etc/secrets.json", "r") as f:
         secrets = json.load(f)

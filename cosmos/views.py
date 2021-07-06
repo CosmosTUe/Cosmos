@@ -73,15 +73,6 @@ def error500(request):
     return HttpResponse(template.render(context, request))
 
 
-def resources(request):
-    gmm_list = GMM.objects.order_by("-date").all()
-    template = loader.get_template("resources.html")
-    context = {
-        "gmm_list": gmm_list,
-    }
-    return HttpResponse(template.render(context, request))
-
-
 class GMMCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = GMM
     template_name = "gmm/gmm_create.html"
@@ -169,6 +160,22 @@ def protected_media(request, file_path):
         raise PermissionDenied()
 
     return sendfile(request, SENDFILE_ROOT + file_path)
+
+
+def gmm_list(request):
+    gmm_list = GMM.objects.order_by("-date").all()
+    context = {
+        "gmm_list": gmm_list,
+    }
+    return render(request, "gmm/gmm_list.html", context)
+
+
+def resources(request):
+    return render(request, "resources.html")
+
+
+def policy(request):
+    return render(request, "policy.html")
 
 
 def about(request):

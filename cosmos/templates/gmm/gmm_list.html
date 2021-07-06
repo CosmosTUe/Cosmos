@@ -1,94 +1,104 @@
-{% if user.is_authenticated %}
+{% extends "subpage.html" %}
+{% block content %}
 
-    <div class="pb-2">
-        <button class="btn btn-cosmos-primary" type="button" onclick="switchGMMView()">Switch view</button>
-        {% if perms.cosmos.gmm_add %}
-        <a class="btn btn-cosmos-primary" href="{% url 'gmm-create' %}">
-            <i class="bi bi-plus-lg"></i>
-            Add new GMM
-        </a>
-        {% endif %}
-    </div>   
+<div class="container">
 
-    {% if gmm_list %}
+    <h2>GMM Minutes</h5>
 
-        <table class="table table-hover" style="display: none;" id="GMMTable">
-            <thead>
-                <tr>
-                    <th scope="col">GMM</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Documents</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for gmm in gmm_list %}
-                <tr>
-                    <th scope="row">{{ gmm.name }}</th>
-                    <td>{{ gmm.date }}</td>
-                    <td>
-                        {% if not gmm.has_files %}
-                        No documents available.
-                        {% else %}
-                        {% for document in gmm.has_files.all %}
-                            <a href="{{ document.file.url }}">{{ document.name }}</a>
-                        {% endfor %}
-                        {% endif%}
+    {% if user.is_authenticated %}
 
-                        {% if perms.cosmos.gmm_update and perms.cosmos.gmm_delete %}
-                        <div class="float-end">
-                            <a class="btn p-0" href="{% url 'gmm-update' gmm.id %}">
-                                <i class="bi bi-pencil-square"></i>
-                            </a>
-                            <a class="btn p-0" href="{% url 'gmm-delete' gmm.id %}">
-                                <i class="bi bi-trash"></i>
-                            </a>
+        <div class="pb-2">
+            <button class="btn btn-cosmos-primary" type="button" onclick="switchGMMView()">Switch view</button>
+            {% if perms.cosmos.gmm_add %}
+            <a class="btn btn-cosmos-primary" href="{% url 'gmm-create' %}">
+                <i class="bi bi-plus-lg"></i>
+                Add new GMM
+            </a>
+            {% endif %}
+        </div>   
+
+        {% if gmm_list %}
+
+            <table class="table table-hover" style="display: none;" id="GMMTable">
+                <thead>
+                    <tr>
+                        <th scope="col">GMM</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Documents</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for gmm in gmm_list %}
+                    <tr>
+                        <th scope="row">{{ gmm.name }}</th>
+                        <td>{{ gmm.date }}</td>
+                        <td>
+                            {% if not gmm.has_files %}
+                            No documents available.
+                            {% else %}
+                            {% for document in gmm.has_files.all %}
+                                <a href="{{ document.file.url }}">{{ document.name }}</a>
+                            {% endfor %}
+                            {% endif%}
+
+                            {% if perms.cosmos.gmm_update and perms.cosmos.gmm_delete %}
+                            <div class="float-end">
+                                <a class="btn p-0" href="{% url 'gmm-update' gmm.id %}">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a class="btn p-0" href="{% url 'gmm-delete' gmm.id %}">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </div>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="row row-cols-1 row-cols-md-4 g-4" id="GMMGrid">
+            {% for gmm in gmm_list %}
+                <div class="col">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-1">{{ gmm.name }}</h5>
+                            <small>{{ gmm.date }}</small>
                         </div>
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                        <div class="card-body">
 
-        <div class="row row-cols-1 row-cols-md-4 g-4" id="GMMGrid">
-        {% for gmm in gmm_list %}
-            <div class="col">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-1">{{ gmm.name }}</h5>
-                        <small>{{ gmm.date }}</small>
-                    </div>
-                    <div class="card-body">
-
-                        {% if not gmm.has_files %}
-                        No documents available.
-                        {% else %}
-                        {% for document in gmm.has_files.all %}
-                            <a href="{{ document.file.url }}">{{ document.name }}</a>
-                        {% endfor %}
-                        {% endif%}
-                    
-                        {% if perms.cosmos.gmm_update and perms.cosmos.gmm_delete %}
-                        <div class="float-end">
-                            <a class="btn p-0" href="{% url 'gmm-update' gmm.id %}">
-                                <i class="bi bi-pencil-square"></i>
-                            </a>
-                            <a class="btn p-0" href="{% url 'gmm-delete' gmm.id %}">
-                                <i class="bi bi-trash"></i>
-                            </a>
+                            {% if not gmm.has_files %}
+                            No documents available.
+                            {% else %}
+                            {% for document in gmm.has_files.all %}
+                                <a href="{{ document.file.url }}">{{ document.name }}</a>
+                            {% endfor %}
+                            {% endif%}
+                        
+                            {% if perms.cosmos.gmm_update and perms.cosmos.gmm_delete %}
+                            <div class="float-end">
+                                <a class="btn p-0" href="{% url 'gmm-update' gmm.id %}">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a class="btn p-0" href="{% url 'gmm-delete' gmm.id %}">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </div>
+                            {% endif %}
                         </div>
-                        {% endif %}
-                    </div>
 
+                    </div>
                 </div>
+            {% endfor %}
             </div>
-        {% endfor %}
-        </div>
+
+        {% else %}
+            <p>No GMM information is available.</p>
+        {% endif %}
 
     {% else %}
-        <p>No GMM information is available.</p>
+        <p>Please log in to see GMM information.</p>
     {% endif %}
 
-{% else %}
-    <p>Please log in to see GMM information.</p>
-{% endif %}
+    {% endblock content %}
+</div>

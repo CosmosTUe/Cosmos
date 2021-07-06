@@ -1,0 +1,14 @@
+/* Set form label text to white */
+.form-check-label {
+    color: white;
+}
+
+/* Used for limiting form width */
+.max-width-480 {
+    max-width: 480px;
+}
+
+/* Set form help text to white */
+.form-text li {
+    color: white;
+}

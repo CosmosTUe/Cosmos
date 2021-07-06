@@ -1,5 +1,6 @@
 import logging
 
+from crispy_bootstrap5.bootstrap5 import FloatingField
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import ButtonHolder, Field, Layout, Submit
 from django import forms
@@ -19,12 +20,8 @@ newsletter_service = Factory.get_newsletter_service()
 
 class ProfileUpdateForm(forms.ModelForm):
 
-    username = forms.EmailField(
-        max_length=254, label="Institution email", help_text="Required. Inform a valid TU/e email address."
-    )
-    email = forms.EmailField(
-        max_length=254, label="Personal email", required=False, help_text="Optional. Inform a valid email address."
-    )
+    username = forms.EmailField(max_length=254, label="Institution email")
+    email = forms.EmailField(max_length=254, label="Personal email (optional)", required=False)
     nationality = forms.ChoiceField(choices=list(zip(NATIONALITIES, NATIONALITIES)))
 
     # Tue:
@@ -63,6 +60,7 @@ class ProfileUpdateForm(forms.ModelForm):
         self.helper.form_id = "id-profileUpdateForm"
         self.helper.form_method = "post"
         self.helper.form_action = "cosmos_users:user_profile"
+        self.helper.form_tag = False
 
         username = self.initial.get("username")
         if is_tue_email(username):
@@ -76,14 +74,14 @@ class ProfileUpdateForm(forms.ModelForm):
             hidden_fontys = ""
 
         self.helper.layout = Layout(
-            Field("first_name"),
-            Field("last_name"),
-            Field("username"),
-            Field("email"),
-            Field("nationality"),
-            Field("department", type=hidden_tue),
-            Field("program", type=hidden_tue),
-            Field("study", type=hidden_fontys),
+            FloatingField("first_name"),
+            FloatingField("last_name"),
+            FloatingField("username"),
+            FloatingField("email"),
+            FloatingField("nationality"),
+            FloatingField("department", type=hidden_tue),
+            FloatingField("program", type=hidden_tue),
+            FloatingField("study", type=hidden_fontys),
             ButtonHolder(Submit("save_profile", "Submit")),
         )
 
@@ -95,6 +93,13 @@ class PasswordUpdateForm(PasswordChangeForm):
         self.helper.form_id = "id-passwordUpdateForm"
         self.helper.form_method = "post"
         self.helper.form_action = "cosmos_users:user_profile"
+        self.helper.form_tag = False
+
+        self.helper.layout = Layout(
+            FloatingField("old_password"),
+            FloatingField("new_password1"),
+            FloatingField("new_password2"),
+        )
 
         self.helper.add_input(Submit("save_password", "Submit"))
 
@@ -110,6 +115,9 @@ class PreferencesUpdateForm(forms.ModelForm):
         self.helper.form_id = "id-preferencesUpdateForm"
         self.helper.form_method = "post"
         self.helper.form_action = "cosmos_users:user_profile"
+        self.helper.form_tag = False
+
+        self.helper.layout = Layout(Field("subscribed_newsletter"))
 
         self.helper.add_input(Submit("save_preferences", "Submit"))
 
@@ -125,5 +133,11 @@ class KeyAccessUpdateForm(forms.ModelForm):
         self.helper.form_id = "id-keyAccessUpdateForm"
         self.helper.form_method = "post"
         self.helper.form_action = "cosmos_users:user_profile"
+        self.helper.form_tag = False
+
+        self.helper.layout = Layout(
+            FloatingField("tue_id"),
+            FloatingField("card_number"),
+        )
 
         self.helper.add_input(Submit("save_key_access", "Submit"))

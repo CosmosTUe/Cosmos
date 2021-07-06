@@ -3,6 +3,7 @@ import logging
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib.auth.views import LoginView
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -12,6 +13,7 @@ from formtools.wizard.views import SessionWizardView
 
 from apps.async_requests.commands.unsubscribe_command import UnsubscribeCommand
 from apps.async_requests.factory import Factory
+from apps.users.forms.auth import CosmosLoginForm
 from apps.users.forms.profile import KeyAccessUpdateForm, PasswordUpdateForm, PreferencesUpdateForm, ProfileUpdateForm
 from apps.users.forms.registration import RegisterFontysForm, RegisterTueForm, RegisterUserForm
 from apps.users.helper_functions import is_fontys_email, is_tue_email
@@ -196,3 +198,17 @@ def committee_overview(request):
 def committee_subpage(request, slug):
     committee = get_object_or_404(Committee, slug=str(slug))
     return render(request, "committees/subpage.html", {"committee": committee})
+
+
+class CosmosLoginView(LoginView):
+    form_class = CosmosLoginForm
+
+    def form_valid(self, form):
+        remember_me = form.cleaned_data["remember_me"]
+        if not remember_me:
+            self.request.session.set_expiry(0)
+            self.request.session.modified = True
+        else:
+            self.request.session.set_expiry(1209600)  # 2 weeks
+            self.request.session.modified = True
+        return super(CosmosLoginView, self).form_valid(form)

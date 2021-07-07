@@ -1,0 +1,23 @@
+{% extends "subpage.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container">
+    <div class="mx-auto w-75">
+
+        <div class="card">
+            <img src="{{ article.image.url}}" class="card-img-top news-image-large">
+            <div class="card-body">
+                <h4 class="card-title">{{ article.title }}</h4>
+                <small class="">{{ article.date }} - By {{ article.author.first_name }}</small>
+                
+                <p class="lead">{{ article.lead }}</p>
+                {{ article.content|safe }}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

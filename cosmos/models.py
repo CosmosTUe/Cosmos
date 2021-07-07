@@ -1,4 +1,5 @@
 from crum import get_current_user
+from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
@@ -46,4 +47,27 @@ class FileObject(models.Model):
         super(FileObject, self).save(*args, **kwargs)
 
     def __str__(self):
-        return "FileObject: {" + self.name + ", " + str(self.date) + "}"
+        return "FileObjectGMM: {" + self.name + ", " + str(self.date) + "}"
+
+
+class News(models.Model):
+    title = models.CharField(max_length=255)
+    image = models.ImageField()
+    content = RichTextField()
+    lead = models.TextField(blank=True)
+    date = models.DateField()
+    author = models.ForeignKey(
+        User, blank=True, null=True, default=None, on_delete=models.SET_NULL, related_name="author"
+    )
+
+    def save(self, *args, **kwargs):
+        user = get_current_user()
+        if not self.pk:
+            self.author = user
+        super(News, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse("news-list")
+
+    def __str__(self):
+        return "News: {" + self.title + ", " + str(self.date) + "}"

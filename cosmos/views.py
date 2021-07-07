@@ -12,8 +12,8 @@ from django_sendfile import sendfile
 
 from apps.users.models import Profile
 from cosmos.constants import FOUNDING_DATE
-from cosmos.forms import GMMForm, GMMFormSet, GMMFormSetHelper
-from cosmos.models import GMM
+from cosmos.forms import GMMForm, GMMFormSet, GMMFormSetHelper, NewsForm
+from cosmos.models import GMM, News
 
 from .settings import SENDFILE_ROOT
 
@@ -23,6 +23,7 @@ def index(request):
     nationalities = Profile.objects.values("nationality").distinct().count()
     active_years = int((datetime.date.today() - FOUNDING_DATE).days // 365.25)
     events_amount = 69  # TODO include actual event number
+    news_list = News.objects.order_by("-date").all()
 
     return render(
         request,
@@ -32,6 +33,7 @@ def index(request):
             "nationality_amount": nationalities,
             "active_years": active_years,
             "events_amount": events_amount,
+            "news_list": news_list,
         },
     )
 
@@ -188,3 +190,55 @@ def privacy(request):
 
 def terms(request):
     return render(request, "terms.html")
+
+
+class NewsCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    model = News
+    template_name = "news/news_create.html"
+    form_class = NewsForm
+    success_url = None
+
+    # Permissions
+    permission_required = "cosmos.news_add"
+    raise_exception = True
+
+    def get_succes_url(self):
+        return reverse_lazy("news-list")
+
+
+class NewsUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = News
+    template_name = "news/news_update.html"
+    form_class = NewsForm
+    success_url = None
+
+    # Permissions
+    permission_required = "cosmos.news_update"
+    raise_exception = True
+
+    def get_succes_url(self):
+        return reverse_lazy("news-list")
+
+
+class NewsDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    model = News
+    template_name = "news/news_confirm_delete.html"
+    success_url = reverse_lazy("news-list")
+
+    # Permissions
+    permission_required = "cosmos.news_delete"
+    raise_exception = True
+
+
+def news_view(request, pk):
+    article = News.objects.get(pk=pk)
+    context = {"article": article}
+    return render(request, "news/news_view.html", context)
+
+
+def news_list(request):
+    news_list = News.objects.order_by("-date").all()
+    context = {
+        "news_list": news_list,
+    }
+    return render(request, "news/news_list.html", context)

@@ -2,6 +2,8 @@
 
 {% load crispy_forms_tags %}
 
+{% block title %}{{ article.title }}{% endblock title %}
+
 {% block content %}
 
 <div class="container">
@@ -10,6 +12,16 @@
         <div class="card">
             <img src="{{ article.image.url}}" class="card-img-top news-image-large">
             <div class="card-body">
+                {% if perms.cosmos.news_update and perms.cosmos.news_delete %}
+                <div class="float-end">
+                    <a class="btn p-0" href="{% url 'news-update' article.id %}">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                    <a class="btn p-0" href="{% url 'news-delete' article.id %}">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                </div>
+                {% endif %}
                 <h4 class="card-title">{{ article.title }}</h4>
                 <small class="">{{ article.date }} - By {{ article.author.first_name }}</small>
                 
@@ -20,4 +32,4 @@
     </div>
 </div>
 
-{% endblock %}
+{% endblock content %}

@@ -2,30 +2,45 @@
 
 {% load crispy_forms_tags %}
 
+{% block title %}News{% endblock title%}
+
 {% block content %}
 
 <div class="container">
     <div class="w-75 mx-auto">
-            <div class="row row-cols-1 row-cols-md-3 g-4" id="GMMGrid">
-            {% for news in news_list %}
-                <div class="col">
-                    <div class="card h-100">
+        <div class="row row-cols-1 row-cols-md-3 g-4" id="GMMGrid">
+        {% for news in news_list %}
+            <div class="col">
+                <div class="card h-100">
+                    {# transform is added so that stretched link does not go into footer #}
+                    <div style="transform: rotate(0);">
                         <img class="card-img-top news-image" src="{{ news.image.url }}">
                         <div class="card-body">
                             <h5 class="card-title">{{ news.title }}</h5>
                             <p class="news-truncate">{{ news.lead }}</p>
-                            <a class="stretched-link" href="#"></a>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">
-                                By {{ news.author.first_name }} - {{ news.date }}
-                            </small>
+                            <a class="stretched-link" href="{% url 'news-view' news.id %}"></a>
                         </div>
                     </div>
+                    <div class="card-footer">
+                        {% if perms.cosmos.news_update and perms.cosmos.news_delete %}
+                        <div class="float-end">
+                            <a class="btn p-0" href="{% url 'news-update' news.id %}">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                            <a class="btn p-0" href="{% url 'news-delete' news.id %}">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </div>
+                        {% endif %}
+                        <small class="text-muted">
+                            By {{ news.author.first_name }} - {{ news.date }}
+                        </small>
+                    </div>
                 </div>
-            {% endfor %}
             </div>
+        {% endfor %}
+        </div>
     </div>
 </div>
 
-{% endblock %}
+{% endblock content %}

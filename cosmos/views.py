@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.template import loader
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, UpdateView
@@ -12,8 +12,8 @@ from django_sendfile import sendfile
 
 from apps.users.models import Profile
 from cosmos.constants import FOUNDING_DATE
-from cosmos.forms import GMMForm, GMMFormSet, GMMFormSetHelper
-from cosmos.models import GMM
+from cosmos.forms import GMMForm, GMMFormSet, GMMFormSetHelper, PhotoAlbumForm
+from cosmos.models import GMM, PhotoAlbum, PhotoObject
 
 from .settings import SENDFILE_ROOT
 
@@ -188,3 +188,39 @@ def privacy(request):
 
 def terms(request):
     return render(request, "terms.html")
+
+
+class PhotoAlbumCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    model = PhotoAlbum
+    template_name = "photo_album/photo_album_create.html"
+    form_class = PhotoAlbumForm
+    success_url = None
+
+    # Permissions
+    permission_required = "cosmos.add_photoalbum"
+    raise_exception = True
+
+    def form_valid(self, form):
+        self.object = form.save()
+        for img in self.request.FILES.getlist("photos"):
+            PhotoObject.objects.create(album=self.object, photo=img)
+        return super(PhotoAlbumCreate, self).form_valid(form)
+
+    def get_succes_url(self):
+        return reverse_lazy("resources")
+
+
+def photo_album_list(request):
+    album_list = PhotoAlbum.objects.order_by("-date").all()
+    context = {
+        "album_list": album_list,
+    }
+    return render(request, "photo_album/photo_album_list.html", context)
+
+
+def photo_album_view(request, pk):
+    album = get_object_or_404(PhotoAlbum, pk=pk)
+    context = {
+        "album": album
+    }
+    return render(request, "photo_album/photo_album_view.html", context)

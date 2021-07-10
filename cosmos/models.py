@@ -47,3 +47,23 @@ class FileObject(models.Model):
 
     def __str__(self):
         return "FileObject: {" + self.name + ", " + str(self.date) + "}"
+
+
+class PhotoAlbum(models.Model):
+    title = models.CharField(max_length=255)
+    date = models.DateField()
+    album_cover = models.ImageField()
+
+    def get_absolute_url(self):
+        return reverse("photo_album-list")
+
+    def __str__(self):
+        return "PhotoAlbum: {" + self.title + "}"
+
+
+class PhotoObject(models.Model):
+    photo = models.ImageField()
+    album = models.ForeignKey(PhotoAlbum, on_delete=models.CASCADE, related_name="has_photos")
+
+    def __str__(self):
+        return "PhotoObject: {" + str(self.photo) + "}"

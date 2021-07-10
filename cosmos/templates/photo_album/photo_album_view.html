@@ -1,0 +1,60 @@
+{% extends "subpage.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}{{ album.title }} - {{ album.date }}{% endblock title %}
+
+{% block content %}
+
+<div class="container">
+    <div class="w-75 mx-auto">
+        <h2>{{ album.title }} - {{ album.date }}</h2>
+        <div class="row row-cols-1 row-cols-md-2 g-4 mt-2">
+            {% for photo_object in album.has_photos.all %}
+            <div class="col">
+                <div class="card">
+                    <img src="{{ photo_object.photo.url }}" class="card-img-top album-image">
+                    <a class="stretched-link" href="#" data-bs-toggle="modal" data-bs-target="#photoModal" data-bs-image-url="{{ photo_object.photo.url }}"></a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {# modal for clicking on images which renders a full sized view of the image #}
+        <div class="modal fade" id="photoModal" tabindex="-1" aria-labelledby="photoModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center d-block">
+                        <div class="row">
+                            <div class="col-1">
+                                <div class="row align-items-center h-100">
+                                    <a class="fs-2" href="#" id="photoModalPrev">
+                                        <i class="bi bi-chevron-left align-middle"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-10">
+                                <img src="{{ album.has_photos.all.0.photo.url }}" class="img-fluid">
+                            </div>
+                            <div class="col-1">
+                                <div class="row align-items-center h-100">
+                                    <a class="fs-2 my-auto" href="#" id="photoModalNext">
+                                        <i class="bi bi-chevron-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

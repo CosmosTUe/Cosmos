@@ -37,7 +37,6 @@ urlpatterns = [
     path("media/<path:file_path>", cosmos.views.protected_media, name="protected-media"),
     path("privacy/", cosmos.views.privacy, name="privacy-policy"),
     path("terms/", cosmos.views.terms, name="terms"),
-    path("403/", cosmos.views.permission_denied_view),
 ]
 
 handler400 = "cosmos.views.error400"

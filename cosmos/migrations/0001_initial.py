@@ -15,28 +15,53 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='GMM',
+            name="GMM",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255)),
-                ('date', models.DateField()),
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("name", models.CharField(max_length=255)),
+                ("date", models.DateField()),
             ],
             options={
-                'verbose_name': 'GMM',
-                'verbose_name_plural': 'GMMs',
+                "verbose_name": "GMM",
+                "verbose_name_plural": "GMMs",
             },
         ),
         migrations.CreateModel(
-            name='FileObject',
+            name="FileObject",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255)),
-                ('created', models.DateTimeField(auto_now_add=True)),
-                ('modified', models.DateTimeField(auto_now=True)),
-                ('file', models.FileField(upload_to='gmm/')),
-                ('container', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='has_files', to='cosmos.gmm')),
-                ('created_by', models.ForeignKey(blank=True, default=None, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='created_by', to=settings.AUTH_USER_MODEL)),
-                ('modified_by', models.ForeignKey(blank=True, default=None, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='modified_by', to=settings.AUTH_USER_MODEL)),
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("name", models.CharField(max_length=255)),
+                ("created", models.DateTimeField(auto_now_add=True)),
+                ("modified", models.DateTimeField(auto_now=True)),
+                ("file", models.FileField(upload_to="gmm/")),
+                (
+                    "container",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, related_name="has_files", to="cosmos.gmm"
+                    ),
+                ),
+                (
+                    "created_by",
+                    models.ForeignKey(
+                        blank=True,
+                        default=None,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="created_by",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "modified_by",
+                    models.ForeignKey(
+                        blank=True,
+                        default=None,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="modified_by",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]

@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.template import loader
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, UpdateView
@@ -15,7 +15,7 @@ from cosmos.constants import FOUNDING_DATE
 from cosmos.forms import GMMForm, GMMFormSet, GMMFormSetHelper, NewsForm
 from cosmos.models import GMM, News
 
-from .settings import SENDFILE_ROOT
+from .settings import LOGIN_URL, SENDFILE_ROOT
 
 
 def index(request):
@@ -23,7 +23,10 @@ def index(request):
     nationalities = Profile.objects.values("nationality").distinct().count()
     active_years = int((datetime.date.today() - FOUNDING_DATE).days // 365.25)
     events_amount = 69  # TODO include actual event number
-    news_list = News.objects.order_by("-date").all()
+    if not request.user.is_authenticated:
+        news_list = News.objects.filter(member_only=False, date__lte=datetime.date.today()).order_by("-date")[:3]
+    else:
+        news_list = News.objects.filter(date__lte=datetime.date.today()).order_by("-date")[:3]
 
     return render(
         request,
@@ -82,7 +85,7 @@ class GMMCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     success_url = None
 
     # Permissions
-    permission_required = "cosmos.gmm_add"
+    permission_required = "cosmos.add_gmm"
     raise_exception = True
 
     def get_context_data(self, **kwargs):
@@ -118,7 +121,7 @@ class GMMUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     success_url = None
 
     # Permissions
-    permission_required = "cosmos.gmm_update"
+    permission_required = "cosmos.change_gmm"
     raise_exception = True
 
     def get_context_data(self, **kwargs):
@@ -151,7 +154,7 @@ class GMMDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     success_url = reverse_lazy("resources")
 
     # Permissions
-    permission_required = "cosmos.gmm_delete"
+    permission_required = "cosmos.delete_gmm"
     raise_exception = True
 
 
@@ -199,7 +202,7 @@ class NewsCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     success_url = None
 
     # Permissions
-    permission_required = "cosmos.news_add"
+    permission_required = "cosmos.add_news"
     raise_exception = True
 
     def get_succes_url(self):
@@ -213,7 +216,7 @@ class NewsUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     success_url = None
 
     # Permissions
-    permission_required = "cosmos.news_update"
+    permission_required = "cosmos.change_news"
     raise_exception = True
 
     def get_succes_url(self):
@@ -226,23 +229,26 @@ class NewsDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     success_url = reverse_lazy("news-list")
 
     # Permissions
-    permission_required = "cosmos.news_delete"
+    permission_required = "cosmos.delete_news"
     raise_exception = True
 
 
 def news_view(request, pk):
-    article = News.objects.get(pk=pk)
+    article = get_object_or_404(News, pk=pk)
     context = {"article": article}
+    if article.member_only and not request.user.is_authenticated:
+        return redirect("%s?next=%s" % (LOGIN_URL, request.path))
     return render(request, "news/news_view.html", context)
 
 
 def news_list(request):
-    news_list = News.objects.order_by("-date").all()
+    if not request.user.is_authenticated:
+        news_list = News.objects.filter(member_only=False, date__lte=datetime.date.today()).order_by("-date")
+    elif request.user.has_perm("cosmos.view_news"):
+        news_list = News.objects.order_by("-date").all()
+    else:
+        news_list = News.objects.filter(date__lte=datetime.date.today()).order_by("-date").all()
     context = {
         "news_list": news_list,
     }
     return render(request, "news/news_list.html", context)
-
-
-def permission_denied_view(request):
-    raise PermissionDenied

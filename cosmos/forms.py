@@ -57,7 +57,7 @@ class GMMForm(forms.ModelForm):
 class NewsForm(forms.ModelForm):
     class Meta:
         model = News
-        fields = ["title", "date", "image", "lead", "content"]
+        fields = ["title", "date", "image", "member_only", "lead", "content"]
 
     def __init__(self, *args, **kwargs):
         super(NewsForm, self).__init__(*args, **kwargs)
@@ -74,6 +74,7 @@ class NewsForm(forms.ModelForm):
                 ),
             ),
             Field("image"),
+            Field("member_only"),
             Field("lead"),
             Field("content"),
         )

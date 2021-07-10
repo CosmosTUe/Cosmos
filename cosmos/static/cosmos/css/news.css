@@ -16,3 +16,7 @@
     height: 45vh;
     object-fit: cover;
 }
+
+.news-disabled {
+    background-color: lightgray;
+}

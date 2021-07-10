@@ -211,9 +211,41 @@ class PhotoAlbumCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 
 
 def photo_album_list(request):
-    album_list = PhotoAlbum.objects.order_by("-date").all()
+    newest_album = PhotoAlbum.objects.order_by("-date")[0]
+    if newest_album.date < datetime.date(newest_album.date.year, 8, 1):
+        year = newest_album.date.year - 1
+    else:
+        year = newest_album.date
+    return photo_album_list_year(request, year)
+
+
+def photo_album_list_year(request, year):
+    # Take august 1st as start of new academic year so as to include intro
+    start_academic_year = datetime.datetime(year, 8, 1)
+    end_academic_year = datetime.datetime(year+1, 7, 31)
+    album_list = PhotoAlbum.objects.filter(date__gte=start_academic_year, date__lte=end_academic_year).order_by("-date")
+
+    # Determine if next or prev buttons should be shown
+    newest_album = PhotoAlbum.objects.order_by("-date")[0]
+    oldest_album = PhotoAlbum.objects.order_by("date")[0]
+    # check prev button
+    if year == oldest_album.date.year and oldest_album.date >= datetime.date(oldest_album.date.year, 8, 1):
+        prev_button = False
+    else:
+        prev_button = True
+
+    # check next button
+    if year + 1 == newest_album.date.year and newest_album.date <= datetime.date(newest_album.date.year, 7, 31):
+        next_button = False
+    else:
+        next_button = True
+    # TODO: check the above logic
+
     context = {
         "album_list": album_list,
+        "year": year,
+        "prev": prev_button,
+        "next": next_button,
     }
     return render(request, "photo_album/photo_album_list.html", context)
 

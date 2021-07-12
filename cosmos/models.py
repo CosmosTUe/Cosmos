@@ -54,7 +54,7 @@ class FileObject(models.Model):
 
 class News(models.Model):
     title = models.CharField(max_length=255)
-    image = models.ImageField()
+    image = models.ImageField(upload_to="news")
     content = RichTextField()
     lead = models.TextField(blank=True)
     date = models.DateField()

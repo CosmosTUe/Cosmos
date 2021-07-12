@@ -210,6 +210,16 @@ class PhotoAlbumCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         return reverse_lazy("resources")
 
 
+class PhotoAlbumDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    model = PhotoAlbum
+    template_name = "photo_album/photo_album_confirm_delete.html"
+    success_url = reverse_lazy("photo_album-list")
+
+    # Permissions
+    permission_required = "cosmos.delete_photoalbum"
+    raise_exception = True
+
+
 def photo_album_list(request):
     newest_album = PhotoAlbum.objects.order_by("-date")[0]
     if newest_album.date < datetime.date(newest_album.date.year, 8, 1):
@@ -222,7 +232,7 @@ def photo_album_list(request):
 def photo_album_list_year(request, year):
     # Take august 1st as start of new academic year so as to include intro
     start_academic_year = datetime.datetime(year, 8, 1)
-    end_academic_year = datetime.datetime(year+1, 7, 31)
+    end_academic_year = datetime.datetime(year + 1, 7, 31)
     album_list = PhotoAlbum.objects.filter(date__gte=start_academic_year, date__lte=end_academic_year).order_by("-date")
 
     # Determine if next or prev buttons should be shown
@@ -252,7 +262,5 @@ def photo_album_list_year(request, year):
 
 def photo_album_view(request, pk):
     album = get_object_or_404(PhotoAlbum, pk=pk)
-    context = {
-        "album": album
-    }
+    context = {"album": album}
     return render(request, "photo_album/photo_album_view.html", context)

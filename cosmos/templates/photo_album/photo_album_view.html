@@ -8,7 +8,12 @@
 
 <div class="container">
     <div class="w-75 mx-auto">
-        <h2>{{ album.title }} - {{ album.date }}</h2>
+        <div class="d-flex justify-content-between">
+            <h2>{{ album.title }} - {{ album.date }}</h2>
+            <a class="btn p-0 fs-4" href="{% url 'photo_album-delete' album.id %}">
+                <i class="bi bi-trash"></i>
+            </a>
+        </div>
         <div class="row row-cols-1 row-cols-md-2 g-4 mt-2">
             {% for photo_object in album.has_photos.all %}
             <div class="col">

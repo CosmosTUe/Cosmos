@@ -55,7 +55,7 @@ class GMMForm(forms.ModelForm):
 
 
 class PhotoAlbumForm(forms.ModelForm):
-    photos = forms.ImageField(widget=forms.ClearableFileInput(attrs={'multiple': True}), required=False)
+    photos = forms.ImageField(widget=forms.ClearableFileInput(attrs={"multiple": True}), required=False)
 
     class Meta:
         model = PhotoAlbum
@@ -76,5 +76,5 @@ class PhotoAlbumForm(forms.ModelForm):
                 ),
             ),
             Field("album_cover"),
-            Field("photos")
+            Field("photos"),
         )

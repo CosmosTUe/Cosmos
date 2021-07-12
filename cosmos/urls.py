@@ -33,6 +33,7 @@ urlpatterns = [
     path("photos/list/", cosmos.views.photo_album_list, name="photo_album-list"),
     path("photos/list/<int:year>/", cosmos.views.photo_album_list_year, name="photo_album-list_year"),
     path("photos/<int:pk>/", cosmos.views.photo_album_view, name="photo_album-view"),
+    path("photos/<int:pk>/delete/", cosmos.views.PhotoAlbumDelete.as_view(), name="photo_album-delete"),
     path("media/<path:file_path>", cosmos.views.protected_media, name="protected-media"),
     path("privacy/", cosmos.views.privacy, name="privacy-policy"),
     path("terms/", cosmos.views.terms, name="terms"),

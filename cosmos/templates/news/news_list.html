@@ -8,12 +8,14 @@
 
 <div class="container">
     <div class="w-75 mx-auto">
+        {% if perms.cosmos.change_news %}
         <div class="float-end">
             <a class="btn btn-cosmos-primary" href="{% url 'news-create' %}">
                 <i class="bi bi-plus-lg"></i>
                 Add new Article
             </a>
         </div>
+        {% endif %}
         <h2>News</h2>
         <div class="row row-cols-1 row-cols-md-3 g-4 mt-2" id="GMMGrid">
         {% for news in news_list %}

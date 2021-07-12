@@ -17,14 +17,14 @@ class Migration(migrations.Migration):
                 ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
                 ("title", models.CharField(max_length=255)),
                 ("date", models.DateField()),
-                ("album_cover", models.ImageField(upload_to="")),
+                ("album_cover", models.ImageField(upload_to="photos")),
             ],
         ),
         migrations.CreateModel(
             name="PhotoObject",
             fields=[
                 ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
-                ("photo", models.ImageField(upload_to="")),
+                ("photo", models.ImageField(upload_to="photos")),
                 (
                     "album",
                     models.ForeignKey(

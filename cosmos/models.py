@@ -52,7 +52,7 @@ class FileObject(models.Model):
 class PhotoAlbum(models.Model):
     title = models.CharField(max_length=255)
     date = models.DateField()
-    album_cover = models.ImageField()
+    album_cover = models.ImageField(upload_to="photos")
 
     def get_absolute_url(self):
         return reverse("photo_album-list")
@@ -62,7 +62,7 @@ class PhotoAlbum(models.Model):
 
 
 class PhotoObject(models.Model):
-    photo = models.ImageField()
+    photo = models.ImageField(upload_to="photos")
     album = models.ForeignKey(PhotoAlbum, on_delete=models.CASCADE, related_name="has_photos")
 
     def __str__(self):

@@ -18,6 +18,7 @@ window.onload = function() {
     if (document.getElementById("id_date")) {
         var dialog = new mdDateTimePicker.default({
             type: "date",
+            future: moment().add(3, 'months'),
             trigger: document.getElementById("id_date")
         });
 

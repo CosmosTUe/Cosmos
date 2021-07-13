@@ -24,6 +24,8 @@ django-crum
 django-sendfile2
 django-cleanup
 
+django-ckeditor
+
 ##################
 #   deployment   #
 ##################

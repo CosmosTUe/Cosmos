@@ -1,0 +1,22 @@
+.news-truncate {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.news-image {
+    width: 100%;
+    height: 30vh;
+    object-fit: cover;
+}
+
+.news-image-large {
+    width: 100%;
+    height: 45vh;
+    object-fit: cover;
+}
+
+.news-disabled {
+    background-color: lightgray;
+}

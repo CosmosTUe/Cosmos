@@ -111,49 +111,27 @@
 </section>
 <section id="news" class="pb-5">
     <div class="container py-5">
-        <div class="section-title">
+        <a class="section-title" href="{% url 'news-list' %}">
             <h2>News</h2>
-        </div>
-        <div class="row row-cols-1 row-cols-md-3 g-4">
+        </a>
+        <div class="row row-cols-1 row-cols-md-3 g-4" id="GMMGrid">
+        {% for news in news_list %}
             <div class="col">
                 <div class="card h-100">
-                    <img src="https://bit.ly/2RUOxXK" class="card-img-top" alt="...">
+                    <img class="card-img-top news-image" src="{{ news.image.url }}">
                     <div class="card-body">
-                        <h5 class="card-title">Woah, This Cool New Thing Happend!</h5>
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                        <a href="#" class="stretched-link"></a>
+                        <h5 class="card-title">{{ news.title }}</h5>
+                        <p class="news-truncate">{{ news.lead }}</p>
+                        <a class="stretched-link" href="{% url 'news-view' news.id %}"></a>
                     </div>
                     <div class="card-footer">
-                        <small class="text-muted">Last updated 3 mins ago</small>
+                        <small class="text-muted">
+                            By {{ news.author.first_name }} - {{ news.date }}
+                        </small>
                     </div>
                 </div>
             </div>
-            <div class="col">
-                <div class="card h-100">
-                    <img src="https://bit.ly/3cavqQ4" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Quartile 4 Newsletter</h5>
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                        <a href="#" class="stretched-link"></a>
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-muted">Last updated 3 mins ago</small>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <img src="https://bit.ly/3uKs50y" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Member Blogpost</h5>
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                        <a href="#" class="stretched-link"></a>
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-muted">Last updated 3 mins ago</small>
-                    </div>
-                </div>
-            </div>
+        {% endfor %}
         </div>
     </div>
 </section>

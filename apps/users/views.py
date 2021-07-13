@@ -14,7 +14,7 @@ from apps.async_requests.commands.unsubscribe_command import UnsubscribeCommand
 from apps.async_requests.factory import Factory
 from apps.users.forms.profile import KeyAccessUpdateForm, PasswordUpdateForm, PreferencesUpdateForm, ProfileUpdateForm
 from apps.users.forms.registration import RegisterFontysForm, RegisterTueForm, RegisterUserForm
-from apps.users.helper_functions import is_tue_email, is_fontys_email
+from apps.users.helper_functions import is_fontys_email, is_tue_email
 from apps.users.models.user import InstitutionFontys, InstitutionTue
 from apps.users.tokens import account_activation_token
 

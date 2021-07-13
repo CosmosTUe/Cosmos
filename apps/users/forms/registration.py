@@ -5,10 +5,14 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
+from apps.async_requests.factory import Factory
 from apps.users.helper_functions import is_valid_institutional_email
 from apps.users.models.user.constants import NATIONALITIES
 from apps.users.models.user.institution import InstitutionFontys, InstitutionTue
 from apps.users.models.user.profile import Profile
+
+newsletter_service = Factory.get_newsletter_service()
+executor = Factory.get_executor()
 
 
 class RegisterUserForm(UserCreationForm):
@@ -62,6 +66,7 @@ class RegisterUserForm(UserCreationForm):
             subscribed_newsletter=self.cleaned_data["subscribed_newsletter"],
         )
         profile.save()
+        newsletter_service.update_newsletter_preferences(profile)
         return instance
 
     def __init__(self, *args, **kwargs):

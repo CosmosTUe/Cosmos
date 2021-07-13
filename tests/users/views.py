@@ -3,6 +3,14 @@ from http import HTTPStatus
 from django.contrib.auth.models import User
 from django.test import Client, TestCase
 
+# Test registration view
+# Test update profile view
+# Test update password view
+# Test update preferences view
+# Test update key access view
+# Test delete view
+# Test activate view
+
 
 class UserViews(TestCase):
     def setUp(self) -> None:

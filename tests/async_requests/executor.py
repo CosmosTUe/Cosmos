@@ -1,3 +1,4 @@
+import logging
 from django.test import TestCase
 
 from apps.async_requests.factory import Factory
@@ -23,11 +24,17 @@ class ExecutorTestCase(TestCase):
         self.assertTrue(len(self.executor._command_list) == 0)
 
     def test_executor_merge(self):
+        # disable logging for clean output of tests
+        logging.disable(logging.CRITICAL)
         self.executor.add_command(MockCommand(True, 2))
         self.executor.execute()
+        logging.disable(logging.NOTSET)
         self.assertTrue(len(self.executor._command_list) == 1)
         self.assertTrue(self.executor._command_list[0].parameters == [1, 2])
 
     def test_executor_backoff(self):
+        # disable logging for clean output of tests
+        logging.disable(logging.CRITICAL)
         self.executor.execute()
+        logging.disable(logging.NOTSET)
         self.assertTrue(self.executor._command_list[0].timer == 2)

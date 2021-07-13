@@ -2,20 +2,23 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 
 from apps.async_requests.factory import Factory
+from apps.users.models.user import Profile
 
 
-class NewsletterLogic(TestCase):
+class NewsletterTestCase(TestCase):
     def setUp(self) -> None:
         self.service = Factory.get_newsletter_service()
         self.service.clear_db()
         self.test_tue = "tosti@student.tue.nl"
         self.test_alt = "tosti@gmail.com"
-        self.test_user: User = User.objects.create_user(
+        self.test_user: User = User.objects.create(
             username=self.test_tue,
             email=self.test_alt,
         )
+        self.test_profile: Profile = Profile.objects.create(user=self.test_user)
 
     def tearDown(self) -> None:
+        Profile.objects.get(user=self.test_user).delete()
         User.objects.get(username=self.test_tue).delete()
         super().tearDown()
 

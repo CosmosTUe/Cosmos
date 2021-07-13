@@ -44,7 +44,7 @@ class RegisterUserFormTest(TestCase):
 
         # act
         form = self.generate_form()
-        user: User = form.save()
+        user = form.save()
 
         # test
         self.assertTrue(form.is_valid())

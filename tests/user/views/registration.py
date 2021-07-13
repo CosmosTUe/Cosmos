@@ -2,17 +2,25 @@ from bs4 import BeautifulSoup
 from django.contrib.auth.models import User
 from django.core import mail
 
+from apps.async_requests.factory import Factory
 from tests.user.views.wizard_helper import WizardViewTestCase
+
+executor = Factory.get_executor()
 
 
 class RegistrationFlowTest(WizardViewTestCase):
     def assert_email_sent(self, recipient):
+        # setup
         exp_email_sender = "noreply@cosmostue.nl"
         exp_email_recipient = recipient
         exp_email_subject = "[Cosmos] Confirm your email address"
 
+        # act
+        executor.execute()
+
+        # test
         self.assertEqual(len(mail.outbox), 1, "1 message sent")
-        self.assertEqual(mail.outbox[0].to, exp_email_recipient)
+        self.assertEqual(mail.outbox[0].to[0], exp_email_recipient)
         self.assertEqual(mail.outbox[0].from_email, exp_email_sender)
         self.assertEqual(mail.outbox[0].subject, exp_email_subject)
         self.assert_working_activation_view()
@@ -24,7 +32,7 @@ class RegistrationFlowTest(WizardViewTestCase):
         # setup
         html_parser = BeautifulSoup(mail.outbox[0].body, "html.parser")
         link = html_parser.find("a")
-        link_text = link.contents.strip()
+        link_text = link.contents[0].strip()
         link_url = link.get("href")
 
         exp_link_text = "Confirm your account registration"

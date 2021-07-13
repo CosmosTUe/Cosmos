@@ -3,10 +3,11 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 
+from .models import Profile
 from .tokens import account_activation_token
 
 
-def create_confirm_account_email(profile):
+def create_confirm_account_email(profile: Profile) -> EmailMessage:
     mail_subject = "[Cosmos] Confirm your email address"
     message = render_to_string(
         "user/mail_confirmation.html",

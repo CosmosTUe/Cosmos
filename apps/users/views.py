@@ -11,12 +11,14 @@ from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 from formtools.wizard.views import SessionWizardView
 
+from apps.async_requests.commands import MailSendCommand
 from apps.async_requests.commands.unsubscribe_command import UnsubscribeCommand
 from apps.async_requests.factory import Factory
 from apps.users.forms.auth import CosmosLoginForm
 from apps.users.forms.profile import KeyAccessUpdateForm, PasswordUpdateForm, PreferencesUpdateForm, ProfileUpdateForm
 from apps.users.forms.registration import RegisterFontysForm, RegisterTueForm, RegisterUserForm
 from apps.users.helper_functions import is_fontys_email, is_tue_email
+from apps.users.mail import create_confirm_account_email
 from apps.users.models import Board, Committee
 from apps.users.models.user import InstitutionFontys, InstitutionTue
 from apps.users.tokens import account_activation_token
@@ -86,7 +88,7 @@ class RegistrationWizard(SessionWizardView):
                 # TODO raise exception?
                 pass
 
-        # send_confirmation_email_task.delay(profile.id)
+            executor.add_command(MailSendCommand(create_confirm_account_email(profile)))
 
         return redirect(reverse("cosmos_users:registration_done"))
 
@@ -96,8 +98,8 @@ class RegistrationWizard(SessionWizardView):
 
 def activate(request, uidb64, token):
     try:
-        uid = force_str(urlsafe_base64_decode(uidb64))
-        user = User.objects.get(pk=uid)
+        username = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(username=username)
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
 

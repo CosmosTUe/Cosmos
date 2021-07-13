@@ -100,6 +100,35 @@ class RegistrationFlowTest(WizardViewTestCase):
         self.assertEqual(done_url, response.url)
         self.assert_email_sent(exp_email_recipient)
 
+    def test_fail_terms_unchecked(self):
+        # setup
+        url = "/accounts/register/"
+        wizard_name = "registration_wizard"
+        step = "register_user"
+        exp_error_msg = "This field is required"
+
+        # act
+        response = self.get_wizard_step_response(
+            url,
+            wizard_name,
+            step,
+            {
+                "first_name": "Tosti",
+                "last_name": "Broodjes",
+                "username": "tosti@student.tue.nl",
+                "password1": "ikbeneenbrood",
+                "password2": "ikbeneenbrood",
+                "nationality": "Dutch",
+                # "terms_confirmed": "off",
+                "subscribed_newsletter": "on",
+            },
+        )
+
+        # test
+        self.assertTrue(self.wizard_has_validation_error(response))
+        self.assertContains(response, exp_error_msg)
+        self.assert_no_email_sent()
+
     def test_fail_register_duplicate(self):
         """
         Test invalid register view when user already exists

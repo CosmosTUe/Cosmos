@@ -6,7 +6,7 @@ from tests.user.views.wizard_helper import WizardViewTestCase
 
 
 class RegistrationFlowTest(WizardViewTestCase):
-    def assertEmailSent(self, recipient):
+    def assert_email_sent(self, recipient):
         exp_email_sender = "noreply@cosmostue.nl"
         exp_email_recipient = recipient
         exp_email_subject = "[Cosmos] Confirm your email address"
@@ -15,12 +15,12 @@ class RegistrationFlowTest(WizardViewTestCase):
         self.assertEqual(mail.outbox[0].to, exp_email_recipient)
         self.assertEqual(mail.outbox[0].from_email, exp_email_sender)
         self.assertEqual(mail.outbox[0].subject, exp_email_subject)
-        self.assertWorkingActivationView()
+        self.assert_working_activation_view()
 
-    def assertNoEmailSent(self):
+    def assert_no_email_sent(self):
         self.assertEqual(len(mail.outbox), 0, "0 message sent")
 
-    def assertWorkingActivationView(self):
+    def assert_working_activation_view(self):
         # setup
         html_parser = BeautifulSoup(mail.outbox[0].body, "html.parser")
         link = html_parser.find("a")
@@ -67,7 +67,7 @@ class RegistrationFlowTest(WizardViewTestCase):
 
         # test
         self.assertEqual(done_url, response.url)
-        self.assertEmailSent(exp_email_recipient)
+        self.assert_email_sent(exp_email_recipient)
 
     def test_success_fontys(self):
         # setup
@@ -98,7 +98,7 @@ class RegistrationFlowTest(WizardViewTestCase):
 
         # test
         self.assertEqual(done_url, response.url)
-        self.assertEmailSent(exp_email_recipient)
+        self.assert_email_sent(exp_email_recipient)
 
     def test_fail_register_duplicate(self):
         """
@@ -133,7 +133,7 @@ class RegistrationFlowTest(WizardViewTestCase):
         # test
         self.assertTrue(self.wizard_has_validation_error(response))
         self.assertContains(response, exp_error_msg)
-        self.assertNoEmailSent()
+        self.assert_no_email_sent()
 
     def test_fail_register_username_gmail(self):
         """
@@ -165,7 +165,7 @@ class RegistrationFlowTest(WizardViewTestCase):
         # test
         self.assertTrue(self.wizard_has_validation_error(response))
         self.assertContains(response, exp_error_msg)
-        self.assertNoEmailSent()
+        self.assert_no_email_sent()
 
     def test_fail_register_username_fake_tue(self):
         """
@@ -197,4 +197,4 @@ class RegistrationFlowTest(WizardViewTestCase):
         # test
         self.assertTrue(self.wizard_has_validation_error(response))
         self.assertContains(response, exp_error_msg)
-        self.assertNoEmailSent()
+        self.assert_no_email_sent()

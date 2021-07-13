@@ -100,7 +100,3 @@ class WizardViewTestCase(TestCase):
         # add wizard management form step data
         output[f"{wizard}-current_step"] = step
         return output
-
-    @staticmethod
-    def get_form(response):
-        return response.context_data["form"]

@@ -25,6 +25,11 @@ django-sendfile2
 django-cleanup
 
 ##################
+#    testing     #
+##################
+bs4 # html parser
+
+##################
 #   deployment   #
 ##################
 

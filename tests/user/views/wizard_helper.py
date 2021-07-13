@@ -15,12 +15,12 @@ class WizardViewTestCase(TestCase):
         """
         return response.context_data["form"].is_bound
 
-    def get_wizard_response(self, url: str, step_data: dict):
+    def get_wizard_response(self, url: str, data: dict):
         """
         Simulates a successful wizard sequence. Asserts no validation errors in each step.
 
         :param url:
-        :param step_data:
+        :param data: dictionary of { "step_name": { "field": "value" } }
         :return: successful response
         """
         response = self.client.get(url)
@@ -29,33 +29,78 @@ class WizardViewTestCase(TestCase):
             self.assertFalse(self.wizard_has_validation_error(response))
 
             form = response.context_data["form"]
-            wizard = response.context_data["wizard"]
             view = response.context_data["view"]
+            wizard = response.context_data["wizard"]
+            wizard_name = wizard["management_form"].prefix
 
             current_step = view.storage.current_step
 
-            # If we have a formset, then we need to do custom handling
-            if hasattr(form, "forms"):
-                current_step_data = step_data.get(current_step, [])
-                data = {f"{current_step}-{key}": value for key, value in form.management_form.initial.items()}
-                for i, _form in enumerate(form.forms):
-                    current_form_data = current_step_data[i] if len(current_step_data) > i else {}
-                    data.update(
-                        {
-                            f"{_form.prefix}-{field}": current_form_data.get(field, _form.initial.get(field))
-                            for field in _form.fields
-                            if field in current_form_data or field in _form.initial
-                        }
-                    )
+            if hasattr(form, "forms"):  # custom handling for formsets
+                current_step_data = data.get(current_step, [])
+                response = self.get_wizard_step_response_from_formsets(
+                    wizard_name, form, current_step, current_step_data
+                )
             else:
-                # assume no formset
-                current_step_data = step_data.get(current_step, {})  # get corresponding data, return {} if null
-                data = {
-                    f"{form.prefix}-{field}": current_step_data.get(field, form.initial.get(field))
-                    for field in form.fields
-                    if field in current_step_data or field in form.initial
-                }
-            # add wizard management form step data
-            data[f"{wizard['management_form'].prefix}-current_step"] = current_step
-            response = self.client.post(url, data)
+                current_step_data = data.get(current_step, {})  # get corresponding data, return {} if null
+                response = self.get_wizard_step_response(url, wizard_name, current_step, current_step_data)
         return response
+
+    def get_wizard_step_response(self, url: str, wizard: str, step: str, data: dict):
+        """
+        Simulates a wizard step.
+
+        :param url:
+        :param wizard: name of wizard (snake_case)
+        :param step: name of wizard step (snake_case)
+        :param data: dictionary of { "field": "value" }
+        :return:
+        """
+        data = self.create_wizard_step_data(wizard, step, data)
+        response = self.client.post(url, data)
+        return response
+
+    @classmethod
+    def get_wizard_step_response_from_formsets(cls, wizard: str, form, step: str, data: dict):
+        """
+        Simulates a wizard step. Custom handling for formsets.
+        :param wizard: name of wizard (snake_case)
+        :param form:
+        :param step: name of wizard step (snake_case)
+        :param data: dictionary of { "field": "value" }
+        :return: request data
+        """
+        step_data = data.get(step, [])
+        output = {f"{step}-{key}": value for key, value in form.management_form.initial.items()}
+        for i, _form in enumerate(form.forms):
+            form_data = step_data[i] if len(step_data) > i else {}
+            output.update(
+                {
+                    f"{form.prefix}-{field}": form_data.get(field, form.initial.get(field))
+                    for field in form.fields
+                    if field in form_data or field in form.initial
+                }
+            )
+
+        # add wizard management form step data
+        output[f"{wizard}-current_step"] = step
+        return data
+
+    @classmethod
+    def create_wizard_step_data(cls, wizard: str, step: str, data: dict) -> dict:
+        """
+        Create form data for a wizard step.
+
+        :param wizard:  name of wizard (snake_case)
+        :param step: name of wizard step (snake_case)
+        :param data: dictionary of { "field": "value" }
+        :return: request data
+        """
+        output = {f"{step}-{field}": value for (field, value) in data.items()}
+
+        # add wizard management form step data
+        output[f"{wizard}-current_step"] = step
+        return output
+
+    @staticmethod
+    def get_form(response):
+        return response.context_data["form"]

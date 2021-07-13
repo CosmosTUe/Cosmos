@@ -1,13 +1,28 @@
 from django.contrib.auth.models import User
+from django.core import mail
 
 from tests.user.views.wizard_helper import WizardViewTestCase
 
 
 class RegistrationViewTest(WizardViewTestCase):
+    def assertEmailSent(self, recipient):
+        exp_email_sender = "noreply@cosmostue.nl"
+        exp_email_recipient = recipient
+        exp_email_subject = "[Cosmos] Confirm your email address"
+
+        self.assertEqual(len(mail.outbox), 1, "1 message sent")
+        self.assertEqual(mail.outbox[0].to, exp_email_recipient)
+        self.assertEqual(mail.outbox[0].from_email, exp_email_sender)
+        self.assertEqual(mail.outbox[0].subject, exp_email_subject)
+
+    def assertNoEmailSent(self):
+        self.assertEqual(len(mail.outbox), 0, "0 message sent")
+
     def test_success_tue(self):
         # setup
         url = "/accounts/register/"
         done_url = "/accounts/register/done/"
+        exp_email_recipient = "tosti@student.tue.nl"
 
         # act
         response = self.get_wizard_response(
@@ -33,11 +48,13 @@ class RegistrationViewTest(WizardViewTestCase):
 
         # test
         self.assertEqual(done_url, response.url)
+        self.assertEmailSent(exp_email_recipient)
 
     def test_success_fontys(self):
         # setup
         url = "/accounts/register/"
         done_url = "/accounts/register/done/"
+        exp_email_recipient = "tosti@fontys.nl"
 
         # act
         response = self.get_wizard_response(
@@ -62,6 +79,7 @@ class RegistrationViewTest(WizardViewTestCase):
 
         # test
         self.assertEqual(done_url, response.url)
+        self.assertEmailSent(exp_email_recipient)
 
     def test_fail_register_duplicate(self):
         """
@@ -96,6 +114,7 @@ class RegistrationViewTest(WizardViewTestCase):
         # test
         self.assertTrue(self.wizard_has_validation_error(response))
         self.assertContains(response, exp_error_msg)
+        self.assertNoEmailSent()
 
     def test_fail_register_username_gmail(self):
         """
@@ -127,6 +146,7 @@ class RegistrationViewTest(WizardViewTestCase):
         # test
         self.assertTrue(self.wizard_has_validation_error(response))
         self.assertContains(response, exp_error_msg)
+        self.assertNoEmailSent()
 
     def test_fail_register_username_fake_tue(self):
         """
@@ -158,3 +178,4 @@ class RegistrationViewTest(WizardViewTestCase):
         # test
         self.assertTrue(self.wizard_has_validation_error(response))
         self.assertContains(response, exp_error_msg)
+        self.assertNoEmailSent()

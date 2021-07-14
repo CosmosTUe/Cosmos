@@ -52,7 +52,7 @@ class RegisterUserFormTest(TestCase):
 
     def test_success_fontys(self):
         """
-        TUe User registration success
+        Fontys User registration success
         """
         # setup
         exp_institution = "fontys"

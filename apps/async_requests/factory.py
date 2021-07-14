@@ -1,6 +1,6 @@
 from apps.async_requests.executor import _Executor
 from apps.async_requests.sendgrid.newsletter import NewsletterService
-from apps.async_requests.sendgrid.sendgrid import SendgridService
+from apps.async_requests.sendgrid.service import SendgridService
 from cosmos import settings
 from mocks.newsletter import NewsletterServiceMock
 

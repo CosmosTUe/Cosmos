@@ -30,11 +30,11 @@ class ProfileUpdateForm(forms.ModelForm):
     nationality = forms.ChoiceField(choices=list(zip(NATIONALITIES, NATIONALITIES)))
 
     # Tue:
-    department = forms.ChoiceField(choices=list(zip(TUE_DEPARTMENTS, TUE_DEPARTMENTS)))
-    program = forms.ChoiceField(choices=list(zip(TUE_PROGRAMS, TUE_PROGRAMS)))
+    department = forms.ChoiceField(required=False, choices=list(zip(TUE_DEPARTMENTS, TUE_DEPARTMENTS)))
+    program = forms.ChoiceField(required=False, choices=list(zip(TUE_PROGRAMS, TUE_PROGRAMS)))
 
     # Fontys:
-    study = forms.ChoiceField(choices=list(zip(FONTYS_STUDIES, FONTYS_STUDIES)))
+    study = forms.ChoiceField(required=False, choices=list(zip(FONTYS_STUDIES, FONTYS_STUDIES)))
 
     class Meta:
         model = User
@@ -62,6 +62,14 @@ class ProfileUpdateForm(forms.ModelForm):
         elif is_tue_email(username):
             institution = InstitutionFontys.objects.get(profile=profile)
             institution.study = self.cleaned_data["study"]
+
+        if "email" in self.changed_data and profile.subscribed_newsletter and profile.newsletter_recipient == "ALT":
+            old_email = self.initial["email"]
+            newsletter_service.remove_subscription([old_email])
+            new_email = self.cleaned_data["email"]
+            newsletter_service.add_subscription(
+                [{"email": new_email, "first_name": profile.user.first_name, "last_name": profile.user.last_name}]
+            )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

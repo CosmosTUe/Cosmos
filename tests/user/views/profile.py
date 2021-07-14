@@ -90,7 +90,7 @@ class ProfileUpdateFlowTest(TestCase):
 
         # test
         form_data = response.wsgi_request.POST
-        self.assertEqual(200, response.status_code)
+        self.assertEqual(302, response.status_code)
         self.assertTrue(exp_department, form_data["department"])
 
     def test_fail_change_institution_email(self):
@@ -190,6 +190,46 @@ class ProfileUpdateFlowTest(TestCase):
         self.assertEqual(exp_status_code, response.status_code)
         self.assertNotIn(newsletter_field, form_data)
         self.assert_newsletter_subscription(recipient, False)
+
+    def test_success_change_secondary_unsubscribed_email(self):
+        # setup
+        c = get_logged_in_client()
+        url = "/accounts/profile/"
+        institution_email = "tosti@student.tue.nl"
+        old_alt_email = "tosti@gmail.com"
+        new_alt_email = "tosti@hotmail.com"
+
+        # act
+        response = c.post(url, data=get_profile_form_data(email="tosti@hotmail.com"))
+
+        # test
+        self.assertEqual(302, response.status_code)
+        self.assert_newsletter_subscription(institution_email, False)
+        self.assert_newsletter_subscription(old_alt_email, False)
+        self.assert_newsletter_subscription(new_alt_email, False)
+
+    def test_success_change_secondary_subscribed_email(self):
+        # setup
+        c = get_logged_in_client()
+        url = "/accounts/profile/"
+        institution_email = "tosti@student.tue.nl"
+        old_alt_email = "tosti@gmail.com"
+        new_alt_email = "tosti@hotmail.com"
+        self.user.profile.subscribed_newsletter = True
+        self.user.profile.newsletter_recipient = "ALT"
+        self.newsletter_service.add_subscription(
+            [{"email": old_alt_email, "first_name": "Tosti", "last_name": "Broodjes"}]
+        )
+        self.user.profile.save()
+
+        # act
+        response = c.post(url, data=get_profile_form_data(email="tosti@hotmail.com"))
+
+        # test
+        self.assertEqual(302, response.status_code)
+        self.assert_newsletter_subscription(institution_email, False)
+        self.assert_newsletter_subscription(old_alt_email, False)
+        self.assert_newsletter_subscription(new_alt_email, True)
 
     def test_success_key_access_unchanged(self):
         # setup

@@ -20,7 +20,6 @@ newsletter_service = Factory.get_newsletter_service()
 
 
 class ProfileUpdateForm(forms.ModelForm):
-
     username = forms.EmailField(max_length=254, label="Institution email")
     email = forms.EmailField(max_length=254, label="Personal email (optional)", required=False)
     nationality = forms.ChoiceField(choices=list(zip(NATIONALITIES, NATIONALITIES)))
@@ -108,7 +107,7 @@ class PasswordUpdateForm(PasswordChangeForm):
 class PreferencesUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ["subscribed_newsletter"]
+        fields = ["subscribed_newsletter", "newsletter_recipient"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -118,9 +117,18 @@ class PreferencesUpdateForm(forms.ModelForm):
         self.helper.form_action = "cosmos_users:user_profile"
         self.helper.form_tag = False
 
-        self.helper.layout = Layout(Field("subscribed_newsletter"))
+        self.helper.layout = Layout(
+            Field("subscribed_newsletter"),
+            Field("newsletter_recipient"),
+        )
 
         self.helper.add_input(Submit("save_preferences", "Submit"))
+
+    def save(self, commit=True):
+        old_newsletter_state = self.initial["subscribed_newsletter"]
+        old_newsletter_recipient = self.initial["newsletter_recipient"]
+        newsletter_service.update_newsletter_preferences(self.instance, old_newsletter_state, old_newsletter_recipient)
+        return super(PreferencesUpdateForm, self).save(commit)
 
 
 class KeyAccessUpdateForm(forms.ModelForm):

@@ -6,13 +6,14 @@ from mocks.newsletter import NewsletterServiceMock
 
 
 class Factory:
-
     _executor_instance = None
     _newsletter_instance = None
 
     def get_newsletter_service() -> NewsletterService:
         if Factory._newsletter_instance is None:
             Factory._newsletter_instance = NewsletterServiceMock() if settings.TESTING else SendgridService()
+        if settings.TESTING:
+            Factory._newsletter_instance.db.clear()
         return Factory._newsletter_instance
 
     def get_executor():

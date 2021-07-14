@@ -12,3 +12,7 @@ class MockCommand(Command):
 
     def execute(self):
         raise Exception("test")
+
+
+class SecondMockCommand(MockCommand):
+    pass

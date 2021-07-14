@@ -35,9 +35,9 @@ class RegisterUserFormTest(TestCase):
             }
         )
 
-    def test_success_tue(self):
+    def test_success_tue_without_newsletter(self):
         """
-        TUe User registration success
+        TUe User registration success without newsletter
         """
         # setup
         exp_institution = "tue"
@@ -49,6 +49,13 @@ class RegisterUserFormTest(TestCase):
         # test
         self.assertTrue(form.is_valid())
         self.assertEqual(user.profile.institution_name, exp_institution)
+        # TODO check newsletter status
+
+    def test_success_tue_with_newsletter(self):
+        """
+        TUe User registration success with newsletter
+        """
+        # TODO check newsletter status
 
     def test_success_fontys(self):
         """

@@ -4,6 +4,7 @@ from apps.async_requests.factory import Factory
 from mocks.command import MockCommand, SecondMockCommand
 
 
+# TODO user unittest.TestCase instead because test doesn't involve DB
 class ExecutorTestCase(TestCase):
     def setUp(self) -> None:
         self.executor = Factory.get_executor()

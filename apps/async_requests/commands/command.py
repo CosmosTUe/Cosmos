@@ -18,3 +18,12 @@ class Command(ABC):
     @abstractmethod
     def execute(self):
         pass
+
+    def __eq__(self, other):
+        return (
+            type(self) == type(other)
+            and self.can_merge == other.can_merge
+            and self.timer == other.timer
+            and self.times_delayed == other.times_delayed
+            and self.backoff_factor == other.backoff_factor
+        )

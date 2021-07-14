@@ -27,6 +27,11 @@ django-cleanup
 django-ckeditor
 
 ##################
+#    testing     #
+##################
+bs4 # html parser
+
+##################
 #   deployment   #
 ##################
 

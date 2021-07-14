@@ -27,7 +27,7 @@ def get_profile_form_data(
     program="Bachelor",
     study="",
 ):
-    return {
+    output = {
         "first_name": first_name,
         "last_name": last_name,
         "username": username,
@@ -38,6 +38,7 @@ def get_profile_form_data(
         "study": study,
         "save_profile": "Submit",
     }
+    return {k: v for k, v in output.items() if v is not None}
 
 
 def get_preferences_form_data(subscribed_newsletter=False, newsletter_recipient="TUE"):
@@ -91,6 +92,19 @@ class ProfileUpdateFlowTest(TestCase):
         form_data = response.wsgi_request.POST
         self.assertEqual(200, response.status_code)
         self.assertTrue(exp_department, form_data["department"])
+
+    def test_fail_change_institution_email(self):
+        # setup
+        c = get_logged_in_client()
+        url = "/accounts/profile/"
+        exp_error_msg = "Invalid operation. Please contact the website admins to change profile institution."
+
+        # act
+        response = c.post(url, data=get_profile_form_data(username="tosti@fontys.nl"))
+
+        # test
+        self.assertEqual(200, response.status_code)
+        self.assertContains(response, exp_error_msg)
 
     def test_fail_logged_out(self):
         # setup

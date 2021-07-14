@@ -10,7 +10,12 @@ from django.core.exceptions import ValidationError
 
 from apps.async_requests.factory import Factory
 from apps.users.forms.errors import INVALID_EMAIL
-from apps.users.helper_functions import is_fontys_email, is_tue_email, is_valid_institutional_email
+from apps.users.helper_functions import (
+    is_fontys_email,
+    is_tue_email,
+    is_valid_institutional_email,
+    same_email_institution,
+)
 from apps.users.models.user import Profile
 from apps.users.models.user.constants import FONTYS_STUDIES, NATIONALITIES, TUE_DEPARTMENTS, TUE_PROGRAMS
 from apps.users.models.user.institution import InstitutionFontys, InstitutionTue
@@ -39,6 +44,10 @@ class ProfileUpdateForm(forms.ModelForm):
         data = self.cleaned_data["username"]
         if not is_valid_institutional_email(data):
             raise ValidationError("Please enter your institutional email.", INVALID_EMAIL)
+
+        current_username = self.instance.username
+        if not same_email_institution(data, current_username):
+            raise ValidationError("Invalid operation. Please contact the website admins to change profile institution.")
         return data
 
     def save(self, commit=True):

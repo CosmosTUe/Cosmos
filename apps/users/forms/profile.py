@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
 from apps.async_requests.factory import Factory
-from apps.users.forms.errors import INVALID_EMAIL
+from apps.users.forms.errors import INVALID_EMAIL, INVALID_SUBSCRIBE_TO_EMPTY_EMAIL, INVALID_EMAIL_CHANGE
 from apps.users.helper_functions import (
     is_fontys_email,
     is_tue_email,
@@ -47,7 +47,10 @@ class ProfileUpdateForm(forms.ModelForm):
 
         current_username = self.instance.username
         if not same_email_institution(data, current_username):
-            raise ValidationError("Invalid operation. Please contact the website admins to change profile institution.")
+            raise ValidationError(
+                "Invalid operation. Please contact the website admins to change profile institution.",
+                INVALID_EMAIL_CHANGE,
+            )
         return data
 
     def save(self, commit=True):
@@ -140,6 +143,18 @@ class PreferencesUpdateForm(forms.ModelForm):
         )
 
         self.helper.add_input(Submit("save_preferences", "Submit"))
+
+    def clean(self):
+        if (
+            self.instance.user.email == ""
+            and self.cleaned_data["newsletter_recipient"]
+            and self.cleaned_data["subscribed_newsletter"]
+        ):
+            raise ValidationError(
+                "Please set a secondary email or choose to receive the newsletters at your institution email.",
+                INVALID_SUBSCRIBE_TO_EMPTY_EMAIL,
+            )
+        return self.cleaned_data
 
     def save(self, commit=True):
         old_newsletter_state = self.initial["subscribed_newsletter"]

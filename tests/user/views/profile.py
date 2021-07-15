@@ -92,7 +92,7 @@ class ProfileUpdateFlowTest(TestCase):
         # test
         form_data = response.wsgi_request.POST
         self.assertEqual(302, response.status_code)
-        self.assertTrue(exp_department, form_data["department"])
+        self.assertEqual(exp_department, form_data["department"])
 
     def test_fail_change_institution_email(self):
         # setup
@@ -151,7 +151,21 @@ class ProfileUpdateFlowTest(TestCase):
         self.assertNotIn(newsletter_field, form_data)
         self.assert_newsletter_subscription(recipient, False)
 
-    def test_success_newsletter_enable(self):
+    def test_success_remove_alternative_email(self):
+        # setup
+        c = get_logged_in_client()
+        url = "/accounts/profile/"
+        exp_alt_email = ""
+
+        # act
+        response = c.post(url, data=get_profile_form_data(email=""))
+
+        # test
+        form_data = response.wsgi_request.POST
+        self.assertEqual(302, response.status_code)
+        self.assertEqual(exp_alt_email, form_data["email"])
+
+    def test_success_newsletter_enable_institution_email(self):
         # setup
         c = get_logged_in_client()
         url = "/accounts/profile/#preferences"
@@ -171,7 +185,7 @@ class ProfileUpdateFlowTest(TestCase):
         self.assertEqual(exp_newsletter, form_data[newsletter_field])
         self.assert_newsletter_subscription(recipient, True)
 
-    def test_success_newsletter_disable(self):
+    def test_success_newsletter_disable_institution_email(self):
         # setup
         self.user.profile.subscribed_newsletter = True
         self.user.profile.save()
@@ -179,6 +193,67 @@ class ProfileUpdateFlowTest(TestCase):
         c = get_logged_in_client()
         url = "/accounts/profile/#preferences"
         recipient = "tosti@student.tue.nl"
+        newsletter_field = "subscribed_newsletter"
+
+        exp_status_code = 302
+
+        # act
+        response = c.post(url, data=get_preferences_form_data(False))
+
+        # test
+        form_data = response.wsgi_request.POST
+
+        self.assertEqual(exp_status_code, response.status_code)
+        self.assertNotIn(newsletter_field, form_data)
+        self.assert_newsletter_subscription(recipient, False)
+
+    def test_success_newsletter_enable_secondary_email(self):
+        # setup
+        c = get_logged_in_client()
+        url = "/accounts/profile/#preferences"
+        recipient = "tosti@gmail.com"
+        newsletter_field = "subscribed_newsletter"
+
+        exp_status_code = 302
+        exp_newsletter = "on"
+
+        # act
+        response = c.post(url, data=get_preferences_form_data(subscribed_newsletter=True, newsletter_recipient="ALT"))
+
+        # test
+        form_data = response.wsgi_request.POST
+
+        self.assertEqual(exp_status_code, response.status_code)
+        self.assertEqual(exp_newsletter, form_data[newsletter_field])
+        self.assert_newsletter_subscription(recipient, True)
+
+    def test_fail_newsletter_enable_secondary_email_empty(self):
+        # setup
+        self.user.email = ""
+        self.user.save()
+
+        c = get_logged_in_client()
+        url = "/accounts/profile/#preferences"
+
+        exp_status_code = 200
+        exp_error_msg = "Please set a secondary email or choose to receive the newsletters at your institution email."
+
+        # act
+        response = c.post(url, data=get_preferences_form_data(subscribed_newsletter=True, newsletter_recipient="ALT"))
+
+        # test
+        self.assertEqual(exp_status_code, response.status_code)
+        self.assertContains(response, exp_error_msg)
+
+    def test_success_newsletter_disable_secondary_email(self):
+        # setup
+        self.user.profile.subscribed_newsletter = True
+        self.user.profile.newsletter_recipient = "ALT"
+        self.user.profile.save()
+
+        c = get_logged_in_client()
+        url = "/accounts/profile/#preferences"
+        recipient = "tosti@gmail.com"
         newsletter_field = "subscribed_newsletter"
 
         exp_status_code = 302

@@ -15,3 +15,6 @@ class SubscribeCommand(Command):
 
         newsletter_service = Factory.get_newsletter_service()
         newsletter_service.add_subscription(self.contacts)
+
+    def __eq__(self, other):
+        return super().__eq__(other) and self.contacts == other.contacts

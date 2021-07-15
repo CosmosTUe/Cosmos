@@ -15,3 +15,6 @@ class UnsubscribeCommand(Command):
 
         newsletter_service = Factory.get_newsletter_service()
         newsletter_service.remove_subscription(self.emails)
+
+    def __eq__(self, other):
+        return super().__eq__(other) and self.emails == other.emails

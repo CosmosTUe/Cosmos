@@ -10,7 +10,7 @@ executor = Factory.get_executor()
 
 class RegistrationFlowTest(WizardViewTestCase):
     def setUp(self) -> None:
-        self.newsletter_service = Factory.get_newsletter_service()
+        self.newsletter_service = Factory.get_newsletter_service(True)
 
     def assert_email_sent(self, recipient):
         # setup

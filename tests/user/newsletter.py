@@ -7,7 +7,7 @@ from apps.users.models import Profile
 
 class NewsletterLogic(TestCase):
     def setUp(self) -> None:
-        self.service = Factory.get_newsletter_service()
+        self.service = Factory.get_newsletter_service(True)
         self.executor = Factory.get_executor()
         self.inst_email = "tosti@student.tue.nl"
         self.alt_email = "tosti@gmail.com"

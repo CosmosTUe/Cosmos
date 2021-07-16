@@ -65,7 +65,7 @@ class ProfileUpdateFlowTest(TestCase):
             subscribed_newsletter=False,
         ).save()
         self.executor = Factory.get_executor()
-        self.newsletter_service = Factory.get_newsletter_service()
+        self.newsletter_service = Factory.get_newsletter_service(True)
 
     def test_success_do_nothing(self):
         # setup

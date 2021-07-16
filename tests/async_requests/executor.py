@@ -1,4 +1,4 @@
-from django.test import TestCase
+from unittest import TestCase
 
 from apps.async_requests.factory import Factory
 from mocks.command import MockCommand, SecondMockCommand

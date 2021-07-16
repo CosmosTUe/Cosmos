@@ -29,6 +29,10 @@ class ProfileUpdateForm(forms.ModelForm):
     email = forms.EmailField(max_length=254, label="Personal email (optional)", required=False)
     nationality = forms.ChoiceField(choices=list(zip(NATIONALITIES, NATIONALITIES)))
 
+    # When the user is from TUe, 'study' is empty.
+    # When the user is from Fontys, 'department' and 'program' is empty.
+    # In order for the form to be valid, fields from Institution classes has 'required' set to False.
+
     # Tue:
     department = forms.ChoiceField(required=False, choices=list(zip(TUE_DEPARTMENTS, TUE_DEPARTMENTS)))
     program = forms.ChoiceField(required=False, choices=list(zip(TUE_PROGRAMS, TUE_PROGRAMS)))

@@ -24,6 +24,13 @@ django-crum
 django-sendfile2
 django-cleanup
 
+django-ckeditor
+
+##################
+#    testing     #
+##################
+bs4 # html parser
+
 ##################
 #   deployment   #
 ##################

@@ -37,19 +37,25 @@
             <div class="tab-pane active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                 <div class="bg-cosmos-primary p-4">
                     <h2 class="text-white pb-3">Profile</h2>
-                    {% crispy profile_update_form %}
+                    <form method="post">
+                        {% crispy profile_update_form %}
+                    </form>
                 </div>
             </div>
             <div class="tab-pane" id="password" role="tabpanel" aria-labelledby="password-tab">
                 <div class="bg-cosmos-primary p-4">
                     <h2 class="text-white pb-3">Password</h2>
-                    {% crispy password_change_form %}
+                    <form method="post">
+                        {% crispy password_change_form %}
+                    </form>
                 </div>
             </div>
             <div class="tab-pane" id="preferences" role="tabpanel" aria-labelledby="preferences-tab">
                 <div class="bg-cosmos-primary p-4">
                     <h2 class="text-white pb-3">Preferences</h2>
-                    {% crispy preferences_update_form %}
+                    <form method="post">
+                        {% crispy preferences_update_form %}
+                    </form>
                 </div>
             </div>
 
@@ -57,7 +63,9 @@
             <div class="tab-pane" id="key-access" role="tabpanel" aria-labelledby="key-access-tab">
                 <div class="bg-cosmos-primary p-4">
                     <h2 class="text-white pb-3">Key Access</h2>
-                    {% crispy key_access_update_form %}
+                    <form method="post">
+                        {% crispy key_access_update_form %}
+                    </form>
                 <div>
             </div>
             {% endif %}

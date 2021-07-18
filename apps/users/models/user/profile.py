@@ -36,7 +36,8 @@ class Profile(models.Model):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.states = ["subscribed_newsletter", "newsletter_recipient"]
-        self.update_states()
+        # TODO fix states
+        # self.update_states()
 
     def update_states(self):
         for state in self.states:

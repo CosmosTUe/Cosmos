@@ -13,7 +13,7 @@ class _Executor:
         # do the merging here!
         self._command_list.append(command)
 
-    def remove_command(self, command):
+    def remove_command(self, command: Command):
         self._command_list.remove(command)
 
     def execute(self):

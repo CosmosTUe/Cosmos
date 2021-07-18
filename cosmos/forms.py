@@ -4,7 +4,7 @@ from crispy_forms.layout import Div, Field, Layout
 from django import forms
 from django.forms.models import inlineformset_factory
 
-from cosmos.models import GMM, FileObject, PhotoAlbum, PhotoObject
+from cosmos.models import GMM, FileObject, News, PhotoAlbum, PhotoObject
 
 
 class FileObjectForm(forms.ModelForm):
@@ -92,3 +92,29 @@ class PhotoObjectForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_tag = False
         self.helper.layout = Layout(Field("photo"))
+
+
+class NewsForm(forms.ModelForm):
+    class Meta:
+        model = News
+        fields = ["title", "date", "image", "member_only", "lead", "content"]
+
+    def __init__(self, *args, **kwargs):
+        super(NewsForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+        self.helper.layout = Layout(
+            Field("title"),
+            FieldWithButtons(
+                "date",
+                StrictButton(
+                    """<i class="bi bi-calendar-date"></i>""",
+                    css_class="btn-outline-secondary",
+                    id="id_calendar_button",
+                ),
+            ),
+            Field("image"),
+            Field("member_only"),
+            Field("lead"),
+            Field("content"),
+        )

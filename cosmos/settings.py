@@ -106,7 +106,12 @@ PIPELINE = {
     "CLOSURE_BINARY": "node_modules/.bin/google-closure-compiler",
     "STYLESHEETS": {
         "cosmos": {
-            "source_filenames": {"cosmos/css/core.css", "cosmos/css/gmm.css", "cosmos/css/photos.css"},
+            "source_filenames": {
+                "cosmos/css/core.css",
+                "cosmos/css/gmm.css",
+                "cosmos/css/photos.css",
+                "cosmos/css/news.css",
+            },
             "output_filename": "cosmos/css/cosmos.css",
         },
         "cosmos_users": {
@@ -188,6 +193,7 @@ INSTALLED_APPS = [
     "crispy_bootstrap5",
     "django_sendfile",
     "django_cleanup.apps.CleanupConfig",
+    "ckeditor",
 ]
 
 LANGUAGES = (
@@ -289,3 +295,7 @@ SENDFILE_ROOT = os.path.join(DATA_DIR, "media/")
 SENDFILE_URL = "/protected-media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+CKEDITOR_CONFIGS = {
+    "default": {"width": "100%"},
+}

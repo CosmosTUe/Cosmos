@@ -25,10 +25,12 @@
                 {% endif %}
             </div>
 
+            {% if perms.cosmos.add_photoalbum %}
             <a class="btn btn-cosmos-primary my-auto" href="{% url 'photo_album-create' %}">
                 <i class="bi bi-plus-lg"></i>
                 Add new Photo Album
             </a>
+            {% endif %}
         </div>
         <div class="row row-cols-1 row-cols-md-2 g-4 mt-2">
             {% for album in album_list %}

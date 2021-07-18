@@ -4,15 +4,16 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.template import loader
 from django.urls import reverse_lazy
+from django.urls.base import reverse
 from django.views.generic import CreateView, DeleteView, UpdateView
 from django_sendfile import sendfile
 
 from apps.users.models import Profile
 from cosmos.constants import FOUNDING_DATE
-from cosmos.forms import GMMForm, GMMFormSet, GMMFormSetHelper, PhotoAlbumForm
+from cosmos.forms import GMMForm, GMMFormSet, GMMFormSetHelper, PhotoAlbumForm, PhotoObjectForm
 from cosmos.models import GMM, PhotoAlbum, PhotoObject
 
 from .settings import SENDFILE_ROOT
@@ -218,6 +219,32 @@ class PhotoAlbumDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     # Permissions
     permission_required = "cosmos.delete_photoalbum"
     raise_exception = True
+
+
+class PhotoObjectDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    model = PhotoObject
+    template_name = "photo_album/photo_object_confirm_delete.html"
+
+    # Permissions
+    permission_required = "cosmos.delete_photoobject"
+    rais_exception = True
+
+    def get_success_url(self) -> str:
+        return reverse_lazy("photo_album-view", kwargs={"pk": self.get_object().album.id})
+
+
+def photo_album_add_photo(request, pk):
+    album = get_object_or_404(PhotoAlbum, pk=pk)
+
+    if request.method == "POST":
+        print(request.FILES)
+        for img in request.FILES.getlist("photo"):
+            PhotoObject.objects.create(album=album, photo=img)
+        return redirect(reverse("photo_album-view", kwargs={"pk": album.id}))
+    else:
+        form = PhotoObjectForm()
+
+    return render(request, "photo_album/photo_album_add_photos.html", {"form": form})
 
 
 def photo_album_list(request):

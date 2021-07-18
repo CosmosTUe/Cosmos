@@ -10,16 +10,31 @@
     <div class="w-75 mx-auto">
         <div class="d-flex justify-content-between">
             <h2>{{ album.title }} - {{ album.date }}</h2>
-            <a class="btn p-0 fs-4" href="{% url 'photo_album-delete' album.id %}">
-                <i class="bi bi-trash"></i>
-            </a>
+            {% if perms.cosmos.add_photoobject and perms.cosmos.delete_photoalbum %}
+            <div>
+                <a class="btn btn-cosmos-primary" href="{% url 'photo_album-add_photos' album.id %}">
+                    <i class="bi bi-plus-lg"></i>
+                    Add new Photos
+                </a>
+                <a class="btn fs-4 text-danger" href="{% url 'photo_album-delete' album.id %}">
+                    <i class="bi bi-trash"></i>
+                </a>
+            </div>
+            {% endif %}
         </div>
         <div class="row row-cols-1 row-cols-md-2 g-4 mt-2">
             {% for photo_object in album.has_photos.all %}
             <div class="col">
                 <div class="card">
-                    <img src="{{ photo_object.photo.url }}" class="card-img-top album-image">
-                    <a class="stretched-link" href="#" data-bs-toggle="modal" data-bs-target="#photoModal" data-bs-image-url="{{ photo_object.photo.url }}"></a>
+                    <div style="transform: rotate(0);">
+                        <img src="{{ photo_object.photo.url }}" class="card-img-top album-image">
+                        <a class="stretched-link" href="#" data-bs-toggle="modal" data-bs-target="#photoModal" data-bs-image-url="{{ photo_object.photo.url }}"></a>
+                    </div>
+                    {% if perms.cosmos.delete_photoobject %}
+                    <a href="{% url 'photo_object-delete' photo_object.id %}" class="photo-delete">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                    {% endif %}
                 </div>
             </div>
             {% endfor %}

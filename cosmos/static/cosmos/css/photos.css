@@ -9,3 +9,10 @@
     height: 50vh;
     object-fit: cover;
 }
+
+.photo-delete {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    color: red;
+}

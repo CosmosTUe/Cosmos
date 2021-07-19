@@ -24,6 +24,7 @@ from apps.users.models.user import InstitutionFontys, InstitutionTue
 from apps.users.tokens import account_activation_token
 
 logger = logging.getLogger(__name__)
+newsletter_service = Factory.get_newsletter_service()
 executor = Factory.get_executor()
 
 
@@ -89,6 +90,12 @@ class RegistrationWizard(SessionWizardView):
                 pass
 
             executor.add_command(MailSendCommand(create_confirm_account_email(profile)))
+
+            if profile.subscribed_newsletter:
+                email = user.username if profile.newsletter_recipient == "TUE" else user.email
+                newsletter_service.add_subscription(
+                    [{"email": email, "first_name": user.first_name, "last_name": user.last_name}]
+                )
 
         return redirect(reverse("cosmos_users:registration_done"))
 

@@ -14,7 +14,6 @@ from apps.users.models.user.profile import Profile
 
 
 class RegisterUserForm(UserCreationForm):
-
     first_name = forms.CharField(max_length=30, required=True, initial="")
     last_name = forms.CharField(max_length=30, required=True, initial="")
     username = forms.EmailField(

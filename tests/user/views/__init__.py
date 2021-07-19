@@ -1,3 +1,4 @@
+from .profile import ProfileUpdateFlowTest
 from .registration import RegistrationFlowTest
 
-__all__ = ["RegistrationFlowTest"]
+__all__ = ["ProfileUpdateFlowTest", "RegistrationFlowTest"]

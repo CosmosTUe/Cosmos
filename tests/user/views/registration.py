@@ -9,6 +9,9 @@ executor = Factory.get_executor()
 
 
 class RegistrationFlowTest(WizardViewTestCase):
+    def setUp(self) -> None:
+        self.newsletter_service = Factory.get_newsletter_service(True)
+
     def assert_email_sent(self, recipient):
         # setup
         exp_email_sender = "noreply@cosmostue.nl"
@@ -45,11 +48,63 @@ class RegistrationFlowTest(WizardViewTestCase):
         self.assertEqual(link_text, exp_link_text)
         self.assertContains(response, exp_activation_message)
 
-    def test_success_tue(self):
+    def assert_newsletter_subscription(self, email: str, state: bool):
+        # setup - none
+
+        # act
+        executor.execute()
+
+        # test
+        self.assertEqual(state, self.newsletter_service.is_subscribed(email))
+
+    def test_success_tue_without_newsletter(self):
         # setup
         url = "/accounts/register/"
         done_url = "/accounts/register/done/"
         exp_email_recipient = "tosti@student.tue.nl"
+
+        inst_email = "tosti@student.tue.nl"
+        inst_sub = False
+        alt_email = "tosti@gmail.com"
+        alt_sub = False
+
+        # act
+        response = self.get_wizard_response(
+            url,
+            {
+                "register_user": {
+                    "first_name": "Tosti",
+                    "last_name": "Broodjes",
+                    "username": "tosti@student.tue.nl",
+                    "email": "tosti@gmail.com",
+                    "password1": "ikbeneenbrood",
+                    "password2": "ikbeneenbrood",
+                    "nationality": "Dutch",
+                    "terms_confirmed": "on",
+                },
+                "register_tue": {
+                    "department": "Mathematics and Computer Science",
+                    "program": "Bachelor",
+                },
+            },
+        )
+
+        # test
+        self.assertEqual(done_url, response.url)
+        self.assert_email_sent(exp_email_recipient)
+        self.assert_newsletter_subscription(inst_email, inst_sub)
+        self.assert_newsletter_subscription(alt_email, alt_sub)
+
+    def test_success_tue_with_newsletter(self):
+        # setup
+        url = "/accounts/register/"
+        done_url = "/accounts/register/done/"
+        exp_email_recipient = "tosti@student.tue.nl"
+
+        inst_email = "tosti@student.tue.nl"
+        inst_sub = True
+        alt_email = "tosti@gmail.com"
+        alt_sub = False
 
         # act
         response = self.get_wizard_response(
@@ -76,6 +131,8 @@ class RegistrationFlowTest(WizardViewTestCase):
         # test
         self.assertEqual(done_url, response.url)
         self.assert_email_sent(exp_email_recipient)
+        self.assert_newsletter_subscription(inst_email, inst_sub)
+        self.assert_newsletter_subscription(alt_email, alt_sub)
 
     def test_success_fontys(self):
         # setup

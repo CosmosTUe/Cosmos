@@ -14,6 +14,7 @@ from apps.users.stats import get_stats
 # from apps.users.tasks import sync_newsletter_subcriptions_task
 
 logger = logging.getLogger(__name__)
+executor = Factory.get_executor()
 newsletter_service = Factory.get_newsletter_service()
 
 
@@ -53,8 +54,7 @@ class ProfileAdmin(admin.ModelAdmin):
 
     def sync_newsletter_subscriptions(self, request, queryset: QuerySet):
         self.message_user(request, f"Sending {len(queryset)} messages...")
-        # breaks with celery, see https://github.com/sendgrid/python-http-client/issues/139
-        # sync_newsletter_subscriptions_task.delay([u for u in queryset.values_list("id", flat=True)]).get()
-        for u in queryset:
-            newsletter_service.update_newsletter_preferences(u, force=True)
+        for profile in queryset:
+            newsletter_service.sync_newsletter_preferences(profile)
+        executor.execute()
         self.message_user(request, f"{len(queryset)} newsletter preferences updated!")

@@ -232,7 +232,7 @@ class PhotoObjectDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView)
 
     # Permissions
     permission_required = "cosmos.delete_photoobject"
-    rais_exception = True
+    raise_exception = True
 
     def get_success_url(self) -> str:
         return reverse_lazy("photo_album-view", kwargs={"pk": self.get_object().album.id})

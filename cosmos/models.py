@@ -52,6 +52,26 @@ class FileObject(models.Model):
         return "FileObjectGMM: {" + self.name + ", " + str(self.date) + "}"
 
 
+class PhotoAlbum(models.Model):
+    title = models.CharField(max_length=255)
+    date = models.DateField()
+    album_cover = models.ImageField(upload_to="photos")
+
+    def get_absolute_url(self):
+        return reverse("photo_album-list")
+
+    def __str__(self):
+        return "PhotoAlbum: {" + self.title + "}"
+
+
+class PhotoObject(models.Model):
+    photo = models.ImageField(upload_to="photos")
+    album = models.ForeignKey(PhotoAlbum, on_delete=models.CASCADE, related_name="has_photos")
+
+    def __str__(self):
+        return "PhotoObject: {" + str(self.photo) + "}"
+
+
 class News(models.Model):
     title = models.CharField(max_length=255)
     image = models.ImageField(upload_to="news")

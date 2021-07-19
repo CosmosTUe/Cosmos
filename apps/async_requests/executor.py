@@ -6,7 +6,6 @@ logger = logging.getLogger(__name__)
 
 
 class _Executor:
-
     _command_list = []
 
     def add_command(self, command: Command):
@@ -16,23 +15,30 @@ class _Executor:
     def remove_command(self, command: Command):
         self._command_list.remove(command)
 
-    def execute(self):
-        temp_list = []
-        failed_list = []
-
+    def __get_merged_commands(self) -> list:
+        index_map = {}
+        output = []
         for command in self._command_list:
-            if command.timer == 0:
-                self._command_list.remove(command)
-                if command.get_can_merge():
-                    for command2 in self._command_list:
-                        if command2.get_can_merge() and type(command) == type(command2):
-                            temp_list.append(command2)
-                            self._command_list.remove(command2)
+            if not command.get_can_merge():
+                output.append(command)
+                continue
 
-                    command.merge(temp_list)
+            # can_merge
+            command_type = type(command).__name__
+            if command_type not in index_map:
+                output_index = len(output)
+                output.append(command)
+                index_map[command_type] = output_index
             else:
-                command.timer -= 1
+                output[index_map[command_type]].merge([command])
 
+        self._command_list = output.copy()
+        return output
+
+    def execute(self):
+        failed_list = []
+        for command in self.__get_merged_commands():
+            self._command_list.remove(command)
             try:
                 command.execute()
             except Exception as e:
@@ -43,7 +49,4 @@ class _Executor:
                     command.times_delayed += 1
                     command.timer = command.backoff_factor ** command.times_delayed
                     failed_list.append(command)
-
-            temp_list = []
-
         self._command_list.extend(failed_list)

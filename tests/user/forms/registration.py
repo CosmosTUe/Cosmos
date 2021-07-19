@@ -1,11 +1,8 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 
-from apps.async_requests.factory import Factory
 from apps.users.forms import RegisterUserForm
 from apps.users.forms.errors import DUPLICATE_EMAIL, INVALID_EMAIL
-
-newsletter_service = Factory.get_newsletter_service()
 
 
 class RegisterUserFormTest(TestCase):
@@ -35,9 +32,9 @@ class RegisterUserFormTest(TestCase):
             }
         )
 
-    def test_success_tue_without_newsletter(self):
+    def test_success_tue(self):
         """
-        TUe User registration success without newsletter
+        TUe User registration success
         """
         # setup
         exp_institution = "tue"
@@ -49,13 +46,6 @@ class RegisterUserFormTest(TestCase):
         # test
         self.assertTrue(form.is_valid())
         self.assertEqual(user.profile.institution_name, exp_institution)
-        # TODO check newsletter status
-
-    def test_success_tue_with_newsletter(self):
-        """
-        TUe User registration success with newsletter
-        """
-        # TODO check newsletter status
 
     def test_success_fontys(self):
         """

@@ -9,8 +9,13 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
 from apps.async_requests.factory import Factory
-from apps.users.forms.errors import INVALID_EMAIL
-from apps.users.helper_functions import is_fontys_email, is_tue_email, is_valid_institutional_email
+from apps.users.forms.errors import INVALID_EMAIL, INVALID_SUBSCRIBE_TO_EMPTY_EMAIL, INVALID_EMAIL_CHANGE
+from apps.users.helper_functions import (
+    is_fontys_email,
+    is_tue_email,
+    is_valid_institutional_email,
+    same_email_institution,
+)
 from apps.users.models.user import Profile
 from apps.users.models.user.constants import FONTYS_STUDIES, NATIONALITIES, TUE_DEPARTMENTS, TUE_PROGRAMS
 from apps.users.models.user.institution import InstitutionFontys, InstitutionTue
@@ -20,17 +25,20 @@ newsletter_service = Factory.get_newsletter_service()
 
 
 class ProfileUpdateForm(forms.ModelForm):
-
     username = forms.EmailField(max_length=254, label="Institution email")
     email = forms.EmailField(max_length=254, label="Personal email (optional)", required=False)
     nationality = forms.ChoiceField(choices=list(zip(NATIONALITIES, NATIONALITIES)))
 
+    # When the user is from TUe, 'study' is empty.
+    # When the user is from Fontys, 'department' and 'program' is empty.
+    # In order for the form to be valid, fields from Institution classes has 'required' set to False.
+
     # Tue:
-    department = forms.ChoiceField(choices=list(zip(TUE_DEPARTMENTS, TUE_DEPARTMENTS)))
-    program = forms.ChoiceField(choices=list(zip(TUE_PROGRAMS, TUE_PROGRAMS)))
+    department = forms.ChoiceField(required=False, choices=list(zip(TUE_DEPARTMENTS, TUE_DEPARTMENTS)))
+    program = forms.ChoiceField(required=False, choices=list(zip(TUE_PROGRAMS, TUE_PROGRAMS)))
 
     # Fontys:
-    study = forms.ChoiceField(choices=list(zip(FONTYS_STUDIES, FONTYS_STUDIES)))
+    study = forms.ChoiceField(required=False, choices=list(zip(FONTYS_STUDIES, FONTYS_STUDIES)))
 
     class Meta:
         model = User
@@ -40,6 +48,13 @@ class ProfileUpdateForm(forms.ModelForm):
         data = self.cleaned_data["username"]
         if not is_valid_institutional_email(data):
             raise ValidationError("Please enter your institutional email.", INVALID_EMAIL)
+
+        current_username = self.instance.username
+        if not same_email_institution(data, current_username):
+            raise ValidationError(
+                "Invalid operation. Please contact the website admins to change profile institution.",
+                INVALID_EMAIL_CHANGE,
+            )
         return data
 
     def save(self, commit=True):
@@ -54,6 +69,14 @@ class ProfileUpdateForm(forms.ModelForm):
         elif is_tue_email(username):
             institution = InstitutionFontys.objects.get(profile=profile)
             institution.study = self.cleaned_data["study"]
+
+        if "email" in self.changed_data and profile.subscribed_newsletter and profile.newsletter_recipient == "ALT":
+            old_email = self.initial["email"]
+            newsletter_service.remove_subscription([old_email])
+            new_email = self.cleaned_data["email"]
+            newsletter_service.add_subscription(
+                [{"email": new_email, "first_name": profile.user.first_name, "last_name": profile.user.last_name}]
+            )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -108,7 +131,7 @@ class PasswordUpdateForm(PasswordChangeForm):
 class PreferencesUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ["subscribed_newsletter"]
+        fields = ["subscribed_newsletter", "newsletter_recipient"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -118,9 +141,30 @@ class PreferencesUpdateForm(forms.ModelForm):
         self.helper.form_action = "cosmos_users:user_profile"
         self.helper.form_tag = False
 
-        self.helper.layout = Layout(Field("subscribed_newsletter"))
+        self.helper.layout = Layout(
+            Field("subscribed_newsletter"),
+            Field("newsletter_recipient"),
+        )
 
         self.helper.add_input(Submit("save_preferences", "Submit"))
+
+    def clean(self):
+        if (
+            self.instance.user.email == ""
+            and self.cleaned_data["newsletter_recipient"]
+            and self.cleaned_data["subscribed_newsletter"]
+        ):
+            raise ValidationError(
+                "Please set a secondary email or choose to receive the newsletters at your institution email.",
+                INVALID_SUBSCRIBE_TO_EMPTY_EMAIL,
+            )
+        return self.cleaned_data
+
+    def save(self, commit=True):
+        old_newsletter_state = self.initial["subscribed_newsletter"]
+        old_newsletter_recipient = self.initial["newsletter_recipient"]
+        newsletter_service.update_newsletter_preferences(self.instance, old_newsletter_state, old_newsletter_recipient)
+        return super(PreferencesUpdateForm, self).save(commit)
 
 
 class KeyAccessUpdateForm(forms.ModelForm):

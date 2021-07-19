@@ -22,6 +22,3 @@ class NewsletterServiceMock(NewsletterService):
             except KeyError:
                 pass
         return True
-
-    def clear_db(self):
-        self.db = set()

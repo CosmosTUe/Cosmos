@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
 from apps.async_requests.factory import Factory
-from apps.users.forms.errors import INVALID_EMAIL, INVALID_SUBSCRIBE_TO_EMPTY_EMAIL, INVALID_EMAIL_CHANGE
+from apps.users.forms.errors import INVALID_EMAIL, INVALID_EMAIL_CHANGE, INVALID_SUBSCRIBE_TO_EMPTY_EMAIL
 from apps.users.helper_functions import (
     is_fontys_email,
     is_tue_email,

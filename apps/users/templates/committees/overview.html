@@ -12,38 +12,9 @@
             <div class="col">
                 <h3 class='m-0'>Committees</h3>
             </div>
-            <div class="col text-end">
-                <h3 class='m-0'>Active: {{ committees|length }} </h3>
-            </div>
         </div>
     </div>
     <div class="container py-4">
-        <div class="row">
-            <div id="carouselCommittees" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    {% for committee in committees %}
-                        <div class="carousel-item{% if forloop.first %} active{% endif %}">
-                            <img src="{% get_media_prefix %}{{ committee.photo }}" class="d-block w-100"
-                                 alt="Photo of {{ committee.name }}">
-                            <div class="carousel-caption d-none d-md-block">
-                                <h5>{{ committee.name }}</h5>
-                                <p>{{ committee.description }}</p>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselCommittees"
-                        data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselCommittees"
-                        data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">next</span>
-                </button>
-            </div>
-        </div>
         <div class="row py-4 row-cols-1 row-cols-md-3 g-4">
             {% for committee in committees %}
                 <div class="col">

@@ -34,7 +34,7 @@ class Board(models.Model):
     pretix_organizer_token = models.CharField(max_length=20, blank=True)
     members = ArrayField(models.CharField(max_length=100, blank=True), blank=True, default=list)
     display_name = models.CharField(max_length=50, blank=False, default="None")
-    slug = models.CharField(max_length=20, unique=True, blank=False, default="None")
+    slug = models.SlugField(blank=False, unique=True, default="None")
 
     photo = models.ImageField(
         upload_to="boards",

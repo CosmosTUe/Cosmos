@@ -12,7 +12,7 @@ https://sendgrid.api-docs.io/v3.0/how-to-use-the-sendgrid-v3-api/api-authenticat
 """
 from abc import ABCMeta, abstractmethod
 
-from apps.async_requests.commands import UnsubscribeCommand, SubscribeCommand
+from apps.async_requests.commands import SubscribeCommand, UnsubscribeCommand
 from apps.users.models.user.profile import Profile
 
 

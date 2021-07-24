@@ -253,7 +253,17 @@ def photo_album_add_photo(request, pk):
 
 
 def photo_album_list(request):
-    newest_album = PhotoAlbum.objects.order_by("-date")[0]
+    newest_album = PhotoAlbum.objects.order_by("-date")
+    if not newest_album.exists():
+        context = {
+            "album_list": None,
+            "year": datetime.datetime.now().year,
+            "prev": False,
+            "next": False,
+        }
+        return render(request, "photo_album/photo_album_list.html", context)
+    else:
+        newest_album = newest_album[0]
     if newest_album.date < datetime.date(newest_album.date.year, 8, 1):
         year = newest_album.date.year - 1
     else:

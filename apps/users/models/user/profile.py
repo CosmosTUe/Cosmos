@@ -4,8 +4,6 @@ from django.db import models
 from apps.users.helper_functions import is_fontys_email, is_tue_email
 from apps.users.models.user.constants import NATIONALITIES, NEWSLETTER_RECIPIENTS
 
-state_prefix = "old_"
-
 
 class Profile(models.Model):
     """
@@ -35,19 +33,6 @@ class Profile(models.Model):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.states = ["subscribed_newsletter", "newsletter_recipient"]
-        # TODO fix states
-        # self.update_states()
-
-    def update_states(self):
-        for state in self.states:
-            setattr(self, f"{state_prefix}{state}", getattr(self, state))
-
-    def has_changed(self):
-        for state in self.states:
-            if getattr(self, state) != getattr(self, f"{state_prefix}{state}"):
-                return True
-        return False
 
     # Custom Properties
     @property

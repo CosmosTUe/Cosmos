@@ -32,14 +32,12 @@ class PasswordResetViewTest(TestCase):
         link_url = link.get("href")
 
         exp_status_code = 302
-        exp_url = "/accounts/reset/MQ/set-password/"
 
         # act
         response = self.client.get(link_url)
 
         # test
         self.assertEqual(exp_status_code, response.status_code)
-        self.assertEqual(exp_url, response.url)
 
     def test_success(self):
         # setup

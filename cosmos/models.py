@@ -19,7 +19,7 @@ class GMM(models.Model):
         return "GMM: {" + self.name + ", " + str(self.date) + "}"
 
     def get_absolute_url(self):
-        return reverse("resources")
+        return reverse("gmm-list")
 
 
 class FileObject(models.Model):

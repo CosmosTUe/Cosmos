@@ -5,8 +5,11 @@
 {% block content %}
 
 <div class="container">
-    <div class="mx-auto w-50">
-        <form method="post" enctype="multipart/form-data" id="form-container">
+    <div class="mx-auto w-50 bg-cosmos-primary rounded">
+        <form method="post" enctype="multipart/form-data" id="form-container" class="p-4">
+            
+            <h2 class="text-white">Create gmm documents</h2>
+            
             {% csrf_token %}
             {% crispy form %}
 
@@ -18,13 +21,13 @@
                 {% crispy file_form helper %}
             </div>
             {% endfor %}
-            <button id="add-form", type="button", class="btn btn-cosmos-primary">
+            <button id="add-form", type="button", class="btn btn-primary">
                 <i class="bi bi-plus-lg"></i>
                 Add file
             </button>
             <div class="float-end">
-                <input type="submit" name="submit" value="Create" class="btn btn-cosmos-primary" id="submit-id-submit">
-                <a href="{% url 'resources' %}" class="btn btn-secondary">Cancel</a>
+                <input type="submit" name="submit" value="Create" class="btn btn-primary" id="submit-id-submit">
+                <a href="{% url 'gmm-list' %}" class="btn btn-secondary">Cancel</a>
             </div>
         </form>
     </div>

@@ -112,7 +112,7 @@ class GMMCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         return super(GMMCreate, self).form_valid(form)
 
     def get_succes_url(self):
-        return reverse_lazy("resources")
+        return reverse_lazy("gmm-list")
 
 
 class GMMUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
@@ -146,13 +146,13 @@ class GMMUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
         return super(GMMUpdate, self).form_valid(form)
 
     def get_succes_url(self):
-        return reverse_lazy("resources")
+        return reverse_lazy("gmm-list")
 
 
 class GMMDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = GMM
     template_name = "gmm/gmm_confirm_delete.html"
-    success_url = reverse_lazy("resources")
+    success_url = reverse_lazy("gmm-list")
 
     # Permissions
     permission_required = "cosmos.delete_gmm"

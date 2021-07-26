@@ -213,7 +213,7 @@ class PhotoAlbumCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         return super(PhotoAlbumCreate, self).form_valid(form)
 
     def get_succes_url(self):
-        return reverse_lazy("resources")
+        return reverse_lazy("photo_album-list")
 
 
 class PhotoAlbumDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):

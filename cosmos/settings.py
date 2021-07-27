@@ -263,8 +263,7 @@ EMAIL_HOST_USER = secret_settings.secrets["EMAIL"]["USERNAME"]
 EMAIL_HOST_PASSWORD = secret_settings.secrets["EMAIL"]["PASSWORD"]
 EMAIL_USE_TLS = secret_settings.secrets["EMAIL"]["USE_TLS"]
 
-# TODO Always set default to noreply
-DEFAULT_FROM_EMAIL = secret_settings.secrets["EMAIL"]["USERNAME"]
+DEFAULT_FROM_EMAIL = secret_settings.secrets["EMAIL_GSUITE"]["USERNAME"]
 
 LOGIN_URL = "/accounts/login/"
 LOGOUT_REDIRECT_URL = "/"

@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 
 from apps.users.models import Profile
+from tests.helpers import assert_permission_denied
 
 
 class GMMViewsTestAdminLoggedIn(TestCase):
@@ -22,6 +23,16 @@ class GMMViewsTestAdminLoggedIn(TestCase):
         self.assertEqual(200, response.status_code)
         self.assertContains(response, "Switch view")
         self.assertContains(response, "Add new GMM")
+
+    def test_success_show_add_view(self):
+        # setup
+        url = "/gmm/add/"
+
+        # act
+        response = self.client.get(url)
+
+        # test
+        self.assertEqual(200, response.status_code)
 
 
 class GMMViewsTestMemberLoggedIn(TestCase):
@@ -49,6 +60,11 @@ class GMMViewsTestMemberLoggedIn(TestCase):
         self.assertContains(response, "Switch view")
         self.assertNotContains(response, "Add new GMM")
 
+    def test_denied_add(self):
+        url = "/gmm/add/"
+        response = self.client.get(url)
+        assert_permission_denied(self, response)
+
 
 class GMMViewsTestLoggedOut(TestCase):
     def setUp(self) -> None:
@@ -67,3 +83,8 @@ class GMMViewsTestLoggedOut(TestCase):
         self.assertContains(response, exp_message)
         self.assertNotContains(response, "Switch view")
         self.assertNotContains(response, "Add new GMM")
+
+    def test_denied_add(self):
+        url = "/gmm/add/"
+        response = self.client.get(url)
+        assert_permission_denied(self, response)

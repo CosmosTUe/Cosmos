@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 
+from apps.users.forms import errors
 from apps.users.models import Profile
 from tests.helpers import assert_permission_denied
 
@@ -33,6 +34,39 @@ class GMMViewsTestAdminLoggedIn(TestCase):
 
         # test
         self.assertEqual(200, response.status_code)
+
+    def test_fail_submit_empty_add_view(self):
+        # setup
+        url = "/gmm/add/"
+
+        # act
+        response = self.client.post(url, {"name": "", "date": ""})
+
+        # test
+        self.assertEqual(200, response.status_code)
+        form = response.context_data["form"]
+        self.assertTrue(form.has_error("name", errors.REQUIRED))
+        self.assertTrue(form.has_error("date", errors.REQUIRED))
+
+    def test_success_submit_no_files_add_view(self):
+        # setup
+        url = "/gmm/add/"
+
+        # act
+        response = self.client.post(
+            url,
+            {
+                "name": "A",
+                "date": "2021-07-28",
+                "has_files-TOTAL_FORMS": 1,
+                "has_files-INITIAL_FORMS": 0,
+                "submit": "Create",
+            },
+        )
+
+        # test
+        self.assertEqual(302, response.status_code)
+        self.assertRedirects(response, "/resources/")
 
 
 class GMMViewsTestMemberLoggedIn(TestCase):

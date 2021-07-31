@@ -111,7 +111,7 @@ class GMMCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
                 return False
         return super(GMMCreate, self).form_valid(form)
 
-    def get_succes_url(self):
+    def get_success_url(self):
         return reverse_lazy("gmm-list")
 
 
@@ -145,7 +145,7 @@ class GMMUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
                 files.save()
         return super(GMMUpdate, self).form_valid(form)
 
-    def get_succes_url(self):
+    def get_success_url(self):
         return reverse_lazy("gmm-list")
 
 
@@ -212,7 +212,7 @@ class PhotoAlbumCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
             PhotoObject.objects.create(album=self.object, photo=img)
         return super(PhotoAlbumCreate, self).form_valid(form)
 
-    def get_succes_url(self):
+    def get_success_url(self):
         return reverse_lazy("photo_album-list")
 
 
@@ -317,7 +317,7 @@ class NewsCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     permission_required = "cosmos.add_news"
     raise_exception = True
 
-    def get_succes_url(self):
+    def get_success_url(self):
         return reverse_lazy("news-list")
 
 
@@ -331,7 +331,7 @@ class NewsUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     permission_required = "cosmos.change_news"
     raise_exception = True
 
-    def get_succes_url(self):
+    def get_success_url(self):
         return reverse_lazy("news-list")
 
 

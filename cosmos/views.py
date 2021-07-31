@@ -277,20 +277,19 @@ def photo_album_list_year(request, year):
     end_academic_year = datetime.datetime(year + 1, 7, 31)
     album_list = PhotoAlbum.objects.filter(date__gte=start_academic_year, date__lte=end_academic_year).order_by("-date")
 
-    # Determine if next or prev buttons should be shown
-    newest_album = PhotoAlbum.objects.order_by("-date")[0]
-    oldest_album = PhotoAlbum.objects.order_by("date")[0]
     # check prev button
-    if year == oldest_album.date.year and oldest_album.date >= datetime.date(oldest_album.date.year, 8, 1):
-        prev_button = False
-    else:
+    prev_test = PhotoAlbum.objects.filter(date__lte=start_academic_year)
+    if prev_test:
         prev_button = True
+    else:
+        prev_button = False
 
     # check next button
-    if year + 1 == newest_album.date.year and newest_album.date <= datetime.date(newest_album.date.year, 7, 31):
-        next_button = False
-    else:
+    next_test = PhotoAlbum.objects.filter(date__gte=end_academic_year)
+    if next_test:
         next_button = True
+    else:
+        next_button = False
     # TODO: check the above logic
 
     context = {

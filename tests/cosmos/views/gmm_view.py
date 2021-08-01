@@ -23,6 +23,9 @@ def get_new_file(name):
 
 
 def clear_temp_files():
+    if not os.path.exists("temp/"):
+        return
+
     for filename in os.listdir("temp/"):
         os.remove(f"temp/{filename}")
     os.removedirs("temp/")

@@ -5,7 +5,6 @@ from django.test import TestCase
 
 from apps.users.forms import errors
 from apps.users.models import Profile
-from tests.helpers import assert_permission_denied
 
 
 def assert_file_exists(test: TestCase, file_name):
@@ -184,7 +183,7 @@ class GMMViewsTestMemberLoggedIn(TestCase):
     def test_denied_add(self):
         url = "/gmm/add/"
         response = self.client.get(url)
-        assert_permission_denied(self, response)
+        self.assertEqual(403, response.status_code)
 
 
 class GMMViewsTestLoggedOut(TestCase):
@@ -208,4 +207,4 @@ class GMMViewsTestLoggedOut(TestCase):
     def test_denied_add(self):
         url = "/gmm/add/"
         response = self.client.get(url)
-        assert_permission_denied(self, response)
+        self.assertEqual(403, response.status_code)

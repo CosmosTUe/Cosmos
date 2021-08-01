@@ -21,13 +21,6 @@ def assert_newsletter_subscription(test, email: str, state: bool):
     test.assertEqual(state, newsletter_service.is_subscribed(email))
 
 
-def assert_permission_denied(test, response):
-    """Asserts 403 page is shown properly"""
-    exp_message = "ERROR 403: Permission denied"
-    test.assertEqual(200, response.status_code)
-    test.assertContains(response, exp_message)
-
-
 # Reference: https://stackoverflow.com/a/60323415/3787761
 def get_admin_change_view_url(obj: models.Model) -> str:
     return reverse(f"admin:{obj._meta.app_label}_{type(obj).__name__.lower()}_change", args=(obj.pk,))

@@ -95,7 +95,7 @@ class GMMViewsTestAdminLoggedIn(TestCase):
 
         # test
         self.assertEqual(302, response.status_code)
-        self.assertRedirects(response, "/resources/")
+        self.assertRedirects(response, "/gmm/list/")
 
     def test_success_submit_one_file_add_view(self):
         # setup
@@ -135,7 +135,7 @@ class GMMViewsTestAdminLoggedIn(TestCase):
                 {
                     "name": "A",
                     "date": "2021-07-28",
-                    "has_files-TOTAL_FORMS": 1,
+                    "has_files-TOTAL_FORMS": 2,
                     "has_files-INITIAL_FORMS": 0,
                     "has_files-MIN_NUM_FORMS": 0,
                     "has_files-MAX_NUM_FORMS": 1000,

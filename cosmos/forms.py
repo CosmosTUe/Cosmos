@@ -47,7 +47,7 @@ class GMMForm(forms.ModelForm):
                 "date",
                 StrictButton(
                     """<i class="bi bi-calendar-date"></i>""",
-                    css_class="btn-outline-secondary",
+                    css_class="btn-outline-light",
                     id="id_calendar_button",
                 ),
             ),
@@ -71,7 +71,7 @@ class PhotoAlbumForm(forms.ModelForm):
                 "date",
                 StrictButton(
                     """<i class="bi bi-calendar-date"></i>""",
-                    css_class="btn-outline-secondary",
+                    css_class="btn-outline-light",
                     id="id_calendar_button",
                 ),
             ),
@@ -109,7 +109,7 @@ class NewsForm(forms.ModelForm):
                 "date",
                 StrictButton(
                     """<i class="bi bi-calendar-date"></i>""",
-                    css_class="btn-outline-secondary",
+                    css_class="btn-outline-light",
                     id="id_calendar_button",
                 ),
             ),

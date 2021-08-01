@@ -48,7 +48,7 @@ def error400(request, exception):
         "error_message": "ERROR 400: Bad request",
         "detailed_message": "Your client has issued a malformed or illegal request.",
     }
-    return HttpResponse(template.render(context, request))
+    return HttpResponse(template.render(context, request), status=400)
 
 
 def error403(request, exception):
@@ -57,7 +57,7 @@ def error403(request, exception):
         "error_message": "ERROR 403: Permission denied",
         "detailed_message": "Your client does not have permission to get the requested resource from this server.",
     }
-    return HttpResponse(template.render(context, request))
+    return HttpResponse(template.render(context, request), status=403)
 
 
 def error404(request, exception):
@@ -67,7 +67,7 @@ def error404(request, exception):
         "error_message": "ERROR 404: Page not found",
         "detailed_message": "The requested resource could not be found on this server.",
     }
-    return HttpResponse(template.render(context, request))
+    return HttpResponse(template.render(context, request), status=404)
 
 
 def error500(request):
@@ -76,7 +76,7 @@ def error500(request):
         "error_message": "ERROR 500: Server error",
         "detailed_message": "The server encountered an error and could not complete your request.",
     }
-    return HttpResponse(template.render(context, request))
+    return HttpResponse(template.render(context, request), status=500)
 
 
 class GMMCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
@@ -112,7 +112,7 @@ class GMMCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         return super(GMMCreate, self).form_valid(form)
 
     def get_succes_url(self):
-        return reverse_lazy("resources")
+        return reverse_lazy("gmm-list")
 
 
 class GMMUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
@@ -146,13 +146,13 @@ class GMMUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
         return super(GMMUpdate, self).form_valid(form)
 
     def get_succes_url(self):
-        return reverse_lazy("resources")
+        return reverse_lazy("gmm-list")
 
 
 class GMMDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = GMM
     template_name = "gmm/gmm_confirm_delete.html"
-    success_url = reverse_lazy("resources")
+    success_url = reverse_lazy("gmm-list")
 
     # Permissions
     permission_required = "cosmos.delete_gmm"
@@ -213,7 +213,7 @@ class PhotoAlbumCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         return super(PhotoAlbumCreate, self).form_valid(form)
 
     def get_succes_url(self):
-        return reverse_lazy("resources")
+        return reverse_lazy("photo_album-list")
 
 
 class PhotoAlbumDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
@@ -277,20 +277,19 @@ def photo_album_list_year(request, year):
     end_academic_year = datetime.datetime(year + 1, 7, 31)
     album_list = PhotoAlbum.objects.filter(date__gte=start_academic_year, date__lte=end_academic_year).order_by("-date")
 
-    # Determine if next or prev buttons should be shown
-    newest_album = PhotoAlbum.objects.order_by("-date")[0]
-    oldest_album = PhotoAlbum.objects.order_by("date")[0]
     # check prev button
-    if year == oldest_album.date.year and oldest_album.date >= datetime.date(oldest_album.date.year, 8, 1):
-        prev_button = False
-    else:
+    prev_test = PhotoAlbum.objects.filter(date__lte=start_academic_year)
+    if prev_test:
         prev_button = True
+    else:
+        prev_button = False
 
     # check next button
-    if year + 1 == newest_album.date.year and newest_album.date <= datetime.date(newest_album.date.year, 7, 31):
-        next_button = False
-    else:
+    next_test = PhotoAlbum.objects.filter(date__gte=end_academic_year)
+    if next_test:
         next_button = True
+    else:
+        next_button = False
     # TODO: check the above logic
 
     context = {

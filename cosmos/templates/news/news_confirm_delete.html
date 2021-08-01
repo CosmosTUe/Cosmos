@@ -5,11 +5,11 @@
 {% block content %}
 
 <div class="container">
-    <div class="mx-auto w-50">
-        <form method="post">
+    <div class="mx-auto w-50 bg-cosmos-primary rounded">
+        <form method="post" class="p-4">
             {% csrf_token %}
-            <p>Are you sure you want to delete "{{ object }}"?</p>
-            <input type="submit" class="btn btn-cosmos-primary" value="Confirm">
+            <p class="text-white">Are you sure you want to delete "{{ object }}"?</p>
+            <input type="submit" class="btn btn-primary" value="Confirm">
             <a class="btn btn-secondary" href="{% url 'news-list' %}">Cancel</a>
         </form>
     </div>

@@ -40,6 +40,7 @@ class GMMViewsTestAdminLoggedIn(TestCase):
     @classmethod
     def tearDownClass(cls):
         clear_temp_files()
+        super().tearDownClass()
 
     def test_success_list_empty(self):
         # setup

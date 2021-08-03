@@ -1,9 +1,10 @@
 import logging
 
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.db.models.query import QuerySet
 from django.http import FileResponse
 from django.urls import path
+from python_http_client import UnauthorizedError
 
 from apps.async_requests.factory import Factory
 from apps.users.models import Profile
@@ -43,8 +44,13 @@ class ProfileAdmin(admin.ModelAdmin):
     actions = ["sync_newsletter_subscriptions"]
 
     def sync_newsletter_subscriptions(self, request, queryset: QuerySet):
-        self.message_user(request, f"Sending {len(queryset)} messages...")
-        for profile in queryset:
-            newsletter_service.sync_newsletter_preferences(profile)
-        executor.execute()
-        self.message_user(request, f"{len(queryset)} newsletter preferences updated!")
+        self.message_user(request, f"Sending {len(queryset)} messages...", messages.INFO)
+        try:
+            for profile in queryset:
+                newsletter_service.sync_newsletter_preferences(profile)
+            executor.execute()
+            self.message_user(request, f"{len(queryset)} newsletter preferences updated!", messages.SUCCESS)
+        except UnauthorizedError:
+            self.message_user(request, "Authorization error. Please check newsletter config.", messages.ERROR)
+        except HTTPException:
+            self.message_user(request, "Unknown HTTP error. Please check newsletter config.", messages.ERROR)

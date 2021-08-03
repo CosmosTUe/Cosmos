@@ -1,4 +1,5 @@
 import logging
+from http.client import HTTPException
 
 from django.contrib import admin, messages
 from django.db.models.query import QuerySet

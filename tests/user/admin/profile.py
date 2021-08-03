@@ -1,7 +1,12 @@
+from http.client import HTTPException
+from unittest.mock import patch
+
 from django.contrib.auth.models import User
 from django.test import TestCase
+from python_http_client import UnauthorizedError
 
 from apps.async_requests.factory import Factory
+from apps.async_requests.sendgrid.newsletter import NewsletterService
 from apps.users.models import Profile
 from tests.helpers import BaseAdminTestCaseMixin, assert_newsletter_subscription
 
@@ -33,6 +38,16 @@ class ProfileAdminViewTest(BaseAdminTestCaseMixin, TestCase):
         self.assertEqual(exp_message_count, len(messages))
         self.assertEqual(exp_loading_msg, str(messages[0]))
         self.assertEqual(exp_ending_msg, str(messages[1]))
+
+    def assert_error_informed_to_user(self, response, change_count, error_msg):
+        exp_message_count = 2
+        exp_loading_msg = f"Sending {change_count} messages..."
+        messages = self.get_messages(response)
+
+        self.assertEqual(exp_message_count, len(messages))
+        self.assertEqual(exp_loading_msg, str(messages[0]))
+        self.assertEqual(error_msg, str(messages[1]))
+        self.assertEqual("error", messages[1].level_tag)
 
     def test_sync_newsletter_subscriptions_no_changes(self):
         # setup
@@ -143,6 +158,46 @@ class ProfileAdminViewTest(BaseAdminTestCaseMixin, TestCase):
         assert_newsletter_subscription(self, "a@student.tue.nl", False)
         assert_newsletter_subscription(self, "b@student.tue.nl", True)
         assert_newsletter_subscription(self, "c@student.tue.nl", True)
+
+    def test_sync_newsletter_subscriptions_unauthorizederror(self):
+        # setup
+        create_new_profile(username="a@student.tue.nl", newsletter=True)
+        url = "/admin/users/profile/"
+        exp_error_msg = "Authorization error. Please check newsletter config."
+
+        # act
+        with patch.object(NewsletterService, "sync_newsletter_preferences") as mock_method:
+            mock_method.side_effect = UnauthorizedError(401, "mock", "", "")
+            response = self.client.post(
+                url,
+                data={
+                    "action": "sync_newsletter_subscriptions",
+                    "_selected_action": [get_profile("a@student.tue.nl").pk],
+                },
+            )
+
+        # test
+        self.assert_error_informed_to_user(response, 1, exp_error_msg)
+
+    def test_sync_newsletter_subscriptions_httpexception(self):
+        # setup
+        create_new_profile(username="a@student.tue.nl", newsletter=True)
+        url = "/admin/users/profile/"
+        exp_error_msg = "Unknown HTTP error. Please check newsletter config."
+
+        # act
+        with patch.object(NewsletterService, "sync_newsletter_preferences") as mock_method:
+            mock_method.side_effect = HTTPException(400, "mock", "", "")
+            response = self.client.post(
+                url,
+                data={
+                    "action": "sync_newsletter_subscriptions",
+                    "_selected_action": [get_profile("a@student.tue.nl").pk],
+                },
+            )
+
+        # test
+        self.assert_error_informed_to_user(response, 1, exp_error_msg)
 
     def test_success_send_stats(self):
         # setup

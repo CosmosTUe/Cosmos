@@ -8,6 +8,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
+from apps.async_requests.commands import UnsubscribeCommand, SubscribeCommand
 from apps.async_requests.factory import Factory
 from apps.users.forms.errors import INVALID_EMAIL, INVALID_EMAIL_CHANGE, INVALID_SUBSCRIBE_TO_EMPTY_EMAIL
 from apps.users.helper_functions import (
@@ -21,7 +22,7 @@ from apps.users.models.user.constants import FONTYS_STUDIES, NATIONALITIES, TUE_
 from apps.users.models.user.institution import InstitutionFontys, InstitutionTue
 
 logger = logging.getLogger(__name__)
-newsletter_service = Factory.get_newsletter_service()
+executor = Factory.get_executor()
 
 
 class ProfileUpdateForm(forms.ModelForm):
@@ -72,11 +73,9 @@ class ProfileUpdateForm(forms.ModelForm):
 
         if "email" in self.changed_data and profile.subscribed_newsletter and profile.newsletter_recipient == "ALT":
             old_email = self.initial["email"]
-            newsletter_service.remove_subscription([old_email])
+            executor.add_command(UnsubscribeCommand(old_email))
             new_email = self.cleaned_data["email"]
-            newsletter_service.add_subscription(
-                [{"email": new_email, "first_name": profile.user.first_name, "last_name": profile.user.last_name}]
-            )
+            executor.add_command(SubscribeCommand(new_email, profile.user.first_name, profile.user.last_name))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -163,6 +162,8 @@ class PreferencesUpdateForm(forms.ModelForm):
     def save(self, commit=True):
         old_newsletter_state = self.initial["subscribed_newsletter"]
         old_newsletter_recipient = self.initial["newsletter_recipient"]
+
+        newsletter_service = Factory.get_newsletter_service()
         newsletter_service.update_newsletter_preferences(self.instance, old_newsletter_state, old_newsletter_recipient)
         return super(PreferencesUpdateForm, self).save(commit)
 

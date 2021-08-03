@@ -267,7 +267,7 @@ def photo_album_list(request):
     if newest_album.date < datetime.date(newest_album.date.year, 8, 1):
         year = newest_album.date.year - 1
     else:
-        year = newest_album.date
+        year = newest_album.date.year
     return photo_album_list_year(request, year)
 
 

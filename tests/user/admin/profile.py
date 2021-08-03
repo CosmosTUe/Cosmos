@@ -144,6 +144,19 @@ class ProfileAdminViewTest(BaseAdminTestCaseMixin, TestCase):
         assert_newsletter_subscription(self, "b@student.tue.nl", True)
         assert_newsletter_subscription(self, "c@student.tue.nl", True)
 
+    def test_success_send_stats(self):
+        # setup
+        url = "/admin/users/profile/getstats/"
+        exp_status_code = 200
+        exp_content_type = "image/jpeg"
+
+        # act
+        response = self.client.get(url)
+
+        # test
+        self.assertEqual(exp_status_code, response.status_code)
+        self.assertEqual(exp_content_type, response.headers["Content-Type"])
+
 
 def create_new_profile(
     first_name="Tosti",

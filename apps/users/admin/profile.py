@@ -1,6 +1,4 @@
 import logging
-import os
-from zipfile import ZipFile
 
 from django.contrib import admin
 from django.db.models.query import QuerySet
@@ -9,7 +7,7 @@ from django.urls import path
 
 from apps.async_requests.factory import Factory
 from apps.users.models import Profile
-from apps.users.stats import get_stats
+from apps.users.stats import get_nationality_stats
 
 # from apps.users.tasks import sync_newsletter_subcriptions_task
 
@@ -37,16 +35,8 @@ class ProfileAdmin(admin.ModelAdmin):
 
     def send_stats(self, request):
         # https://djangosnippets.org/snippets/365/
-        filenames = get_stats(self.model.objects)  # get file objects of plots
-        zip_path = "/tmp/user-stats.zip"
-        if os.path.exists(zip_path):
-            os.remove(zip_path)
-        zip_obj = ZipFile(zip_path, "w")
-        for files in filenames:
-            zip_obj.write(files, os.path.basename(files))
-            os.remove(files)
-        zip_obj.close()
-        response = FileResponse(open(zip_path, "rb"))
+        filenames = get_nationality_stats(self.model.objects)  # get file objects of plots
+        response = FileResponse(open(filenames[0], "rb"))
 
         return response
 

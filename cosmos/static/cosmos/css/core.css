@@ -142,10 +142,8 @@ footer .social-links a:hover {
 }
 
 
-/* unfuck raleway font numbers when used in title as is the case with error views */
-
-
-/* https://www.codesmite.com/article/fixing-raleway-and-similar-fonts-numerals */
+/* unfuck raleway font numbers when used in title as is the case with error views 
+https://www.codesmite.com/article/fixing-raleway-and-similar-fonts-numerals */
 
 .raleway-number-title {
     -webkit-font-feature-settings: "lnum";

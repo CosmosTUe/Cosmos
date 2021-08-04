@@ -100,3 +100,11 @@ class News(models.Model):
 
     def __str__(self):
         return "News: {" + self.title + ", " + str(self.date) + "}"
+
+
+class Testimonial(models.Model):
+    text = models.TextField(blank=False)
+    author = models.CharField(blank=False, max_length=100)
+
+    def __str__(self):
+        return "Testimonial: {" + self.author + "}"

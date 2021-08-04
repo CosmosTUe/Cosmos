@@ -3,7 +3,58 @@
 
 <div class="container">
     <div class="w-75 mx-auto">
-        TODO
+        <h2 class="text-center">About us</h2>
+        <p>
+            Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
+            Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
+            Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
+            Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. 
+        </p>
+
+        <h2 class="text-center">History</h2>
+        <p>
+            Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
+            Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
+            Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
+            Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. 
+        </p>
+
+        <div class="text-center">
+            <h3>Boards</h3>
+            <a class="btn btn-cosmos-primary" href="#">Visit Page</a>
+        </div>
+
+
+        <h2 class="text-center">Testimonials</h2>
+        <div class="row mx-auto my-auto justify-content-center">
+            <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner" role="listbox">
+                    {% for testimonial in testimonials %}
+                    <div class="carousel-item{% if forloop.first %} active{% endif %}">
+                        <div class="col-md-4">
+                            <figure class="text-center">
+                                <blockquote class="blockquote">
+                                    <p>{{ testimonial.text }}</p>
+                                </blockquote>
+                                <figcaption class="blockquote-footer">
+                                    {{ testimonial.author }}
+                                </figcaption>
+                            </figure>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <button class="carousel-control-prev btn-cosmos" type="button" data-bs-target="#testimonialCarousel">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next btn-cosmos" type="button" data-bs-target="#testimonialCarousel">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+
     </div>
 </div>
 

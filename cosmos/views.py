@@ -14,7 +14,7 @@ from django_sendfile import sendfile
 from apps.users.models import Profile
 from cosmos.constants import FOUNDING_DATE
 from cosmos.forms import GMMForm, GMMFormSet, GMMFormSetHelper, NewsForm, PhotoAlbumForm, PhotoObjectForm
-from cosmos.models import GMM, News, PhotoAlbum, PhotoObject
+from cosmos.models import GMM, News, PhotoAlbum, PhotoObject, Testimonial
 
 from .settings import LOGIN_URL, SENDFILE_ROOT
 
@@ -185,7 +185,9 @@ def policy(request):
 
 
 def about(request):
-    return render(request, "about.html")
+    testimonials = Testimonial.objects.all()
+    context = {"testimonials": testimonials}
+    return render(request, "about.html", context)
 
 
 def privacy(request):

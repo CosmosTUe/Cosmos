@@ -97,7 +97,7 @@ class PhotoObjectForm(forms.ModelForm):
 class NewsForm(forms.ModelForm):
     class Meta:
         model = News
-        fields = ["title", "date", "image", "member_only", "lead", "content"]
+        fields = ["title", "publish_date", "image", "member_only", "lead", "content"]
 
     def __init__(self, *args, **kwargs):
         super(NewsForm, self).__init__(*args, **kwargs)
@@ -106,7 +106,7 @@ class NewsForm(forms.ModelForm):
         self.helper.layout = Layout(
             Field("title"),
             FieldWithButtons(
-                "date",
+                "publish_date",
                 StrictButton(
                     """<i class="bi bi-calendar-date"></i>""",
                     css_class="btn-outline-light",

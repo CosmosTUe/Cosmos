@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("cosmos", "0002_news"),
+        ("cosmos", "0001_initial"),
     ]
 
     operations = [

@@ -2,7 +2,13 @@ from crispy_bootstrap5.bootstrap5 import FloatingField
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML, Div, Field, Layout
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm, PasswordResetForm, SetPasswordForm
+from django.contrib.auth.forms import (
+    AuthenticationForm,
+    PasswordChangeForm,
+    PasswordResetForm,
+    SetPasswordForm,
+    UsernameField,
+)
 from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
@@ -11,6 +17,7 @@ from django.utils.http import urlsafe_base64_encode
 
 
 class CosmosLoginForm(AuthenticationForm):
+    username = UsernameField(label="Institutional Email", widget=forms.TextInput(attrs={"autofocus": True}))
     remember_me = forms.BooleanField(required=False)
 
     def __init__(self, *args, **kwargs):

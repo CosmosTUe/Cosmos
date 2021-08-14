@@ -1,4 +1,4 @@
-function switchGMMView()
+window["switchGMMView"] = function()
 {
     var table = document.getElementById("GMMTable");
     var grid = document.getElementById("GMMGrid");

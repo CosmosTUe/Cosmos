@@ -25,9 +25,11 @@ def index(request):
     active_years = int((datetime.date.today() - FOUNDING_DATE).days // 365.25)
     events_amount = 69  # TODO include actual event number
     if not request.user.is_authenticated:
-        news_list = News.objects.filter(member_only=False, date__lte=datetime.date.today()).order_by("-date")[:3]
+        news_list = News.objects.filter(member_only=False, publish_date__lte=datetime.date.today()).order_by(
+            "-publish_date"
+        )[:3]
     else:
-        news_list = News.objects.filter(date__lte=datetime.date.today()).order_by("-date")[:3]
+        news_list = News.objects.filter(publish_date__lte=datetime.date.today()).order_by("-publish_date")[:3]
 
     return render(
         request,
@@ -355,11 +357,13 @@ def news_view(request, pk):
 
 def news_list(request):
     if not request.user.is_authenticated:
-        news_list = News.objects.filter(member_only=False, date__lte=datetime.date.today()).order_by("-date")
+        news_list = News.objects.filter(member_only=False, publish_date__lte=datetime.date.today()).order_by(
+            "-publish_date"
+        )
     elif request.user.has_perm("cosmos.view_news"):
-        news_list = News.objects.order_by("-date").all()
+        news_list = News.objects.order_by("-publish_date").all()
     else:
-        news_list = News.objects.filter(date__lte=datetime.date.today()).order_by("-date").all()
+        news_list = News.objects.filter(publish_date__lte=datetime.date.today()).order_by("-publish_date").all()
     context = {
         "news_list": news_list,
     }

@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ("cosmos", "0002_photos"),
+        ("cosmos", "0001_initial"),
     ]
 
     operations = [

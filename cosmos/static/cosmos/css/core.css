@@ -82,11 +82,11 @@ a:hover {
 }
 
 .navbar-filler {
-    height: 4.5rem;
+    height: 6rem;
 }
 
 .footer-filler {
-    height: 1rem;
+    height: 2rem;
 }
 
 .stat-box {
@@ -118,11 +118,6 @@ a:hover {
     background-color: var(--light-blue);
 }
 
-
-/* #footer-top {
-    background-color: rgb(185, 29, 29);
-} */
-
 footer img {
     max-height: 200px;
 }
@@ -146,10 +141,12 @@ footer .social-links a:hover {
     height: 36px;
 }
 
-/* unfuck raleway font numbers when used in title as is the case with error views */
-/* https://www.codesmite.com/article/fixing-raleway-and-similar-fonts-numerals */
+
+/* unfuck raleway font numbers when used in title as is the case with error views 
+https://www.codesmite.com/article/fixing-raleway-and-similar-fonts-numerals */
+
 .raleway-number-title {
     -webkit-font-feature-settings: "lnum";
     -moz-font-feature-settings: "lnum";
-    font-feature-settings: "lnum"; 
+    font-feature-settings: "lnum";
 }

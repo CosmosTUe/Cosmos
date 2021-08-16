@@ -23,7 +23,7 @@
                 </div>
                 {% endif %}
                 <h4 class="card-title">{{ article.title }}</h4>
-                <small class="">{{ article.date }} - By {{ article.author.first_name }}</small>
+                <small class="">{{ article.publish_date }} - By {{ article.author.first_name }}</small>
                 
                 <p class="lead">{{ article.lead }}</p>
                 {{ article.content|safe }}

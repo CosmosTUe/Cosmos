@@ -77,14 +77,14 @@ class News(models.Model):
     image = models.ImageField(upload_to="news")
     content = RichTextField()
     lead = models.TextField(blank=True)
-    date = models.DateField()
+    publish_date = models.DateField()
     member_only = models.BooleanField()
     author = models.ForeignKey(
         User, blank=True, null=True, default=None, on_delete=models.SET_NULL, related_name="author"
     )
 
     def published(self):
-        if self.date > datetime.date.today():
+        if self.publish_date > datetime.date.today():
             return False
         else:
             return True
@@ -99,7 +99,7 @@ class News(models.Model):
         return reverse("news-list")
 
     def __str__(self):
-        return "News: {" + self.title + ", " + str(self.date) + "}"
+        return "News: {" + self.title + ", " + str(self.publish_date) + "}"
 
 
 class Testimonial(models.Model):

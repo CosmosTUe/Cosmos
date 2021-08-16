@@ -218,6 +218,17 @@ class PhotoAlbumCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         return reverse_lazy("photo_album-list")
 
 
+class PhotoAlbumUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = PhotoAlbum
+    template_name = "photo_album/photo_album_update.html"
+    fields = ["title", "date", "album_cover"]
+    success_url = None
+
+    # permissions
+    permission_required = "cosmos.change_photoalbum"
+    raise_exception = True
+
+
 class PhotoAlbumDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = PhotoAlbum
     template_name = "photo_album/photo_album_confirm_delete.html"

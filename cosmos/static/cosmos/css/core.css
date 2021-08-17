@@ -4,7 +4,7 @@
     --link-blue-hover: #67a4ff;
     --blue: #005274;
     --blue-hover: #0e6e9e;
-    --black: #444444;
+    --black: #454545;
     --white: #ffffff;
     --light-blue: #f5faff;
 }
@@ -27,6 +27,11 @@ h4,
 h5,
 h6 {
     font-family: "Raleway", sans-serif;
+}
+
+p {
+    margin-top: 2em;
+    font-size: 21px;
 }
 
 a {

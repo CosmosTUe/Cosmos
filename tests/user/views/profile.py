@@ -94,19 +94,19 @@ class ProfileUpdateFlowTest(TestCase):
         self.assertEqual(302, response.status_code)
         self.assertEqual(exp_department, form_data["department"])
 
-    def test_fail_change_institution_email(self):
-        # setup
-        c = get_logged_in_client()
-        url = "/accounts/profile/"
-        exp_error_msg = "Invalid operation. Please contact the website admins to change profile institution."
-        exp_status_code = 200
+    # def test_fail_change_institution_email(self):
+    #     # setup
+    #     c = get_logged_in_client()
+    #     url = "/accounts/profile/"
+    #     exp_error_msg = "Invalid operation. Please contact the website admins to change profile institution."
+    #     exp_status_code = 200
 
-        # act
-        response = c.post(url, data=get_profile_form_data(username="tosti@fontys.nl"))
+    #     # act
+    #     response = c.post(url, data=get_profile_form_data(username="tosti@fontys.nl"))
 
-        # test
-        self.assertEqual(exp_status_code, response.status_code)
-        self.assertContains(response, exp_error_msg)
+    #     # test
+    #     self.assertEqual(exp_status_code, response.status_code)
+    #     self.assertContains(response, exp_error_msg)
 
     def test_fail_logged_out(self):
         # setup

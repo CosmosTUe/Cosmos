@@ -134,36 +134,36 @@ class RegistrationFlowTest(WizardViewTestCase):
         self.assert_newsletter_subscription(inst_email, inst_sub)
         self.assert_newsletter_subscription(alt_email, alt_sub)
 
-    def test_success_fontys(self):
-        # setup
-        url = "/accounts/register/"
-        done_url = "/accounts/register/done/"
-        exp_email_recipient = "tosti@fontys.nl"
+    # def test_success_fontys(self):
+    #     # setup
+    #     url = "/accounts/register/"
+    #     done_url = "/accounts/register/done/"
+    #     exp_email_recipient = "tosti@fontys.nl"
 
-        # act
-        response = self.get_wizard_response(
-            url,
-            {
-                "register_user": {
-                    "first_name": "Tosti",
-                    "last_name": "Broodjes",
-                    "username": "tosti@fontys.nl",
-                    "email": "tosti@gmail.com",
-                    "password1": "ikbeneenbrood",
-                    "password2": "ikbeneenbrood",
-                    "nationality": "Dutch",
-                    "terms_confirmed": "on",
-                    "subscribed_newsletter": "on",
-                },
-                "register_fontys": {
-                    "study": "test",  # TODO fix Fontys studies
-                },
-            },
-        )
+    #     # act
+    #     response = self.get_wizard_response(
+    #         url,
+    #         {
+    #             "register_user": {
+    #                 "first_name": "Tosti",
+    #                 "last_name": "Broodjes",
+    #                 "username": "tosti@fontys.nl",
+    #                 "email": "tosti@gmail.com",
+    #                 "password1": "ikbeneenbrood",
+    #                 "password2": "ikbeneenbrood",
+    #                 "nationality": "Dutch",
+    #                 "terms_confirmed": "on",
+    #                 "subscribed_newsletter": "on",
+    #             },
+    #             "register_fontys": {
+    #                 "study": "test",  # TODO fix Fontys studies
+    #             },
+    #         },
+    #     )
 
-        # test
-        self.assertEqual(done_url, response.url)
-        self.assert_email_sent(exp_email_recipient)
+    #     # test
+    #     self.assertEqual(done_url, response.url)
+    #     self.assert_email_sent(exp_email_recipient)
 
     def test_fail_terms_unchecked(self):
         # setup

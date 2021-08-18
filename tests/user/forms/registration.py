@@ -47,20 +47,20 @@ class RegisterUserFormTest(TestCase):
         self.assertTrue(form.is_valid())
         self.assertEqual(user.profile.institution_name, exp_institution)
 
-    def test_success_fontys(self):
-        """
-        Fontys User registration success
-        """
-        # setup
-        exp_institution = "fontys"
+    # def test_success_fontys(self):
+    #     """
+    #     Fontys User registration success
+    #     """
+    #     # setup
+    #     exp_institution = "fontys"
 
-        # act
-        form = self.generate_form(username="tosti@fontys.nl")
-        user = form.save()
+    #     # act
+    #     form = self.generate_form(username="tosti@fontys.nl")
+    #     user = form.save()
 
-        # test
-        self.assertTrue(form.is_valid())
-        self.assertEqual(user.profile.institution_name, exp_institution)
+    #     # test
+    #     self.assertTrue(form.is_valid())
+    #     self.assertEqual(user.profile.institution_name, exp_institution)
 
     def test_fail_register_duplicate(self):
         """

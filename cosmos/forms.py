@@ -80,6 +80,29 @@ class PhotoAlbumForm(forms.ModelForm):
         )
 
 
+class PhotoAlbumUpdateForm(forms.ModelForm):
+    class Meta:
+        model = PhotoAlbum
+        fields = ["title", "date", "album_cover"]
+
+    def __init__(self, *args, **kwargs):
+        super(PhotoAlbumUpdateForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+        self.helper.layout = Layout(
+            Field("title"),
+            FieldWithButtons(
+                "date",
+                StrictButton(
+                    """<i class="bi bi-calendar-date"></i>""",
+                    css_class="btn-outline-light",
+                    id="id_calendar_button",
+                ),
+            ),
+            Field("album_cover"),
+        )
+
+
 class PhotoObjectForm(forms.ModelForm):
     photo = forms.ImageField(widget=forms.ClearableFileInput(attrs={"multiple": True}), required=True)
 

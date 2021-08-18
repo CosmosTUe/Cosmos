@@ -13,8 +13,17 @@ from django_sendfile import sendfile
 
 from apps.users.models import Board, Profile
 from cosmos.constants import FOUNDING_DATE
-from cosmos.forms import GMMForm, GMMFormSet, GMMFormSetHelper, NewsForm, PhotoAlbumForm, PhotoObjectForm
-from cosmos.models import GMM, News, PhotoAlbum, PhotoObject, Testimonial
+
+from cosmos.forms import (
+    GMMForm,
+    GMMFormSet,
+    GMMFormSetHelper,
+    NewsForm,
+    PhotoAlbumForm,
+    PhotoAlbumUpdateForm,
+    PhotoObjectForm,
+)
+from cosmos.models import GMM, News, PhotoAlbum, PhotoObject
 
 from .settings import LOGIN_URL, SENDFILE_ROOT
 
@@ -23,7 +32,7 @@ def index(request):
     members = Profile.objects.count()
     nationalities = Profile.objects.values("nationality").distinct().count()
     active_years = int((datetime.date.today() - FOUNDING_DATE).days // 365.25)
-    events_amount = 69  # TODO include actual event number
+    events_amount = "20+"
     if not request.user.is_authenticated:
         news_list = News.objects.filter(member_only=False, publish_date__lte=datetime.date.today()).order_by(
             "-publish_date"
@@ -223,6 +232,17 @@ class PhotoAlbumCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 
     def get_success_url(self):
         return reverse_lazy("photo_album-list")
+
+
+class PhotoAlbumUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = PhotoAlbum
+    template_name = "photo_album/photo_album_update.html"
+    form_class = PhotoAlbumUpdateForm
+    success_url = None
+
+    # permissions
+    permission_required = "cosmos.change_photoalbum"
+    raise_exception = True
 
 
 class PhotoAlbumDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):

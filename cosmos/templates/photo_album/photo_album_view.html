@@ -19,6 +19,9 @@
                 <a class="btn fs-4 text-danger" href="{% url 'photo_album-delete' album.id %}">
                     <i class="bi bi-trash"></i>
                 </a>
+                <a class="btn fs-4" href="{% url 'photo_album-update' album.id %}">
+                    <i class="bi bi-pencil-square"></i>
+                </a>
             </div>
             {% endif %}
         </div>

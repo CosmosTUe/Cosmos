@@ -12,8 +12,12 @@ from django.contrib.auth.forms import (
 from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
+from django.core.exceptions import ValidationError
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
+
+from apps.users.forms.errors import INVALID_EMAIL
+from apps.users.helper_functions import is_valid_institutional_email
 
 
 class CosmosLoginForm(AuthenticationForm):
@@ -33,6 +37,13 @@ class CosmosLoginForm(AuthenticationForm):
                 css_class="d-flex",
             ),
         )
+
+    def clean_username(self):
+        data = self.cleaned_data["username"]
+        if not is_valid_institutional_email(data):
+            raise ValidationError("Please use your institutional email to login.", INVALID_EMAIL)
+
+        return data
 
 
 class CosmosPasswordChangeForm(PasswordChangeForm):

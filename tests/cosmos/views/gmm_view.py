@@ -7,7 +7,7 @@ from django.test import TestCase, TransactionTestCase
 from apps.users.forms import errors
 from apps.users.models import Profile
 from cosmos import settings
-from cosmos.models import FileObject, GMM
+from cosmos.models import GMM, FileObject
 
 
 def assert_file_exists(test: TestCase, file_name: str):

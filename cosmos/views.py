@@ -13,7 +13,15 @@ from django_sendfile import sendfile
 
 from apps.users.models import Profile
 from cosmos.constants import FOUNDING_DATE
-from cosmos.forms import GMMForm, GMMFormSet, GMMFormSetHelper, NewsForm, PhotoAlbumForm, PhotoObjectForm
+from cosmos.forms import (
+    GMMForm,
+    GMMFormSet,
+    GMMFormSetHelper,
+    NewsForm,
+    PhotoAlbumForm,
+    PhotoAlbumUpdateForm,
+    PhotoObjectForm,
+)
 from cosmos.models import GMM, News, PhotoAlbum, PhotoObject
 
 from .settings import LOGIN_URL, SENDFILE_ROOT
@@ -221,7 +229,7 @@ class PhotoAlbumCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 class PhotoAlbumUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = PhotoAlbum
     template_name = "photo_album/photo_album_update.html"
-    fields = ["title", "date", "album_cover"]
+    form_class = PhotoAlbumUpdateForm
     success_url = None
 
     # permissions

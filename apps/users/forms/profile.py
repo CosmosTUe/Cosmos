@@ -10,6 +10,7 @@ from django.core.exceptions import ValidationError
 
 from apps.async_requests.commands import SubscribeCommand, UnsubscribeCommand
 from apps.async_requests.factory import Factory
+from apps.users.forms import errors
 from apps.users.forms.errors import INVALID_EMAIL, INVALID_EMAIL_CHANGE, INVALID_SUBSCRIBE_TO_EMPTY_EMAIL
 from apps.users.helper_functions import (
     is_fontys_email,
@@ -193,3 +194,11 @@ class KeyAccessUpdateForm(forms.ModelForm):
         )
 
         self.helper.add_input(Submit("save_key_access", "Submit"))
+
+    def clean_tue_id(self):
+        data = self.cleaned_data["tue_id"]
+        if not len(data) < 8:
+            raise ValidationError(
+                "Please enter a valid TU/e ID. It should be less than 8 digits long", errors.INVALID_TUE_ID
+            )
+        return data

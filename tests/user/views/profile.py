@@ -3,7 +3,7 @@ from django.test import Client, TestCase
 
 from apps.async_requests.factory import Factory
 from apps.users.models import Profile
-from tests.helpers import get_profile_form_data
+from tests.helpers import get_profile_form_data, get_preferences_form_data, get_key_access_form_data
 
 
 def get_logged_in_client() -> Client:
@@ -16,18 +16,6 @@ def get_logged_out_client() -> Client:
     c = Client()
     c.logout()
     return c
-
-
-def get_preferences_form_data(subscribed_newsletter=False, newsletter_recipient="TUE"):
-    output = {"newsletter_recipient": newsletter_recipient, "save_preferences": "Submit"}
-    if subscribed_newsletter:
-        output["subscribed_newsletter"] = "on"
-
-    return output
-
-
-def get_key_access_form_data(tue_id="", card_number=""):
-    return {"tue_id": tue_id, "card_number": card_number, "save_key_access": "Submit"}
 
 
 class ProfileUpdateFlowTest(TestCase):

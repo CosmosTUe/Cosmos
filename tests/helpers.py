@@ -71,3 +71,15 @@ def get_profile_form_data(
         "save_profile": "Submit",
     }
     return {k: v for k, v in output.items() if v is not None}
+
+
+def get_preferences_form_data(subscribed_newsletter=False, newsletter_recipient="TUE"):
+    output = {"newsletter_recipient": newsletter_recipient, "save_preferences": "Submit"}
+    if subscribed_newsletter:
+        output["subscribed_newsletter"] = "on"
+
+    return output
+
+
+def get_key_access_form_data(tue_id="", card_number=""):
+    return {"tue_id": tue_id, "card_number": card_number, "save_key_access": "Submit"}

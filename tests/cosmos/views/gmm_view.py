@@ -8,6 +8,7 @@ from apps.users.forms import errors
 from apps.users.models import Profile
 from cosmos import settings
 from cosmos.models import GMM, FileObject
+from tests.cosmos.gmm_helpers import get_new_file, clear_temp_files, get_new_gmm
 
 
 def assert_file_exists(test: TestCase, file_name: str):
@@ -30,23 +31,6 @@ def assert_file_not_exist(test: TestCase, file_name: str):
     test.assertFalse(os.path.exists(file_path), "file is not in filesystem")
 
 
-def get_new_file(name):
-    if not os.path.exists("temp/"):
-        os.mkdir("temp")
-    with open(f"temp/{name}", "w") as test:
-        test.write(" ")
-    return open(f"temp/{name}", "rb")
-
-
-def clear_temp_files():
-    if not os.path.exists("temp/"):
-        return
-
-    for filename in os.listdir("temp/"):
-        os.remove(f"temp/{filename}")
-    os.removedirs("temp/")
-
-
 def get_test_gmm(name="TestGMM", date="2010-10-21", files=None):
     """
     Shortcut to create test GMM object
@@ -65,17 +49,6 @@ def get_test_gmm(name="TestGMM", date="2010-10-21", files=None):
         obj = get_new_file_object(name, File(get_new_file(name)), gmm)
         output.append(obj)
     return gmm, output
-
-
-def get_new_gmm(name="TestGMM", date="2010-10-21"):
-    """
-    Shortcut to create new default GMM object
-
-    :param name:
-    :param date:
-    :return: GMM object
-    """
-    return GMM.objects.create(name=name, date=date)
 
 
 def get_new_file_object(name="test file", file=None, gmm=None):

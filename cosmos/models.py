@@ -27,12 +27,12 @@ class FileObject(models.Model):
 
     created = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
-        User, blank=True, null=True, default=None, on_delete=models.SET_NULL, related_name="created_by"
+        User, blank=True, null=True, default=None, on_delete=models.SET_NULL, related_name="gmm_created_by"
     )
 
     modified = models.DateTimeField(auto_now=True)
     modified_by = models.ForeignKey(
-        User, blank=True, null=True, default=None, on_delete=models.SET_NULL, related_name="modified_by"
+        User, blank=True, null=True, default=None, on_delete=models.SET_NULL, related_name="gmm_modified_by"
     )
 
     file = models.FileField(null=False, blank=False, upload_to="gmm/")

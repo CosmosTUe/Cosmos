@@ -111,6 +111,7 @@ PIPELINE = {
                 "cosmos/css/gmm.css",
                 "cosmos/css/photos.css",
                 "cosmos/css/news.css",
+                "cosmos/css/about.css",
             },
             "output_filename": "cosmos/css/cosmos.css",
         },
@@ -124,6 +125,7 @@ PIPELINE = {
             "source_filenames": {
                 "cosmos/js/gmm.js",
                 "cosmos/js/photos.js",
+                "cosmos/js/about.js",
             },
             "output_filename": "cosmos/js/cosmos.js",
         },

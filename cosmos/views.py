@@ -11,7 +11,7 @@ from django.urls.base import reverse
 from django.views.generic import CreateView, DeleteView, UpdateView
 from django_sendfile import sendfile
 
-from apps.users.models import Profile
+from apps.users.models import Board, Profile
 from cosmos.constants import FOUNDING_DATE
 from cosmos.forms import (
     GMMForm,
@@ -22,7 +22,7 @@ from cosmos.forms import (
     PhotoAlbumUpdateForm,
     PhotoObjectForm,
 )
-from cosmos.models import GMM, News, PhotoAlbum, PhotoObject
+from cosmos.models import GMM, News, PhotoAlbum, PhotoObject, Testimonial
 
 from .settings import LOGIN_URL, SENDFILE_ROOT
 
@@ -195,7 +195,14 @@ def policy(request):
 
 
 def about(request):
-    return render(request, "about.html")
+    testimonials = Testimonial.objects.all()
+    boards = Board.objects.order_by("period_from")
+    if boards:
+        board = boards[0]
+    else:
+        board = None
+    context = {"testimonials": testimonials, "board": board}
+    return render(request, "about.html", context)
 
 
 def privacy(request):

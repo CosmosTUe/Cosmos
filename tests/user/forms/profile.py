@@ -87,7 +87,7 @@ class PasswordUpdateFormTest(TestCase):
 
     def test_empty_form(self):
         form = PasswordUpdateForm(user=self.user)
-        self.assertTrue(form.has_error("__all__"))
+        self.assertFalse(form.has_error("__all__"))
 
 
 class PreferencesUpdateFormTest(TestCase):

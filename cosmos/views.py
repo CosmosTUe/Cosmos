@@ -196,7 +196,7 @@ def policy(request):
 
 def about(request):
     testimonials = Testimonial.objects.all()
-    boards = Board.objects.order_by("period_from")
+    boards = Board.objects.order_by("-period_from")
     if boards:
         board = boards[0]
     else:

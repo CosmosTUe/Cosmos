@@ -22,11 +22,11 @@
             </div>
         </div>
         <div class="d-flex justify-content-center">
-            <a href="{% url 'photo_album-list_year' year|add:"-1" %}" class="my-auto fs-2{% if not prev %} invisible{% endif %}">
+            <a href="{% url 'photo_album-list_year' year|add:"1" %}" class="my-auto fs-2{% if not next %} invisible{% endif %}">
                 <i class="bi bi-chevron-left"></i>
             </a>
             <h2 class="my-auto raleway-number-title">{{ year }}-{{ year|add:"1" }}</h2>
-            <a href="{% url 'photo_album-list_year' year|add:"1" %}" class="my-auto fs-2{% if not next %} invisible{% endif %}">
+            <a href="{% url 'photo_album-list_year' year|add:"-1" %}" class="my-auto fs-2{% if not prev %} invisible{% endif %}">
                 <i class="bi bi-chevron-right"></i>
             </a>
         </div>

@@ -1,0 +1,25 @@
+/* TODO: make these changes more specific so as to change any other carousels unnecesarily */
+
+.testimonials .carousel-inner .carousel-item.active,
+.testimonials .carousel-inner .carousel-item-next,
+.testimonials .carousel-inner .carousel-item-prev {
+    display: flex;
+}
+
+@media (min-width: 768px) {
+    
+    .testimonials .carousel-inner .carousel-item-end.active,
+    .testimonials .carousel-inner .carousel-item-next {
+      transform: translateX(33.333%);
+    }
+    
+    .testimonials .carousel-inner .carousel-item-start.active, 
+    .testimonials .carousel-inner .carousel-item-prev {
+      transform: translateX(-33.333%);
+    }
+}
+
+.testimonials .carousel-inner .carousel-item-end,
+.testimonials .carousel-inner .carousel-item-start { 
+  transform: translateX(0);
+}

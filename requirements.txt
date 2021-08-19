@@ -7,11 +7,6 @@ six # compatibility library between py2 and py3
 psycopg2-binary>=2.8.5,<3 # postgresql adapter
 pytz>=2020.1 # timezone library
 matplotlib>=3.3.4
-
-# djangocms apps
-django-cms>=3.8.0
-djangocms-text-ckeditor>=4.0.0
-django-treebeard>=4.0,<5.0         # dependency for djangocms-admin-style
 django>=3.2.4,<3.3
 
 # better forms

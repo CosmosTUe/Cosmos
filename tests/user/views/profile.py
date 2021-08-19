@@ -3,6 +3,7 @@ from django.test import Client, TestCase
 
 from apps.async_requests.factory import Factory
 from apps.users.models import Profile
+from tests.helpers import get_profile_form_data
 
 
 def get_logged_in_client() -> Client:
@@ -15,30 +16,6 @@ def get_logged_out_client() -> Client:
     c = Client()
     c.logout()
     return c
-
-
-def get_profile_form_data(
-    first_name="Tosti",
-    last_name="Broodjes",
-    username="tosti@student.tue.nl",
-    email="tosti@gmail.com",
-    nationality="Dutch",
-    department="Electrical Engineering",
-    program="Bachelor",
-    study="",
-):
-    output = {
-        "first_name": first_name,
-        "last_name": last_name,
-        "username": username,
-        "email": email,
-        "nationality": nationality,
-        "department": department,
-        "program": program,
-        "study": study,
-        "save_profile": "Submit",
-    }
-    return {k: v for k, v in output.items() if v is not None}
 
 
 def get_preferences_form_data(subscribed_newsletter=False, newsletter_recipient="TUE"):
@@ -72,10 +49,10 @@ class ProfileUpdateFlowTest(TestCase):
         c = get_logged_in_client()
         url = "/accounts/profile/"
 
-        exp_status_code = 302
+        exp_status_code = 200
 
         # act
-        response = c.post(url, data=get_profile_form_data())
+        response = c.get(url, data=get_profile_form_data())
 
         # test
         self.assertEqual(exp_status_code, response.status_code)

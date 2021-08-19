@@ -47,3 +47,27 @@ class BaseAdminTestCaseMixin:
         instance = self.get_instance()
         response = self.client.get(get_admin_change_view_url(instance))
         self.assertEqual(200, response.status_code)
+
+
+def get_profile_form_data(
+    first_name="Tosti",
+    last_name="Broodjes",
+    username="tosti@student.tue.nl",
+    email="tosti@gmail.com",
+    nationality="Dutch",
+    department="Electrical Engineering",
+    program="Bachelor",
+    study="",
+):
+    output = {
+        "first_name": first_name,
+        "last_name": last_name,
+        "username": username,
+        "email": email,
+        "nationality": nationality,
+        "department": department,
+        "program": program,
+        "study": study,
+        "save_profile": "Submit",
+    }
+    return {k: v for k, v in output.items() if v is not None}

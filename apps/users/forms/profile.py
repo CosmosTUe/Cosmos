@@ -19,7 +19,7 @@ from apps.users.helper_functions import (
 )
 from apps.users.models.user import Profile
 from apps.users.models.user.constants import FONTYS_STUDIES, NATIONALITIES, TUE_DEPARTMENTS, TUE_PROGRAMS
-from apps.users.models.user.institution import InstitutionFontys, InstitutionTue
+from apps.users.models.user.institution import InstitutionTue
 
 logger = logging.getLogger(__name__)
 executor = Factory.get_executor()
@@ -63,13 +63,14 @@ class ProfileUpdateForm(forms.ModelForm):
         profile = instance.profile
         profile.nationality = self.cleaned_data["nationality"]
         username = self.cleaned_data["username"]
+        institution = profile.institution
         if is_tue_email(username):
-            institution = InstitutionTue.objects.get(profile=profile)
             institution.department = self.cleaned_data["department"]
             institution.program = self.cleaned_data["program"]
+            institution.save()
         elif is_tue_email(username):
-            institution = InstitutionFontys.objects.get(profile=profile)
             institution.study = self.cleaned_data["study"]
+            institution.save()
 
         if "email" in self.changed_data and profile.subscribed_newsletter and profile.newsletter_recipient == "ALT":
             old_email = self.initial["email"]
@@ -86,8 +87,7 @@ class ProfileUpdateForm(forms.ModelForm):
         self.helper.form_tag = False
 
         username = self.initial.get("username")
-        user = User.objects.get(username=username)
-        profile = Profile.objects.get(user=user)
+        profile = self.instance.profile
         self.initial["nationality"] = profile.nationality
         if is_tue_email(username):
             hidden_tue = ""

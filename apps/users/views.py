@@ -159,12 +159,7 @@ def profile(request):
         preferences_update_form = PreferencesUpdateForm(instance=request.user.profile)
 
         if request.user.profile.institution_name == "tue":
-            profile_update_form.department = request.user.profile.institution.department
-            profile_update_form.program = request.user.profile.institution.program
             key_access_update_form = KeyAccessUpdateForm(instance=request.user.profile.institution)
-        elif request.user.profile.institution_name == "fontys":
-            profile_update_form.study = request.user.profile.institution.study
-            key_access_update_form = None
         else:
             key_access_update_form = None
 

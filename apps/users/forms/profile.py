@@ -86,12 +86,18 @@ class ProfileUpdateForm(forms.ModelForm):
         self.helper.form_tag = False
 
         username = self.initial.get("username")
+        user = User.objects.get(username=username)
+        profile = Profile.objects.get(user=user)
+        self.initial["nationality"] = profile.nationality
         if is_tue_email(username):
             hidden_tue = ""
             hidden_fontys = "hidden"
+            self.initial["department"] = profile.institution.department
+            self.initial["program"] = profile.institution.program
         elif is_fontys_email(username):
             hidden_tue = "hidden"
             hidden_fontys = ""
+            self.initial["study"] = profile.institution.study
         else:
             hidden_tue = ""
             hidden_fontys = ""

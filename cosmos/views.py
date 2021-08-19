@@ -13,7 +13,6 @@ from django_sendfile import sendfile
 
 from apps.users.models import Board, Profile
 from cosmos.constants import FOUNDING_DATE
-
 from cosmos.forms import (
     GMMForm,
     GMMFormSet,

@@ -1,25 +1,26 @@
 import logging
-import os
-from zipfile import ZipFile
+from http.client import HTTPException
 
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.db.models.query import QuerySet
 from django.http import FileResponse
 from django.urls import path
+from python_http_client import UnauthorizedError
 
 from apps.async_requests.factory import Factory
 from apps.users.models import Profile
-from apps.users.stats import get_stats
+from apps.users.stats import get_nationality_stats
 
 # from apps.users.tasks import sync_newsletter_subcriptions_task
 
 logger = logging.getLogger(__name__)
+executor = Factory.get_executor()
 newsletter_service = Factory.get_newsletter_service()
 
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ("username", "department", "program", "nationality", "terms_confirmed", "subscribed_newsletter")
+    list_display = ("username", "nationality", "terms_confirmed", "subscribed_newsletter")
 
     search_fields = ["user__username"]
 
@@ -36,25 +37,21 @@ class ProfileAdmin(admin.ModelAdmin):
 
     def send_stats(self, request):
         # https://djangosnippets.org/snippets/365/
-        filenames = get_stats(self.model.objects)  # get file objects of plots
-        zip_path = "/tmp/user-stats.zip"
-        if os.path.exists(zip_path):
-            os.remove(zip_path)
-        zip_obj = ZipFile(zip_path, "w")
-        for files in filenames:
-            zip_obj.write(files, os.path.basename(files))
-            os.remove(files)
-        zip_obj.close()
-        response = FileResponse(open(zip_path, "rb"))
+        filenames = get_nationality_stats(self.model.objects)  # get file objects of plots
+        response = FileResponse(open(filenames[0], "rb"))
 
         return response
 
     actions = ["sync_newsletter_subscriptions"]
 
     def sync_newsletter_subscriptions(self, request, queryset: QuerySet):
-        self.message_user(request, f"Sending {len(queryset)} messages...")
-        # breaks with celery, see https://github.com/sendgrid/python-http-client/issues/139
-        # sync_newsletter_subscriptions_task.delay([u for u in queryset.values_list("id", flat=True)]).get()
-        for u in queryset:
-            newsletter_service.update_newsletter_preferences(u, force=True)
-        self.message_user(request, f"{len(queryset)} newsletter preferences updated!")
+        self.message_user(request, f"Sending {len(queryset)} messages...", messages.INFO)
+        try:
+            for profile in queryset:
+                newsletter_service.sync_newsletter_preferences(profile)
+            executor.execute()
+            self.message_user(request, f"{len(queryset)} newsletter preferences updated!", messages.SUCCESS)
+        except UnauthorizedError:
+            self.message_user(request, "Authorization error. Please check newsletter config.", messages.ERROR)
+        except HTTPException:
+            self.message_user(request, "Unknown HTTP error. Please check newsletter config.", messages.ERROR)

@@ -1,0 +1,24 @@
+{% extends "subpage.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container">
+    <div class="mx-auto w-50 bg-cosmos-primary rounded">
+        <form method="post" enctype="multipart/form-data" class="p-4 overflow-hidden">
+
+            <h2 class="text-white">Create photo album</h2>
+
+            {% csrf_token %}
+            {% crispy form %}
+
+            <div class="float-end">
+                <input type="submit" name="submit" value="Create" class="btn btn-primary" id="submit-id-submit">
+                <a href="{% url 'photo_album-list' %}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

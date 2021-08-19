@@ -1,6 +1,10 @@
-from .forms import UserForms
-from .model import UserTestCase
+from .forms import RegisterUserFormTest
 from .newsletter import NewsletterLogic
-from .views import UserViews
+from .views import ProfileUpdateFlowTest, RegistrationFlowTest
 
-__all__ = ["UserForms", "UserTestCase", "UserViews", "NewsletterLogic"]
+__all__ = [
+    "RegisterUserFormTest",
+    "ProfileUpdateFlowTest",
+    "RegistrationFlowTest",
+    "NewsletterLogic",
+]

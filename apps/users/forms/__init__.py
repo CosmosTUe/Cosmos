@@ -1,3 +1,10 @@
-from .profile import MemberCreateForm, MemberUpdateForm, ProfileCreateForm, ProfileUpdateForm, newsletter_service
+from .profile import KeyAccessUpdateForm, PasswordUpdateForm, PreferencesUpdateForm, ProfileUpdateForm
+from .registration import RegisterUserForm
 
-__all__ = ["MemberCreateForm", "MemberUpdateForm", "ProfileCreateForm", "ProfileUpdateForm", "newsletter_service"]
+__all__ = [
+    "ProfileUpdateForm",
+    "PasswordUpdateForm",
+    "PreferencesUpdateForm",
+    "KeyAccessUpdateForm",
+    "RegisterUserForm",
+]

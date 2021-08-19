@@ -1,0 +1,33 @@
+{% extends "subpage.html" %}
+
+{% load static %}
+
+{% block title %}
+    Board
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h3 class="m-0">Previous Boards</h3>
+            </div>
+        </div>
+    </div>
+    <div class="container py-4">
+            <div class="row py-4 row-cols-1 row-cols-md-3 g-4">
+                {% for board in boards %}
+                    <div class="col">
+                        <div class="card h-100">
+                            <img src="{{ board.photo.url }}" class="card-img-top"
+                                 alt="Photo of {{ board.display_name }}">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">{{ board.display_name }}</h5>
+                                <p class="card-text">{{ board.description }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+    </div>
+{% endblock %}

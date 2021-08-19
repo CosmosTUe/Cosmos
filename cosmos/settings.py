@@ -106,25 +106,26 @@ PIPELINE = {
     "CLOSURE_BINARY": "node_modules/.bin/google-closure-compiler",
     "STYLESHEETS": {
         "cosmos": {
-            "source_filenames": {"cosmos/css/registration.css", "cosmos/css/core.css"},
+            "source_filenames": {
+                "cosmos/css/core.css",
+                "cosmos/css/gmm.css",
+                "cosmos/css/photos.css",
+                "cosmos/css/news.css",
+                "cosmos/css/about.css",
+            },
             "output_filename": "cosmos/css/cosmos.css",
         },
-        "cosmos_cms": {
-            "source_filenames": {
-                "cosmos_cms/css/board_list.css",
-                "cosmos_cms/css/board_title.css",
-                "cosmos_cms/css/committee_list.css",
-                "cosmos_cms/css/committee_title.css",
-            },
-            "output_filename": "cosmos_cms/css/cosmos_cms.css",
+        "cosmos_users": {
+            "source_filenames": {"cosmos_users/css/auth.css"},
+            "output_filename": "cosmos_users/css/cosmos_users.css",
         },
     },
     "JAVASCRIPT": {
         "cosmos": {
             "source_filenames": {
-                "cosmos/js/sidebar.js",
-                "cosmos/js/register.js",
-                "cosmos/js/profile.js",
+                "cosmos/js/gmm.js",
+                "cosmos/js/photos.js",
+                "cosmos/js/about.js",
             },
             "output_filename": "cosmos/js/cosmos.js",
         },
@@ -149,7 +150,6 @@ TEMPLATES = [
                 "django.template.context_processors.tz",
                 "sekizai.context_processors.sekizai",
                 "django.template.context_processors.static",
-                "cms.context_processors.cms_settings",
             ],
             "loaders": ["django.template.loaders.filesystem.Loader", "django.template.loaders.app_directories.Loader"],
         },
@@ -157,7 +157,6 @@ TEMPLATES = [
 ]
 
 MIDDLEWARE = [
-    "cms.middleware.utils.ApphookReloadMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -166,18 +165,13 @@ MIDDLEWARE = [
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "cms.middleware.user.CurrentUserMiddleware",
-    "cms.middleware.page.CurrentPageMiddleware",
-    "cms.middleware.toolbar.ToolbarMiddleware",
-    "cms.middleware.language.LanguageCookieMiddleware",
+    "crum.CurrentRequestUserMiddleware",
 ]
 
 INSTALLED_APPS = [
     "cosmos",
     "apps.users",
-    "apps.cms_plugins",
     "apps.events",
-    "djangocms_admin_style",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -186,41 +180,22 @@ INSTALLED_APPS = [
     "django.contrib.sitemaps",
     "django.contrib.staticfiles",
     "django.contrib.messages",
-    "cms",
-    "menus",
-    "sekizai",
-    "treebeard",
-    "djangocms_text_ckeditor",
-    "filer",
-    "easy_thumbnails",
-    "djangocms_file",
-    "djangocms_icon",
-    "djangocms_link",
-    "djangocms_picture",
-    "djangocms_style",
-    "djangocms_snippet",
-    "djangocms_googlemap",
-    "djangocms_video",
     "django_better_admin_arrayfield",
+    # "cms",
+    # "menus",
+    # "sekizai",
+    # "treebeard",
+    # "djangocms_text_ckeditor",
     "pipeline",
     "django_celery_results",
-    "djangocms_bootstrap4",
-    "djangocms_bootstrap4.contrib.bootstrap4_alerts",
-    "djangocms_bootstrap4.contrib.bootstrap4_badge",
-    "djangocms_bootstrap4.contrib.bootstrap4_card",
-    "djangocms_bootstrap4.contrib.bootstrap4_carousel",
-    "djangocms_bootstrap4.contrib.bootstrap4_collapse",
-    "djangocms_bootstrap4.contrib.bootstrap4_content",
-    "djangocms_bootstrap4.contrib.bootstrap4_grid",
-    "djangocms_bootstrap4.contrib.bootstrap4_jumbotron",
-    "djangocms_bootstrap4.contrib.bootstrap4_link",
-    "djangocms_bootstrap4.contrib.bootstrap4_listgroup",
-    "djangocms_bootstrap4.contrib.bootstrap4_media",
-    "djangocms_bootstrap4.contrib.bootstrap4_picture",
-    "djangocms_bootstrap4.contrib.bootstrap4_tabs",
-    "djangocms_bootstrap4.contrib.bootstrap4_utilities",
     "oauth2_provider",
     "corsheaders",
+    "formtools",
+    "crispy_forms",
+    "crispy_bootstrap5",
+    "django_sendfile",
+    "django_cleanup.apps.CleanupConfig",
+    "ckeditor",
 ]
 
 LANGUAGES = (
@@ -228,24 +203,9 @@ LANGUAGES = (
     ("en", "en"),
 )
 
-CMS_LANGUAGES = {
-    # Customize this
-    1: [{"code": "en", "name": "en", "redirect_on_fallback": True, "public": True, "hide_untranslated": False}],
-    "default": {"redirect_on_fallback": True, "public": True, "hide_untranslated": False},
-}
-
-CMS_TEMPLATES = (
-    # Customize this
-    ("fullwidth.html", "Fullwidth"),
-    ("sidebar_left.html", "Sidebar Left"),
-    ("sidebar_right.html", "Sidebar Right"),
-)
-
 X_FRAME_OPTIONS = "SAMEORIGIN"
 
-CMS_PERMISSION = True
-
-CMS_PLACEHOLDER_CONF = {}
+THUMBNAIL_HIGH_RESOLUTION = True
 
 THUMBNAIL_PROCESSORS = (
     "easy_thumbnails.processors.colorspace",
@@ -298,25 +258,21 @@ LOGGING = {
 
 # Email
 # https://docs.djangoproject.com/en/3.1/topics/email/
-
+# https://support.google.com/a/answer/2956491?hl=en
 EMAIL_HOST = secret_settings.secrets["EMAIL"]["HOST"]
 EMAIL_PORT = secret_settings.secrets["EMAIL"]["PORT"]
 EMAIL_HOST_USER = secret_settings.secrets["EMAIL"]["USERNAME"]
 EMAIL_HOST_PASSWORD = secret_settings.secrets["EMAIL"]["PASSWORD"]
 EMAIL_USE_TLS = secret_settings.secrets["EMAIL"]["USE_TLS"]
 
-# TODO Always set default to noreply
-DEFAULT_FROM_EMAIL = secret_settings.secrets["EMAIL"]["USERNAME"]
+DEFAULT_FROM_EMAIL = secret_settings.secrets["EMAIL_GSUITE"]["USERNAME"]
 
 LOGIN_URL = "/accounts/login/"
 LOGOUT_REDIRECT_URL = "/"
 
 # Security
-
-
 SESSION_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_SECURE = not DEBUG
-
 
 SECURE_REFERRER_POLICY = "same-origin"
 
@@ -327,3 +283,20 @@ CELERY_CACHE_BACKEND = "django-cache"
 CELERY_WORKER_HIJACK_ROOT_LOGGER = True
 
 SENDGRID_WEBHOOK_SIGNATURE = secret_settings.secrets["SENDGRID_WEBHOOK_SIGNATURE"]
+
+# Crispy forms
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+if DEBUG:
+    SENDFILE_BACKEND = "django_sendfile.backends.development"
+else:
+    SENDFILE_BACKEND = "django_sendfile.backends.nginx"
+SENDFILE_ROOT = os.path.join(DATA_DIR, "media/")
+SENDFILE_URL = "/protected-media"
+
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+CKEDITOR_CONFIGS = {
+    "default": {"width": "100%"},
+}

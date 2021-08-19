@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "subpage.html" %}
 
 {% block title %}
     Logout
@@ -6,7 +6,7 @@
 
 {% block content %}
 
-    <div class="logout">
+    <div class="mx-auto bg-cosmos-primary rounded max-width-480">
         <h1>Logged out</h1>
         <p>You have successfully logged out. <a href="{% url 'cosmos_users:login' %}">Click</a> to login again.</p>
     </div>

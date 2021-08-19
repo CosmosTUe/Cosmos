@@ -1,0 +1,37 @@
+{% load static %}
+  <nav class="navbar navbar-expand-md navbar-dark bg-cosmos-primary fixed-top">
+    <div class="container">
+      {# Logo #}
+      <a class="navbar-brand" href="/">
+        <img src="{% static 'cosmos/img/cosmos_white_horizontal.png' %}" alt="" width="auto" height="45rem">
+      </a>
+
+      {# Button for collapsing navbar on small screens #}
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      {# Collapsable navbar div #}
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        {# Navigation items #}
+        <div class="navbar-nav">
+          <a class="nav-link" href="{% url 'about' %}">About</a>
+          <a class="nav-link" href="{% url 'news-list' %}">News</a>
+          <a class="nav-link" href="{% url 'committee_overview' %}">Committees</a>
+          <a class="nav-link" href="{% url 'photo_album-list' %}">Photos</a>
+          <a class="nav-link" href="{% url 'resources' %}">Resources</a>
+        </div>
+
+        {# Login and registration buttons or profile button #}
+        <div class="navbar-nav ms-auto">
+          {% if user.is_authenticated %}
+            <a class="nav-link" href="{% url 'cosmos_users:user_profile' %}">Profile</a>
+            <a class="nav-link" href="{% url 'cosmos_users:logout' %}">Logout</a>
+          {% else %}
+            <a class="nav-link" href="{% url 'cosmos_users:login' %}">Login</a>
+            <a class="nav-link" href="{% url 'cosmos_users:user_register' %}">Register</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </nav>

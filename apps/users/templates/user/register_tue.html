@@ -1,0 +1,34 @@
+{% extends "subpage.html" %}
+
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block head %}
+{{ wizard.form.media }}
+{% endblock %}
+
+{% block title %}
+    Registration
+{% endblock %}
+
+{% block content %}
+
+<div class="mx-auto bg-cosmos-primary rounded max-width-480">
+    <form action="" method="post" class="p-4">
+        {% csrf_token %}
+
+        <div class="mb-5">
+            <img src="{% static "cosmos/img/cosmos_white_horizontal.png" %}" class="img-fluid mx-auto d-block" alt="Cosmos logo">
+        </div>
+
+        {{ wizard.management_form }}
+        {% crispy wizard.form %}
+
+        <div class="btn-group d-flex">
+            <button class="btn btn-secondary me-2 rounded" type="submit" name="wizard_goto_step" value="{{ wizard.steps.prev }}" formnovalidate>Back</button>
+            <button class="btn btn-primary rounded" type="submit" value="submit">Complete</button>
+        </div>
+
+    </form>
+</div>
+{% endblock %}

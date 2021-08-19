@@ -8,7 +8,7 @@ from apps.users.forms import errors
 from apps.users.models import Profile
 from cosmos import settings
 from cosmos.models import GMM, FileObject
-from tests.cosmos.gmm_helpers import get_new_file, clear_temp_files, get_new_gmm
+from tests.cosmos.gmm_helpers import clear_temp_files, get_new_file, get_new_gmm
 
 
 def assert_file_exists(test: TestCase, file_name: str):

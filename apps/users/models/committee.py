@@ -1,7 +1,7 @@
 import math
 
 from django.contrib.auth.models import Group
-from django.core.validators import ValidationError, FileExtensionValidator
+from django.core.validators import FileExtensionValidator, ValidationError
 from django.db import models
 
 

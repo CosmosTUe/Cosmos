@@ -26,7 +26,7 @@ window.onload = function() {
             dialog.toggle();
         });
 
-        document.getElementById("id_publish_ate").addEventListener('onOk', function() {
+        document.getElementById("id_publish_date").addEventListener('onOk', function() {
             this.value = dialog.time._d.toISOString().split('T')[0];
         });
     }

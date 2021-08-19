@@ -192,7 +192,7 @@ def delete(request):
 
 
 def board_overview(request):
-    boards = Board.objects.all()
+    boards = Board.objects.order_by("-period_from").all()
     return render(request, "boards/overview.html", {"boards": boards})
 
 

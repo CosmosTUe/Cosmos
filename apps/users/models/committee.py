@@ -1,7 +1,7 @@
 import math
 
 from django.contrib.auth.models import Group
-from django.core.validators import ValidationError
+from django.core.validators import FileExtensionValidator, ValidationError
 from django.db import models
 
 
@@ -32,10 +32,10 @@ class Committee(models.Model):
     display_name = models.CharField(max_length=50, blank=False, default="None")
     slug = models.SlugField(blank=False, unique=True, default="None")
 
-    photo = models.ImageField(
+    photo = models.FileField(
         upload_to="committees",
         default="committees/default.png",
-        validators=[validate_aspect_ratio],
+        validators=[FileExtensionValidator(["svg"])],
     )
 
     @property

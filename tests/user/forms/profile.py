@@ -1,14 +1,13 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 
-from apps.async_requests.factory import Factory
 from apps.users.forms import ProfileUpdateForm, PreferencesUpdateForm, KeyAccessUpdateForm, errors, PasswordUpdateForm
 from apps.users.models import Profile
 from tests.helpers import (
     get_profile_form_data,
     get_key_access_form_data,
     get_preferences_form_data,
-    assert_newsletter_subscription,
+    NewsletterTestCaseMixin,
 )
 
 
@@ -41,11 +40,10 @@ def generate_tue_user(
     return user
 
 
-class ProfileUpdateFormTest(TestCase):
+class ProfileUpdateFormTest(NewsletterTestCaseMixin, TestCase):
     def setUp(self) -> None:
+        super().setUp()
         self.user = generate_tue_user()
-        self.newsletter_service = Factory.get_newsletter_service(True)
-        self.assert_newsletter_subscription = lambda x, y: assert_newsletter_subscription(self, x, y)
 
     def test_prefill_data_from_db(self):
         # setup
@@ -133,20 +131,10 @@ class PasswordUpdateFormTest(TestCase):
         self.assertFalse(form.has_error("__all__"))
 
 
-class PreferencesUpdateFormTest(TestCase):
+class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
     def setUp(self) -> None:
+        super().setUp()
         self.profile = generate_tue_user().profile
-        self.executor = Factory.get_executor()
-        self.newsletter_service = Factory.get_newsletter_service(True)
-
-    def assert_newsletter_subscription(self, email: str, state: bool):
-        # setup - none
-
-        # act
-        self.executor.execute()
-
-        # test
-        self.assertEqual(state, self.newsletter_service.is_subscribed(email))
 
     def test_prefill_data_from_db(self):
         # setup

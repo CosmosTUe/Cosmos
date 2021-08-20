@@ -5,16 +5,14 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from python_http_client import UnauthorizedError
 
-from apps.async_requests.factory import Factory
 from apps.async_requests.sendgrid.newsletter import NewsletterService
 from apps.users.models import Profile
-from tests.helpers import BaseAdminTestCaseMixin, assert_newsletter_subscription
+from tests.helpers import BaseAdminTestCaseMixin, NewsletterTestCaseMixin
 
 
-class ProfileAdminViewTest(BaseAdminTestCaseMixin, TestCase):
+class ProfileAdminViewTest(BaseAdminTestCaseMixin, NewsletterTestCaseMixin, TestCase):
     def setUp(self):
         super().setUp()
-        self.service = Factory.get_newsletter_service(True)
 
     def get_instance(self):
         user = User.objects.create_user(
@@ -75,9 +73,9 @@ class ProfileAdminViewTest(BaseAdminTestCaseMixin, TestCase):
         # test
         self.assertEqual(exp_status_code, response.status_code)
         self.assert_changes_informed_to_user(response, exp_change_count)
-        assert_newsletter_subscription(self, "a@student.tue.nl", False)
-        assert_newsletter_subscription(self, "b@student.tue.nl", False)
-        assert_newsletter_subscription(self, "c@student.tue.nl", False)
+        self.assert_newsletter_subscription("a@student.tue.nl", False)
+        self.assert_newsletter_subscription("b@student.tue.nl", False)
+        self.assert_newsletter_subscription("c@student.tue.nl", False)
 
     def test_sync_newsletter_subscriptions_one_new_subscription(self):
         # setup
@@ -98,9 +96,9 @@ class ProfileAdminViewTest(BaseAdminTestCaseMixin, TestCase):
         # test
         self.assertEqual(exp_status_code, response.status_code)
         self.assert_changes_informed_to_user(response, exp_change_count)
-        assert_newsletter_subscription(self, "a@student.tue.nl", True)
-        assert_newsletter_subscription(self, "b@student.tue.nl", False)
-        assert_newsletter_subscription(self, "c@student.tue.nl", False)
+        self.assert_newsletter_subscription("a@student.tue.nl", True)
+        self.assert_newsletter_subscription("b@student.tue.nl", False)
+        self.assert_newsletter_subscription("c@student.tue.nl", False)
 
     def test_sync_newsletter_subscriptions_multiple_new_subscribers(self):
         # setup
@@ -126,15 +124,15 @@ class ProfileAdminViewTest(BaseAdminTestCaseMixin, TestCase):
         # test
         self.assertEqual(exp_status_code, response.status_code)
         self.assert_changes_informed_to_user(response, exp_change_count)
-        assert_newsletter_subscription(self, "a@student.tue.nl", True)
-        assert_newsletter_subscription(self, "b@student.tue.nl", True)
+        self.assert_newsletter_subscription("a@student.tue.nl", True)
+        self.assert_newsletter_subscription("b@student.tue.nl", True)
 
     def test_sync_newsletter_subscriptions_one_unsubscribes(self):
         # setup
         create_new_profile(first_name="A", username="a@student.tue.nl", newsletter=False)
         create_new_profile(first_name="B", username="b@student.tue.nl", newsletter=True)
         create_new_profile(first_name="C", username="c@student.tue.nl", newsletter=True)
-        self.service.add_subscription(
+        self.newsletter_service.add_subscription(
             [
                 {"email": "a@student.tue.nl", "first_name": "A", "last_name": "Broodjes"},
                 {"email": "b@student.tue.nl", "first_name": "A", "last_name": "Broodjes"},
@@ -155,9 +153,9 @@ class ProfileAdminViewTest(BaseAdminTestCaseMixin, TestCase):
         # test
         self.assertEqual(exp_status_code, response.status_code)
         self.assert_changes_informed_to_user(response, exp_change_count)
-        assert_newsletter_subscription(self, "a@student.tue.nl", False)
-        assert_newsletter_subscription(self, "b@student.tue.nl", True)
-        assert_newsletter_subscription(self, "c@student.tue.nl", True)
+        self.assert_newsletter_subscription("a@student.tue.nl", False)
+        self.assert_newsletter_subscription("b@student.tue.nl", True)
+        self.assert_newsletter_subscription("c@student.tue.nl", True)
 
     def test_sync_newsletter_subscriptions_unauthorizederror(self):
         # setup

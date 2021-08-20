@@ -91,7 +91,7 @@ class ProfileUpdateFormTest(NewsletterTestCaseMixin, TestCase):
 
         # act
         form = ProfileUpdateForm(instance=self.user, data=get_profile_form_data(email="tosti@hotmail.com"))
-        form.is_valid()  # modifies form.instance before running save. see DjangoProject ticket #33040
+        form.full_clean()
         form.save()  # runs update_newsletter_preferences
 
         # test
@@ -113,7 +113,7 @@ class ProfileUpdateFormTest(NewsletterTestCaseMixin, TestCase):
 
         # act
         form = ProfileUpdateForm(instance=self.user, data=get_profile_form_data(email="tosti@hotmail.com"))
-        form.is_valid()  # modifies form.instance before running save. see DjangoProject ticket #33040
+        form.full_clean()
         form.save()  # runs update_newsletter_preferences
 
         # test
@@ -152,7 +152,7 @@ class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
 
         # act
         form = PreferencesUpdateForm(instance=self.profile, data=get_preferences_form_data())
-        form.is_valid()  # modifies form.instance before running save. see DjangoProject ticket #33040
+        form.full_clean()
         form.save()  # runs update_newsletter_preferences
 
         # test
@@ -168,7 +168,7 @@ class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
         form = PreferencesUpdateForm(
             instance=self.profile, data=get_preferences_form_data(subscribed_newsletter="True")
         )
-        form.is_valid()  # modifies form.instance before running save. see DjangoProject ticket #33040
+        form.full_clean()
         form.save()  # runs update_newsletter_preferences
 
         # test
@@ -184,7 +184,7 @@ class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
 
         # act
         form = PreferencesUpdateForm(instance=self.profile, data=get_preferences_form_data(False))
-        form.is_valid()  # modifies form.instance before running save. see DjangoProject ticket #33040
+        form.full_clean()
         form.save()  # runs update_newsletter_preferences
 
         # test
@@ -201,7 +201,7 @@ class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
             instance=self.profile,
             data=get_preferences_form_data(subscribed_newsletter=True, newsletter_recipient="ALT"),
         )
-        form.is_valid()  # modifies form.instance before running save. see DjangoProject ticket #33040
+        form.full_clean()
         form.save()  # runs update_newsletter_preferences
 
         # test
@@ -221,7 +221,7 @@ class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
             instance=self.profile,
             data=get_preferences_form_data(subscribed_newsletter=True, newsletter_recipient="ALT"),
         )
-        form.is_valid()  # modifies form.instance before running save. see DjangoProject ticket #33040
+        form.full_clean()
 
         # test
         self.assertTrue(form.has_error("__all__", errors.INVALID_SUBSCRIBE_TO_EMPTY_EMAIL))
@@ -236,7 +236,7 @@ class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
 
         # act
         form = PreferencesUpdateForm(instance=self.profile, data=get_preferences_form_data(subscribed_newsletter=False))
-        form.is_valid()  # modifies form.instance before running save. see DjangoProject ticket #33040
+        form.full_clean()
         form.save()  # runs update_newsletter_preferences
 
         # test

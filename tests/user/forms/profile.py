@@ -3,6 +3,7 @@ from django.test import TestCase
 
 from apps.users.forms import ProfileUpdateForm, PreferencesUpdateForm, KeyAccessUpdateForm, errors, PasswordUpdateForm
 from apps.users.models import Profile
+from apps.users.models.user import InstitutionTue
 from tests.helpers import (
     get_profile_form_data,
     get_key_access_form_data,
@@ -65,11 +66,44 @@ class ProfileUpdateFormTest(NewsletterTestCaseMixin, TestCase):
 
         # act
         form = ProfileUpdateForm(instance=self.user, data=data)
+        form.full_clean()
+        form.save()
 
         # test
         self.assertTrue(form.is_valid())
         self.assertEqual(form["department"].initial, "Electrical Engineering")
-        self.assertEqual(form.cleaned_data["department"], "Mathematics and Computer Science")
+        user = User.objects.get(pk=self.user.pk)
+        self.assertEqual(user.profile.institution.department, "Mathematics and Computer Science")
+
+    def test_success_change_program(self):
+        # setup
+        data = get_profile_form_data(program="Master")
+
+        # act
+        form = ProfileUpdateForm(instance=self.user, data=data)
+        form.full_clean()
+        form.save()
+
+        # test
+        self.assertTrue(form.is_valid())
+        self.assertEqual(form["program"].initial, "Bachelor")
+        user = User.objects.get(pk=self.user.pk)
+        self.assertEqual(user.profile.institution.program, "Master")
+
+    def test_success_change_nationality(self):
+        # setup
+        data = get_profile_form_data(nationality="Belgian")
+
+        # act
+        form = ProfileUpdateForm(instance=self.user, data=data)
+        form.full_clean()
+        form.save()
+
+        # test
+        self.assertTrue(form.is_valid())
+        self.assertEqual(form["nationality"].initial, "Dutch")
+        user = User.objects.get(pk=self.user.pk)
+        self.assertEqual(user.profile.nationality, "Belgian")
 
     def test_success_remove_alternative_email(self):
         # setup
@@ -77,11 +111,14 @@ class ProfileUpdateFormTest(NewsletterTestCaseMixin, TestCase):
 
         # act
         form = ProfileUpdateForm(instance=self.user, data=data)
+        form.full_clean()
+        form.save()
 
         # test
         self.assertTrue(form.is_valid())
         self.assertEqual(form["email"].initial, "tosti@gmail.com")
-        self.assertEqual(form.cleaned_data["email"], "")
+        user = User.objects.get(pk=self.user.pk)
+        self.assertEqual(user.email, "")
 
     def test_success_change_secondary_unsubscribed_email(self):
         # setup
@@ -157,7 +194,8 @@ class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
 
         # test
         self.assertEqual(form.initial["subscribed_newsletter"], False)
-        self.assertEqual(form.cleaned_data["subscribed_newsletter"], False)
+        profile = Profile.objects.get(pk=self.profile.pk)
+        self.assertEqual(profile.subscribed_newsletter, False)
         self.assert_newsletter_subscription(recipient, False)
 
     def test_success_newsletter_enable_institution_email(self):
@@ -173,7 +211,8 @@ class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
 
         # test
         self.assertTrue(form.is_valid())
-        self.assertEqual(form.cleaned_data["subscribed_newsletter"], True)
+        profile = Profile.objects.get(pk=self.profile.pk)
+        self.assertEqual(profile.subscribed_newsletter, True)
         self.assert_newsletter_subscription(recipient, True)
 
     def test_success_newsletter_disable_institution_email(self):
@@ -189,7 +228,8 @@ class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
 
         # test
         self.assertEqual(form["subscribed_newsletter"].initial, True)
-        self.assertEqual(form.cleaned_data["subscribed_newsletter"], False)
+        profile = Profile.objects.get(pk=self.profile.pk)
+        self.assertEqual(profile.subscribed_newsletter, False)
         self.assert_newsletter_subscription(recipient, False)
 
     def test_success_newsletter_enable_secondary_email(self):
@@ -206,9 +246,10 @@ class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
 
         # test
         self.assertEqual(form["subscribed_newsletter"].initial, False)
-        self.assertEqual(form.cleaned_data["subscribed_newsletter"], True)
+        profile = Profile.objects.get(pk=self.profile.pk)
+        self.assertEqual(profile.subscribed_newsletter, True)
         self.assertEqual(form["newsletter_recipient"].initial, "TUE")
-        self.assertEqual(form.cleaned_data["newsletter_recipient"], "ALT")
+        self.assertEqual(profile.newsletter_recipient, "ALT")
         self.assert_newsletter_subscription(recipient, True)
 
     def test_fail_newsletter_enable_secondary_email_empty(self):
@@ -241,30 +282,31 @@ class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
 
         # test
         self.assertEqual(form["subscribed_newsletter"].initial, True)
-        self.assertEqual(form.cleaned_data["subscribed_newsletter"], False)
+        profile = Profile.objects.get(pk=self.profile.pk)
+        self.assertEqual(profile.subscribed_newsletter, False)
         self.assert_newsletter_subscription(recipient, False)
 
 
 class KeyAccessUpdateFormTest(TestCase):
     def setUp(self) -> None:
-        self.user = generate_tue_user()
+        self.institution = generate_tue_user().profile.institution
 
     def test_prefill_data_from_db(self):
         # setup
 
         # act
-        form = KeyAccessUpdateForm(instance=self.user)
+        form = KeyAccessUpdateForm(instance=self.institution)
 
         # test
-        self.assertEqual(form["tue_id"].initial, None)
-        self.assertEqual(form["card_number"].initial, None)
+        self.assertEqual(form["tue_id"].initial, "")
+        self.assertEqual(form["card_number"].initial, "")
 
     def test_fail_login_id_submitted_as_tue_id(self):
         # setup
         tue_id = "20201234"
 
         # act
-        form = KeyAccessUpdateForm(instance=self.user, data=get_key_access_form_data(tue_id=tue_id))
+        form = KeyAccessUpdateForm(instance=self.institution, data=get_key_access_form_data(tue_id=tue_id))
 
         # test
         self.assertTrue(form.has_error("tue_id", errors.INVALID_TUE_ID))
@@ -274,19 +316,25 @@ class KeyAccessUpdateFormTest(TestCase):
         tue_id = "0000000"
 
         # act
-        form = KeyAccessUpdateForm(instance=self.user, data=get_key_access_form_data(tue_id=tue_id))
+        form = KeyAccessUpdateForm(instance=self.institution, data=get_key_access_form_data(tue_id=tue_id))
+        form.full_clean()
+        form.save()
 
         # test
         self.assertTrue(form.is_valid())
-        self.assertEqual(form.cleaned_data["tue_id"], tue_id)
+        institution = InstitutionTue.objects.get(pk=self.institution.pk)
+        self.assertEqual(institution.tue_id, tue_id)
 
     def test_success_card_number_update(self):
         # setup
         card_number = "9999999"
 
         # act
-        form = KeyAccessUpdateForm(instance=self.user, data=get_key_access_form_data(card_number=card_number))
+        form = KeyAccessUpdateForm(instance=self.institution, data=get_key_access_form_data(card_number=card_number))
+        form.full_clean()
+        form.save()
 
         # test
         self.assertTrue(form.is_valid())
-        self.assertEqual(form.cleaned_data["card_number"], card_number)
+        institution = InstitutionTue.objects.get(pk=self.institution.pk)
+        self.assertEqual(institution.card_number, card_number)

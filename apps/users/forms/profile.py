@@ -63,6 +63,7 @@ class ProfileUpdateForm(forms.ModelForm):
         instance = super().save(commit=True)
         profile = instance.profile
         profile.nationality = self.cleaned_data["nationality"]
+        profile.save()
         username = self.cleaned_data["username"]
         institution = profile.institution
         if is_tue_email(username):

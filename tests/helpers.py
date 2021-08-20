@@ -74,9 +74,11 @@ def get_profile_form_data(
 
 
 def get_preferences_form_data(subscribed_newsletter=False, newsletter_recipient="TUE"):
-    output = {"newsletter_recipient": newsletter_recipient, "save_preferences": "Submit"}
-    if subscribed_newsletter:
-        output["subscribed_newsletter"] = "on"
+    output = {
+        "newsletter_recipient": newsletter_recipient,
+        "save_preferences": "Submit",
+        "subscribed_newsletter": subscribed_newsletter,
+    }
 
     return output
 

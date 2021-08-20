@@ -3,7 +3,7 @@ from django.test import Client, TestCase
 
 from apps.async_requests.factory import Factory
 from apps.users.models import Profile
-from tests.helpers import get_profile_form_data, get_preferences_form_data, get_key_access_form_data
+from tests.helpers import get_profile_form_data, get_key_access_form_data
 
 
 def get_logged_in_client() -> Client:
@@ -88,34 +88,6 @@ class ProfileUpdateFlowTest(TestCase):
         self.assertEqual(exp_status_code, response.status_code)
         self.assertEqual(exp_url, response.url)
 
-    def assert_newsletter_subscription(self, email: str, state: bool):
-        # setup - none
-
-        # act
-        self.executor.execute()
-
-        # test
-        self.assertEqual(state, self.newsletter_service.is_subscribed(email))
-
-    def test_success_newsletter_unchanged(self):
-        # setup
-        c = get_logged_in_client()
-        url = "/accounts/profile/#preferences"
-        recipient = "tosti@student.tue.nl"
-        newsletter_field = "subscribed_newsletter"
-
-        exp_status_code = 302
-
-        # act
-        response = c.post(url, data=get_preferences_form_data())
-
-        # test
-        form_data = response.wsgi_request.POST
-
-        self.assertEqual(exp_status_code, response.status_code)
-        self.assertNotIn(newsletter_field, form_data)
-        self.assert_newsletter_subscription(recipient, False)
-
     def test_success_remove_alternative_email(self):
         # setup
         c = get_logged_in_client()
@@ -129,149 +101,6 @@ class ProfileUpdateFlowTest(TestCase):
         form_data = response.wsgi_request.POST
         self.assertEqual(302, response.status_code)
         self.assertEqual(exp_alt_email, form_data["email"])
-
-    def test_success_newsletter_enable_institution_email(self):
-        # setup
-        c = get_logged_in_client()
-        url = "/accounts/profile/#preferences"
-        recipient = "tosti@student.tue.nl"
-        newsletter_field = "subscribed_newsletter"
-
-        exp_status_code = 302
-        exp_newsletter = "on"
-
-        # act
-        response = c.post(url, data=get_preferences_form_data(True))
-
-        # test
-        form_data = response.wsgi_request.POST
-
-        self.assertEqual(exp_status_code, response.status_code)
-        self.assertEqual(exp_newsletter, form_data[newsletter_field])
-        self.assert_newsletter_subscription(recipient, True)
-
-    def test_success_newsletter_disable_institution_email(self):
-        # setup
-        self.user.profile.subscribed_newsletter = True
-        self.user.profile.save()
-
-        c = get_logged_in_client()
-        url = "/accounts/profile/#preferences"
-        recipient = "tosti@student.tue.nl"
-        newsletter_field = "subscribed_newsletter"
-
-        exp_status_code = 302
-
-        # act
-        response = c.post(url, data=get_preferences_form_data(False))
-
-        # test
-        form_data = response.wsgi_request.POST
-
-        self.assertEqual(exp_status_code, response.status_code)
-        self.assertNotIn(newsletter_field, form_data)
-        self.assert_newsletter_subscription(recipient, False)
-
-    def test_success_newsletter_enable_secondary_email(self):
-        # setup
-        c = get_logged_in_client()
-        url = "/accounts/profile/#preferences"
-        recipient = "tosti@gmail.com"
-        newsletter_field = "subscribed_newsletter"
-
-        exp_status_code = 302
-        exp_newsletter = "on"
-
-        # act
-        response = c.post(url, data=get_preferences_form_data(subscribed_newsletter=True, newsletter_recipient="ALT"))
-
-        # test
-        form_data = response.wsgi_request.POST
-
-        self.assertEqual(exp_status_code, response.status_code)
-        self.assertEqual(exp_newsletter, form_data[newsletter_field])
-        self.assert_newsletter_subscription(recipient, True)
-
-    def test_fail_newsletter_enable_secondary_email_empty(self):
-        # setup
-        self.user.email = ""
-        self.user.save()
-
-        c = get_logged_in_client()
-        url = "/accounts/profile/#preferences"
-
-        exp_status_code = 200
-        exp_error_msg = "Please set a secondary email or choose to receive the newsletters at your institution email."
-
-        # act
-        response = c.post(url, data=get_preferences_form_data(subscribed_newsletter=True, newsletter_recipient="ALT"))
-
-        # test
-        self.assertEqual(exp_status_code, response.status_code)
-        self.assertContains(response, exp_error_msg)
-
-    def test_success_newsletter_disable_secondary_email(self):
-        # setup
-        self.user.profile.subscribed_newsletter = True
-        self.user.profile.newsletter_recipient = "ALT"
-        self.user.profile.save()
-
-        c = get_logged_in_client()
-        url = "/accounts/profile/#preferences"
-        recipient = "tosti@gmail.com"
-        newsletter_field = "subscribed_newsletter"
-
-        exp_status_code = 302
-
-        # act
-        response = c.post(url, data=get_preferences_form_data(False))
-
-        # test
-        form_data = response.wsgi_request.POST
-
-        self.assertEqual(exp_status_code, response.status_code)
-        self.assertNotIn(newsletter_field, form_data)
-        self.assert_newsletter_subscription(recipient, False)
-
-    def test_success_change_secondary_unsubscribed_email(self):
-        # setup
-        c = get_logged_in_client()
-        url = "/accounts/profile/"
-        institution_email = "tosti@student.tue.nl"
-        old_alt_email = "tosti@gmail.com"
-        new_alt_email = "tosti@hotmail.com"
-
-        # act
-        response = c.post(url, data=get_profile_form_data(email="tosti@hotmail.com"))
-
-        # test
-        self.assertEqual(302, response.status_code)
-        self.assert_newsletter_subscription(institution_email, False)
-        self.assert_newsletter_subscription(old_alt_email, False)
-        self.assert_newsletter_subscription(new_alt_email, False)
-
-    def test_success_change_secondary_subscribed_email(self):
-        # setup
-        c = get_logged_in_client()
-        url = "/accounts/profile/"
-        institution_email = "tosti@student.tue.nl"
-        old_alt_email = "tosti@gmail.com"
-        new_alt_email = "tosti@hotmail.com"
-        self.user.profile.subscribed_newsletter = True
-        self.user.profile.newsletter_recipient = "ALT"
-        self.newsletter_service.add_subscription(
-            [{"email": old_alt_email, "first_name": "Tosti", "last_name": "Broodjes"}]
-        )
-        self.user.profile.save()
-
-        # act
-        response = c.post(url, data=get_profile_form_data(email="tosti@hotmail.com"))
-
-        # test
-        self.assertEqual(302, response.status_code)
-        self.assert_newsletter_subscription(institution_email, False)
-        self.assert_newsletter_subscription(old_alt_email, False)
-        self.assert_newsletter_subscription(new_alt_email, True)
 
     def test_success_key_access_unchanged(self):
         # setup

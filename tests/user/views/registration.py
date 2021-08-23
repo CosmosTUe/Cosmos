@@ -1,7 +1,11 @@
+import smtplib
+from unittest.mock import patch
+
 from bs4 import BeautifulSoup
 from django.contrib.auth.models import User
 from django.core import mail
 
+from apps.async_requests.commands import MailSendCommand
 from apps.async_requests.factory import Factory
 from tests.user.views.wizard_helper import WizardViewTestCase
 
@@ -292,3 +296,42 @@ class RegistrationFlowTest(WizardViewTestCase):
         self.assertTrue(self.wizard_has_validation_error(response))
         self.assertContains(response, exp_error_msg)
         self.assert_no_email_sent()
+
+    def test_fail_invalid_token_authentication(self):
+        # setup
+        url = "/accounts/register/"
+        done_url = "/accounts/register/done/"
+
+        inst_email = "tosti@student.tue.nl"
+        inst_sub = False
+        alt_email = "tosti@gmail.com"
+        alt_sub = False
+
+        # act
+        with patch.object(MailSendCommand, "execute") as mock_method:
+            mock_method.side_effect = smtplib.SMTPServerDisconnected()
+            response = self.get_wizard_response(
+                url,
+                {
+                    "register_user": {
+                        "first_name": "Tosti",
+                        "last_name": "Broodjes",
+                        "username": "tosti@student.tue.nl",
+                        "email": "tosti@gmail.com",
+                        "password1": "ikbeneenbrood",
+                        "password2": "ikbeneenbrood",
+                        "nationality": "Dutch",
+                        "terms_confirmed": "on",
+                    },
+                    "register_tue": {
+                        "department": "Mathematics and Computer Science",
+                        "program": "Bachelor",
+                    },
+                },
+            )
+
+        # test
+        self.assertEqual(done_url, response.url)
+        self.assert_no_email_sent()
+        self.assert_newsletter_subscription(inst_email, inst_sub)
+        self.assert_newsletter_subscription(alt_email, alt_sub)

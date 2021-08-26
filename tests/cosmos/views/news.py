@@ -171,6 +171,9 @@ class NewsListViewTest(TestCase):
             content="pp content",
         ).save()
 
+    def tearDown(self) -> None:
+        News.objects.all().delete()
+
     def assert_news_card_visible(
         self, news_object: bs4.Tag, title: str, publish_date: str, can_change=False, can_delete=False
     ):
@@ -245,7 +248,8 @@ class NewsUpdateViewTest(TestCase):
     url = "/news/1/update/"
 
     def setUp(self) -> None:
-        self.news = News(
+        News(
+            pk=1,
             title="Past public news",
             publish_date="2010-10-21",
             image=get_image_file(),
@@ -253,6 +257,9 @@ class NewsUpdateViewTest(TestCase):
             lead="pp lead",
             content="pp content",
         ).save()
+
+    def tearDown(self) -> None:
+        News.objects.all().delete()
 
     def test_forbidden_for_public(self):
         self.client.logout()
@@ -284,7 +291,8 @@ class NewsDeleteViewTest(TestCase):
     url = "/news/1/delete/"
 
     def setUp(self) -> None:
-        self.news = News(
+        News(
+            pk=1,
             title="Past public news",
             publish_date="2010-10-21",
             image=get_image_file(),
@@ -292,6 +300,9 @@ class NewsDeleteViewTest(TestCase):
             lead="pp lead",
             content="pp content",
         ).save()
+
+    def tearDown(self) -> None:
+        News.objects.all().delete()
 
     def test_forbidden_for_public(self):
         self.client.logout()

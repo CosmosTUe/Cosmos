@@ -26,6 +26,9 @@ def generate_form(title="", publish_date="", image: File = None, member_only=Fal
 
 
 class NewsFormTest(TestCase):
+    def tearDown(self) -> None:
+        News.objects.all().delete()
+
     def test_empty_form(self):
         form = generate_form()
 

@@ -6,7 +6,7 @@ from django.test import TestCase
 
 from cosmos.forms import NewsForm
 from cosmos.models import News
-from tests.cosmos.views.news import get_image_file
+from tests.cosmos.helpers import get_image_file
 
 
 def generate_form(title="", publish_date="", image: File = None, member_only=False, lead="", content=""):

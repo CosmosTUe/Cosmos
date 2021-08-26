@@ -1,27 +1,14 @@
 import datetime
-from io import BytesIO
 
 import bs4
-from PIL import Image
 from bs4 import BeautifulSoup
 from django.contrib.auth.models import User
-from django.core.files.base import File
 from django.test import TestCase
 
 from cosmos.models import News
 
 
-# https://stackoverflow.com/questions/26298821/django-testing-model-with-imagefield
-def get_image_file(name="test.png", ext="png", size=None, color=None):
-    if size is None:
-        size = (50, 50)
-    if color is None:
-        color = (256, 0, 0)
-    file_obj = BytesIO()
-    image = Image.new("RGB", size=size, color=color)
-    image.save(file_obj, ext)
-    file_obj.seek(0)
-    return File(file_obj, name=name)
+from tests.cosmos.helpers import get_image_file
 
 
 class NewsListViewTest(TestCase):

@@ -74,3 +74,21 @@ class NewsFormTest(TestCase):
         self.assertEqual("pp lead", news.lead)
         self.assertEqual("pp content", news.content)
         self.assertFalse(news.published())
+
+    def test_prefill_data_from_db(self):
+        news = News(
+            title="Past public news",
+            publish_date="2010-10-21",
+            image=get_image_file(),
+            member_only=False,
+            lead="pp lead",
+            content="pp content",
+        )
+
+        form = NewsForm(instance=news)
+
+        self.assertEqual("Past public news", form["title"].initial)
+        self.assertEqual("2010-10-21", form["publish_date"].initial)
+        self.assertEqual(False, form["member_only"].initial)
+        self.assertEqual("pp lead", form["lead"].initial)
+        self.assertEqual("pp content", form["content"].initial)

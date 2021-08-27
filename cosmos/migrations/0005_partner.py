@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
                         validators=[django.core.validators.FileExtensionValidator(["svg", "jpg", "png"])],
                     ),
                 ),
-                ("url", models.URLField()),
+                ("url", models.URLField(default="#")),
             ],
         ),
     ]

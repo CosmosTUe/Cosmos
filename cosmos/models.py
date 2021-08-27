@@ -114,7 +114,7 @@ class Testimonial(models.Model):
 class Partner(models.Model):
     name = models.TextField(blank=False)
     image = models.FileField(upload_to="partners", validators=[FileExtensionValidator(["svg", "jpg", "png"])])
-    url = models.URLField()
+    url = models.URLField(default="#")
 
     def __str__(self):
         return "Partner: {" + self.name + "}"

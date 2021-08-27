@@ -148,7 +148,9 @@
                         {% for partner in partners %}
                         <div class="carousel-item{% if forloop.first %} active{% endif %}">
                             <div class="col-md-4 text-center">
-                                <img src="{{ partner.image.url }}" alt="{{ partner.name }}">
+                                <a href="{{ partner.url }}">
+                                    <img src="{{ partner.image.url }}" alt="{{ partner.name }}">
+                                </a>
                             </div>
                         </div>
                         {% endfor %}

@@ -1,5 +1,5 @@
 from .gmm_view import GMMViewsTestAdminLoggedIn, GMMViewsTestLoggedOut, GMMViewsTestMemberLoggedIn
-from .news import NewsViewTest, NewsListViewTest, NewsCreateViewTest, NewsDeleteViewTest, NewsUpdateViewTest
+from .news import NewsCreateViewTest, NewsDeleteViewTest, NewsListViewTest, NewsUpdateViewTest, NewsViewTest
 from .photo_view import PhotoListViewTest
 
 __all__ = [

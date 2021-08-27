@@ -22,7 +22,7 @@ from cosmos.forms import (
     PhotoAlbumUpdateForm,
     PhotoObjectForm,
 )
-from cosmos.models import GMM, News, PhotoAlbum, PhotoObject, Testimonial, Partner
+from cosmos.models import GMM, News, Partner, PhotoAlbum, PhotoObject, Testimonial
 
 from .settings import LOGIN_URL, SENDFILE_ROOT
 

@@ -4,8 +4,8 @@ from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 
-import cosmos.forms.photos
-from cosmos.forms import PhotoAlbumForm, PhotoAlbumUpdateForm
+from cosmos.forms import PhotoAlbumForm, PhotoAlbumUpdateForm, PhotoObjectForm
+from cosmos.forms.photos import PHOTO_ALBUM_FUTURE_DATE
 from cosmos.models import News, PhotoAlbum
 from tests.cosmos.helpers import get_image_file
 
@@ -50,7 +50,7 @@ class PhotoAlbumFormTest(TestCase):
         form = self.generate_form("Borrel", "2100-10-12", get_image_file())
 
         self.assertFalse(form.is_valid())
-        self.assertTrue(form.has_error("date", cosmos.forms.photos.PHOTO_ALBUM_FUTURE_DATE))
+        self.assertTrue(form.has_error("date", PHOTO_ALBUM_FUTURE_DATE))
 
 
 class PhotoAlbumUpdateFormTest(TestCase):
@@ -61,3 +61,18 @@ class PhotoAlbumUpdateFormTest(TestCase):
 
         self.assertEqual("Borrel", form["title"].initial)
         self.assertEqual("2010-10-21", form["date"].initial)
+
+
+class PhotoObjectFormTest(TestCase):
+    def test_empty_form_fails(self):
+        form = PhotoObjectForm(data={}, files={})
+
+        self.assertFalse(form.is_valid())
+        self.assertTrue(form.has_error("photo", "required"))
+        self.assertFalse(form.has_error("album"))  # album is not part of the form, rather part of the model
+
+    def test_success_submission(self):
+        img = get_image_file()
+        form = PhotoObjectForm(files={"photo": SimpleUploadedFile(img.name, img.read())})
+
+        self.assertTrue(form.is_valid())

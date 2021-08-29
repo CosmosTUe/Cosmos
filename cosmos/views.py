@@ -32,7 +32,7 @@ def index(request):
     nationalities = Profile.objects.values("nationality").distinct().count()
     active_years = int((datetime.date.today() - FOUNDING_DATE).days // 365.25)
     events_amount = "20+"
-    partners = Partner.objects.all()
+    partners = Partner.objects.all().order_by("?")
     if not request.user.is_authenticated:
         news_list = News.objects.filter(member_only=False, publish_date__lte=datetime.date.today()).order_by(
             "-publish_date"

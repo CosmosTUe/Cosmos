@@ -7,12 +7,16 @@
 }
 
 @media (min-width: 768px) {
-    .carousel-inner .carousel-item-end.active,
-    .carousel-inner .carousel-item-next {
+    .partners .carousel-inner .carousel-item-end.active,
+    .partners .carousel-inner .carousel-item-next,
+    .testimonials .carousel-inner .carousel-item-end.active,
+    .testimonials .carousel-inner .carousel-item-next {
         transform: translateX(33.333%);
     }
-    .carousel-inner .carousel-item-start.active,
-    .carousel-inner .carousel-item-prev {
+    .partners .carousel-inner .carousel-item-start.active,
+    .partners .carousel-inner .carousel-item-prev,
+    .testimonials .carousel-inner .carousel-item-start.active,
+    .testimonials .carousel-inner .carousel-item-prev {
         transform: translateX(-33.333%);
     }
 }

@@ -138,14 +138,14 @@
     </div>
 </section>
 {% if partners %}
-<section id="partners" class="py-5">
+<section id="partners" class="">
     <div class="container">
         <div class="mx-auto my-auto justify-content-center partners">
                 <div id="partnerCarousel" class="carousel slide" data-bs-ride="carousel">
-                    <div class="row carousel-inner" role="listbox">
+                    <div class="row {% if partners.count > 3  %} carousel-inner{% endif %}" role="listbox">
                         {% for partner in partners %}
                         {% if partners.count > 3  %} <div class="carousel-item {% if forloop.first %} active{% endif %}">{% endif %}
-                            <div class="col-md text-center">
+                            <div class="col-md py-5 text-center">
                                 <a href="{{ partner.url }}">
                                     <img src="{{ partner.image.url }}" alt="{{ partner.name }}" class="img-fluid">
                                 </a>

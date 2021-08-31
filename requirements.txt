@@ -3,8 +3,9 @@ wheel # helps with package management
 ##################
 #  dependencies  #
 ##################
-six # compatibility library between py2 and py3
+six>=1.15.0 # compatibility library between py2 and py3
 psycopg2-binary>=2.8.5,<3 # postgresql adapter
+Pillow>=8.0.1
 pytz>=2020.1 # timezone library
 matplotlib>=3.3.4
 django>=3.2.4,<3.3
@@ -19,12 +20,12 @@ django-crum
 django-sendfile2
 django-cleanup
 
-django-ckeditor
+django-ckeditor>=6.1.0
 
 ##################
 #    testing     #
 ##################
-bs4 # html parser
+bs4>=0.0.1 # html parser (beautifulsoup4 alias)
 
 ##################
 #   deployment   #

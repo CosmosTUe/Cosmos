@@ -10,6 +10,7 @@ from django.core.exceptions import ValidationError
 
 from apps.async_requests.commands import SubscribeCommand, UnsubscribeCommand
 from apps.async_requests.factory import Factory
+from apps.users.forms import errors
 from apps.users.forms.errors import INVALID_EMAIL, INVALID_EMAIL_CHANGE, INVALID_SUBSCRIBE_TO_EMPTY_EMAIL
 from apps.users.helper_functions import (
     is_fontys_email,
@@ -19,7 +20,7 @@ from apps.users.helper_functions import (
 )
 from apps.users.models.user import Profile
 from apps.users.models.user.constants import FONTYS_STUDIES, NATIONALITIES, TUE_DEPARTMENTS, TUE_PROGRAMS
-from apps.users.models.user.institution import InstitutionFontys, InstitutionTue
+from apps.users.models.user.institution import InstitutionTue
 
 logger = logging.getLogger(__name__)
 executor = Factory.get_executor()
@@ -62,14 +63,16 @@ class ProfileUpdateForm(forms.ModelForm):
         instance = super().save(commit=True)
         profile = instance.profile
         profile.nationality = self.cleaned_data["nationality"]
+        profile.save()
         username = self.cleaned_data["username"]
+        institution = profile.institution
         if is_tue_email(username):
-            institution = InstitutionTue.objects.get(profile=profile)
             institution.department = self.cleaned_data["department"]
             institution.program = self.cleaned_data["program"]
+            institution.save()
         elif is_tue_email(username):
-            institution = InstitutionFontys.objects.get(profile=profile)
             institution.study = self.cleaned_data["study"]
+            institution.save()
 
         if "email" in self.changed_data and profile.subscribed_newsletter and profile.newsletter_recipient == "ALT":
             old_email = self.initial["email"]
@@ -86,8 +89,7 @@ class ProfileUpdateForm(forms.ModelForm):
         self.helper.form_tag = False
 
         username = self.initial.get("username")
-        user = User.objects.get(username=username)
-        profile = Profile.objects.get(user=user)
+        profile = self.instance.profile
         self.initial["nationality"] = profile.nationality
         if is_tue_email(username):
             hidden_tue = ""
@@ -193,3 +195,11 @@ class KeyAccessUpdateForm(forms.ModelForm):
         )
 
         self.helper.add_input(Submit("save_key_access", "Submit"))
+
+    def clean_tue_id(self):
+        data = self.cleaned_data["tue_id"]
+        if not len(data) < 8:
+            raise ValidationError(
+                "Please enter a valid TU/e ID. It should be less than 8 digits long", errors.INVALID_TUE_ID
+            )
+        return data

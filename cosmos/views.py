@@ -376,6 +376,8 @@ class NewsDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
 def news_view(request, pk):
     article = get_object_or_404(News, pk=pk)
     context = {"article": article}
+    if not article.published() and not request.user.has_perms(["cosmos.change_news", "cosmos.delete_news"]):
+        return error403(request, None)
     if article.member_only and not request.user.is_authenticated:
         return redirect("%s?next=%s" % (LOGIN_URL, request.path))
     return render(request, "news/news_view.html", context)

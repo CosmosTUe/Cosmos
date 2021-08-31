@@ -267,6 +267,9 @@ class PhotoObjectDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView)
 
 
 def photo_album_add_photo(request, pk):
+    if not request.user.has_perm("cosmos.change_photoalbum"):
+        return error403(request, None)
+
     album = get_object_or_404(PhotoAlbum, pk=pk)
 
     if request.method == "POST":

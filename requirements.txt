@@ -22,6 +22,8 @@ django-cleanup
 
 django-ckeditor>=6.1.0
 
+jsonpickle
+
 ##################
 #    testing     #
 ##################

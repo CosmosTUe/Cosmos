@@ -1,6 +1,5 @@
-from unittest import TestCase
-
 from django.core.mail import EmailMessage
+from django.test import TestCase
 
 from apps.async_requests.commands import MailSendCommand, SubscribeCommand, UnsubscribeCommand
 

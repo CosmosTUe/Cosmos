@@ -171,6 +171,7 @@ INSTALLED_APPS = [
     "cosmos",
     "apps.users",
     "apps.events",
+    "apps.async_requests",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",

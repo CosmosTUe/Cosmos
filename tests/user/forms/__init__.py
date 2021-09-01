@@ -1,5 +1,5 @@
 from .auth import CosmosLoginFormTest
-from .profile import ProfileUpdateFormTest, PasswordUpdateFormTest, PreferencesUpdateFormTest, KeyAccessUpdateFormTest
+from .profile import KeyAccessUpdateFormTest, PasswordUpdateFormTest, PreferencesUpdateFormTest, ProfileUpdateFormTest
 from .registration import RegisterUserFormTest
 
 __all__ = [

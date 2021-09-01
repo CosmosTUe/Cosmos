@@ -51,7 +51,7 @@ class NewsletterService(metaclass=ABCMeta):
     def send_mail(self, email):
         """
         Send emails via the sendgrid service
-        
+
         :param email: sendgrid Mail object
         :return: True if email is sent succesfully
         """

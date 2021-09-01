@@ -1,0 +1,17 @@
+##################
+#    Linting     #
+##################
+flake8
+flake8-django
+pep8-naming
+flake8-isort
+
+##################
+#   Formatting   #
+##################
+black
+
+##################
+#    Testing     #
+##################
+tox

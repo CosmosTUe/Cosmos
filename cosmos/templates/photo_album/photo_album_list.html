@@ -23,11 +23,11 @@
         </div>
         <div class="d-flex justify-content-center">
             <a href="{% url 'photo_album-list_year' year|add:"-1" %}" class="btn btn-cosmos-primary my-auto mx-4 {% if not prev %} invisible{% endif %}">
-                <i class="bi bi-chevron-left"></i> Prev Year
+                <i class="bi bi-chevron-left"></i>
             </a>
             <h2 class="my-auto raleway-number-title">{{ year }}-{{ year|add:"1" }}</h2>
             <a href="{% url 'photo_album-list_year' year|add:"1" %}" class="btn btn-cosmos-primary my-auto mx-4 {% if not next %} invisible{% endif %}">
-                Next Year <i class="bi bi-chevron-right"></i> 
+                <i class="bi bi-chevron-right"></i> 
             </a>
         </div>
         <div class="d-flex justify-content-between">

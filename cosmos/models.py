@@ -108,3 +108,11 @@ class Testimonial(models.Model):
 
     def __str__(self):
         return "Testimonial: {" + self.author + "}"
+
+
+class Token(models.Model):
+    token = models.CharField(max_length=100)
+    device = models.CharField(max_length=50)  # the target entity that uses this token
+
+    def __str__(self):
+        return "Token: {" + self.token + "}"

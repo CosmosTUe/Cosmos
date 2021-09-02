@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from cosmos.models import GMM, FileObject, Testimonial
+from cosmos.models import GMM, FileObject, Testimonial, Token
 
 
 @admin.register(GMM)
@@ -18,3 +18,8 @@ class FileObjectAdmin(admin.ModelAdmin):
 @admin.register(Testimonial)
 class TestimonialAdmin(admin.ModelAdmin):
     list_display = ["text", "author"]
+
+
+@admin.register(Token)
+class TokenAdmin(admin.ModelAdmin):
+    list_display = ["device"]

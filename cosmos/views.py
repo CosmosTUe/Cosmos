@@ -1,4 +1,5 @@
 import datetime
+import os
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import PermissionDenied
@@ -22,7 +23,7 @@ from cosmos.forms import (
     PhotoAlbumUpdateForm,
     PhotoObjectForm,
 )
-from cosmos.models import GMM, News, PhotoAlbum, PhotoObject, Testimonial
+from cosmos.models import GMM, News, PhotoAlbum, PhotoObject, Testimonial, Token
 
 from .settings import LOGIN_URL, SENDFILE_ROOT
 
@@ -32,6 +33,7 @@ def index(request):
     nationalities = Profile.objects.values("nationality").distinct().count()
     active_years = int((datetime.date.today() - FOUNDING_DATE).days // 365.25)
     events_amount = "20+"
+    door_status = int(os.environ.get("DOOR_STATUS", "0"))
     if not request.user.is_authenticated:
         news_list = News.objects.filter(member_only=False, publish_date__lte=datetime.date.today()).order_by(
             "-publish_date"
@@ -48,6 +50,7 @@ def index(request):
             "active_years": active_years,
             "events_amount": events_amount,
             "news_list": news_list,
+            "door_status": door_status,
         },
     )
 
@@ -399,3 +402,18 @@ def news_list(request):
         "news_list": news_list,
     }
     return render(request, "news/news_list.html", context)
+
+
+def update_door_status(request):
+    print(request.GET)
+    try:
+        token = request.GET.get("access_token")
+        status = 1 if request.GET.get("status") == "open" else 0
+
+        if Token.objects.filter(token=token).exists():
+            os.environ["DOOR_STATUS"] = str(status)
+            print(os.environ.get("DOOR_STATUS", "0"))
+            return HttpResponse("Updated door status")
+        return HttpResponse("Invalid token", status=401)
+    except Exception:
+        return HttpResponse("There was an error updating the door status", status=400)

@@ -3,7 +3,6 @@ import datetime
 from ckeditor.fields import RichTextField
 from crum import get_current_user
 from django.contrib.auth.models import User
-from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.urls import reverse
 
@@ -113,7 +112,7 @@ class Testimonial(models.Model):
 
 class Partner(models.Model):
     name = models.TextField(blank=False)
-    image = models.FileField(upload_to="partners", validators=[FileExtensionValidator(["svg", "jpg", "png"])])
+    image = models.ImageField(upload_to="partners")
     url = models.URLField(blank=True)
 
     def __str__(self):

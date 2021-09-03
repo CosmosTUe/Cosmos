@@ -408,7 +408,7 @@ def update_door_status(request):
     print(request.GET)
     try:
         token = request.GET.get("access_token")
-        status = 1 if request.GET.get("status") == "open" else 0
+        status = request.GET.get("status")
 
         if Token.objects.filter(token=token).exists():
             os.environ["DOOR_STATUS"] = str(status)

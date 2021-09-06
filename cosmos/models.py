@@ -110,6 +110,15 @@ class Testimonial(models.Model):
         return "Testimonial: {" + self.author + "}"
 
 
+class Partner(models.Model):
+    name = models.TextField(blank=False)
+    image = models.ImageField(upload_to="partners")
+    url = models.URLField(blank=True)
+
+    def __str__(self):
+        return "Partner: {" + self.name + "}"
+
+
 class Token(models.Model):
     token = models.CharField(max_length=100)
     device = models.CharField(max_length=50)  # the target entity that uses this token

@@ -9,6 +9,7 @@ from .photo_view import (
     PhotoAlbumViewsTest,
 )
 
+
 __all__ = [
     "GMMViewsTestLoggedOut",
     "GMMViewsTestMemberLoggedIn",

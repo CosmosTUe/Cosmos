@@ -24,7 +24,7 @@
             {% if user.is_authenticated %}
               {% if door_status %}
                   <i class="bi bi-unlock-fill text-white" aria-hidden="true"></i> 
-              {% else %}
+              {% elif door_status == 0 %}
                  <i class="bi bi-lock-fill text-white" aria-hidden="true"></i> 
               {% endif %}
             {% endif %}

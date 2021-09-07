@@ -1,5 +1,4 @@
 import datetime
-import os
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import PermissionDenied
@@ -12,6 +11,7 @@ from django.urls.base import reverse
 from django.views.generic import CreateView, DeleteView, UpdateView
 from django_sendfile import sendfile
 
+import secret_settings
 from apps.users.models import Board, Profile
 from cosmos.constants import FOUNDING_DATE
 from cosmos.forms import (
@@ -23,9 +23,11 @@ from cosmos.forms import (
     PhotoAlbumUpdateForm,
     PhotoObjectForm,
 )
-from cosmos.models import GMM, News, Partner, PhotoAlbum, PhotoObject, Testimonial, Token
+from cosmos.models import GMM, News, Partner, PhotoAlbum, PhotoObject, Testimonial
 
 from .settings import LOGIN_URL, SENDFILE_ROOT
+
+door_status = 0
 
 
 def index(request):
@@ -33,7 +35,6 @@ def index(request):
     nationalities = Profile.objects.values("nationality").distinct().count()
     active_years = int((datetime.date.today() - FOUNDING_DATE).days // 365.25)
     events_amount = "20+"
-    door_status = int(os.environ.get("DOOR_STATUS", "0"))
     partners = Partner.objects.all().order_by("?")
     if not request.user.is_authenticated:
         news_list = News.objects.filter(member_only=False, publish_date__lte=datetime.date.today()).order_by(
@@ -407,14 +408,14 @@ def news_list(request):
 
 
 def update_door_status(request):
-    print(request.GET)
+    global door_status
     try:
-        token = request.GET.get("access_token")
+        request_token = request.GET.get("access_token")
         status = request.GET.get("status")
+        pi_token = secret_settings.secrets["TOKENS"]["CR-DOOR"]
 
-        if Token.objects.filter(token=token).exists():
-            os.environ["DOOR_STATUS"] = str(status)
-            print(os.environ.get("DOOR_STATUS", "0"))
+        if request_token == pi_token:
+            door_status = status
             return HttpResponse("Updated door status")
         return HttpResponse("Invalid token", status=401)
     except Exception:

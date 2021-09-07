@@ -117,11 +117,3 @@ class Partner(models.Model):
 
     def __str__(self):
         return "Partner: {" + self.name + "}"
-
-
-class Token(models.Model):
-    token = models.CharField(max_length=100)
-    device = models.CharField(max_length=50)  # the target entity that uses this token
-
-    def __str__(self):
-        return "Token: {" + self.token + "}"

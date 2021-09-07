@@ -27,10 +27,11 @@ from cosmos.models import GMM, News, Partner, PhotoAlbum, PhotoObject, Testimoni
 
 from .settings import LOGIN_URL, SENDFILE_ROOT
 
-door_status = 0
+door_status = "0"
 
 
 def index(request):
+    global door_status
     members = Profile.objects.count()
     nationalities = Profile.objects.values("nationality").distinct().count()
     active_years = int((datetime.date.today() - FOUNDING_DATE).days // 365.25)

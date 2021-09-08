@@ -35,7 +35,7 @@ class Committee(models.Model):
     photo = models.FileField(
         upload_to="committees",
         default="committees/default.png",
-        validators=[FileExtensionValidator(["svg"])],
+        validators=[FileExtensionValidator(["svg", "jpg", "jpeg", "png"])],
     )
 
     @property

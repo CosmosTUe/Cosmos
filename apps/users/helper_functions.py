@@ -1,5 +1,5 @@
 def is_tue_email(email: str) -> bool:
-    return email.endswith("@student.tue.nl") or email.endswith("@alumni.tue.nl")
+    return email.endswith("@tue.nl") or email.endswith("@student.tue.nl") or email.endswith("@alumni.tue.nl")
 
 
 def is_fontys_email(email: str) -> bool:

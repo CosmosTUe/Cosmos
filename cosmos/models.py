@@ -108,3 +108,12 @@ class Testimonial(models.Model):
 
     def __str__(self):
         return "Testimonial: {" + self.author + "}"
+
+
+class Partner(models.Model):
+    name = models.TextField(blank=False)
+    image = models.ImageField(upload_to="partners")
+    url = models.URLField(blank=True)
+
+    def __str__(self):
+        return "Partner: {" + self.name + "}"

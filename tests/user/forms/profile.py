@@ -1,14 +1,14 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 
-from apps.users.forms import ProfileUpdateForm, PreferencesUpdateForm, KeyAccessUpdateForm, errors, PasswordUpdateForm
+from apps.users.forms import KeyAccessUpdateForm, PasswordUpdateForm, PreferencesUpdateForm, ProfileUpdateForm, errors
 from apps.users.models import Profile
 from apps.users.models.user import InstitutionTue
 from tests.helpers import (
-    get_profile_form_data,
+    NewsletterTestCaseMixin,
     get_key_access_form_data,
     get_preferences_form_data,
-    NewsletterTestCaseMixin,
+    get_profile_form_data,
 )
 
 

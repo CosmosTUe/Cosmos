@@ -101,18 +101,21 @@ class RegistrationWizard(SessionWizardView):
 
 
 def activate(request, uidb64, token):
-    try:
-        username = force_str(urlsafe_base64_decode(uidb64))
-        user = User.objects.get(username=username)
-    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-        user = None
+    if request.method == "POST":
+        try:
+            username = force_str(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(username=username)
+        except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+            user = None
 
-    if user is not None and account_activation_token.check_token(user, token):
-        user.is_active = True
-        user.save()
-        return HttpResponse("Thank you for your email confirmation. Now you can login your account.")
+        if user is not None and account_activation_token.check_token(user, token):
+            user.is_active = True
+            user.save()
+            return HttpResponse("Thank you for your email confirmation. Now you can login your account.")
+        else:
+            return HttpResponse("Activation link is invalid!")
     else:
-        return HttpResponse("Activation link is invalid!")
+        return render(request, "user/activate.html")
 
 
 def registration_done(request):

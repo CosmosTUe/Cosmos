@@ -46,7 +46,7 @@ class RegistrationFlowTest(WizardViewTestCase):
         exp_activation_message = "Thank you for your email confirmation. Now you can login your account."
 
         # act
-        response = self.client.get(link_url)
+        response = self.client.post(link_url)
 
         # test
         self.assertEqual(link_text, exp_link_text)

@@ -16,6 +16,14 @@ class RegistrationFlowTest(WizardViewTestCase):
     def setUp(self) -> None:
         self.newsletter_service = Factory.get_newsletter_service(True)
 
+    def assert_inactive_user_state(self, username):
+        user = User.objects.get(username=username)
+        self.assertFalse(user.is_active)
+
+    def assert_active_user_state(self, username):
+        user = User.objects.get(username=username)
+        self.assertTrue(user.is_active)
+
     def assert_email_sent(self, recipient):
         # setup
         exp_email_sender = "noreply@cosmostue.nl"
@@ -30,12 +38,12 @@ class RegistrationFlowTest(WizardViewTestCase):
         self.assertEqual(mail.outbox[0].to[0], exp_email_recipient)
         self.assertEqual(mail.outbox[0].from_email, exp_email_sender)
         self.assertEqual(mail.outbox[0].subject, exp_email_subject)
-        self.assert_working_activation_view()
+        self.assert_working_activation_view(recipient)
 
     def assert_no_email_sent(self):
         self.assertEqual(len(mail.outbox), 0, "0 message sent")
 
-    def assert_working_activation_view(self):
+    def assert_working_activation_view(self, username):
         # setup
         html_parser = BeautifulSoup(mail.outbox[0].body, "html.parser")
         link = html_parser.find("a")
@@ -51,6 +59,7 @@ class RegistrationFlowTest(WizardViewTestCase):
         # test
         self.assertEqual(link_text, exp_link_text)
         self.assertContains(response, exp_activation_message)
+        self.assert_active_user_state(username)
 
     def assert_newsletter_subscription(self, email: str, state: bool):
         # setup - none
@@ -95,6 +104,7 @@ class RegistrationFlowTest(WizardViewTestCase):
 
         # test
         self.assertEqual(done_url, response.url)
+        self.assert_inactive_user_state(exp_email_recipient)
         self.assert_email_sent(exp_email_recipient)
         self.assert_newsletter_subscription(inst_email, inst_sub)
         self.assert_newsletter_subscription(alt_email, alt_sub)
@@ -134,6 +144,7 @@ class RegistrationFlowTest(WizardViewTestCase):
 
         # test
         self.assertEqual(done_url, response.url)
+        self.assert_inactive_user_state(exp_email_recipient)
         self.assert_email_sent(exp_email_recipient)
         self.assert_newsletter_subscription(inst_email, inst_sub)
         self.assert_newsletter_subscription(alt_email, alt_sub)

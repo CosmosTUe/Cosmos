@@ -31,8 +31,7 @@ def config_loggers(*args, **kwags):
 def setup_periodic_tasks(sender, **kwargs):
     from apps.async_requests.tasks import execute_async_requests
 
-    sender.add_periodic_task(300, execute_async_requests(), name="execute async requests")
-    pass
+    sender.add_periodic_task(300, execute_async_requests.s(), name="execute async requests")
 
 
 @app.task(bind=True)

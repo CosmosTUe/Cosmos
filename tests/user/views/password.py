@@ -1,4 +1,3 @@
-from bs4 import BeautifulSoup
 from django.contrib.auth.models import User
 from django.core import mail
 from django.test import TestCase
@@ -27,9 +26,10 @@ class PasswordResetViewTest(TestCase):
 
     def assert_working_password_reset_view(self):
         # setup
-        html_parser = BeautifulSoup(mail.outbox[0].body, "html.parser")
-        link = html_parser.find("a")
-        link_url = link.get("href")
+        link_url = ""
+        for line in mail.outbox[0].body.splitlines():
+            if line.startswith("http://") or line.startswith("https://"):
+                link_url = line
 
         exp_status_code = 302
 

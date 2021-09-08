@@ -11,6 +11,7 @@ from django.urls.base import reverse
 from django.views.generic import CreateView, DeleteView, UpdateView
 from django_sendfile import sendfile
 
+import secret_settings
 from apps.users.models import Board, Profile
 from cosmos.constants import FOUNDING_DATE
 from cosmos.forms import (
@@ -26,8 +27,11 @@ from cosmos.models import GMM, News, Partner, PhotoAlbum, PhotoObject, Testimoni
 
 from .settings import LOGIN_URL, SENDFILE_ROOT
 
+door_status = "0"
+
 
 def index(request):
+    global door_status
     members = Profile.objects.count()
     nationalities = Profile.objects.values("nationality").distinct().count()
     active_years = int((datetime.date.today() - FOUNDING_DATE).days // 365.25)
@@ -50,6 +54,7 @@ def index(request):
             "events_amount": events_amount,
             "news_list": news_list,
             "partners": partners,
+            "door_status": door_status,
         },
     )
 
@@ -401,3 +406,18 @@ def news_list(request):
         "news_list": news_list,
     }
     return render(request, "news/news_list.html", context)
+
+
+def update_door_status(request):
+    global door_status
+    try:
+        request_token = request.GET.get("access_token")
+        status = request.GET.get("status")
+        pi_token = secret_settings.secrets["TOKENS"]["CR-DOOR"]
+
+        if request_token == pi_token:
+            door_status = status
+            return HttpResponse("Updated door status")
+        return HttpResponse("Invalid token", status=401)
+    except Exception:
+        return HttpResponse("There was an error updating the door status", status=400)

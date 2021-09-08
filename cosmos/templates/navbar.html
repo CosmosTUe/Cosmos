@@ -20,6 +20,15 @@
           <a class="nav-link" href="{% url 'committee_overview' %}">Committees</a>
           <a class="nav-link" href="{% url 'photo_album-list' %}">Photos</a>
           <a class="nav-link" href="{% url 'resources' %}">Resources</a>
+          <a class="nav-link" href="https://commonroom.nl"> Common Room
+            {% if user.is_authenticated %}
+              {% if door_status == "1" %}
+                  <i class="bi bi-unlock-fill text-white" aria-hidden="true"></i> 
+              {% elif door_status == "0" %}
+                 <i class="bi bi-lock-fill text-white" aria-hidden="true"></i> 
+              {% endif %}
+            {% endif %}
+          </a>
         </div>
 
         {# Login and registration buttons or profile button #}

@@ -35,7 +35,7 @@ urlpatterns = [
     path("photos/<int:pk>/", cosmos.views.photo_album_view, name="photo_album-view"),
     path("photos/<int:pk>/add/", cosmos.views.photo_album_add_photo, name="photo_album-add_photos"),
     path("photos/<int:pk>/delete/", cosmos.views.PhotoAlbumDelete.as_view(), name="photo_album-delete"),
-    path("photos/<int:pk>/update", cosmos.views.PhotoAlbumUpdate.as_view(), name="photo_album-update"),
+    path("photos/<int:pk>/update/", cosmos.views.PhotoAlbumUpdate.as_view(), name="photo_album-update"),
     path("photos/delete_single/<int:pk>/", cosmos.views.PhotoObjectDelete.as_view(), name="photo_object-delete"),
     path("news/add/", cosmos.views.NewsCreate.as_view(), name="news-create"),
     path("news/list/", cosmos.views.news_list, name="news-list"),
@@ -45,6 +45,7 @@ urlpatterns = [
     path("media/<path:file_path>", cosmos.views.protected_media, name="protected-media"),
     path("privacy/", cosmos.views.privacy, name="privacy-policy"),
     path("terms/", cosmos.views.terms, name="terms"),
+    path("door-status", cosmos.views.update_door_status, name="update-door-status"),
 ]
 
 handler400 = "cosmos.views.error400"

@@ -1,7 +1,6 @@
-from django.core.mail import EmailMessage
+import jsonpickle
 from django.test import TestCase
 from sendgrid.helpers.mail.mail import Mail
-import jsonpickle
 
 from apps.async_requests.commands import MailSendCommand, SubscribeCommand, UnsubscribeCommand
 
@@ -20,12 +19,8 @@ class CommandsTestCase(TestCase):
         command2 = MailSendCommand(email2)
         command1.merge([command2])
         self.assertTrue(len(command1.emails) == 2)
-        self.assertTrue(
-            command1.emails[0] == email1
-        )
-        self.assertTrue(
-            command1.emails[1] == email2
-        )
+        self.assertTrue(command1.emails[0] == email1)
+        self.assertTrue(command1.emails[1] == email2)
 
     def test_merge_subscribecommand(self):
         command1 = SubscribeCommand("test@example.com", "Mike", "Wazowski")
@@ -51,19 +46,19 @@ class CommandsTestCase(TestCase):
         command = MailSendCommand(Mail(subject="test", html_content="Body", from_email="test@example.com"))
         pickle = jsonpickle.encode(command)
         result = jsonpickle.decode(pickle)
-        
+
         self.assertTrue(command == result)
 
     def test_serialize_subscribecommand(self):
         command = SubscribeCommand("test@example.com", "Mike", "Wazowski")
         pickle = jsonpickle.encode(command)
         result = jsonpickle.decode(pickle)
-        
+
         self.assertTrue(command == result)
 
     def test_serialize_unsubsribecomand(self):
         command = UnsubscribeCommand("test@example.com")
         pickle = jsonpickle.encode(command)
         result = jsonpickle.decode(pickle)
-        
+
         self.assertTrue(command == result)

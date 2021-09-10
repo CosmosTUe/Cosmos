@@ -23,7 +23,7 @@ from cosmos.forms import (
     PhotoAlbumUpdateForm,
     PhotoObjectForm,
 )
-from cosmos.models import GMM, News, Partner, PhotoAlbum, PhotoObject, Testimonial
+from cosmos.models import GMM, News, Partner, PhotoAlbum, PhotoObject, Testimonial, Event
 
 from .settings import LOGIN_URL, SENDFILE_ROOT
 
@@ -421,3 +421,22 @@ def update_door_status(request):
         return HttpResponse("Invalid token", status=401)
     except Exception:
         return HttpResponse("There was an error updating the door status", status=400)
+
+
+def events_list(request):
+    if not request.user.is_authenticated:
+        events_list = Event.objects.filter(member_only=False).order_by("-date")
+    else:
+        events_list = Event.objects.order_by("-date").all()
+    context = {
+        "events": events_list,
+    }
+    return render(request, "events/event_list.html", context)
+
+
+def event_view(request, pk):
+    event = get_object_or_404(Event, pk=pk)
+    context = {"event": event}
+    if event.member_only and not request.user.is_authenticated:
+        return redirect("%s?next=%s" % (LOGIN_URL, request.path))
+    return render(request, "events/event_view.html", context)

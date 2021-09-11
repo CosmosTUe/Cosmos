@@ -22,13 +22,11 @@
             <div class="col">
                 <div class="card h-100">
                     {# transform is added so that stretched link does not go into footer #}
-                    <div style="transform: rotate(0);">
-                        <img class="card-img-top events-image" src="{{ event.image.url }}">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ event.name }}</h5>
-                            <p class="event-truncate">{{ event.lead }}</p>
-                            <a class="stretched-link" href="{% url 'events-view' event.id %}"></a>
-                        </div>
+                    <img class="card-img-top events-image" src="{{ event.image.url }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ event.name }}</h5>
+                        <p class="event-truncate">{{ event.lead }}</p>
+                        <a class="stretched-link" href="{% url 'events-view' event.id %}"></a>
                     </div>
                     <div class="card-footer">
                         {% if perms.cosmos.change_event and perms.cosmos.delete_event %}
@@ -41,6 +39,9 @@
                             </a>
                         </div>
                         {% endif %}
+                        <small class="text-muted">
+                            {{ event.start_time }}
+                        </small>
                     </div>
                 </div>
             </div>

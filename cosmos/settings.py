@@ -112,6 +112,7 @@ PIPELINE = {
                 "cosmos/css/photos.css",
                 "cosmos/css/news.css",
                 "cosmos/css/about.css",
+                "cosmos/css/events.css",
             },
             "output_filename": "cosmos/css/cosmos.css",
         },

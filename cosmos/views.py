@@ -426,13 +426,13 @@ def update_door_status(request):
 
 def events_list(request):
     if not request.user.is_authenticated:
-        events_list = Event.objects.filter(member_only=False).order_by("-date")
+        events_list = Event.objects.filter(member_only=False).order_by("-start_time")
     else:
-        events_list = Event.objects.order_by("-date").all()
+        events_list = Event.objects.order_by("-start_time").all()
     context = {
-        "events": events_list,
+        "events_list": events_list,
     }
-    return render(request, "events/event_list.html", context)
+    return render(request, "events/events_list.html", context)
 
 
 def event_view(request, pk):

@@ -83,6 +83,7 @@ class NewsForm(forms.ModelForm):
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
+        start_time = forms.DateTimeInput()
         fields = [
             "name",
             "start_time",
@@ -93,6 +94,7 @@ class EventForm(forms.ModelForm):
             "description",
             "location",
             "organizer",
+            "price",
         ]
 
     def __init__(self, *args, **kwargs):
@@ -102,18 +104,26 @@ class EventForm(forms.ModelForm):
         self.helper.layout = Layout(
             Field("name"),
             FieldWithButtons(
-                "start-time",
-                "end-time",
+                "start_time",
                 StrictButton(
                     """<i class="bi bi-calendar-date"></i>""",
                     css_class="btn-outline-light",
                     id="id_calendar_button",
                 ),
             ),
+            FieldWithButtons(
+                "end_time",
+                StrictButton(
+                    """<i class="bi bi-calendar-date"></i>""",
+                    css_class="btn-outline-light",
+                    id="id_calendar_button",
+                ),
+            ),
+            Field("location"),
+            Field("price"),
             Field("image"),
+            Field("organizer"),
             Field("member_only"),
             Field("lead"),
             Field("description"),
-            Field("location"),
-            Field("organizer"),
         )

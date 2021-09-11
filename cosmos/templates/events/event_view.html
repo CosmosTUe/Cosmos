@@ -10,7 +10,7 @@
 <div class="container">
     <div class="mx-auto w-75">
 
-        <div class="card{% if not article.published %} news-disabled{% endif %}">
+        <div class="card">
             <img src="{{ event.image.url}}" class="card-img-top event-image-large">
             <div class="card-body">
                 {% if perms.cosmos.change_events and perms.cosmos.delete_events %}
@@ -24,7 +24,13 @@
                 </div>
                 {% endif %}
                 <h4 class="card-title">{{ event.name }}</h4>
-                <small class="">{{ event.date }}</small>
+                <small class=""><b>When: </b>{{ event.start_time.date }} {% if event.start_time.date != event.end_time.date%} <b>-</b> {{ event.end_time.date }} {% endif %}</small>
+                <br>
+                <small class=""><b>Time: </b>{{ event.start_time.time }} <b>-</b> {{ event.end_time.time }}</small>
+                <br>
+                <small class=""><b>Where: </b>{{ event.location }}</small>
+                <br>
+                <small class=""><b>Price: </b>{% if not event.price %} Free {% else %} {{ event.price }} € {% endif %} </i></small>
                 
                 <p class="lead">{{ event.lead }}</p>
                 {{ event.description|safe }}

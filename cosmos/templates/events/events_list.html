@@ -17,15 +17,15 @@
         </div>
         {% endif %}
         <h2>Events</h2>
-        <div class="row row-cols-1 row-cols-md-3 g-4 mt-2" id="GMMGrid">
+        <div class="row row-cols-1 row-cols-md-3 g-2 mt-2" id="EventGrid">
         {% for event in events_list %}
             <div class="col">
                 <div class="card h-100">
                     {# transform is added so that stretched link does not go into footer #}
                     <div style="transform: rotate(0);">
-                        <img class="card-img-top event-image" src="{{ event.image.url }}">
+                        <img class="card-img-top events-image" src="{{ event.image.url }}">
                         <div class="card-body">
-                            <h5 class="card-title">{{ event.title }}</h5>
+                            <h5 class="card-title">{{ event.name }}</h5>
                             <p class="event-truncate">{{ event.lead }}</p>
                             <a class="stretched-link" href="{% url 'events-view' event.id %}"></a>
                         </div>

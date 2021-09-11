@@ -111,10 +111,15 @@ class Event(models.Model):
     end_time = models.DateTimeField()
     member_only = models.BooleanField()
     location = models.CharField(max_length=255)
-    organizer = models.ForeignKey(Group, blank=True, on_delete=models.CASCADE)
+    organizer = models.ForeignKey(Group, blank=True, null=True, on_delete=models.SET_NULL)
+    price = models.DecimalField(max_digits=5, decimal_places=2)
 
     def __str__(self):
         return "Event: {" + self.name + "}"
+
+    # def get_date(self):
+    #     if self.start_time.date() == self.end_time.date()
+    #     return
 
 
 class Testimonial(models.Model):

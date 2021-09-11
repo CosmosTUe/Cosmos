@@ -22,13 +22,11 @@
             <div class="col">
                 <div class="card h-100{% if not news.published %} news-disabled{% endif %}">
                     {# transform is added so that stretched link does not go into footer #}
-                    <div style="transform: rotate(0);">
-                        <img class="card-img-top news-image" src="{{ news.image.url }}">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ news.title }}</h5>
-                            <p class="news-truncate">{{ news.lead }}</p>
-                            <a class="stretched-link" href="{% url 'news-view' news.id %}"></a>
-                        </div>
+                    <img class="card-img-top news-image" src="{{ news.image.url }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ news.title }}</h5>
+                        <p class="news-truncate">{{ news.lead }}</p>
+                        <a class="stretched-link" href="{% url 'news-view' news.id %}"></a>
                     </div>
                     <div class="card-footer">
                         {% if perms.cosmos.change_news and perms.cosmos.delete_news %}

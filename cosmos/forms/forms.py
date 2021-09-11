@@ -2,6 +2,7 @@ from crispy_forms.bootstrap import FieldWithButtons, StrictButton
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Div, Field, Layout
 from django import forms
+from django.core.exceptions import ValidationError
 from django.forms.models import inlineformset_factory
 
 from cosmos.models import GMM, Event, FileObject, News
@@ -127,3 +128,8 @@ class EventForm(forms.ModelForm):
             Field("lead"),
             Field("description"),
         )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        if cleaned_data["start_time"] > cleaned_data["end_time"]:
+            raise ValidationError("Start time must be after end time")

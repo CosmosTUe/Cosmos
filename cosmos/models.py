@@ -109,9 +109,12 @@ class Event(models.Model):
     lead = models.TextField()
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
-    member_only = models.ForeignKey
-    location = models.CharField()
+    member_only = models.BooleanField()
+    location = models.CharField(max_length=255)
     organizer = models.ForeignKey(Group, blank=True, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "Event: {" + self.name + "}"
 
 
 class Testimonial(models.Model):

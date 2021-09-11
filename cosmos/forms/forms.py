@@ -4,7 +4,7 @@ from crispy_forms.layout import Div, Field, Layout
 from django import forms
 from django.forms.models import inlineformset_factory
 
-from cosmos.models import Event, GMM, FileObject, News
+from cosmos.models import GMM, Event, FileObject, News
 
 
 class FileObjectForm(forms.ModelForm):

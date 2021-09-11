@@ -15,6 +15,7 @@ import secret_settings
 from apps.users.models import Board, Profile
 from cosmos.constants import FOUNDING_DATE
 from cosmos.forms import (
+    EventForm,
     GMMForm,
     GMMFormSet,
     GMMFormSetHelper,
@@ -22,9 +23,8 @@ from cosmos.forms import (
     PhotoAlbumForm,
     PhotoAlbumUpdateForm,
     PhotoObjectForm,
-    EventForm,
 )
-from cosmos.models import GMM, News, Partner, PhotoAlbum, PhotoObject, Testimonial, Event
+from cosmos.models import GMM, Event, News, Partner, PhotoAlbum, PhotoObject, Testimonial
 
 from .settings import LOGIN_URL, SENDFILE_ROOT
 
@@ -460,7 +460,7 @@ class EventCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 class EventUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Event
     template_name = "events/event_update.html"
-    form_class = NewsForm
+    form_class = EventForm
     success_url = None
 
     # Permissions

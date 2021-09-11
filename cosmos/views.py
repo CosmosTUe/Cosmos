@@ -22,6 +22,7 @@ from cosmos.forms import (
     PhotoAlbumForm,
     PhotoAlbumUpdateForm,
     PhotoObjectForm,
+    EventForm,
 )
 from cosmos.models import GMM, News, Partner, PhotoAlbum, PhotoObject, Testimonial, Event
 
@@ -440,3 +441,41 @@ def event_view(request, pk):
     if event.member_only and not request.user.is_authenticated:
         return redirect("%s?next=%s" % (LOGIN_URL, request.path))
     return render(request, "events/event_view.html", context)
+
+
+class EventCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    model = Event
+    template_name = "events/event_create.html"
+    form_class = EventForm
+    success_url = None
+
+    # Permissions
+    permission_required = "cosmos.add_event"
+    raise_exception = True
+
+    def get_success_url(self):
+        return reverse_lazy("events-list")
+
+
+class EventUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    model = Event
+    template_name = "events/event_update.html"
+    form_class = NewsForm
+    success_url = None
+
+    # Permissions
+    permission_required = "cosmos.change_event"
+    raise_exception = True
+
+    def get_success_url(self):
+        return reverse_lazy("event-list")
+
+
+class EventDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    model = Event
+    template_name = "events/event_confirm_delete.html"
+    success_url = reverse_lazy("event-list")
+
+    # Permissions
+    permission_required = "cosmos.delete_event"
+    raise_exception = True

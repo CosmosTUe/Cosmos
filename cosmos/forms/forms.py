@@ -4,7 +4,7 @@ from crispy_forms.layout import Div, Field, Layout
 from django import forms
 from django.forms.models import inlineformset_factory
 
-from cosmos.models import GMM, FileObject, News
+from cosmos.models import Event, GMM, FileObject, News
 
 
 class FileObjectForm(forms.ModelForm):
@@ -77,4 +77,43 @@ class NewsForm(forms.ModelForm):
             Field("member_only"),
             Field("lead"),
             Field("content"),
+        )
+
+
+class EventForm(forms.ModelForm):
+    class Meta:
+        model = Event
+        fields = [
+            "name",
+            "start_time",
+            "end_time",
+            "image",
+            "member_only",
+            "lead",
+            "description",
+            "location",
+            "organizer",
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super(EventForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+        self.helper.layout = Layout(
+            Field("name"),
+            FieldWithButtons(
+                "start-time",
+                "end-time",
+                StrictButton(
+                    """<i class="bi bi-calendar-date"></i>""",
+                    css_class="btn-outline-light",
+                    id="id_calendar_button",
+                ),
+            ),
+            Field("image"),
+            Field("member_only"),
+            Field("lead"),
+            Field("description"),
+            Field("location"),
+            Field("organizer"),
         )

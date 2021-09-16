@@ -1,8 +1,8 @@
 import os
 from io import BytesIO
 
-from PIL import Image
 from django.core.files import File
+from PIL import Image
 
 from cosmos.models import GMM
 

@@ -1,9 +1,11 @@
 {% extends "subpage.html" %}
+{% block title %}GMM Documents{% endblock title%}
 {% block content %}
+
 
 <div class="container">
 
-    <h2>GMM Minutes</h5>
+    <h2>GMM Documents</h5>
 
     {% if user.is_authenticated %}
 
@@ -37,7 +39,7 @@
                             No documents available.
                             {% else %}
                             {% for document in gmm.has_files.all %}
-                                <a href="{{ document.file.url }}">{{ document.name }}</a>
+                                <a href="{{ document.file.url }}">{{ document.name }}{% if not forloop.last %}, {% endif %} </a>
                             {% endfor %}
                             {% endif%}
 
@@ -71,7 +73,7 @@
                             No documents available.
                             {% else %}
                             {% for document in gmm.has_files.all %}
-                                <a href="{{ document.file.url }}">{{ document.name }}</a>
+                                <a href="{{ document.file.url }}">{{ document.name }}{% if not forloop.last %}, {% endif %}</a>
                             {% endfor %}
                             {% endif%}
                         

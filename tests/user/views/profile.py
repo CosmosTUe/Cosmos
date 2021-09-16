@@ -3,7 +3,7 @@ from django.test import Client, TestCase
 
 from apps.async_requests.factory import Factory
 from apps.users.models import Profile
-from tests.helpers import get_profile_form_data, get_key_access_form_data
+from tests.helpers import get_key_access_form_data, get_profile_form_data
 
 
 def get_logged_in_client() -> Client:

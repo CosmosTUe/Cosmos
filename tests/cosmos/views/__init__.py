@@ -1,6 +1,14 @@
 from .gmm_view import GMMViewsTestAdminLoggedIn, GMMViewsTestLoggedOut, GMMViewsTestMemberLoggedIn
-from .news import NewsViewTest, NewsListViewTest, NewsCreateViewTest, NewsDeleteViewTest, NewsUpdateViewTest
-from .photo_view import PhotoListViewTest
+from .index import DoorSensorTest
+from .news import NewsCreateViewTest, NewsDeleteViewTest, NewsListViewTest, NewsUpdateViewTest, NewsViewTest
+from .photo_view import (
+    PhotoAlbumAddPhotoViewTest,
+    PhotoAlbumCreateViewTest,
+    PhotoAlbumDeleteViewTest,
+    PhotoAlbumListViewTest,
+    PhotoAlbumUpdateViewTest,
+    PhotoAlbumViewsTest,
+)
 
 __all__ = [
     "GMMViewsTestLoggedOut",
@@ -11,5 +19,11 @@ __all__ = [
     "NewsCreateViewTest",
     "NewsDeleteViewTest",
     "NewsUpdateViewTest",
-    "PhotoListViewTest",
+    "PhotoAlbumAddPhotoViewTest",
+    "PhotoAlbumViewsTest",
+    "PhotoAlbumUpdateViewTest",
+    "PhotoAlbumDeleteViewTest",
+    "PhotoAlbumCreateViewTest",
+    "PhotoAlbumListViewTest",
+    "DoorSensorTest",
 ]

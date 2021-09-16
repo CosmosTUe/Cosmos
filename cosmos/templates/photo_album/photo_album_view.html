@@ -30,7 +30,7 @@
             <div class="col">
                 <div class="card">
                     <div style="transform: rotate(0);">
-                        <img src="{{ photo_object.photo.url }}" class="card-img-top album-image">
+                        <img src="{{ photo_object.photo.url }}" class="card-img-top album-image" loading="lazy">
                         <a class="stretched-link" href="#" data-bs-toggle="modal" data-bs-target="#photoModal" data-bs-image-url="{{ photo_object.photo.url }}"></a>
                     </div>
                     {% if perms.cosmos.delete_photoobject %}

@@ -17,7 +17,7 @@
         </div>
         {% endif %}
         <h2>News</h2>
-        <div class="row row-cols-1 row-cols-md-3 g-4 mt-2" id="NewsGrid">
+        <div class="row row-cols-1 row-cols-md-3 g-2 mt-2" id="NewsGrid">
         {% for news in news_list %}
             <div class="col">
                 <div class="card h-100{% if not news.published %} news-disabled{% endif %}">

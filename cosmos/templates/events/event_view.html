@@ -24,13 +24,12 @@
                 </div>
                 {% endif %}
                 <h4 class="card-title">{{ event.name }}</h4>
-                <small class=""><b>When: </b>{{ event.start_time.date }} {% if event.start_time.date != event.end_time.date%} <b>-</b> {{ event.end_time.date }} {% endif %}</small>
-                <br>
-                <small class=""><b>Time: </b>{{ event.start_time.time }} <b>-</b> {{ event.end_time.time }}</small>
-                <br>
-                <small class=""><b>Where: </b>{{ event.location }}</small>
-                <br>
-                <small class=""><b>Price: </b>{% if not event.price %} Free {% else %} {{ event.price }} € {% endif %} </i></small>
+                <ul>
+                    <li><b>From: </b>{{ event.start_time.date }}, <em>{{ event.start_time.time }}</em></li>
+                    <li><b>To:   </b>{{ event.end_time.date }}, <em>{{ event.end_time.time }}</em></li>
+                    <li><b>Where: </b>{{ event.location }}</li>
+                    <li><b>Cost:  </b>{% if not event.price %} Free {% else %} {{ event.price }} € {% endif %}</li>
+                </ul>
                 
                 <p class="lead">{{ event.lead }}</p>
                 {{ event.description|safe }}

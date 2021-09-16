@@ -468,7 +468,7 @@ class EventUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     raise_exception = True
 
     def get_success_url(self):
-        return reverse_lazy("event-list")
+        return reverse_lazy("events-list")
 
 
 class EventDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):

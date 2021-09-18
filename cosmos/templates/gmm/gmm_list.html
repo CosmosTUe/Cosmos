@@ -39,7 +39,7 @@
                             No documents available.
                             {% else %}
                             {% for document in gmm.has_files.all %}
-                                <a href="{{ document.file.url }}">{{ document.name }}</a>
+                                <a href="{{ document.file.url }}">{{ document.name }}{% if not forloop.last %}, {% endif %} </a>
                             {% endfor %}
                             {% endif%}
 
@@ -73,7 +73,7 @@
                             No documents available.
                             {% else %}
                             {% for document in gmm.has_files.all %}
-                                <a href="{{ document.file.url }}">{{ document.name }}</a>
+                                <a href="{{ document.file.url }}">{{ document.name }}{% if not forloop.last %}, {% endif %}</a>
                             {% endfor %}
                             {% endif%}
                         

@@ -12,7 +12,7 @@ def events_list(request):
     if not request.user.is_authenticated:
         events_list = Event.objects.filter(member_only=False).order_by("-start_time")
     else:
-        events_list = Event.objects.order_by("-start_time").all()
+        events_list = Event.objects.order_by("start_time").all()
     context = {
         "events_list": events_list,
     }
@@ -38,7 +38,7 @@ class EventCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     raise_exception = True
 
     def get_success_url(self):
-        return reverse_lazy("events-list")
+        return reverse_lazy("events:events-list")
 
 
 class EventUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
@@ -52,13 +52,13 @@ class EventUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     raise_exception = True
 
     def get_success_url(self):
-        return reverse_lazy("events-list")
+        return reverse_lazy("events:events-list")
 
 
 class EventDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Event
     template_name = "events/event_confirm_delete.html"
-    success_url = reverse_lazy("events-list")
+    success_url = reverse_lazy("events:events-list")
 
     # Permissions
     permission_required = "cosmos.delete_event"

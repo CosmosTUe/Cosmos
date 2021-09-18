@@ -2,7 +2,7 @@ from django.urls import path
 
 import apps.events.views
 
-app_name = "cosmos_users"
+app_name = "events"
 
 urlpatterns = [
     path("add/", apps.events.views.EventCreate.as_view(), name="events-create"),

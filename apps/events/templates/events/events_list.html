@@ -10,7 +10,7 @@
     <div class="w-75 mx-auto">
         {% if perms.cosmos.change_events %}
         <div class="float-end">
-            <a class="btn btn-cosmos-primary" href="{% url 'events-create' %}">
+            <a class="btn btn-cosmos-primary" href="{% url 'events:events-create' %}">
                 <i class="bi bi-plus-lg"></i>
                 Add new Event
             </a>
@@ -26,19 +26,20 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ event.name }}</h5>
                         <p class="event-truncate">{{ event.lead }}</p>
-                        <a class="stretched-link" href="{% url 'events-view' event.id %}"></a>
+                        <a class="stretched-link" href="{% url 'events:events-view' event.id %}"></a>
                     </div>
                     <div class="card-footer">
-                        {% if perms.cosmos.change_event and perms.cosmos.delete_event %}
+                    {% comment %} Temp solution to fix card height {% endcomment %}
+                        {% comment %} {% if perms.cosmos.change_event and perms.cosmos.delete_event %}
                         <div class="float-end">
-                            <a class="btn p-0" href="{% url 'events-update' event.id %}">
+                            <a class="btn p-0" href="{% url 'events:events-update' event.id %}">
                                 <i class="bi bi-pencil-square"></i>
                             </a>
-                            <a class="btn p-0" href="{% url 'events-delete' event.id %}">
+                            <a class="btn p-0" href="{% url 'events:events-delete' event.id %}">
                                 <i class="bi bi-trash"></i>
                             </a>
                         </div>
-                        {% endif %}
+                        {% endif %} {% endcomment %}
                         <small class="text-muted">
                             {{ event.start_time }}
                         </small>

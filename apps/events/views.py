@@ -5,7 +5,6 @@ from django.views.generic import CreateView, DeleteView, UpdateView
 
 from apps.events.forms import EventForm
 from apps.events.models import Event
-
 from cosmos.settings import LOGIN_URL
 
 
@@ -59,7 +58,7 @@ class EventUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
 class EventDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Event
     template_name = "events/event_confirm_delete.html"
-    success_url = reverse_lazy("event-list")
+    success_url = reverse_lazy("events-list")
 
     # Permissions
     permission_required = "cosmos.delete_event"

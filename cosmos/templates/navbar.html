@@ -22,9 +22,9 @@
           <a class="nav-link" href="{% url 'resources' %}">Resources</a>
           <a class="nav-link" href="https://commonroom.nl"> Common Room
             {% if user.is_authenticated %}
-              {% if door_status == "1" %}
+              {% if door_status == 1 %}
                   <i id="cr-door" class="bi bi-unlock-fill text-white" aria-hidden="true"></i> 
-              {% elif door_status == "0" %}
+              {% elif door_status == 0 %}
                  <i id="cr-door" class="bi bi-lock-fill text-white" aria-hidden="true"></i> 
               {% endif %}
             {% endif %}

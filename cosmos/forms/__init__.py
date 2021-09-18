@@ -1,4 +1,4 @@
-from .forms import EventForm, GMMForm, GMMFormSet, GMMFormSetHelper, NewsForm
+from .forms import GMMForm, GMMFormSet, GMMFormSetHelper, NewsForm
 from .photos import PhotoAlbumForm, PhotoAlbumUpdateForm, PhotoObjectForm
 
 __all__ = [
@@ -9,5 +9,4 @@ __all__ = [
     "PhotoAlbumForm",
     "PhotoAlbumUpdateForm",
     "PhotoObjectForm",
-    "EventForm",
 ]

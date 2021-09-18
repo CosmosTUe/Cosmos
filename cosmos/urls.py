@@ -46,11 +46,6 @@ urlpatterns = [
     path("privacy/", cosmos.views.privacy, name="privacy-policy"),
     path("terms/", cosmos.views.terms, name="terms"),
     path("door-status", cosmos.views.update_door_status, name="update-door-status"),
-    path("events/add/", cosmos.views.EventCreate.as_view(), name="events-create"),
-    path("events/list/", cosmos.views.events_list, name="events-list"),
-    path("events/<int:pk>/", cosmos.views.event_view, name="events-view"),
-    path("events/<int:pk>/update/", cosmos.views.EventUpdate.as_view(), name="events-update"),
-    path("events/<int:pk>/delete/", cosmos.views.EventDelete.as_view(), name="events-delete"),
 ]
 
 handler400 = "cosmos.views.error400"

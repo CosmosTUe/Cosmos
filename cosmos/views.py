@@ -420,7 +420,8 @@ def update_door_status(request):
 
         if request_token == pi_token:
             if status == 1:
-                open("/tmp/door-open", "w")
+                f = open("/tmp/door-open", "w")
+                f.close()
             elif status == 0:
                 if os.path.exists("/tmp/door-open"):
                     os.remove("/tmp/door-open")

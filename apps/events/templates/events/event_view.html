@@ -15,10 +15,10 @@
             <div class="card-body">
                 {% if perms.cosmos.change_events and perms.cosmos.delete_events %}
                 <div class="float-end">
-                    <a class="btn p-0" href="{% url 'events:events-update' event.id %}">
+                    <a class="btn p-0" href="{% url 'cosmos_events:events-update' event.id %}">
                         <i class="bi bi-pencil-square"></i>
                     </a>
-                    <a class="btn p-0" href="{% url 'events:events-delete' event.id %}">
+                    <a class="btn p-0" href="{% url 'cosmos_events:events-delete' event.id %}">
                         <i class="bi bi-trash"></i>
                     </a>
                 </div>

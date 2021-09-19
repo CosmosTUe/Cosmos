@@ -2,6 +2,8 @@
 
 {% load crispy_forms_tags %}
 
+{% block title %}Delete Event{% endblock title%}
+
 {% block content %}
 
 <div class="container">
@@ -10,7 +12,7 @@
             {% csrf_token %}
             <p class="text-white">Are you sure you want to delete "{{ object }}"?</p>
             <input type="submit" class="btn btn-primary" value="Confirm">
-            <a class="btn btn-secondary" href="{% url 'cosmos_events:news-list' %}">Cancel</a>
+            <a class="btn btn-secondary" href="{% url 'cosmos_events:events-list' %}">Cancel</a>
         </form>
     </div>
 </div>

@@ -17,18 +17,18 @@
     object-fit: cover;
 }
 
-ul {
+ul.event-details {
     list-style: none;
     display: table;
     padding: 5px;
     margin: 0;
 }
 
-li {
+.event-details li {
     display: table-row;
 }
 
-b {
+.event-details b {
     display: table-cell;
     padding-right: 1em;
 }

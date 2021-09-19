@@ -10,11 +10,10 @@ from apps.events.models import Event
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
-        start_time = forms.DateTimeInput()
         fields = [
             "name",
-            "start_time",
-            "end_time",
+            "start_date_time",
+            "end_date_time",
             "image",
             "member_only",
             "lead",
@@ -31,7 +30,7 @@ class EventForm(forms.ModelForm):
         self.helper.layout = Layout(
             Field("name"),
             FieldWithButtons(
-                "start_time",
+                "start_date_time",
                 StrictButton(
                     """<i class="bi bi-calendar-date"></i>""",
                     css_class="btn-outline-light",
@@ -39,7 +38,7 @@ class EventForm(forms.ModelForm):
                 ),
             ),
             FieldWithButtons(
-                "end_time",
+                "end_date_time",
                 StrictButton(
                     """<i class="bi bi-calendar-date"></i>""",
                     css_class="btn-outline-light",
@@ -57,5 +56,5 @@ class EventForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        if cleaned_data["start_time"] > cleaned_data["end_time"]:
+        if cleaned_data["start_date_time"] > cleaned_data["end_date_time"]:
             raise ValidationError("Start time must be after end time")

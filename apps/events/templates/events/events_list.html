@@ -8,7 +8,7 @@
 
 <div class="container">
     <div class="w-75 mx-auto">
-        {% if perms.cosmos.change_events %}
+        {% if perms.cosmos.create_events %}
         <div class="float-end">
             <a class="btn btn-cosmos-primary" href="{% url 'cosmos_events:events-create' %}">
                 <i class="bi bi-plus-lg"></i>
@@ -41,7 +41,7 @@
                         </div>
                         {% endif %} {% endcomment %}
                         <small class="text-muted">
-                            {{ event.start_time }}
+                            {{ event.start_date_time }}
                         </small>
                     </div>
                 </div>

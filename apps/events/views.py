@@ -1,18 +1,18 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.shortcuts import get_object_or_404, redirect, render
+from django.core.exceptions import PermissionDenied
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, UpdateView
 
 from apps.events.forms import EventForm
 from apps.events.models import Event
-from cosmos.settings import LOGIN_URL
 
 
 def events_list(request):
-    if not request.user.is_authenticated:
-        events_list = Event.objects.filter(member_only=False).order_by("-start_time")
+    if request.user.is_authenticated:
+        events_list = Event.objects.order_by("start_date_time").all()
     else:
-        events_list = Event.objects.order_by("start_time").all()
+        events_list = Event.objects.filter(member_only=False).order_by("start_date_time")
     context = {
         "events_list": events_list,
     }
@@ -23,7 +23,7 @@ def event_view(request, pk):
     event = get_object_or_404(Event, pk=pk)
     context = {"event": event}
     if event.member_only and not request.user.is_authenticated:
-        return redirect("%s?next=%s" % (LOGIN_URL, request.path))
+        raise PermissionDenied()
     return render(request, "events/event_view.html", context)
 
 

@@ -3,6 +3,8 @@
 
 {% load crispy_forms_tags %}
 
+{% load static %}
+
 {% block title %}{{ event.title }}{% endblock title %}
 
 {% block content %}
@@ -24,9 +26,9 @@
                 </div>
                 {% endif %}
                 <h4 class="card-title">{{ event.name }}</h4>
-                <ul>
-                    <li><b>From: </b>{{ event.start_time.date }}, <em>{{ event.start_time.time }}</em></li>
-                    <li><b>To:   </b>{{ event.end_time.date }}, <em>{{ event.end_time.time }}</em></li>
+                <ul class="event-details">
+                    <li><b>From: </b>{{ event.start_date_time.date }}, <em>{{ event.start_date_time.time }}</em></li>
+                    <li><b>To:   </b>{{ event.end_date_time.date }}, <em>{{ event.end_date_time.time }}</em></li>
                     <li><b>Where: </b>{{ event.location }}</li>
                     <li><b>Cost:  </b>{% if not event.price %} Free {% else %} {{ event.price }} € {% endif %}</li>
                 </ul>

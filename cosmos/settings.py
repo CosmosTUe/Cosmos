@@ -191,6 +191,7 @@ INSTALLED_APPS = [
     "django_sendfile",
     "django_cleanup.apps.CleanupConfig",
     "ckeditor",
+    "django_celery_beat",
 ]
 
 LANGUAGES = (
@@ -276,6 +277,7 @@ CELERY_BROKER_URL = "amqp://guest:guest@localhost//"
 CELERY_RESULT_BACKEND = "django-db"
 CELERY_CACHE_BACKEND = "django-cache"
 CELERY_WORKER_HIJACK_ROOT_LOGGER = True
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 
 SENDGRID_WEBHOOK_SIGNATURE = secret_settings.secrets["SENDGRID_WEBHOOK_SIGNATURE"]
 

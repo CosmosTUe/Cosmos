@@ -86,6 +86,6 @@ class SendgridService(NewsletterService):
 
     def send_mail(self, email):
         # https://sendgrid.api-docs.io/v3.0/mail-send/v3-mail-send
-        response = self.sg.send(request_body=email)
+        response = self.sg.client.mail.send.post(request_body=email)
         # return whether sending the email was succesful
         return self.__process_status_code(response, 200)

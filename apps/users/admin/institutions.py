@@ -13,6 +13,7 @@ from apps.users.stats import get_major_stats
 class InstitutionTueAdmin(admin.ModelAdmin):
     list_display = ["username", "department", "program", "tue_id", "card_number", "key_access"]
     list_filter = ["department", "program", "key_access"]
+    search_fields = ["user__username"]
 
     # Used to extend the default admin page to add a button
     change_list_template = "user/admin_add_stats_button.html"

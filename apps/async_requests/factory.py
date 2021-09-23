@@ -15,6 +15,7 @@ class Factory:
             Factory._newsletter_instance = NewsletterServiceMock() if settings.TESTING else SendgridService()
         if force_clear and settings.TESTING:
             Factory._newsletter_instance.db.clear()
+            Factory._newsletter_instance.outbox.clear()
         return Factory._newsletter_instance
 
     @staticmethod

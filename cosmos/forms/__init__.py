@@ -1,4 +1,4 @@
-from .forms import NewsForm, GMMForm, GMMFormSet, GMMFormSetHelper
+from .forms import GMMForm, GMMFormSet, GMMFormSetHelper, NewsForm
 from .photos import PhotoAlbumForm, PhotoAlbumUpdateForm, PhotoObjectForm
 
 __all__ = [

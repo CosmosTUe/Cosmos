@@ -37,7 +37,7 @@ jobs:
       - name: Install Tox and any other packages
         run: pip install Tox
       - name: Move secrets
-        run: mv tests/secrets.json.template tests/secrets.json
+        run: mv secrets.json.template tests/secrets.json
       - name: Run Tox
         env:
           CI: test

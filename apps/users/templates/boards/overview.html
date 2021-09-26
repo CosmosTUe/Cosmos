@@ -23,7 +23,12 @@
                                  alt="Photo of {{ board.display_name }}">
                             <div class="card-body d-flex flex-column">
                                 <h5 class="card-title">{{ board.display_name }}</h5>
-                                <p class="card-text">{{ board.description }}</p>
+                                {% if board.description %} <p class="card-text">{{ board.description }}</p> {% endif %}
+                                <ul>
+                                {% for person in board.members %}
+                                    <li>{{ person }}</li>
+                                {% endfor %}
+                                </ul>
                             </div>
                         </div>
                     </div>

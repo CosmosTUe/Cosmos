@@ -40,7 +40,7 @@ class SendgridService(NewsletterService):
             return None
 
         if data["contact_count"] != len(emails):
-            raise AssertionError(f"Duplicate emails registered for {email}")
+            raise AssertionError(f"Duplicate emails registered for {emails}")
 
         ids = []
         for user in data["result"]:
@@ -52,7 +52,7 @@ class SendgridService(NewsletterService):
         response = self.sg.client.marketing.contacts.search.post(
             request_body=self.__get_sandbox_json({"query": f"email LIKE '{email}%%'"})
         )
-        self.__process_status_code(response)
+        self.__process_status_code(response, 200)
 
         data = json.loads(response.body.decode("utf-8"))
         matches = data["contact_count"]

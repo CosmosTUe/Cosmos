@@ -29,17 +29,16 @@
                         <a class="stretched-link" href="{% url 'cosmos_events:events-view' event.id %}"></a>
                     </div>
                     <div class="card-footer">
-                    {% comment %} Temp solution to fix card height {% endcomment %}
-                        {% comment %} {% if perms.cosmos.change_event and perms.cosmos.delete_event %}
+                        {% if perms.cosmos.change_event and perms.cosmos.delete_event %}
                         <div class="float-end">
-                            <a class="btn p-0" href="{% url 'cosmos_events:events-update' event.id %}">
+                            <a class="btn p-0 btn-over-stretched" href="{% url 'cosmos_events:events-update' event.id %}">
                                 <i class="bi bi-pencil-square"></i>
                             </a>
-                            <a class="btn p-0" href="{% url 'cosmos_events:events-delete' event.id %}">
+                            <a class="btn p-0 btn-over-stretched" href="{% url 'cosmos_events:events-delete' event.id %}">
                                 <i class="bi bi-trash"></i>
                             </a>
                         </div>
-                        {% endif %} {% endcomment %}
+                        {% endif %}
                         <small class="text-muted">
                             {{ event.start_date_time }}
                         </small>

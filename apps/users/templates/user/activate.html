@@ -1,0 +1,16 @@
+{% extends "subpage.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container">
+    <div class="mx-auto w-50 bg-cosmos-primary rounded">
+        <form method="post" class="p-4 overflow-hidden">
+            <h2 class="text-white">Activate your account</h2>
+            <input type="submit" name="submit" value="Activate" class="btn btn-primary" id="submit-id-submit">
+        </form>
+    </div>
+</div>
+
+{% endblock %}

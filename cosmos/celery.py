@@ -27,13 +27,6 @@ def config_loggers(*args, **kwags):
     dictConfig(settings.LOGGING)
 
 
-@app.on_after_configure.connect
-def setup_periodic_tasks(sender, **kwargs):
-    from apps.async_requests.tasks import execute_async_requests
-
-    sender.add_periodic_task(300, execute_async_requests.s(), name="execute async requests")
-
-
 @app.task(bind=True)
 def debug_task(self):
     print(f"Request: {self.request!r}")

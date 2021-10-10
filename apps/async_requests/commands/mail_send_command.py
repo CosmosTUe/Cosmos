@@ -1,11 +1,10 @@
-from django.core import mail
-from django.core.mail import EmailMessage
+from sendgrid.helpers.mail import Mail
 
 from apps.async_requests.commands.command import Command
 
 
 class MailSendCommand(Command):
-    def __init__(self, email: EmailMessage):
+    def __init__(self, email: Mail):
         super(MailSendCommand, self).__init__(True)
         self.emails = [email]
 
@@ -14,8 +13,10 @@ class MailSendCommand(Command):
             self.emails.extend(command.emails)
 
     def execute(self):
-        connection = mail.get_connection()
-        connection.send_messages(self.emails)
+        from apps.async_requests.factory import Factory
+
+        for email in self.emails:
+            Factory.get_newsletter_service().send_mail(email)
 
     def __eq__(self, other):
         return super().__eq__(other) and self.emails == self.emails

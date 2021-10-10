@@ -189,12 +189,18 @@ class NewsListViewTest(TestCase):
             self.assertIsNotNone(output)
 
         if can_change:
-            self.assertEqual(f"/news/{news.pk}/update/", news_object.find_all("a", {"class": "btn p-0"})[0].get("href"))
+            self.assertEqual(
+                f"/news/{news.pk}/update/",
+                news_object.find_all("a", {"class": "btn p-0 btn-over-stretched"})[0].get("href"),
+            )
         else:
             self.assertIsNone(news_object.find("a", {"class": "btn p-0", "href": f"/news/{news.pk}/update/"}))
 
         if can_delete:
-            self.assertEqual(f"/news/{news.pk}/delete/", news_object.find_all("a", {"class": "btn p-0"})[1].get("href"))
+            self.assertEqual(
+                f"/news/{news.pk}/delete/",
+                news_object.find_all("a", {"class": "btn p-0 btn-over-stretched"})[1].get("href"),
+            )
         else:
             self.assertIsNone(news_object.find("a", {"class": "btn p-0", "href": f"/news/{news.pk}/delete/"}))
 

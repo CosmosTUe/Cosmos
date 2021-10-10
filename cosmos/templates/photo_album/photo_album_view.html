@@ -29,12 +29,10 @@
             {% for photo_object in album.has_photos.all %}
             <div class="col">
                 <div class="card">
-                    <div style="transform: rotate(0);">
-                        <img src="{{ photo_object.photo.url }}" class="card-img-top album-image" loading="lazy">
-                        <a class="stretched-link" href="#" data-bs-toggle="modal" data-bs-target="#photoModal" data-bs-image-url="{{ photo_object.photo.url }}"></a>
-                    </div>
+                    <img src="{{ photo_object.photo.url }}" class="card-img-top album-image" loading="lazy">
+                    <a class="stretched-link" href="#" data-bs-toggle="modal" data-bs-target="#photoModal" data-bs-image-url="{{ photo_object.photo.url }}"></a>
                     {% if perms.cosmos.delete_photoobject %}
-                    <a href="{% url 'photo_object-delete' photo_object.id %}" class="photo-delete">
+                    <a href="{% url 'photo_object-delete' photo_object.id %}" class="photo-delete btn-over-stretched">
                         <i class="bi bi-trash"></i>
                     </a>
                     {% endif %}

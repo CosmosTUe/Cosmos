@@ -69,6 +69,11 @@ a:hover {
     border-color: var(--blue);
 }
 
+.btn-over-stretched {
+    z-index: 2;
+    position: relative;
+}
+
 .home-img {
     position: relative;
     width: 100%;

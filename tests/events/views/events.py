@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 from django.contrib.auth.models import Group, User
 from django.test import TestCase
 
-from cosmos.models import Event
+from apps.events.models import Event
 from tests.cosmos.helpers import get_image_file
 
 

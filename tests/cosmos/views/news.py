@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 from django.contrib.auth.models import User
 from django.test import TestCase
 
-from cosmos.models import News
+from apps.core.models.news import News
 from tests.cosmos.helpers import get_image_file
 
 

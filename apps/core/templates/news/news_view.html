@@ -1,0 +1,35 @@
+{% extends "subpage.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}{{ article.title }}{% endblock title %}
+
+{% block content %}
+
+<div class="container">
+    <div class="mx-auto w-75">
+
+        <div class="card{% if not article.published %} news-disabled{% endif %}">
+            <img src="{{ article.image.url}}" class="card-img-top news-image-large">
+            <div class="card-body">
+                {% if perms.cosmos.change_news and perms.cosmos.delete_news %}
+                <div class="float-end">
+                    <a class="btn p-0" href="{% url 'cosmos_core:news-update' article.id %}">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                    <a class="btn p-0" href="{% url 'cosmos_core:news-delete' article.id %}">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                </div>
+                {% endif %}
+                <h4 class="card-title">{{ article.title }}</h4>
+                <small class="">{{ article.publish_date }} - By {{ article.author.first_name }}</small>
+                
+                <p class="lead">{{ article.lead }}</p>
+                {{ article.content|safe }}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

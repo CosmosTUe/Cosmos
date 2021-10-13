@@ -4,7 +4,7 @@ from io import BytesIO
 from django.core.files import File
 from PIL import Image
 
-from cosmos.models import GMM
+from apps.core.models.gmm import GMM
 
 
 def get_new_file(name):

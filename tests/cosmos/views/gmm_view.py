@@ -4,10 +4,10 @@ from django.contrib.auth.models import User
 from django.core.files import File
 from django.test import TestCase, TransactionTestCase
 
+from apps.core.models.gmm import GMM, FileObject
 from apps.users.forms import errors
 from apps.users.models import Profile
 from cosmos import settings
-from cosmos.models import GMM, FileObject
 from tests.cosmos.helpers import clear_temp_files, get_new_file, get_new_gmm
 
 

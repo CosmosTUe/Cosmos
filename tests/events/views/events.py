@@ -85,7 +85,7 @@ class EventsViewTest(TestCase):
     def assert_event_member_only(self, pk):
         url = f"/events/{pk}/"
         response = self.client.get(url)
-        self.assertEqual(302, response.status_code)
+        self.assertEqual(403, response.status_code)
 
     def test_public_view(self):
         self.client.logout()
@@ -249,7 +249,7 @@ class EventsUpdateViewTest(TestCase):
     def test_forbidden_for_public(self):
         self.client.logout()
 
-        response = self.client.get(self.url)
+        response = self.client.get(self.url, follow=True)
 
         self.assertEqual(403, response.status_code)
 
@@ -257,7 +257,7 @@ class EventsUpdateViewTest(TestCase):
         User.objects.create_user(username="tosti@student.tue.nl", email="tosti@cosmostue.nl", password="ikbeneenbrood")
         self.client.login(username="tosti@student.tue.nl", password="ikbeneenbrood")
 
-        response = self.client.get(self.url)
+        response = self.client.get(self.url, follow=True)
 
         self.assertEqual(403, response.status_code)
 
@@ -267,7 +267,7 @@ class EventsUpdateViewTest(TestCase):
         )
         self.client.login(username="admin@student.tue.nl", password="adminsecret")
 
-        response = self.client.get(self.url)
+        response = self.client.get(self.url, follow=True)
 
         self.assertEqual(200, response.status_code)
 
@@ -298,7 +298,7 @@ class EventsDeleteViewTest(TestCase):
     def test_forbidden_for_public(self):
         self.client.logout()
 
-        response = self.client.get(self.url)
+        response = self.client.get(self.url, follow=True)
 
         self.assertEqual(403, response.status_code)
 
@@ -306,7 +306,7 @@ class EventsDeleteViewTest(TestCase):
         User.objects.create_user(username="tosti@student.tue.nl", email="tosti@cosmostue.nl", password="ikbeneenbrood")
         self.client.login(username="tosti@student.tue.nl", password="ikbeneenbrood")
 
-        response = self.client.get(self.url)
+        response = self.client.get(self.url, follow=True)
 
         self.assertEqual(403, response.status_code)
 
@@ -316,6 +316,6 @@ class EventsDeleteViewTest(TestCase):
         )
         self.client.login(username="admin@student.tue.nl", password="adminsecret")
 
-        response = self.client.get(self.url)
+        response = self.client.get(self.url, follow=True)
 
         self.assertEqual(200, response.status_code)

@@ -130,6 +130,7 @@ PIPELINE = {
                 "cosmos/js/gmm.js",
                 "cosmos/js/photos.js",
                 "cosmos/js/about.js",
+                "cosmos/js/calendar.js",
             },
             "output_filename": "cosmos/js/cosmos.js",
         },

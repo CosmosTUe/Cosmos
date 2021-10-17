@@ -15,22 +15,6 @@ window["switchGMMView"] = function()
 }
 
 window.onload = function() {
-    if (document.getElementById("id_publish_date")) {
-        var dialog = new mdDateTimePicker.default({
-            type: "date",
-            future: moment().add(3, 'months'),
-            trigger: document.getElementById("id_publish_date")
-        });
-
-        document.getElementById("id_calendar_button").addEventListener('click', function() {
-            dialog.toggle();
-        });
-
-        document.getElementById("id_publish_date").addEventListener('onOk', function() {
-            this.value = dialog.time._d.toISOString().split('T')[0];
-        });
-    }
-
     if (document.querySelector("#add-form")) {
         let fileForm = document.querySelectorAll(".file-form");
         let container = document.querySelector("#form-container");

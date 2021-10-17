@@ -112,16 +112,13 @@ PIPELINE = {
                 "cosmos/css/photos.css",
                 "cosmos/css/news.css",
                 "cosmos/css/about.css",
+                "cosmos_events/css/events.css",
             },
             "output_filename": "cosmos/css/cosmos.css",
         },
         "cosmos_users": {
             "source_filenames": {"cosmos_users/css/auth.css"},
             "output_filename": "cosmos_users/css/cosmos_users.css",
-        },
-        "cosmos_events": {
-            "source_filenames": {"cosmos_events/css/events.css"},
-            "output_filename": "cosmos_events/css/cosmos_events",
         },
     },
     "JAVASCRIPT": {
@@ -130,7 +127,7 @@ PIPELINE = {
                 "cosmos/js/gmm.js",
                 "cosmos/js/photos.js",
                 "cosmos/js/about.js",
-                "cosmos/js/calendar.js",
+                "cosmos_events/js/events.js",
             },
             "output_filename": "cosmos/js/cosmos.js",
         },

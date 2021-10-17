@@ -19,9 +19,12 @@
     {# Custom CSS #}
     {% stylesheet "cosmos" %}
     {% stylesheet "cosmos_users" %}
-    {% stylesheet "cosmos_events" %}
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@800&display=swap" rel="stylesheet">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
     <meta name="viewport" content="width=device-width,initial-scale=1">
 </head>
@@ -44,6 +47,5 @@
 <script src="{% static 'date-time-picker/js/mdDateTimePicker.js' %}"></script>
 {# Custom JS #}
 {% javascript "cosmos" %}
-
 </body>
 </html>

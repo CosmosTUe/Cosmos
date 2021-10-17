@@ -1,20 +1,26 @@
-window["switchGMMView"] = function()
-{
+window["switchGMMView"] = function() {
     var table = document.getElementById("GMMTable");
     var grid = document.getElementById("GMMGrid");
 
-    if (table.style.display == "none")
-    {
+    if (table.style.display == "none") {
         table.style.display = "table";
         grid.style.display = "none";
-    } else
-    {
+    } else {
         table.style.display = "none";
         grid.style.display = "flex";
     }
 }
 
-window.onload = function() {
+window.addEventListener('load', (event) => {
+    console.log('Hello')
+    if (document.getElementById("id_date")) {
+        flatpickr("#id_date", { enableTime: true, dateFormat: "Y-m-d H:i", time_24hr: true, });
+        console.log("success")
+    }
+    if (document.getElementById("id_publish_date")) {
+        flatpickr("#id_publish_date", { enableTime: true, dateFormat: "Y-m-d H:i", time_24hr: true, });
+        console.log("success")
+    }
     if (document.querySelector("#add-form")) {
         let fileForm = document.querySelectorAll(".file-form");
         let container = document.querySelector("#form-container");
@@ -39,4 +45,4 @@ window.onload = function() {
             totalForms.setAttribute("value", `${formNum+1}`);
         }
     }
-};
+});

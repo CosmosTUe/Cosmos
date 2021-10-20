@@ -4,6 +4,7 @@ from django.contrib.auth.models import Group, User
 from django.test import TestCase
 
 from apps.events.models import Event
+from apps.events.forms import EventForm
 from tests.cosmos.helpers import get_image_file
 
 
@@ -319,3 +320,40 @@ class EventsDeleteViewTest(TestCase):
         response = self.client.get(self.url, follow=True)
 
         self.assertEqual(200, response.status_code)
+
+
+class EventFormTest(TestCase):
+    @staticmethod
+    def generate_form(
+        name="Name",
+        start_date_time="2200-01-01 01:20",
+        end_date_time="2200-01-01 01:20",
+        image=get_image_file(),
+        member_only=False,
+        lead="Lead",
+        description="Description",
+        location="Location",
+        organizer="organizer",
+        price=20.0,
+    ) -> EventForm:
+        return EventForm(
+            data={
+                "name": name,
+                "start_date_time": start_date_time,
+                "end_date_time": end_date_time,
+                "image": image,
+                "member_only": member_only,
+                "lead": lead,
+                "description": description,
+                "location": location,
+                "organizer": organizer,
+                "price": price,
+            }
+        )
+
+    def start_before_end(self):
+        form_start_end = self.generate_form().save()
+        form_end_start = self.generate_form(start_date_time="2200-01-01 01:20", end_date_time="2200-01-01 01:20").save()
+
+        self.assertTrue(form_start_end.is_valid())
+        self.assertFalse(form_end_start.is_valid())

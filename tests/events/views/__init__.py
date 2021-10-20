@@ -1,4 +1,11 @@
-from .events import EventsCreateViewTest, EventsDeleteViewTest, EventsListViewTest, EventsUpdateViewTest, EventsViewTest
+from .events import (
+    EventsCreateViewTest,
+    EventsDeleteViewTest,
+    EventsListViewTest,
+    EventsUpdateViewTest,
+    EventsViewTest,
+    EventFormTest,
+)
 
 __all__ = [
     "EventsCreateViewTest",
@@ -6,4 +13,5 @@ __all__ = [
     "EventsViewTest",
     "EventsDeleteViewTest",
     "EventsUpdateViewTest",
+    "EventFormTest",
 ]

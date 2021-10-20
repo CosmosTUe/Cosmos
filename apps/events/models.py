@@ -13,7 +13,7 @@ class Event(models.Model):
     member_only = models.BooleanField()
     location = models.CharField(max_length=255)
     organizer = models.ForeignKey(Group, blank=True, null=True, on_delete=models.SET_NULL)
-    price = models.DecimalField(max_digits=5, decimal_places=2)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
         return "Event: {" + self.name + "}"

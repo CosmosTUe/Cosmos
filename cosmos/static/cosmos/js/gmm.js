@@ -14,11 +14,11 @@ window["switchGMMView"] = function() {
 window.addEventListener('load', (event) => {
     console.log('Hello')
     if (document.getElementById("id_date")) {
-        flatpickr("#id_date", { enableTime: true, dateFormat: "Y-m-d H:i", time_24hr: true, });
+        flatpickr("#id_date", { enableTime: false, dateFormat: "Y-m-d", time_24hr: true, });
         console.log("success")
     }
     if (document.getElementById("id_publish_date")) {
-        flatpickr("#id_publish_date", { enableTime: true, dateFormat: "Y-m-d H:i", time_24hr: true, });
+        flatpickr("#id_publish_date", { enableTime: false, dateFormat: "Y-m-d", time_24hr: true, });
         console.log("success")
     }
     if (document.querySelector("#add-form")) {

@@ -1,10 +1,10 @@
 from .events import (
+    EventFormTest,
     EventsCreateViewTest,
     EventsDeleteViewTest,
     EventsListViewTest,
     EventsUpdateViewTest,
     EventsViewTest,
-    EventFormTest,
 )
 
 __all__ = [

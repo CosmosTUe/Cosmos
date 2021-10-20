@@ -162,8 +162,6 @@ class EventsListViewTest(TestCase):
         can_delete=False,
     ):
         self.assertEqual(name, event_object.find("h5", {"class": "card-title"}).contents[0])
-        # date = datetime.datetime.fromisoformat(start_date_time).strftime("%b. %d, %Y, %-I %p")  # default date format
-        # self.assertEqual(date, event_object.find("small", {"class": "test-muted"}).contents[0].strip())
 
         event = Event.objects.get(name=name)
 

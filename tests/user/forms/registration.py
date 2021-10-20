@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 
 from apps.users.forms import RegisterUserForm
-from apps.users.forms.errors import DUPLICATE_EMAIL, INVALID_EMAIL
+from apps.users.forms.error_codes import DUPLICATE_EMAIL, INVALID_EMAIL
 
 
 class RegisterUserFormTest(TestCase):

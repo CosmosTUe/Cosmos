@@ -4,7 +4,7 @@ from typing import Dict
 
 import sendgrid
 
-from apps.async_requests.sendgrid.newsletter import NewsletterService
+from apps.async_requests.newsletter.newsletter_service import NewsletterService
 from cosmos import settings
 
 

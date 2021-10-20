@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 
 from apps.users.helper_functions import is_fontys_email, is_tue_email
-from apps.users.models.user.constants import NATIONALITIES, NEWSLETTER_RECIPIENTS
+from apps.users.models.constants import NATIONALITIES, NEWSLETTER_RECIPIENTS
 
 
 class Profile(models.Model):
@@ -41,7 +41,7 @@ class Profile(models.Model):
 
     @property
     def institution(self):
-        from apps.users.models.user.institution import InstitutionFontys, InstitutionTue
+        from apps.users.models.institution import InstitutionFontys, InstitutionTue
 
         if is_tue_email(self.username):
             return InstitutionTue.objects.get(profile=self)

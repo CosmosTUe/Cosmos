@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from python_http_client import UnauthorizedError
 
-from apps.async_requests.sendgrid.newsletter import NewsletterService
+from apps.async_requests.newsletter.newsletter_service import NewsletterService
 from apps.users.admin import ProfileAdmin
 from apps.users.models import Profile
 from mocks.request import MockRequest

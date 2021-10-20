@@ -14,13 +14,13 @@ from formtools.wizard.views import SessionWizardView
 from apps.async_requests.commands import MailSendCommand, SubscribeCommand
 from apps.async_requests.commands.unsubscribe_command import UnsubscribeCommand
 from apps.async_requests.factory import Factory
-from apps.users.forms.auth import CosmosLoginForm
+from apps.users.forms.authorization import CosmosLoginForm
 from apps.users.forms.profile import KeyAccessUpdateForm, PasswordUpdateForm, PreferencesUpdateForm, ProfileUpdateForm
 from apps.users.forms.registration import RegisterFontysForm, RegisterTueForm, RegisterUserForm
 from apps.users.helper_functions import is_fontys_email, is_tue_email
 from apps.users.mail import create_confirm_account_email
 from apps.users.models import Board, Committee
-from apps.users.models.user import InstitutionFontys, InstitutionTue
+from apps.users.models.institution import InstitutionFontys, InstitutionTue
 from apps.users.tokens import account_activation_token
 
 logger = logging.getLogger(__name__)

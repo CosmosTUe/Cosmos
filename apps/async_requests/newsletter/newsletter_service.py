@@ -3,7 +3,7 @@ COSMOS uses SendGrid to handle newsletters.
 
 NOTE:
 Use the API documentation linked below.
-The one linked in `sendgrid/sendgrid-python` is for legacy and not to be used.
+The one linked in `newsletter/newsletter-python` is for legacy and not to be used.
 
 References:
 https://github.com/sendgrid/sendgrid-python
@@ -14,7 +14,7 @@ from abc import ABCMeta, abstractmethod
 from typing import List
 
 from apps.async_requests.commands import SubscribeCommand, UnsubscribeCommand
-from apps.users.models.user.profile import Profile
+from apps.users.models.profile import Profile
 
 
 class NewsletterService(metaclass=ABCMeta):
@@ -50,9 +50,9 @@ class NewsletterService(metaclass=ABCMeta):
     @abstractmethod
     def send_mail(self, email):
         """
-        Send emails via the sendgrid service
+        Send emails via the newsletter service
 
-        :param email: sendgrid Mail object
+        :param email: newsletter Mail object
         :return: True if email is sent succesfully
         """
         pass
@@ -78,7 +78,8 @@ class NewsletterService(metaclass=ABCMeta):
 
         if not profile.subscribed_newsletter:
             # unsubscribe to both
-            service.remove_subscription([inst_email, alt_email])
+            executor.add_command(UnsubscribeCommand(inst_email))
+            executor.add_command(UnsubscribeCommand(alt_email))
             return
 
         # Profile is subscribed to newsletter

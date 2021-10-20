@@ -5,7 +5,7 @@ from django.contrib import admin
 from django.http import FileResponse
 from django.urls import path
 
-from apps.users.models.user import InstitutionFontys, InstitutionTue
+from apps.users.models.institution import InstitutionFontys, InstitutionTue
 from apps.users.stats import get_major_stats
 
 

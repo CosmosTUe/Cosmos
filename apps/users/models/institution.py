@@ -3,8 +3,8 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from apps.users.helper_functions import is_fontys_email, is_tue_email
-from apps.users.models.user.constants import FONTYS_STUDIES, TUE_DEPARTMENTS, TUE_PROGRAMS
-from apps.users.models.user.profile import Profile
+from apps.users.models.constants import FONTYS_STUDIES, TUE_DEPARTMENTS, TUE_PROGRAMS
+from apps.users.models.profile import Profile
 
 
 class Institution(models.Model):

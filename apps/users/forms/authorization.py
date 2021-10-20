@@ -16,7 +16,7 @@ from django.core.exceptions import ValidationError
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 
-from apps.users.forms.errors import INVALID_EMAIL
+from apps.users.forms.error_codes import INVALID_EMAIL
 from apps.users.helper_functions import is_valid_institutional_email
 
 
@@ -87,31 +87,26 @@ class CosmosPasswordResetForm(PasswordResetForm):
 
         # modified
         email = self.cleaned_data["email"]
-        query = User.objects.filter(**{"username__iexact": email, "is_active": True})
-        # assert maximum one user found
-        if len(query) > 1:
-            raise ValueError()
+        user = User.objects.get(**{"username__iexact": email, "is_active": True})
 
-        for user in query:
-            user_email = user.username
-            context = {
-                "email": user_email,
-                "domain": domain,
-                "site_name": site_name,
-                "uid": urlsafe_base64_encode(force_bytes(user.pk)),
-                "user": user,
-                "token": token_generator.make_token(user),
-                "protocol": "https" if use_https else "http",
-                **(extra_email_context or {}),
-            }
-            self.send_mail(
-                subject_template_name,
-                email_template_name,
-                context,
-                from_email,
-                user_email,
-                html_email_template_name=html_email_template_name,
-            )
+        context = {
+            "email": user.username,
+            "domain": domain,
+            "site_name": site_name,
+            "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+            "user": user,
+            "token": token_generator.make_token(user),
+            "protocol": "https" if use_https else "http",
+            **(extra_email_context or {}),
+        }
+        self.send_mail(
+            subject_template_name,
+            email_template_name,
+            context,
+            from_email,
+            user.username,
+            html_email_template_name=html_email_template_name,
+        )
 
 
 class CosmosSetPasswordForm(SetPasswordForm):

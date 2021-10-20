@@ -1,8 +1,11 @@
 import bs4
 from bs4 import BeautifulSoup
 from django.contrib.auth.models import Group, User
+from django.core.exceptions import ValidationError
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 
+from apps.events.errors import END_DATE_BEFORE_START
 from apps.events.models import Event
 from apps.events.forms import EventForm
 from tests.cosmos.helpers import get_image_file
@@ -69,7 +72,8 @@ class EventsViewTest(TestCase):
         self.member.save()
 
     def tearDown(self) -> None:
-        return Event.objects.all().delete()
+        Event.objects.all().delete()
+        Group.objects.all().delete()
 
     def assert_event_view_visible(self, pk):
         url = f"/events/{pk}/"
@@ -146,16 +150,17 @@ class EventsListViewTest(TestCase):
         self.member.save()
 
     def tearDown(self) -> None:
-        return Event.objects.all().delete()
+        Event.objects.all().delete()
+        Group.objects.all().delete()
 
     def assert_event_card_visible(
-        self,
-        event_object: bs4.Tag,
-        name: str,
-        start_date_time: str,
-        end_date_time: str,
-        can_change=False,
-        can_delete=False,
+            self,
+            event_object: bs4.Tag,
+            name: str,
+            start_date_time: str,
+            end_date_time: str,
+            can_change=False,
+            can_delete=False,
     ):
         self.assertEqual(name, event_object.find("h5", {"class": "card-title"}).contents[0])
         # date = datetime.datetime.fromisoformat(start_date_time).strftime("%b. %d, %Y, %-I %p")  # default date format
@@ -244,7 +249,8 @@ class EventsUpdateViewTest(TestCase):
         self.public.save()
 
     def tearDown(self) -> None:
-        return Event.objects.all().delete()
+        Event.objects.all().delete()
+        Group.objects.all().delete()
 
     def test_forbidden_for_public(self):
         self.client.logout()
@@ -294,7 +300,8 @@ class EventsDeleteViewTest(TestCase):
         self.public.save()
 
     def tearDown(self) -> None:
-        return Event.objects.all().delete()
+        Event.objects.all().delete()
+        Group.objects.all().delete()
 
     def test_forbidden_for_public(self):
         self.client.logout()
@@ -325,35 +332,53 @@ class EventsDeleteViewTest(TestCase):
 class EventFormTest(TestCase):
     @staticmethod
     def generate_form(
-        name="Name",
-        start_date_time="2200-01-01 01:20",
-        end_date_time="2200-01-01 01:20",
-        image=get_image_file(),
-        member_only=False,
-        lead="Lead",
-        description="Description",
-        location="Location",
-        organizer="organizer",
-        price=20.0,
+            name="Name",
+            start_date_time="2200-01-01 01:20",
+            end_date_time="2200-01-01 01:20",
+            image=None,
+            member_only=False,
+            lead="Lead",
+            description="Description",
+            location="Location",
+            organizer=None,
+            price=20.0,
     ) -> EventForm:
+        if organizer is None:
+            organizer = Group(name="organizer-group").save()
+        files = {}
+        if image is None:
+            upload_image = get_image_file()
+            files["image"] = SimpleUploadedFile(upload_image.name, upload_image.read())
+
         return EventForm(
             data={
                 "name": name,
                 "start_date_time": start_date_time,
                 "end_date_time": end_date_time,
-                "image": image,
                 "member_only": member_only,
                 "lead": lead,
                 "description": description,
                 "location": location,
                 "organizer": organizer,
                 "price": price,
-            }
+            },
+            files=files
         )
 
-    def start_before_end(self):
-        form_start_end = self.generate_form().save()
-        form_end_start = self.generate_form(start_date_time="2200-01-01 01:20", end_date_time="2200-01-01 01:20").save()
+    def tearDown(self) -> None:
+        Group.objects.all().delete()
 
+    def test_success(self):
+        form_start_end = self.generate_form()
+
+        # image: required
+        # organizer: select from available choices
         self.assertTrue(form_start_end.is_valid())
+
+    def test_start_before_end(self):
+        form_end_start = self.generate_form(start_date_time="2200-01-03 01:20", end_date_time="2200-01-01 01:20")
+
+        # image: required
+        # organizer: select from available choicesdata = {list: 1} [ValidationError(['Start time must be after end time'])]
         self.assertFalse(form_end_start.is_valid())
+        self.assertTrue(form_end_start.has_error("__all__", END_DATE_BEFORE_START))

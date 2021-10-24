@@ -1,6 +1,6 @@
 import bs4
 from bs4 import BeautifulSoup
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import Group, Permission, User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 
@@ -27,6 +27,19 @@ class EventsCreateViewTest(TestCase):
         response = self.client.get(self.url)
 
         self.assertEqual(403, response.status_code)
+
+    def test_accessible_for_user_with_permission(self):
+        user = User.objects.create_user(
+            username="user@student.tue.nl", email="user@cosmostue.nl", password="usersecret"
+        )
+        user.user_permissions.add(
+            Permission.objects.get(codename="add_event"),
+        )
+        self.client.login(username="user@student.tue.nl", password="usersecret")
+
+        response = self.client.get(self.url)
+
+        self.assertEqual(200, response.status_code)
 
     def test_accessible_for_admins(self):
         User.objects.create_superuser(
@@ -99,6 +112,19 @@ class EventsViewTest(TestCase):
     def test_member_view(self):
         User.objects.create_user(username="tosti@student.tue.nl", email="tosti@cosmostue.nl", password="ikbeneenbrood")
         self.client.login(username="tosti@student.tue.nl", password="ikbeneenbrood")
+
+        self.assert_event_view_visible(self.public.pk)
+        self.assert_event_view_visible(self.member.pk)
+        self.assert_event_not_found(500)
+
+    def test_user_with_permission_view(self):
+        user = User.objects.create_user(
+            username="user@student.tue.nl", email="user@cosmostue.nl", password="usersecret"
+        )
+        user.user_permissions.add(
+            Permission.objects.get(codename="view_event"),
+        )
+        self.client.login(username="user@student.tue.nl", password="usersecret")
 
         self.assert_event_view_visible(self.public.pk)
         self.assert_event_view_visible(self.member.pk)
@@ -207,6 +233,28 @@ class EventsListViewTest(TestCase):
         self.assert_event_card_visible(events[0], "Public Event", "2200-01-01 01:20", False, False)
         self.assert_event_card_visible(events[1], "Member Event", "2201-01-01 01:20", False, False)
 
+    def test_user_with_permission_view(self):
+        user = User.objects.create_user(
+            username="user@student.tue.nl", email="user@cosmostue.nl", password="usersecret"
+        )
+        user.user_permissions.add(
+            Permission.objects.get(codename="add_event"),
+            Permission.objects.get(codename="change_event"),
+            Permission.objects.get(codename="delete_event"),
+            Permission.objects.get(codename="view_event"),
+        )
+        self.client.login(username="user@student.tue.nl", password="usersecret")
+
+        response = self.client.get(self.url)
+
+        html_parser = BeautifulSoup(response.content.decode("utf-8"), "html.parser")
+        grid = html_parser.find("div", id="EventGrid")
+        events = grid.find_all("div", {"class": "col"})
+
+        self.assertEqual(2, len(events))
+        self.assert_event_card_visible(events[0], "Public Event", "2200-01-01 01:20", True, True)
+        self.assert_event_card_visible(events[1], "Member Event", "2201-01-01 01:20", True, True)
+
     def test_admin_view(self):
         User.objects.create_superuser(
             username="tosti@student.tue.nl", email="tosti@cosmostue.nl", password="ikbeneenbrood"
@@ -264,6 +312,19 @@ class EventsUpdateViewTest(TestCase):
 
         self.assertEqual(403, response.status_code)
 
+    def test_user_with_permission_view(self):
+        user = User.objects.create_user(
+            username="user@student.tue.nl", email="user@cosmostue.nl", password="usersecret"
+        )
+        user.user_permissions.add(
+            Permission.objects.get(codename="change_event"),
+        )
+        self.client.login(username="user@student.tue.nl", password="usersecret")
+
+        response = self.client.get(self.url, follow=True)
+
+        self.assertEqual(200, response.status_code)
+
     def test_accessible_for_admins(self):
         User.objects.create_superuser(
             username="admin@student.tue.nl", email="admin@cosmostue.nl", password="adminsecret"
@@ -314,6 +375,19 @@ class EventsDeleteViewTest(TestCase):
         response = self.client.get(self.url, follow=True)
 
         self.assertEqual(403, response.status_code)
+
+    def test_user_with_permission_view(self):
+        user = User.objects.create_user(
+            username="user@student.tue.nl", email="user@cosmostue.nl", password="usersecret"
+        )
+        user.user_permissions.add(
+            Permission.objects.get(codename="delete_event"),
+        )
+        self.client.login(username="user@student.tue.nl", password="usersecret")
+
+        response = self.client.get(self.url, follow=True)
+
+        self.assertEqual(200, response.status_code)
 
     def test_accessible_for_admins(self):
         User.objects.create_superuser(

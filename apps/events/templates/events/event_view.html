@@ -15,7 +15,7 @@
         <div class="card">
             <img src="{{ event.image.url}}" class="card-img-top event-image-large">
             <div class="card-body">
-                {% if perms.cosmos.change_events and perms.cosmos.delete_events %}
+                {% if perms.events.change_events and perms.events.delete_events %}
                 <div class="float-end">
                     <a class="btn p-0" href="{% url 'cosmos_events:events-update' event.id %}">
                         <i class="bi bi-pencil-square"></i>

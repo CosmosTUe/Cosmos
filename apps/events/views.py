@@ -34,7 +34,7 @@ class EventCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     success_url = None
 
     # Permissions
-    permission_required = "cosmos.add_event"
+    permission_required = "events.add_event"
     raise_exception = True
 
     def get_success_url(self):
@@ -48,7 +48,7 @@ class EventUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     success_url = None
 
     # Permissions
-    permission_required = "cosmos.change_event"
+    permission_required = "events.change_event"
     raise_exception = True
 
     def get_success_url(self):
@@ -61,5 +61,5 @@ class EventDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     success_url = reverse_lazy("cosmos_events:events-list")
 
     # Permissions
-    permission_required = "cosmos.delete_event"
+    permission_required = "events.delete_event"
     raise_exception = True

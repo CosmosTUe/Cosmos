@@ -34,9 +34,6 @@ class EventsCreateViewTest(TestCase):
         )
         user.user_permissions.add(
             Permission.objects.get(codename="add_event"),
-            Permission.objects.get(codename="change_event"),
-            Permission.objects.get(codename="delete_event"),
-            Permission.objects.get(codename="view_event"),
         )
         self.client.login(username="user@student.tue.nl", password="usersecret")
 
@@ -125,9 +122,6 @@ class EventsViewTest(TestCase):
             username="user@student.tue.nl", email="user@cosmostue.nl", password="usersecret"
         )
         user.user_permissions.add(
-            Permission.objects.get(codename="add_event"),
-            Permission.objects.get(codename="change_event"),
-            Permission.objects.get(codename="delete_event"),
             Permission.objects.get(codename="view_event"),
         )
         self.client.login(username="user@student.tue.nl", password="usersecret")
@@ -323,10 +317,7 @@ class EventsUpdateViewTest(TestCase):
             username="user@student.tue.nl", email="user@cosmostue.nl", password="usersecret"
         )
         user.user_permissions.add(
-            Permission.objects.get(codename="add_event"),
             Permission.objects.get(codename="change_event"),
-            Permission.objects.get(codename="delete_event"),
-            Permission.objects.get(codename="view_event"),
         )
         self.client.login(username="user@student.tue.nl", password="usersecret")
 
@@ -390,10 +381,7 @@ class EventsDeleteViewTest(TestCase):
             username="user@student.tue.nl", email="user@cosmostue.nl", password="usersecret"
         )
         user.user_permissions.add(
-            Permission.objects.get(codename="add_event"),
-            Permission.objects.get(codename="change_event"),
             Permission.objects.get(codename="delete_event"),
-            Permission.objects.get(codename="view_event"),
         )
         self.client.login(username="user@student.tue.nl", password="usersecret")
 

@@ -1,36 +1,23 @@
-window["switchGMMView"] = function()
-{
+window["switchGMMView"] = function() {
     var table = document.getElementById("GMMTable");
     var grid = document.getElementById("GMMGrid");
 
-    if (table.style.display == "none")
-    {
+    if (table.style.display == "none") {
         table.style.display = "table";
         grid.style.display = "none";
-    } else
-    {
+    } else {
         table.style.display = "none";
         grid.style.display = "flex";
     }
 }
 
-window.onload = function() {
-    if (document.getElementById("id_publish_date")) {
-        var dialog = new mdDateTimePicker.default({
-            type: "date",
-            future: moment().add(3, 'months'),
-            trigger: document.getElementById("id_publish_date")
-        });
-
-        document.getElementById("id_calendar_button").addEventListener('click', function() {
-            dialog.toggle();
-        });
-
-        document.getElementById("id_publish_date").addEventListener('onOk', function() {
-            this.value = dialog.time._d.toISOString().split('T')[0];
-        });
+window.addEventListener('load', (event) => {
+    if (document.getElementById("id_date")) {
+        flatpickr("#id_date", { enableTime: false, dateFormat: "Y-m-d", time_24hr: true, });
     }
-
+    if (document.getElementById("id_publish_date")) {
+        flatpickr("#id_publish_date", { enableTime: false, dateFormat: "Y-m-d", time_24hr: true, });
+    }
     if (document.querySelector("#add-form")) {
         let fileForm = document.querySelectorAll(".file-form");
         let container = document.querySelector("#form-container");
@@ -55,4 +42,4 @@ window.onload = function() {
             totalForms.setAttribute("value", `${formNum+1}`);
         }
     }
-};
+});

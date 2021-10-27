@@ -11,6 +11,7 @@ https://github.com/sendgrid/python-http-client
 https://sendgrid.api-docs.io/v3.0/how-to-use-the-sendgrid-v3-api/api-authentication
 """
 from abc import ABCMeta, abstractmethod
+from typing import List
 
 from apps.async_requests.commands import SubscribeCommand, UnsubscribeCommand
 from apps.users.models.user.profile import Profile
@@ -37,12 +38,22 @@ class NewsletterService(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def remove_subscription(self, emails: [str]):
+    def remove_subscription(self, emails: List[str]):
         """
         Unsubscribe list of emails to the newsletter
 
         :param emails: list of emails to unsubscribe
         :return: True if all emails are unsubscribed successfully
+        """
+        pass
+
+    @abstractmethod
+    def send_mail(self, email):
+        """
+        Send emails via the sendgrid service
+
+        :param email: sendgrid Mail object
+        :return: True if email is sent succesfully
         """
         pass
 

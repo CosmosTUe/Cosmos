@@ -189,12 +189,18 @@ class NewsListViewTest(TestCase):
             self.assertIsNotNone(output)
 
         if can_change:
-            self.assertEqual(f"/news/{news.pk}/update/", news_object.find_all("a", {"class": "btn p-0"})[0].get("href"))
+            self.assertEqual(
+                f"/news/{news.pk}/update/",
+                news_object.find_all("a", {"class": "btn p-0 btn-over-stretched"})[0].get("href"),
+            )
         else:
             self.assertIsNone(news_object.find("a", {"class": "btn p-0", "href": f"/news/{news.pk}/update/"}))
 
         if can_delete:
-            self.assertEqual(f"/news/{news.pk}/delete/", news_object.find_all("a", {"class": "btn p-0"})[1].get("href"))
+            self.assertEqual(
+                f"/news/{news.pk}/delete/",
+                news_object.find_all("a", {"class": "btn p-0 btn-over-stretched"})[1].get("href"),
+            )
         else:
             self.assertIsNone(news_object.find("a", {"class": "btn p-0", "href": f"/news/{news.pk}/delete/"}))
 
@@ -204,7 +210,7 @@ class NewsListViewTest(TestCase):
         response = self.client.get(self.url)
 
         html_parser = BeautifulSoup(response.content.decode("utf-8"), "html.parser")
-        grid = html_parser.find("div", id="GMMGrid")
+        grid = html_parser.find("div", id="NewsGrid")
         articles = grid.find_all("div", {"class": "col"})
 
         self.assertEqual(1, len(articles))
@@ -217,7 +223,7 @@ class NewsListViewTest(TestCase):
         response = self.client.get(self.url)
 
         html_parser = BeautifulSoup(response.content.decode("utf-8"), "html.parser")
-        grid = html_parser.find("div", id="GMMGrid")
+        grid = html_parser.find("div", id="NewsGrid")
         articles = grid.find_all("div", {"class": "col"})
 
         self.assertEqual(2, len(articles))
@@ -233,7 +239,7 @@ class NewsListViewTest(TestCase):
         response = self.client.get(self.url)
 
         html_parser = BeautifulSoup(response.content.decode("utf-8"), "html.parser")
-        grid = html_parser.find("div", id="GMMGrid")
+        grid = html_parser.find("div", id="NewsGrid")
         articles = grid.find_all("div", {"class": "col"})
 
         self.assertEqual(4, len(articles))

@@ -14,10 +14,10 @@ class MockCommand(Command):
         raise Exception("test")
 
     def __eq__(self, other):
-        return super().__eq__(other) and self.parameters == other.parameter
+        return super().__eq__(other) and self.parameters == other.parameters
 
-    def __repr__(self):
-        return f"<{self.__class__.__name__} {self.parameters}>"
+    # def __repr__(self):
+    #     return f"<{self.__class__.__name__} {self.parameters}>"
 
 
 class SecondMockCommand(MockCommand):

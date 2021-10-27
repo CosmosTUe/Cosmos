@@ -1,4 +1,3 @@
-from crispy_forms.bootstrap import FieldWithButtons, StrictButton
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Div, Field, Layout
 from django import forms
@@ -43,14 +42,7 @@ class GMMForm(forms.ModelForm):
         self.helper.form_tag = False
         self.helper.layout = Layout(
             Field("name"),
-            FieldWithButtons(
-                "date",
-                StrictButton(
-                    """<i class="bi bi-calendar-date"></i>""",
-                    css_class="btn-outline-light",
-                    id="id_calendar_button",
-                ),
-            ),
+            Field("date"),
         )
 
 
@@ -65,14 +57,7 @@ class NewsForm(forms.ModelForm):
         self.helper.form_tag = False
         self.helper.layout = Layout(
             Field("title"),
-            FieldWithButtons(
-                "publish_date",
-                StrictButton(
-                    """<i class="bi bi-calendar-date"></i>""",
-                    css_class="btn-outline-light",
-                    id="id_calendar_button",
-                ),
-            ),
+            Field("publish_date"),
             Field("image"),
             Field("member_only"),
             Field("lead"),

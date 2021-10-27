@@ -15,16 +15,24 @@
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         {# Navigation items #}
         <div class="navbar-nav">
-          <a class="nav-link" href="{% url 'about' %}">About</a>
+          <li class="nav-item dropdown">
+             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Association
+             </a>
+             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+               <li><a class="dropdown-item" href="{% url 'about' %}">About</a></li>
+               <li><a class="dropdown-item" href="{% url 'committee_overview' %}">Committees</a></li>
+             </ul>
+          </li>
+          <a class="nav-link" href="{% url 'cosmos_events:events-list' %}">Events</a>
           <a class="nav-link" href="{% url 'news-list' %}">News</a>
-          <a class="nav-link" href="{% url 'committee_overview' %}">Committees</a>
           <a class="nav-link" href="{% url 'photo_album-list' %}">Photos</a>
           <a class="nav-link" href="{% url 'resources' %}">Resources</a>
           <a class="nav-link" href="https://commonroom.nl"> Common Room
             {% if user.is_authenticated %}
-              {% if door_status == "1" %}
+              {% if door_status == 1 %}
                   <i id="cr-door" class="bi bi-unlock-fill text-white" aria-hidden="true"></i> 
-              {% elif door_status == "0" %}
+              {% elif door_status == 0 %}
                  <i id="cr-door" class="bi bi-lock-fill text-white" aria-hidden="true"></i> 
               {% endif %}
             {% endif %}

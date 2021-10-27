@@ -34,10 +34,10 @@ class RegistrationFlowTest(WizardViewTestCase):
         executor.execute()
 
         # test
-        self.assertEqual(len(mail.outbox), 1, "1 message sent")
-        self.assertEqual(mail.outbox[0].to[0], exp_email_recipient)
-        self.assertEqual(mail.outbox[0].from_email, exp_email_sender)
-        self.assertEqual(mail.outbox[0].subject, exp_email_subject)
+        self.assertEqual(len(self.newsletter_service.outbox), 1, "1 message sent")
+        self.assertEqual(self.newsletter_service.outbox[0].personalizations[0].tos[0]["email"], exp_email_recipient)
+        self.assertEqual(self.newsletter_service.outbox[0].from_email.email, exp_email_sender)
+        self.assertEqual(self.newsletter_service.outbox[0].subject.subject, exp_email_subject)
         self.assert_working_activation_view(recipient)
 
     def assert_no_email_sent(self):
@@ -45,7 +45,7 @@ class RegistrationFlowTest(WizardViewTestCase):
 
     def assert_working_activation_view(self, username):
         # setup
-        html_parser = BeautifulSoup(mail.outbox[0].body, "html.parser")
+        html_parser = BeautifulSoup(self.newsletter_service.outbox[0].contents[0].content, "html.parser")
         link = html_parser.find("a")
         link_text = link.contents[0].strip()
         link_url = link.get("href")
@@ -54,7 +54,7 @@ class RegistrationFlowTest(WizardViewTestCase):
         exp_activation_message = "Thank you for your email confirmation. Now you can login your account."
 
         # act
-        response = self.client.get(link_url)
+        response = self.client.post(link_url)
 
         # test
         self.assertEqual(link_text, exp_link_text)

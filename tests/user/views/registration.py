@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.core import mail
 
 from apps.async_requests.commands import MailSendCommand
+from apps.async_requests.constants import NEWSLETTER_LIST_ID
 from apps.async_requests.factory import Factory
 from tests.user.views.wizard_helper import WizardViewTestCase
 
@@ -68,7 +69,7 @@ class RegistrationFlowTest(WizardViewTestCase):
         executor.execute()
 
         # test
-        self.assertEqual(state, self.newsletter_service.is_subscribed(email))
+        self.assertEqual(state, self.newsletter_service.is_subscribed(email, NEWSLETTER_LIST_ID))
 
     def test_success_tue_without_newsletter(self):
         # setup

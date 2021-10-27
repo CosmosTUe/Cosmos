@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 
+from apps.async_requests.constants import NEWSLETTER_LIST_ID
 from apps.users.forms import KeyAccessUpdateForm, PasswordUpdateForm, PreferencesUpdateForm, ProfileUpdateForm, errors
 from apps.users.models import Profile
 from apps.users.models.user import InstitutionTue
@@ -144,7 +145,7 @@ class ProfileUpdateFormTest(NewsletterTestCaseMixin, TestCase):
         self.user.profile.subscribed_newsletter = True
         self.user.profile.newsletter_recipient = "ALT"
         self.newsletter_service.add_subscription(
-            [{"email": old_alt_email, "first_name": "Tosti", "last_name": "Broodjes"}]
+            [{"email": old_alt_email, "first_name": "Tosti", "last_name": "Broodjes"}], NEWSLETTER_LIST_ID
         )
         self.user.profile.save()
 

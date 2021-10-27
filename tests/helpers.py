@@ -5,6 +5,7 @@ from django.db import models
 from django.test import Client
 from django.urls import reverse
 
+from apps.async_requests.constants import NEWSLETTER_LIST_ID
 from apps.async_requests.executor import _Executor
 from apps.async_requests.factory import Factory
 from apps.async_requests.sendgrid.newsletter import NewsletterService
@@ -26,7 +27,7 @@ class NewsletterTestCaseMixin:
 
     def assert_newsletter_subscription(self, email: str, state: bool):
         self.executor.execute()
-        self.assertEqual(state, self.newsletter_service.is_subscribed(email))
+        self.assertEqual(state, self.newsletter_service.is_subscribed(email, NEWSLETTER_LIST_ID))
 
 
 class BaseAdminTestCaseMixin:

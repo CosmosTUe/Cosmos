@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from python_http_client import UnauthorizedError
 
+from apps.async_requests.constants import NEWSLETTER_LIST_ID
 from apps.async_requests.sendgrid.newsletter import NewsletterService
 from apps.users.admin import ProfileAdmin
 from apps.users.models import Profile
@@ -126,7 +127,8 @@ class ProfileAdminTest(NewsletterTestCaseMixin, TestCase):
                 {"email": "a@student.tue.nl", "first_name": "A", "last_name": "Broodjes"},
                 {"email": "b@student.tue.nl", "first_name": "B", "last_name": "Broodjes"},
                 {"email": "c@student.tue.nl", "first_name": "C", "last_name": "Broodjes"},
-            ]
+            ],
+            NEWSLETTER_LIST_ID,
         )
         query = [a]
 

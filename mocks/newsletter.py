@@ -7,7 +7,7 @@ class NewsletterServiceMock(NewsletterService):
         self.outbox = list()
 
     def is_subscribed(self, email: str, list_id: str):
-        return email in self.db
+        return list_id in self.db and email in self.db[list_id]
 
     # contacts is a list of dictionaries which contain an email, first_name and last_name
     def add_subscription(self, contacts, list_id: str):
@@ -25,6 +25,11 @@ class NewsletterServiceMock(NewsletterService):
             except KeyError:
                 pass
         return True
+
+    def remove_contacts(self, emails):
+        for key in self.db.keys():
+            for email in emails:
+                self.db[key].remove(email)
 
     def send_mail(self, email):
         self.outbox.append(email)

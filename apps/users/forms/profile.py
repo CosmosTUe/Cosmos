@@ -8,7 +8,8 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
-from apps.async_requests.commands import SubscribeCommand, UnsubscribeCommand
+from apps.async_requests.commands.subscribe_command import NewsletterSubscribeCommand
+from apps.async_requests.commands.unsubscribe_command import NewsletterUnsubscribeCommand
 from apps.async_requests.factory import Factory
 from apps.users.forms import errors
 from apps.users.forms.errors import INVALID_EMAIL, INVALID_EMAIL_CHANGE, INVALID_SUBSCRIBE_TO_EMPTY_EMAIL
@@ -76,9 +77,9 @@ class ProfileUpdateForm(forms.ModelForm):
 
         if "email" in self.changed_data and profile.subscribed_newsletter and profile.newsletter_recipient == "ALT":
             old_email = self.initial["email"]
-            executor.add_command(UnsubscribeCommand(old_email))
+            executor.add_command(NewsletterUnsubscribeCommand(old_email))
             new_email = self.cleaned_data["email"]
-            executor.add_command(SubscribeCommand(new_email, profile.user.first_name, profile.user.last_name))
+            executor.add_command(NewsletterSubscribeCommand(new_email, profile.user.first_name, profile.user.last_name))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

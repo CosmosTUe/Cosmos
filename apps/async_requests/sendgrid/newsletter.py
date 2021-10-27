@@ -13,7 +13,9 @@ https://sendgrid.api-docs.io/v3.0/how-to-use-the-sendgrid-v3-api/api-authenticat
 from abc import ABCMeta, abstractmethod
 from typing import List
 
-from apps.async_requests.commands import SubscribeCommand, UnsubscribeCommand
+from apps.async_requests.commands.subscribe_command import NewsletterSubscribeCommand
+from apps.async_requests.commands.unsubscribe_command import NewsletterUnsubscribeCommand
+from apps.async_requests.constants import NEWSLETTER_LIST_ID
 from apps.users.models.user.profile import Profile
 
 
@@ -91,18 +93,18 @@ class NewsletterService(metaclass=ABCMeta):
 
         if not profile.subscribed_newsletter:
             # unsubscribe to both
-            service.remove_subscription([inst_email, alt_email])
+            service.remove_subscription([inst_email, alt_email], NEWSLETTER_LIST_ID)
             return
 
         # Profile is subscribed to newsletter
         if profile.newsletter_recipient == "TUE":
-            if not service.is_subscribed(inst_email):
-                executor.add_command(SubscribeCommand(inst_email, first_name, last_name))
-            executor.add_command(UnsubscribeCommand(alt_email))
+            if not service.is_subscribed(inst_email, NEWSLETTER_LIST_ID):
+                executor.add_command(NewsletterSubscribeCommand(inst_email, first_name, last_name))
+            executor.add_command(NewsletterUnsubscribeCommand(alt_email))
         else:  # "ALT"
             if not service.is_subscribed(alt_email):
-                executor.add_command(SubscribeCommand(alt_email, first_name, last_name))
-            executor.add_command(UnsubscribeCommand(inst_email))
+                executor.add_command(NewsletterSubscribeCommand(alt_email, first_name, last_name))
+            executor.add_command(NewsletterUnsubscribeCommand(inst_email))
 
     @staticmethod
     def update_newsletter_preferences(profile: Profile, old_is_sub: bool, old_recipient: str, force=False):
@@ -131,9 +133,9 @@ class NewsletterService(metaclass=ABCMeta):
         if old_is_sub:
             # unsubscribe old email
             if old_recipient == "TUE":
-                executor.add_command(UnsubscribeCommand(profile.user.username))
+                executor.add_command(NewsletterUnsubscribeCommand(profile.user.username))
             else:
-                executor.add_command(UnsubscribeCommand(profile.user.email))
+                executor.add_command(NewsletterUnsubscribeCommand(profile.user.email))
 
         # handle new email next
         if new_is_sub:
@@ -142,4 +144,4 @@ class NewsletterService(metaclass=ABCMeta):
                 email = profile.user.username
             else:
                 email = profile.user.email
-            executor.add_command(SubscribeCommand(email, profile.user.first_name, profile.user.last_name))
+            executor.add_command(NewsletterSubscribeCommand(email, profile.user.first_name, profile.user.last_name))

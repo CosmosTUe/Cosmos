@@ -19,31 +19,44 @@ from apps.users.models.user.profile import Profile
 
 class NewsletterService(metaclass=ABCMeta):
     @abstractmethod
-    def is_subscribed(self, email: str):
+    def is_subscribed(self, email: str, list_id: str):
         """
         Checks subscription state of input email
 
         :param email: input email
+        :param list_id: list ID
         :return: True if email is subscribed to the newsletter
         """
         pass
 
     @abstractmethod
-    def add_subscription(self, contacts):
+    def add_subscription(self, contacts: List, list_id: str):
         """
         Subscribes list of emails to the newsletter
         :param contacts: list of dictionaries which contain: email, first_name and last_name
+        :param list_id: list ID
         :return: True if all emails are subscribed successfully
         """
         pass
 
     @abstractmethod
-    def remove_subscription(self, emails: List[str]):
+    def remove_subscription(self, emails: List[str], list_id: str):
         """
         Unsubscribe list of emails to the newsletter
 
         :param emails: list of emails to unsubscribe
+        :param list_id: list ID
         :return: True if all emails are unsubscribed successfully
+        """
+        pass
+
+    @abstractmethod
+    def remove_contacts(self, emails):
+        """
+        Remove contact emails from database
+
+        :param emails:
+        :return: True if all emails are removed successfully
         """
         pass
 

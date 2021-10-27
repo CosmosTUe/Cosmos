@@ -63,12 +63,12 @@ class SendgridService(NewsletterService):
         return matches == 1
 
     # contacts is a list of dictionaries which contain an email, first_name and last_name
-    def add_subscription(self, contacts):
+    def add_subscription(self, contacts, list_id):
         # https://sendgrid.api-docs.io/v3.0/contacts/add-or-update-a-contact
         response = self.sg.client.marketing.contacts.put(
             request_body=self.__get_sandbox_json(
                 {
-                    "list_ids": ["2ce9f995-6276-4600-81e6-27f8ae7d3e6c"],
+                    "list_ids": [list_id],
                     "contacts": contacts,
                 }
             )
@@ -76,7 +76,16 @@ class SendgridService(NewsletterService):
         # return whether adding was successful
         return self.__process_status_code(response, 202)
 
-    def remove_subscription(self, emails):
+    def remove_subscription(self, emails, list_id):
+        # remove contacts from a given list
+        # https://sendgrid.api-docs.io/v3.0/lists/remove-contacts-from-a-list
+        response = self.sg.client.marketing.lists._(list_id).contacts.delete(
+            request_body=self.__get_sandbox_json({}), query_params={"contact_ids": self.__get_user_ids(emails)}
+        )
+
+        return self.__process_status_code(response, 202)
+
+    def remove_contacts(self, emails):
         # https://sendgrid.api-docs.io/v3.0/contacts/delete-contacts
         response = self.sg.client.marketing.contacts.delete(
             query_params=self.__get_sandbox_json({"ids": self.__get_user_ids(emails)})

@@ -1,8 +1,11 @@
+import datetime
+
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, UpdateView
+from django_ical.views import ICalFeed
 
 from apps.events.forms import EventForm
 from apps.events.models import Event
@@ -10,9 +13,15 @@ from apps.events.models import Event
 
 def events_list(request):
     if request.user.is_authenticated:
-        events_list = Event.objects.order_by("start_date_time").all()
+        events_list = (
+            Event.objects.order_by("start_date_time").filter(end_date_time__gte=datetime.datetime.today()).all()
+        )
     else:
-        events_list = Event.objects.filter(member_only=False).order_by("start_date_time")
+        events_list = (
+            Event.objects.filter(member_only=False)
+            .order_by("start_date_time")
+            .filter(end_date_time__gte=datetime.datetime.today())
+        )
     context = {
         "events_list": events_list,
     }
@@ -63,3 +72,35 @@ class EventDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     # Permissions
     permission_required = "events.delete_event"
     raise_exception = True
+
+
+class EventFeed(ICalFeed):
+    """
+    A simple event calender
+    """
+
+    product_id = "-//cosmostue.nl//Events//EN"
+    timezone = "UTC"
+    file_name = "event.ics"
+
+    def items(self):
+        return Event.objects.all().order_by("-start_date_time")
+
+    def item_guid(self, item):
+        return "{}{}".format(item.pk, "global_name")
+
+    def item_title(self, item):
+
+        return "{}".format(item.name)
+
+    def item_description(self, item):
+        return item.lead
+
+    def item_start_datetime(self, item):
+        return item.start_date_time
+
+    def item_end_datetime(self, item):
+        return item.end_date_time
+
+    def item_link(self, item):
+        return item.get_absolute_url()

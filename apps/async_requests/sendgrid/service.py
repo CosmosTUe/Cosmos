@@ -47,10 +47,12 @@ class SendgridService(NewsletterService):
             ids.append(user["id"])
         return ids
 
-    def is_subscribed(self, email: str):
+    def is_subscribed(self, email: str, list_id: str):
         # https://sendgrid.api-docs.io/v3.0/contacts/search-contacts
         response = self.sg.client.marketing.contacts.search.post(
-            request_body=self.__get_sandbox_json({"query": f"email LIKE '{email}%%'"})
+            request_body=self.__get_sandbox_json(
+                {"query": f"email LIKE '{email}%%' AND CONTAINS(list_ids, '${list_id}'"}
+            )
         )
         self.__process_status_code(response, 200)
 
@@ -96,5 +98,5 @@ class SendgridService(NewsletterService):
     def send_mail(self, email):
         # https://sendgrid.api-docs.io/v3.0/mail-send/v3-mail-send
         response = self.sg.client.mail.send.post(request_body=email)
-        # return whether sending the email was succesful
+        # return whether sending the email was successful
         return self.__process_status_code(response, 200)

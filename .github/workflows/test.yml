@@ -39,4 +39,7 @@ jobs:
       - name: Run tests
         env:
           CI: test
-        run: pipenv run ./manage.py test
+        run: |
+          npm install
+          pipenv run ./manage.py collectstatic
+          pipenv run ./manage.py test

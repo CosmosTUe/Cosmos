@@ -139,7 +139,7 @@ class PasswordUpdateForm(PasswordChangeForm):
 class PreferencesUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ["subscribed_newsletter", "newsletter_recipient"]
+        fields = ["subscribed_newsletter", "subscribed_gmm_invite", "newsletter_recipient"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -151,6 +151,7 @@ class PreferencesUpdateForm(forms.ModelForm):
 
         self.helper.layout = Layout(
             Field("subscribed_newsletter"),
+            Field("subscribed_gmm_invite"),
             Field("newsletter_recipient"),
         )
 
@@ -160,10 +161,10 @@ class PreferencesUpdateForm(forms.ModelForm):
         if (
             self.instance.user.email == ""
             and self.cleaned_data["newsletter_recipient"]
-            and self.cleaned_data["subscribed_newsletter"]
+            and (self.cleaned_data["subscribed_newsletter"] or self.cleaned_data["subscribed_gmm_invite"])
         ):
             raise ValidationError(
-                "Please set a secondary email or choose to receive the newsletters at your institution email.",
+                "Please set a secondary email or choose to receive emails at your institution email.",
                 INVALID_SUBSCRIBE_TO_EMPTY_EMAIL,
             )
         return self.cleaned_data

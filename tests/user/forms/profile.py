@@ -311,6 +311,21 @@ class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
         # test
         self.assertTrue(form.has_error("__all__", errors.INVALID_SUBSCRIBE_TO_EMPTY_EMAIL))
 
+    def test_fail_gmm_invite_enable_secondary_email_empty(self):
+        # setup
+        self.profile.user.email = ""
+        self.profile.user.save()
+
+        # act
+        form = PreferencesUpdateForm(
+            instance=self.profile,
+            data=get_preferences_form_data(subscribed_gmm_invite=True, newsletter_recipient="ALT"),
+        )
+        form.full_clean()
+
+        # test
+        self.assertTrue(form.has_error("__all__", errors.INVALID_SUBSCRIBE_TO_EMPTY_EMAIL))
+
     def test_success_newsletter_disable_secondary_email(self):
         # setup
         self.profile.subscribed_newsletter = True

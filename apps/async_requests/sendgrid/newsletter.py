@@ -100,8 +100,8 @@ class NewsletterService(metaclass=ABCMeta):
             unsub_email = alt_email
             pref_email = inst_email
         else:
-            unsub_email = alt_email
-            pref_email = inst_email
+            unsub_email = inst_email
+            pref_email = alt_email
 
         for (field, list_id, sub_cmd, unsub_cmd) in SUBSCRIPTIONS:
             pref = getattr(profile, field)

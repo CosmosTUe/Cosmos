@@ -141,6 +141,31 @@ class ProfileAdminTest(NewsletterTestCaseMixin, TestCase):
         self.assert_newsletter_subscription("b@student.tue.nl", True)
         self.assert_newsletter_subscription("c@student.tue.nl", True)
 
+    def test_sync_switch_from_inst_email_to_secondary_email(self):
+        # setup
+        a = self.create_new_profile(
+            first_name="A",
+            username="a@student.tue.nl",
+            email="a@gmail.com",
+            newsletter=True,
+            newsletter_recipient="ALT",
+        )
+        self.newsletter_service.add_subscription(
+            [
+                {"email": "a@student.tue.nl", "first_name": "A", "last_name": "Broodjes"},
+            ],
+            NEWSLETTER_LIST_ID,
+        )
+        query = [a]
+
+        # act
+        self.admin.sync_newsletter_subscriptions(self.request, query)
+
+        # test
+        self.assert_changes_informed_to_user(1)
+        self.assert_newsletter_subscription("a@student.tue.nl", False)
+        self.assert_newsletter_subscription("a@gmail.com", True)
+
     def test_sync_newsletter_subscriptions_unauthorizederror(self):
         # setup
         a = create_new_profile(username="a@student.tue.nl", newsletter=True)

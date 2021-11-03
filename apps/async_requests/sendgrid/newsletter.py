@@ -15,8 +15,13 @@ from typing import List
 
 from apps.async_requests.commands.subscribe_command import NewsletterSubscribeCommand, GMMInviteSubscribeCommand
 from apps.async_requests.commands.unsubscribe_command import NewsletterUnsubscribeCommand, GMMInviteUnsubscribeCommand
-from apps.async_requests.constants import NEWSLETTER_LIST_ID
+from apps.async_requests.constants import NEWSLETTER_LIST_ID, GMM_INVITE_LIST_ID
 from apps.users.models.user.profile import Profile
+
+SUBSCRIPTIONS = [
+    ("subscribed_newsletter", NEWSLETTER_LIST_ID, NewsletterSubscribeCommand, NewsletterUnsubscribeCommand),
+    ("subscribed_gmm_invite", GMM_INVITE_LIST_ID, GMMInviteSubscribeCommand, GMMInviteUnsubscribeCommand),
+]
 
 
 class NewsletterService(metaclass=ABCMeta):
@@ -73,7 +78,7 @@ class NewsletterService(metaclass=ABCMeta):
         pass
 
     @staticmethod
-    def sync_newsletter_preferences(profile: Profile):
+    def sync_subscription_preferences(profile: Profile):
         """
         Synchronizes newsletter preferences between Django server and newsletter backend.
         Does not check for previous state, hence may send redundant data eg. subscribe a user already subscribed
@@ -91,20 +96,21 @@ class NewsletterService(metaclass=ABCMeta):
         first_name = profile.user.first_name
         last_name = profile.user.last_name
 
-        if not profile.subscribed_newsletter:
-            # unsubscribe to both
-            service.remove_subscription([inst_email, alt_email], NEWSLETTER_LIST_ID)
-            return
-
-        # Profile is subscribed to newsletter
         if profile.newsletter_recipient == "TUE":
-            if not service.is_subscribed(inst_email, NEWSLETTER_LIST_ID):
-                executor.add_command(NewsletterSubscribeCommand(inst_email, first_name, last_name))
-            executor.add_command(NewsletterUnsubscribeCommand(alt_email))
-        else:  # "ALT"
-            if not service.is_subscribed(alt_email, NEWSLETTER_LIST_ID):
-                executor.add_command(NewsletterSubscribeCommand(alt_email, first_name, last_name))
-            executor.add_command(NewsletterUnsubscribeCommand(inst_email))
+            unsub_email = alt_email
+            pref_email = inst_email
+        else:
+            unsub_email = alt_email
+            pref_email = inst_email
+
+        for (field, list_id, sub_cmd, unsub_cmd) in SUBSCRIPTIONS:
+            pref = getattr(profile, field)
+            if pref:
+                if not service.is_subscribed(pref_email, list_id):
+                    executor.add_command(sub_cmd(pref_email, first_name, last_name))
+            else:
+                executor.add_command(unsub_cmd(pref_email))
+            executor.add_command(unsub_cmd(unsub_email))
 
     @staticmethod
     def update_newsletter_preferences(profile: Profile, initial_data: dict, new_data: dict):

@@ -148,7 +148,7 @@ class ProfileAdminTest(NewsletterTestCaseMixin, TestCase):
         exp_error_msg = "Authorization error. Please check newsletter config."
 
         # act
-        with patch.object(NewsletterService, "sync_newsletter_preferences") as mock_method:
+        with patch.object(NewsletterService, "sync_subscription_preferences") as mock_method:
             mock_method.side_effect = UnauthorizedError(401, "mock", "", "")
             self.admin.sync_newsletter_subscriptions(self.request, query)
 
@@ -162,7 +162,7 @@ class ProfileAdminTest(NewsletterTestCaseMixin, TestCase):
         exp_error_msg = "Unknown HTTP error. Please check newsletter config."
 
         # act
-        with patch.object(NewsletterService, "sync_newsletter_preferences") as mock_method:
+        with patch.object(NewsletterService, "sync_subscription_preferences") as mock_method:
             mock_method.side_effect = HTTPException(400, "mock", "", "")
             self.admin.sync_newsletter_subscriptions(self.request, query)
 

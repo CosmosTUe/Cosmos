@@ -6,7 +6,7 @@ from typing import Dict
 import sendgrid
 from python_http_client import UnauthorizedError
 
-from apps.users.newsletter import NewsletterService
+from apps.async_requests.sendgrid.newsletter import NewsletterService
 from cosmos import settings
 
 

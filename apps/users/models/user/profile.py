@@ -27,6 +27,7 @@ class Profile(models.Model):
     nationality = models.CharField(max_length=100, blank=False, choices=list(zip(NATIONALITIES, NATIONALITIES)))
     terms_confirmed = models.BooleanField(default=False)
     subscribed_newsletter = models.BooleanField(default=False)
+    subscribed_gmm_invite = models.BooleanField(default=False)
     newsletter_recipient = models.CharField(
         max_length=3, verbose_name="Newsletter subscription email", default="TUE", choices=NEWSLETTER_RECIPIENTS
     )

@@ -5,7 +5,7 @@ from django.db import models
 from django.test import Client
 from django.urls import reverse
 
-from apps.async_requests.constants import NEWSLETTER_LIST_ID
+from apps.async_requests.constants import NEWSLETTER_LIST_ID, GMM_INVITE_LIST_ID
 from apps.async_requests.executor import _Executor
 from apps.async_requests.factory import Factory
 from apps.async_requests.sendgrid.newsletter import NewsletterService
@@ -16,6 +16,7 @@ def get_admin_change_view_url(obj: models.Model) -> str:
     return reverse(f"admin:{obj._meta.app_label}_{type(obj).__name__.lower()}_change", args=(obj.pk,))
 
 
+# noinspection PyUnresolvedReferences
 class NewsletterTestCaseMixin:
     executor: _Executor
     newsletter_service: NewsletterService
@@ -29,7 +30,12 @@ class NewsletterTestCaseMixin:
         self.executor.execute()
         self.assertEqual(state, self.newsletter_service.is_subscribed(email, NEWSLETTER_LIST_ID))
 
+    def assert_gmm_invite_subscription(self, email: str, state: bool):
+        self.executor.execute()
+        self.assertEqual(state, self.newsletter_service.is_subscribed(email, GMM_INVITE_LIST_ID))
 
+
+# noinspection PyUnresolvedReferences
 class BaseAdminTestCaseMixin:
     client: Client
 
@@ -78,11 +84,12 @@ def get_profile_form_data(
     return {k: v for k, v in output.items() if v is not None}
 
 
-def get_preferences_form_data(subscribed_newsletter=False, newsletter_recipient="TUE"):
+def get_preferences_form_data(subscribed_newsletter=False, subscribed_gmm_invite=False, newsletter_recipient="TUE"):
     output = {
         "newsletter_recipient": newsletter_recipient,
         "save_preferences": "Submit",
         "subscribed_newsletter": subscribed_newsletter,
+        "subscribed_gmm_invite": subscribed_gmm_invite,
     }
 
     return output

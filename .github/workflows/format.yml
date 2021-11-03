@@ -18,10 +18,12 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.8'
+          python-version: '3.9'
       - name: Run black
-        uses: psf/black@fcf97961061982656a1384ecc1628e217a52a88c # upstream broke stable, change back to stable when bug has been patched
-      - name: Set up isort
-        run: pip install isort
+        uses: psf/black@stable
+      - name: Set up pipenv
+        run: python -m pip install --upgrade pipenv wheel
+      - name: Install requirements
+        run: pipenv install --deploy --dev
       - name: Run isort
-        run: isort **/*.py -c
+        run: pipenv run isort **/*.py -c

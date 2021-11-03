@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from python_http_client import UnauthorizedError
 
-from apps.async_requests.constants import NEWSLETTER_LIST_ID
+from apps.async_requests.constants import NEWSLETTER_LIST_ID, GMM_INVITE_LIST_ID
 from apps.async_requests.sendgrid.newsletter import NewsletterService
 from apps.users.admin import ProfileAdmin
 from apps.users.models import Profile
@@ -62,6 +62,7 @@ class ProfileAdminTest(NewsletterTestCaseMixin, TestCase):
         nationality="Dutch",
         terms_confirmed=True,
         newsletter=False,
+        gmm_invite=False,
         newsletter_recipient="TUE",
     ) -> Profile:
         user = User(username=username, email=email, password=password, first_name=first_name, last_name=last_name)
@@ -70,6 +71,7 @@ class ProfileAdminTest(NewsletterTestCaseMixin, TestCase):
             nationality=nationality,
             terms_confirmed=terms_confirmed,
             subscribed_newsletter=newsletter,
+            subscribed_gmm_invite=gmm_invite,
             newsletter_recipient=newsletter_recipient,
         )
 
@@ -165,6 +167,44 @@ class ProfileAdminTest(NewsletterTestCaseMixin, TestCase):
         self.assert_changes_informed_to_user(1)
         self.assert_newsletter_subscription("a@student.tue.nl", False)
         self.assert_newsletter_subscription("a@gmail.com", True)
+
+    def test_subscribe_newsletter_and_gmm_invite(self):
+        # setup
+        a = self.create_new_profile(first_name="A", username="a@student.tue.nl", newsletter=True, gmm_invite=True)
+        query = [a]
+
+        # act
+        self.admin.sync_newsletter_subscriptions(self.request, query)
+
+        # test
+        self.assert_changes_informed_to_user(1)
+        self.assert_newsletter_subscription("a@student.tue.nl", True)
+        self.assert_gmm_invite_subscription("a@student.tue.nl", True)
+
+    def test_unsubscribe_newsletter_and_gmm_invite(self):
+        # setup
+        a = self.create_new_profile(first_name="A", username="a@student.tue.nl", newsletter=False, gmm_invite=False)
+        self.newsletter_service.add_subscription(
+            [
+                {"email": "a@student.tue.nl", "first_name": "A", "last_name": "Broodjes"},
+            ],
+            NEWSLETTER_LIST_ID,
+        )
+        self.newsletter_service.add_subscription(
+            [
+                {"email": "a@student.tue.nl", "first_name": "A", "last_name": "Broodjes"},
+            ],
+            GMM_INVITE_LIST_ID,
+        )
+        query = [a]
+
+        # act
+        self.admin.sync_newsletter_subscriptions(self.request, query)
+
+        # test
+        self.assert_changes_informed_to_user(1)
+        self.assert_newsletter_subscription("a@student.tue.nl", False)
+        self.assert_gmm_invite_subscription("a@student.tue.nl", False)
 
     def test_sync_newsletter_subscriptions_unauthorizederror(self):
         # setup

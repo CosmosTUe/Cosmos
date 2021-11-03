@@ -109,7 +109,11 @@ class NewsletterLogic(TestCase):
         self.user.profile.newsletter_recipient = new_rec
 
         # act
-        self.service.update_newsletter_preferences(self.user.profile, old_sub, old_rec)
+        self.service.update_newsletter_preferences(
+            self.user.profile,
+            {"subscribed_newsletter": old_sub, "subscribed_gmm_invite": False, "newsletter_recipient": old_rec},
+            {"subscribed_newsletter": new_sub, "subscribed_gmm_invite": False, "newsletter_recipient": new_rec},
+        )
         Factory.get_executor().execute()
 
         # test

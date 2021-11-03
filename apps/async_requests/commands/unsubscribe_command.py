@@ -29,12 +29,18 @@ class UnsubscribeCommand(Command):
 
 
 class NewsletterUnsubscribeCommand(UnsubscribeCommand):
+    def __init__(self, email):
+        super(NewsletterUnsubscribeCommand, self).__init__(email)
+
     @property
     def list_id(self) -> str:
         return NEWSLETTER_LIST_ID
 
 
 class GMMInviteUnsubscribeCommand(UnsubscribeCommand):
+    def __init__(self, email):
+        super(GMMInviteUnsubscribeCommand, self).__init__(email)
+
     @property
     def list_id(self) -> str:
         return GMM_INVITE_LIST_ID

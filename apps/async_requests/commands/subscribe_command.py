@@ -29,12 +29,18 @@ class SubscribeCommand(Command):
 
 
 class NewsletterSubscribeCommand(SubscribeCommand):
+    def __init__(self, email, first_name, last_name):
+        super(NewsletterSubscribeCommand, self).__init__(email, first_name, last_name)
+
     @property
     def list_id(self) -> str:
         return NEWSLETTER_LIST_ID
 
 
 class GMMInviteSubscribeCommand(SubscribeCommand):
+    def __init__(self, email, first_name, last_name):
+        super(GMMInviteSubscribeCommand, self).__init__(email, first_name, last_name)
+
     @property
     def list_id(self) -> str:
         return GMM_INVITE_LIST_ID

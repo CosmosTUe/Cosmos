@@ -170,11 +170,8 @@ class PreferencesUpdateForm(forms.ModelForm):
         return self.cleaned_data
 
     def save(self, commit=True):
-        old_newsletter_state = self.initial["subscribed_newsletter"]
-        old_newsletter_recipient = self.initial["newsletter_recipient"]
-
         newsletter_service = Factory.get_newsletter_service()
-        newsletter_service.update_newsletter_preferences(self.instance, old_newsletter_state, old_newsletter_recipient)
+        newsletter_service.update_newsletter_preferences(self.instance, self.initial, self.cleaned_data)
         return super(PreferencesUpdateForm, self).save(commit)
 
 

@@ -216,7 +216,7 @@ class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
         self.assertTrue(form.is_valid())
         profile = Profile.objects.get(pk=self.profile.pk)
         self.assertEqual(profile.subscribed_newsletter, True)
-        self.assertEqual(profile.subscribed_gmm_invite, True)
+        self.assertEqual(profile.subscribed_gmm_invite, False)
         self.assert_newsletter_subscription(recipient, True)
         self.assert_gmm_invite_subscription(recipient, False)
 
@@ -258,7 +258,7 @@ class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
 
     def test_success_newsletter_disable_gmm_invite_sub_on_institution_email(self):
         # setup
-        self.profile.subscribed_gmm_invite = True
+        self.profile.subscribed_newsletter = True
         self.profile.save()
         recipient = "tosti@student.tue.nl"
 
@@ -290,7 +290,7 @@ class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
         self.assertEqual(form["subscribed_newsletter"].initial, False)
         profile = Profile.objects.get(pk=self.profile.pk)
         self.assertEqual(profile.subscribed_newsletter, True)
-        self.assertEqual(profile.subscribed_gmm_invite, True)
+        self.assertEqual(profile.subscribed_gmm_invite, False)
         self.assertEqual(form["newsletter_recipient"].initial, "TUE")
         self.assertEqual(profile.newsletter_recipient, "ALT")
         self.assert_newsletter_subscription(recipient, True)
@@ -361,8 +361,8 @@ class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
         form.save()  # runs update_newsletter_preferences
 
         # test
-        self.assertEqual(form["subscribed_newsletter"].initial, True)
-        self.assertEqual(form["subscribed_gmm_invite"].initial, True)
+        self.assertEqual(form["subscribed_newsletter"].initial, False)
+        self.assertEqual(form["subscribed_gmm_invite"].initial, False)
         profile = Profile.objects.get(pk=self.profile.pk)
         self.assertEqual(profile.subscribed_newsletter, True)
         self.assertEqual(profile.subscribed_gmm_invite, True)

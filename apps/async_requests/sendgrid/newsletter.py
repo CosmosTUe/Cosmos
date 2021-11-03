@@ -13,8 +13,8 @@ https://sendgrid.api-docs.io/v3.0/how-to-use-the-sendgrid-v3-api/api-authenticat
 from abc import ABCMeta, abstractmethod
 from typing import List
 
-from apps.async_requests.commands.subscribe_command import NewsletterSubscribeCommand
-from apps.async_requests.commands.unsubscribe_command import NewsletterUnsubscribeCommand
+from apps.async_requests.commands.subscribe_command import NewsletterSubscribeCommand, GMMInviteSubscribeCommand
+from apps.async_requests.commands.unsubscribe_command import NewsletterUnsubscribeCommand, GMMInviteUnsubscribeCommand
 from apps.async_requests.constants import NEWSLETTER_LIST_ID
 from apps.users.models.user.profile import Profile
 
@@ -102,46 +102,72 @@ class NewsletterService(metaclass=ABCMeta):
                 executor.add_command(NewsletterSubscribeCommand(inst_email, first_name, last_name))
             executor.add_command(NewsletterUnsubscribeCommand(alt_email))
         else:  # "ALT"
-            if not service.is_subscribed(alt_email):
+            if not service.is_subscribed(alt_email, NEWSLETTER_LIST_ID):
                 executor.add_command(NewsletterSubscribeCommand(alt_email, first_name, last_name))
             executor.add_command(NewsletterUnsubscribeCommand(inst_email))
 
     @staticmethod
-    def update_newsletter_preferences(profile: Profile, old_is_sub: bool, old_recipient: str, force=False):
+    def update_newsletter_preferences(profile: Profile, initial_data: dict, new_data: dict):
         """
         Updates newsletter preferences
 
         :param profile:
-        :param old_recipient:
-        :param old_is_sub:
-        :param force: force update to backend (optional)
+        :param new_data:
+        :param initial_data:
         """
         # Subscribe user to newsletter when consented
         from apps.async_requests.factory import Factory
 
         executor = Factory.get_executor()
 
-        # extract attributes
-        new_is_sub = profile.subscribed_newsletter
-        new_recipient = profile.newsletter_recipient
-
         # skip if no changes detected
-        if not force and old_is_sub == new_is_sub and old_recipient == new_recipient:
+        if initial_data == new_data:
             return
 
-        # handle old email first
-        if old_is_sub:
-            # unsubscribe old email
-            if old_recipient == "TUE":
-                executor.add_command(NewsletterUnsubscribeCommand(profile.user.username))
-            else:
-                executor.add_command(NewsletterUnsubscribeCommand(profile.user.email))
+        first_name = profile.user.first_name
+        last_name = profile.user.last_name
 
-        # handle new email next
-        if new_is_sub:
-            # subscribe new email
-            if new_recipient == "TUE":
-                email = profile.user.username
+        # get old and new emails
+        if initial_data["newsletter_recipient"] == "TUE":
+            old_email = profile.user.username
+        else:
+            old_email = profile.user.email
+
+        if new_data["newsletter_recipient"] == "TUE":
+            new_email = profile.user.username
+        else:
+            new_email = profile.user.email
+
+        # detect recipient change
+        if initial_data["newsletter_recipient"] != new_data["newsletter_recipient"]:
+            # unsub old
+            if initial_data["subscribed_newsletter"]:
+                executor.add_command(NewsletterUnsubscribeCommand(old_email))
+            if initial_data["subscribed_gmm_invite"]:
+                executor.add_command(GMMInviteUnsubscribeCommand(old_email))
+
+            # sub new
+            if new_data["subscribed_newsletter"]:
+                executor.add_command(NewsletterSubscribeCommand(new_email, first_name, last_name))
+            if new_data["subscribed_gmm_invite"]:
+                executor.add_command(GMMInviteSubscribeCommand(new_email, first_name, last_name))
+
+            return
+
+        # assumes same email
+        # detect state change (XOR)
+        if initial_data["subscribed_newsletter"] ^ new_data["subscribed_newsletter"]:
+            if initial_data["subscribed_newsletter"]:
+                # unsubscribing
+                executor.add_command(NewsletterUnsubscribeCommand(old_email))
             else:
-                email = profile.user.email
-            executor.add_command(NewsletterSubscribeCommand(email, profile.user.first_name, profile.user.last_name))
+                # subscribing
+                executor.add_command(NewsletterSubscribeCommand(new_email, first_name, last_name))
+
+        if initial_data["subscribed_gmm_invite"] ^ new_data["subscribed_gmm_invite"]:
+            if initial_data["subscribed_gmm_invite"]:
+                # unsubscribing
+                executor.add_command(GMMInviteUnsubscribeCommand(old_email))
+            else:
+                # subscribing
+                executor.add_command(GMMInviteSubscribeCommand(new_email, first_name, last_name))

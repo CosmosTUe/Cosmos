@@ -36,6 +36,23 @@ def event_view(request, pk):
     return render(request, "events/event_view.html", context)
 
 
+def events_archive(request):
+    if request.user.is_authenticated:
+        events_list = (
+            Event.objects.order_by("start_date_time").filter(end_date_time__lt=datetime.datetime.today()).all()
+        )
+    else:
+        events_list = (
+            Event.objects.filter(member_only=False)
+            .order_by("start_date_time")
+            .filter(end_date_time__lt=datetime.datetime.today())
+        )
+    context = {
+        "events_list": events_list,
+    }
+    return render(request, "events/events_archive.html", context)
+
+
 class EventCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Event
     template_name = "events/event_create.html"
@@ -84,7 +101,7 @@ class EventFeed(ICalFeed):
     file_name = "event.ics"
 
     def items(self):
-        return Event.objects.all().order_by("-start_date_time")
+        return Event.objects.all().order_by("-start_date_time").filter(end_date_time__gte=datetime.datetime.today())
 
     def item_guid(self, item):
         return "{}{}".format(item.pk, "global_name")

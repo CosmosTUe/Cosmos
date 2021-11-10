@@ -22,14 +22,7 @@ class PhotoAlbumForm(forms.ModelForm):
         self.helper.form_tag = False
         self.helper.layout = Layout(
             Field("title"),
-            FieldWithButtons(
-                "date",
-                StrictButton(
-                    """<i class="bi bi-calendar-date"></i>""",
-                    css_class="btn-outline-light",
-                    id="id_calendar_button",
-                ),
-            ),
+            Field("date"),
             Field("album_cover"),
             Field("photos"),
         )

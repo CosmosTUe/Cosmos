@@ -1,0 +1,34 @@
+.events-truncate {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.events-image {
+    width: 100%;
+    height: 18vh;
+    object-fit: cover;
+}
+
+.event-image-large {
+    width: 100%;
+    height: 45vh;
+    object-fit: cover;
+}
+
+ul.event-details {
+    list-style: none;
+    display: table;
+    padding: 5px;
+    margin: 0;
+}
+
+.event-details li {
+    display: table-row;
+}
+
+.event-details b {
+    display: table-cell;
+    padding-right: 1em;
+}

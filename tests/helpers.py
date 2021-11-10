@@ -5,7 +5,7 @@ from django.db import models
 from django.test import Client
 from django.urls import reverse
 
-from apps.async_requests.constants import NEWSLETTER_LIST_ID, GMM_INVITE_LIST_ID
+from apps.async_requests.constants import GMM_INVITE_LIST_ID, NEWSLETTER_LIST_ID
 from apps.async_requests.executor import _Executor
 from apps.async_requests.factory import Factory
 from apps.async_requests.sendgrid.newsletter import NewsletterService

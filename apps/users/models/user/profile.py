@@ -26,10 +26,10 @@ class Profile(models.Model):
     user = models.OneToOneField(User, blank=False, on_delete=models.CASCADE)
     nationality = models.CharField(max_length=100, blank=False, choices=list(zip(NATIONALITIES, NATIONALITIES)))
     terms_confirmed = models.BooleanField(default=False)
-    subscribed_newsletter = models.BooleanField(default=False)
-    subscribed_gmm_invite = models.BooleanField(default=False)
+    subscribed_newsletter = models.BooleanField(default=False, verbose_name="Subscribe to the newsletter")
+    subscribed_gmm_invite = models.BooleanField(default=False, verbose_name="Subscribe to GMM invites")
     newsletter_recipient = models.CharField(
-        max_length=3, verbose_name="Newsletter subscription email", default="TUE", choices=NEWSLETTER_RECIPIENTS
+        max_length=3, verbose_name="Emails are sent to", default="TUE", choices=NEWSLETTER_RECIPIENTS
     )
 
     def __init__(self, *args, **kwargs):

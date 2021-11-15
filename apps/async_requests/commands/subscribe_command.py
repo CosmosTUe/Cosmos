@@ -1,7 +1,7 @@
 from abc import abstractmethod
 
 from apps.async_requests.commands.command import Command
-from apps.async_requests.constants import NEWSLETTER_LIST_ID, GMM_INVITE_LIST_ID
+from apps.async_requests.constants import GMM_INVITE_LIST_ID, NEWSLETTER_LIST_ID
 
 
 class SubscribeCommand(Command):

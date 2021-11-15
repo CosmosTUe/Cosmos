@@ -13,9 +13,9 @@ https://sendgrid.api-docs.io/v3.0/how-to-use-the-sendgrid-v3-api/api-authenticat
 from abc import ABCMeta, abstractmethod
 from typing import List
 
-from apps.async_requests.commands.subscribe_command import NewsletterSubscribeCommand, GMMInviteSubscribeCommand
-from apps.async_requests.commands.unsubscribe_command import NewsletterUnsubscribeCommand, GMMInviteUnsubscribeCommand
-from apps.async_requests.constants import NEWSLETTER_LIST_ID, GMM_INVITE_LIST_ID
+from apps.async_requests.commands.subscribe_command import GMMInviteSubscribeCommand, NewsletterSubscribeCommand
+from apps.async_requests.commands.unsubscribe_command import GMMInviteUnsubscribeCommand, NewsletterUnsubscribeCommand
+from apps.async_requests.constants import GMM_INVITE_LIST_ID, NEWSLETTER_LIST_ID
 from apps.users.models.user.profile import Profile
 
 SUBSCRIPTIONS = [

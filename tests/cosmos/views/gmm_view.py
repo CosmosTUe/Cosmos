@@ -4,10 +4,10 @@ from django.contrib.auth.models import User
 from django.core.files import File
 from django.test import TestCase, TransactionTestCase
 
-from apps.users.forms import errors
+from apps.core.models.gmm import GMM, FileObject
+from apps.users.forms import error_codes
 from apps.users.models import Profile
 from cosmos import settings
-from cosmos.models import GMM, FileObject
 from tests.cosmos.helpers import clear_temp_files, get_new_file, get_new_gmm
 
 
@@ -115,8 +115,8 @@ class GMMViewsTestAdminLoggedIn(TransactionTestCase):
         # test
         self.assertEqual(200, response.status_code)
         form = response.context_data["form"]
-        self.assertTrue(form.has_error("name", errors.REQUIRED))
-        self.assertTrue(form.has_error("date", errors.REQUIRED))
+        self.assertTrue(form.has_error("name", error_codes.REQUIRED))
+        self.assertTrue(form.has_error("date", error_codes.REQUIRED))
 
     def test_success_submit_no_files_add_view(self):
         # setup

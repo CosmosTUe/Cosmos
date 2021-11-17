@@ -1,9 +1,6 @@
 import matplotlib.pyplot as plt
 from django.db.models import Count
 
-# Profile.objects.values('nationality').annotate(Count('nationality'))
-# dict = {nat[item]['nationality']:nat[item]['nationality__count'] for item in data]
-
 
 def get_nationality_stats(query):
 

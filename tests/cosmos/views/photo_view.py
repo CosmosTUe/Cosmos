@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 
-from cosmos.models import PhotoAlbum
+from apps.core.models.photos import PhotoAlbum
 from tests.cosmos.helpers import get_image_file
 
 

@@ -11,7 +11,7 @@ from cosmos import settings
 
 webhook = EventWebhook()
 
-# TODO consider changing to /hook/sendgrid?
+# TODO consider changing to /hook/newsletter?
 # link is at `<domain>/accounts/hook/`
 # test with `ngrok http 127.0.0.1:<django_port=8000>`
 # fully setup with live server:

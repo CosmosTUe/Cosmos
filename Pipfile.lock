@@ -672,11 +672,11 @@
         },
         "sendgrid": {
             "hashes": [
-                "sha256:0e5da37bd85ba8d2e84d7597adc493bccf8637b0cdb8ca79e8719456615316c4",
-                "sha256:eafad9aa4cf4ccca539a22e6a844538fdceba25f53a51de26458ccf8a0632e9a"
+                "sha256:00f1a2b411ed58fb72834c9a94480f4f9e2b87803808b6a480b476b62538444e",
+                "sha256:0997006befd4ac27ac1982f8d398e1c1fd83ada6afe151159aad361ed4f334a7"
             ],
             "index": "pypi",
-            "version": "==6.9.0"
+            "version": "==6.9.1"
         },
         "setuptools-scm": {
             "hashes": [
@@ -712,9 +712,9 @@
         },
         "starkbank-ecdsa": {
             "hashes": [
-                "sha256:f7b434b4a1e0ba082fb1804b908b79523973fd17b1fde377078857f7cee299d1"
+                "sha256:4b60ebc493f024f2891516a6c140fcc711c16999468c8594bc1097ca5aed759f"
             ],
-            "version": "==1.1.1"
+            "version": "==2.0.2"
         },
         "tomli": {
             "hashes": [

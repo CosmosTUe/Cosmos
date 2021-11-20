@@ -15,8 +15,8 @@ from typing import List
 
 from apps.async_requests.commands import (
     GMMInviteSubscribeCommand,
-    NewsletterSubscribeCommand,
     GMMInviteUnsubscribeCommand,
+    NewsletterSubscribeCommand,
     NewsletterUnsubscribeCommand,
 )
 from apps.async_requests.constants import GMM_INVITE_LIST_ID, NEWSLETTER_LIST_ID

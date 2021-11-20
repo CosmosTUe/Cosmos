@@ -104,7 +104,10 @@ class NewsletterService(metaclass=ABCMeta):
             # unsubscribe to both
             executor.add_command(NewsletterUnsubscribeCommand(inst_email))
             executor.add_command(NewsletterUnsubscribeCommand(alt_email))
-            return
+
+        if not profile.subscribed_gmm_invite:
+            executor.add_command(GMMInviteUnsubscribeCommand(inst_email))
+            executor.add_command(GMMInviteUnsubscribeCommand(alt_email))
 
         # Profile is subscribed to newsletter
         if profile.newsletter_recipient == "TUE":

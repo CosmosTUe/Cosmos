@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from cosmos.forms import GMMForm
+from apps.core.forms.gmm import GMMForm
 
 
 def generate_form(name, date):

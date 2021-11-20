@@ -6,11 +6,11 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
-from apps.users.forms.errors import INVALID_EMAIL
+from apps.users.forms.error_codes import INVALID_EMAIL
 from apps.users.helper_functions import is_valid_institutional_email
-from apps.users.models.user.constants import NATIONALITIES
-from apps.users.models.user.institution import InstitutionFontys, InstitutionTue
-from apps.users.models.user.profile import Profile
+from apps.users.models.constants import NATIONALITIES
+from apps.users.models.institution import InstitutionFontys, InstitutionTue
+from apps.users.models.profile import Profile
 
 
 class RegisterUserForm(UserCreationForm):

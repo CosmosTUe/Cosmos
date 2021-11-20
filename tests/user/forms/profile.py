@@ -2,9 +2,15 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 
 from apps.async_requests.constants import NEWSLETTER_LIST_ID
-from apps.users.forms import KeyAccessUpdateForm, PasswordUpdateForm, PreferencesUpdateForm, ProfileUpdateForm, errors
+from apps.users.forms import (
+    KeyAccessUpdateForm,
+    PasswordUpdateForm,
+    PreferencesUpdateForm,
+    ProfileUpdateForm,
+    error_codes,
+)
 from apps.users.models import Profile
-from apps.users.models.user import InstitutionTue
+from apps.users.models.institution import InstitutionTue
 from tests.helpers import (
     NewsletterTestCaseMixin,
     get_key_access_form_data,
@@ -309,7 +315,7 @@ class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
         form.full_clean()
 
         # test
-        self.assertTrue(form.has_error("__all__", errors.INVALID_SUBSCRIBE_TO_EMPTY_EMAIL))
+        self.assertTrue(form.has_error("__all__", error_codes.INVALID_SUBSCRIBE_TO_EMPTY_EMAIL))
 
     def test_fail_gmm_invite_enable_secondary_email_empty(self):
         # setup
@@ -324,7 +330,7 @@ class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
         form.full_clean()
 
         # test
-        self.assertTrue(form.has_error("__all__", errors.INVALID_SUBSCRIBE_TO_EMPTY_EMAIL))
+        self.assertTrue(form.has_error("__all__", error_codes.INVALID_SUBSCRIBE_TO_EMPTY_EMAIL))
 
     def test_success_newsletter_disable_secondary_email(self):
         # setup
@@ -448,7 +454,7 @@ class KeyAccessUpdateFormTest(TestCase):
         form = KeyAccessUpdateForm(instance=self.institution, data=get_key_access_form_data(tue_id=tue_id))
 
         # test
-        self.assertTrue(form.has_error("tue_id", errors.INVALID_TUE_ID))
+        self.assertTrue(form.has_error("tue_id", error_codes.INVALID_TUE_ID))
 
     def test_success_tue_id_update(self):
         # setup

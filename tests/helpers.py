@@ -8,7 +8,7 @@ from django.urls import reverse
 from apps.async_requests.constants import GMM_INVITE_LIST_ID, NEWSLETTER_LIST_ID
 from apps.async_requests.executor import _Executor
 from apps.async_requests.factory import Factory
-from apps.async_requests.sendgrid.newsletter import NewsletterService
+from apps.async_requests.newsletter.newsletter_service import NewsletterService
 
 
 # Reference: https://stackoverflow.com/a/60323415/3787761

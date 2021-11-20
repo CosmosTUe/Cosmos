@@ -8,7 +8,7 @@ from django.test import TestCase
 from python_http_client import UnauthorizedError
 
 from apps.async_requests.constants import GMM_INVITE_LIST_ID, NEWSLETTER_LIST_ID
-from apps.async_requests.sendgrid.newsletter import NewsletterService
+from apps.async_requests.newsletter.newsletter_service import NewsletterService
 from apps.users.admin import ProfileAdmin
 from apps.users.models import Profile
 from mocks.request import MockRequest

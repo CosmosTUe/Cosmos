@@ -4,9 +4,9 @@ from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 
-from cosmos.forms import PhotoAlbumForm, PhotoAlbumUpdateForm, PhotoObjectForm
-from cosmos.forms.photos import PHOTO_ALBUM_FUTURE_DATE
-from cosmos.models import News, PhotoAlbum
+from apps.core.forms.photos import PHOTO_ALBUM_FUTURE_DATE, PhotoAlbumForm, PhotoAlbumUpdateForm, PhotoObjectForm
+from apps.core.models.news import News
+from apps.core.models.photos import PhotoAlbum
 from tests.cosmos.helpers import get_image_file
 
 

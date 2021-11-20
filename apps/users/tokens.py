@@ -12,5 +12,5 @@ class TokenGenerator(PasswordResetTokenGenerator):
         return (six.text_type(user.pk), six.text_type(timestamp) + six.text_type(user.is_active))
 
 
-# Token generator used for cemail verification on account creation
+# Token generator used for email verification on account creation
 account_activation_token = TokenGenerator()

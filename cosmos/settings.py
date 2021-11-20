@@ -171,6 +171,7 @@ MIDDLEWARE = [
 
 INSTALLED_APPS = [
     "cosmos",
+    "apps.core",
     "apps.users",
     "apps.events",
     "apps.async_requests",

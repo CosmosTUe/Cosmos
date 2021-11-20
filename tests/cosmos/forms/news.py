@@ -4,8 +4,8 @@ from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 
-from cosmos.forms import NewsForm
-from cosmos.models import News
+from apps.core.forms.news import NewsForm
+from apps.core.models.news import News
 from tests.cosmos.helpers import get_image_file
 
 

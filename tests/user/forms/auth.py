@@ -1,8 +1,8 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 
-from apps.users.forms.auth import CosmosLoginForm
-from apps.users.forms.errors import INVALID_EMAIL
+from apps.users.forms.authorization import CosmosLoginForm
+from apps.users.forms.error_codes import INVALID_EMAIL
 
 
 def generate_form(username="tosti@student.tue.nl", password="ikbeeneenbrood", remember_me=False):

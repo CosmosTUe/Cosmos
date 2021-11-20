@@ -11,17 +11,17 @@ from django.core.exceptions import ValidationError
 from apps.async_requests.commands.subscribe_command import NewsletterSubscribeCommand
 from apps.async_requests.commands.unsubscribe_command import NewsletterUnsubscribeCommand
 from apps.async_requests.factory import Factory
-from apps.users.forms import errors
-from apps.users.forms.errors import INVALID_EMAIL, INVALID_EMAIL_CHANGE, INVALID_SUBSCRIBE_TO_EMPTY_EMAIL
+from apps.users.forms import error_codes
+from apps.users.forms.error_codes import INVALID_EMAIL, INVALID_EMAIL_CHANGE, INVALID_SUBSCRIBE_TO_EMPTY_EMAIL
 from apps.users.helper_functions import (
     is_fontys_email,
     is_tue_email,
     is_valid_institutional_email,
     same_email_institution,
 )
-from apps.users.models.user import Profile
-from apps.users.models.user.constants import FONTYS_STUDIES, NATIONALITIES, TUE_DEPARTMENTS, TUE_PROGRAMS
-from apps.users.models.user.institution import InstitutionTue
+from apps.users.models.constants import FONTYS_STUDIES, NATIONALITIES, TUE_DEPARTMENTS, TUE_PROGRAMS
+from apps.users.models.institution import InstitutionTue
+from apps.users.models.profile import Profile
 
 logger = logging.getLogger(__name__)
 executor = Factory.get_executor()
@@ -199,6 +199,6 @@ class KeyAccessUpdateForm(forms.ModelForm):
         data = self.cleaned_data["tue_id"]
         if not len(data) < 8:
             raise ValidationError(
-                "Please enter a valid TU/e ID. It should be less than 8 digits long", errors.INVALID_TUE_ID
+                "Please enter a valid TU/e ID. It should be less than 8 digits long", error_codes.INVALID_TUE_ID
             )
         return data

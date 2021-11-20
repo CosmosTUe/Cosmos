@@ -11,8 +11,6 @@ from apps.async_requests.factory import Factory
 from apps.users.models import Profile
 from apps.users.stats import get_nationality_stats
 
-# from apps.users.tasks import sync_newsletter_subcriptions_task
-
 logger = logging.getLogger(__name__)
 executor = Factory.get_executor()
 newsletter_service = Factory.get_newsletter_service()

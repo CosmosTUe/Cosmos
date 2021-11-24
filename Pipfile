@@ -28,6 +28,8 @@ sendgrid = "*"
 python-http-client = "*"
 django-oauth-toolkit = "*"
 django-cors-middleware = "*"
+django-redis = "*"
+hiredis = "*"
 Pillow = "*"
 Django = "*"
 

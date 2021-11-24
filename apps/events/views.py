@@ -1,6 +1,7 @@
 import datetime
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.sites.models import Site
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
@@ -9,7 +10,6 @@ from django_ical.views import ICalFeed
 
 from apps.events.forms import EventForm
 from apps.events.models import Event
-from django.contrib.sites.models import Site
 
 
 def events_list(request):

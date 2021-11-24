@@ -1,5 +1,6 @@
 from ckeditor.fields import RichTextField
 from django.contrib.auth.models import Group
+from django.contrib.sites.models import Site
 from django.db import models
 from django.urls import reverse
 
@@ -20,4 +21,5 @@ class Event(models.Model):
         return "Event: {" + self.name + "}"
 
     def get_absolute_url(self):
-        return "https://cosmostue.nl" + reverse("cosmos_events:events-view", kwargs={"pk": self.pk})
+        domain = Site.objects.get_current().domain
+        return "https://" + domain + reverse("cosmos_events:events-view", kwargs={"pk": self.pk})

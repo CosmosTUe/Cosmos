@@ -9,6 +9,7 @@ from django_ical.views import ICalFeed
 
 from apps.events.forms import EventForm
 from apps.events.models import Event
+from django.contrib.sites.models import Site
 
 
 def events_list(request):
@@ -96,7 +97,8 @@ class EventFeed(ICalFeed):
     A simple event calender
     """
 
-    product_id = "-//cosmostue.nl//Events//EN"
+    domain = Site.objects.get_current().domain
+    product_id = "-//" + domain + "//Events//EN"
     timezone = "UTC"
     file_name = "event.ics"
 

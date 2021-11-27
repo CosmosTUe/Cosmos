@@ -92,7 +92,16 @@ TIME_ZONE = "Europe/Amsterdam"
 
 USE_I18N = False
 
-USE_L10N = True
+# Use server-side locales
+USE_L10N = False
+
+# Reference: https://docs.djangoproject.com/en/3.2/ref/templates/builtins/#date
+# https://docs.djangoproject.com/en/3.2/ref/settings/#date-format
+DATE_FORMAT = "d/m/Y"
+# https://docs.djangoproject.com/en/3.2/ref/settings/#time-format
+TIME_FORMAT = "H:i"
+# https://docs.djangoproject.com/en/3.2/ref/settings/#datetime-format
+DATETIME_FORMAT = "d/m/Y H:i"
 
 USE_TZ = True
 

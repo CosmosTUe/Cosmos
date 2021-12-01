@@ -97,11 +97,11 @@ USE_L10N = False
 
 # Reference: https://docs.djangoproject.com/en/3.2/ref/templates/builtins/#date
 # https://docs.djangoproject.com/en/3.2/ref/settings/#date-format
-DATE_FORMAT = "d/m/Y"
+DATE_FORMAT = "d M Y"
 # https://docs.djangoproject.com/en/3.2/ref/settings/#time-format
 TIME_FORMAT = "H:i"
 # https://docs.djangoproject.com/en/3.2/ref/settings/#datetime-format
-DATETIME_FORMAT = "d/m/Y H:i"
+DATETIME_FORMAT = "d M Y H:i"
 
 USE_TZ = True
 

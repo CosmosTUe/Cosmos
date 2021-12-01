@@ -28,7 +28,7 @@ class PhotoAlbumCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         return super(PhotoAlbumCreate, self).form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy("photo_album-list")
+        return reverse_lazy("cosmos_core:photo_album-list")
 
 
 class PhotoAlbumUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
@@ -61,7 +61,7 @@ class PhotoObjectDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView)
     raise_exception = True
 
     def get_success_url(self) -> str:
-        return reverse_lazy("photo_album-view", kwargs={"pk": self.get_object().album.id})
+        return reverse_lazy("cosmos_core:photo_album-view", kwargs={"pk": self.get_object().album.id})
 
 
 def photo_album_add_photo(request, pk):
@@ -74,7 +74,7 @@ def photo_album_add_photo(request, pk):
         print(request.FILES)
         for img in request.FILES.getlist("photo"):
             PhotoObject.objects.create(album=album, photo=img)
-        return redirect(reverse("photo_album-view", kwargs={"pk": album.id}))
+        return redirect(reverse("cosmos_core:photo_album-view", kwargs={"pk": album.id}))
     else:
         form = PhotoObjectForm()
 

@@ -8,7 +8,7 @@ class PhotoAlbum(models.Model):
     album_cover = models.ImageField(upload_to="photos")
 
     def get_absolute_url(self):
-        return reverse("photo_album-list")
+        return reverse("cosmos_core:photo_album-list")
 
     def __str__(self):
         return "PhotoAlbum: {" + self.title + "}"

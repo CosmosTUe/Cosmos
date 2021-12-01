@@ -25,7 +25,7 @@ class SubscribeCommand(Command):
         newsletter_service.add_subscription(self.contacts, self.list_id)
 
     def __eq__(self, other):
-        return super().__eq__(other) and self.contacts == other.contacts
+        return super().__eq__(other) and self.contacts == other.contacts and self.list_id == other.list_id
 
 
 class NewsletterSubscribeCommand(SubscribeCommand):

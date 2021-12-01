@@ -25,7 +25,7 @@ class UnsubscribeCommand(Command):
         newsletter_service.remove_subscription(self.emails, self.list_id)
 
     def __eq__(self, other):
-        return super().__eq__(other) and self.emails == other.emails
+        return super().__eq__(other) and self.emails == other.emails and self.list_id == other.list_id
 
 
 class NewsletterUnsubscribeCommand(UnsubscribeCommand):

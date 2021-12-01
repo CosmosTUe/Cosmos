@@ -31,7 +31,7 @@ class News(models.Model):
         super(News, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse("news-list")
+        return reverse("cosmos_core:news-list")
 
     def __str__(self):
         return "News: {" + self.title + ", " + str(self.publish_date) + "}"

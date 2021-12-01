@@ -1,4 +1,7 @@
 {% extends "subpage.html" %}
+
+{% load thumbnail %}
+
 {% block title %}About{% endblock title%}
 {% block content %}
 
@@ -45,7 +48,9 @@
         <div class="text-center py-4">
             <h3>Board</h3>
             {% if board %}
-                <img src="{{ board.photo.url }}" class="img-fluid pb-2" alt="Photo of {{ board.display_name }}">
+            {% thumbnail board.photo "800x600" crop="center" as im %}
+                <img src="{{ im.url }}" class="img-fluid pb-2" alt="Photo of {{ board.display_name }}">
+            {% endthumbnail %}
                 <div class="d-flex flex-column">
                     <p>{{ board.description }}</p>
                 </div>

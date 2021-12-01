@@ -1,6 +1,7 @@
 {% extends "subpage.html" %}
 
 {% load crispy_forms_tags %}
+{% load thumbnail %}
 
 {% block title %}{{ article.title }}{% endblock title %}
 
@@ -10,7 +11,9 @@
     <div class="mx-auto w-75">
 
         <div class="card{% if not article.published %} news-disabled{% endif %}">
-            <img src="{{ article.image.url}}" class="card-img-top news-image-large">
+            {% thumbnail article.image "800x800" crop="center" as im %}
+                <img src="{{ im.url }}" class="card-img-top news-image-large">
+            {% endthumbnail %}
             <div class="card-body">
                 {% if perms.cosmos.change_news and perms.cosmos.delete_news %}
                 <div class="float-end">

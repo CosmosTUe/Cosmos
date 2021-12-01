@@ -33,6 +33,7 @@ hiredis = "*"
 Pillow = "*"
 Django = "<4.0"
 django-ical = "*"
+sorl-thumbnail = "*"
 
 [dev-packages]
 flake8 = "*"

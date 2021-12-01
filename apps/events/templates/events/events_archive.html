@@ -1,6 +1,7 @@
 {% extends "subpage.html" %}
 
 {% load crispy_forms_tags %}
+{% load thumbnail %}
 
 {% block title %}Past Events{% endblock title%}
 
@@ -14,7 +15,9 @@
             <div class="col">
                 <div class="card h-100">
                     {# transform is added so that stretched link does not go into footer #}
-                    <img class="card-img-top events-image" src="{{ event.image.url }}">
+                    {% thumbnail event.image "600x600" crop="center" as im %}
+                        <img class="card-img-top events-image" src="{{ im.url }}">
+                    {% endthumbnail %}
                     <div class="card-body">
                         <h5 class="card-title">{{ event.name }}</h5>
                         <p class="event-truncate">{{ event.lead }}</p>

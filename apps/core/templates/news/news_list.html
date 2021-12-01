@@ -1,6 +1,7 @@
 {% extends "subpage.html" %}
 
 {% load crispy_forms_tags %}
+{% load thumbnail %}
 
 {% block title %}News{% endblock title%}
 
@@ -21,7 +22,9 @@
         {% for news in news_list %}
             <div class="col">
                 <div class="card h-100{% if not news.published %} news-disabled{% endif %}">
-                    <img class="card-img-top news-image" src="{{ news.image.url }}">
+                    {% thumbnail news.image "600x600" crop="center" as im %}
+                        <img class="card-img-top news-image" src="{{ im.url }}">
+                    {% endthumbnail %}
                     <div class="card-body">
                         <h5 class="card-title">{{ news.title }}</h5>
                         <p class="news-truncate">{{ news.lead }}</p>

@@ -1,6 +1,7 @@
 {% extends "subpage.html" %}
 
 {% load static %}
+{% load thumbnail %}
 
 {% block title %}
     Committee
@@ -19,8 +20,10 @@
             {% for committee in committees %}
                 <div class="col">
                     <div class="card h-100">
-                        <img src="{{ committee.photo.url }}" class="card-img-top"
-                             alt="photo of {{ committee.name }}">
+                        {% thumbnail committee.photo "800x600" crop="center" as im %}
+                        <img src="{{ im.url }}" class="card-img-top"
+                             alt="Photo of {{ committee.name }}">
+                        {% endthumbnail %}
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title">{{ committee.display_name }}</h5>
                             <p class="card-text">{{ committee.description }}</p>

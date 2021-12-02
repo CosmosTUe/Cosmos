@@ -46,7 +46,7 @@ class ProfileAdmin(admin.ModelAdmin):
         self.message_user(request, f"Sending {len(queryset)} messages...", messages.INFO)
         try:
             for profile in queryset:
-                newsletter_service.sync_newsletter_preferences(profile)
+                newsletter_service.sync_subscription_preferences(profile)
             executor.execute()
             self.message_user(request, f"{len(queryset)} newsletter preferences updated!", messages.SUCCESS)
         except UnauthorizedError:

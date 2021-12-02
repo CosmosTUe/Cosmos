@@ -1,8 +1,11 @@
+from unittest import TestCase
+
 import jsonpickle
-from django.test import TestCase
 from sendgrid.helpers.mail.mail import Mail
 
-from apps.async_requests.commands import MailSendCommand, SubscribeCommand, UnsubscribeCommand
+from apps.async_requests.commands import MailSendCommand
+from apps.async_requests.commands.subscribe_command import NewsletterSubscribeCommand
+from apps.async_requests.commands.unsubscribe_command import NewsletterUnsubscribeCommand
 
 
 class CommandsTestCase(TestCase):
@@ -23,8 +26,8 @@ class CommandsTestCase(TestCase):
         self.assertTrue(command1.emails[1] == email2)
 
     def test_merge_subscribecommand(self):
-        command1 = SubscribeCommand("test@example.com", "Mike", "Wazowski")
-        command2 = SubscribeCommand("test2@example.com", "James", "Sullivan")
+        command1 = NewsletterSubscribeCommand("test@example.com", "Mike", "Wazowski")
+        command2 = NewsletterSubscribeCommand("test2@example.com", "James", "Sullivan")
         command1.merge([command2])
         self.assertTrue(len(command1.contacts) == 2)
         self.assertTrue(
@@ -35,8 +38,8 @@ class CommandsTestCase(TestCase):
         )
 
     def test_merge_unsubscribecommand(self):
-        command1 = UnsubscribeCommand("test@example.com")
-        command2 = UnsubscribeCommand("test2@example.com")
+        command1 = NewsletterUnsubscribeCommand("test@example.com")
+        command2 = NewsletterUnsubscribeCommand("test2@example.com")
         command1.merge([command2])
         self.assertTrue(len(command1.emails) == 2)
         self.assertTrue(command1.emails[0] == "test@example.com")
@@ -50,14 +53,14 @@ class CommandsTestCase(TestCase):
         self.assertTrue(command == result)
 
     def test_serialize_subscribecommand(self):
-        command = SubscribeCommand("test@example.com", "Mike", "Wazowski")
+        command = NewsletterSubscribeCommand("test@example.com", "Mike", "Wazowski")
         pickle = jsonpickle.encode(command)
         result = jsonpickle.decode(pickle)
 
         self.assertTrue(command == result)
 
     def test_serialize_unsubsribecomand(self):
-        command = UnsubscribeCommand("test@example.com")
+        command = NewsletterUnsubscribeCommand("test@example.com")
         pickle = jsonpickle.encode(command)
         result = jsonpickle.decode(pickle)
 

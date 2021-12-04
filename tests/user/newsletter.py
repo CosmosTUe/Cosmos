@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 
+from apps.async_requests.constants import NEWSLETTER_LIST_ID
 from apps.async_requests.factory import Factory
 from apps.users.models import Profile
 
@@ -27,7 +28,7 @@ class NewsletterLogic(TestCase):
         # setup - none
 
         # act
-        result = self.service.is_subscribed(self.user.username)
+        result = self.service.is_subscribed(self.user.username, NEWSLETTER_LIST_ID)
 
         # test
         self.assertFalse(result, msg="is_subscribed false")
@@ -35,11 +36,12 @@ class NewsletterLogic(TestCase):
     def test_is_subscribed_true(self):
         # setup
         self.service.add_subscription(
-            [{"email": self.alt_email, "first_name": self.user.first_name, "last_name": self.user.last_name}]
+            [{"email": self.alt_email, "first_name": self.user.first_name, "last_name": self.user.last_name}],
+            NEWSLETTER_LIST_ID,
         )
 
         # act
-        result = self.service.is_subscribed(self.alt_email)
+        result = self.service.is_subscribed(self.alt_email, NEWSLETTER_LIST_ID)
 
         # test
         self.assertTrue(result)
@@ -49,11 +51,12 @@ class NewsletterLogic(TestCase):
 
         # act
         success = self.service.add_subscription(
-            [{"email": self.alt_email, "first_name": self.user.first_name, "last_name": self.user.last_name}]
+            [{"email": self.alt_email, "first_name": self.user.first_name, "last_name": self.user.last_name}],
+            NEWSLETTER_LIST_ID,
         )
 
         # test
-        result = self.service.is_subscribed(self.alt_email)
+        result = self.service.is_subscribed(self.alt_email, NEWSLETTER_LIST_ID)
         self.assertTrue(success)
         self.assertTrue(result)
 
@@ -61,30 +64,31 @@ class NewsletterLogic(TestCase):
         # setup - none
 
         # act
-        success = self.service.remove_subscription([self.alt_email])
+        success = self.service.remove_subscription([self.alt_email], NEWSLETTER_LIST_ID)
 
         # test
-        result = self.service.is_subscribed(self.alt_email)
+        result = self.service.is_subscribed(self.alt_email, NEWSLETTER_LIST_ID)
         self.assertTrue(success)
         self.assertFalse(result)
 
     def test_remove_filled_db(self):
         # setup
         self.service.add_subscription(
-            [{"email": self.alt_email, "first_name": self.user.first_name, "last_name": self.user.last_name}]
+            [{"email": self.alt_email, "first_name": self.user.first_name, "last_name": self.user.last_name}],
+            NEWSLETTER_LIST_ID,
         )
 
         # act
-        success = self.service.remove_subscription([self.alt_email])
+        success = self.service.remove_subscription([self.alt_email], NEWSLETTER_LIST_ID)
 
         # test
-        result = self.service.is_subscribed(self.alt_email)
+        result = self.service.is_subscribed(self.alt_email, NEWSLETTER_LIST_ID)
         self.assertTrue(success)
         self.assertFalse(result)
 
     def assert_subscription_states(self, exp_tue, exp_alt):
-        result_tue = self.service.is_subscribed(self.inst_email)
-        result_alt = self.service.is_subscribed(self.alt_email)
+        result_tue = self.service.is_subscribed(self.inst_email, NEWSLETTER_LIST_ID)
+        result_alt = self.service.is_subscribed(self.alt_email, NEWSLETTER_LIST_ID)
         self.assertEqual(exp_tue, result_tue)
         self.assertEqual(exp_alt, result_alt)
 
@@ -105,7 +109,11 @@ class NewsletterLogic(TestCase):
         self.user.profile.newsletter_recipient = new_rec
 
         # act
-        self.service.update_newsletter_preferences(self.user.profile, old_sub, old_rec)
+        self.service.update_newsletter_preferences(
+            self.user.profile,
+            {"subscribed_newsletter": old_sub, "subscribed_gmm_invite": False, "newsletter_recipient": old_rec},
+            {"subscribed_newsletter": new_sub, "subscribed_gmm_invite": False, "newsletter_recipient": new_rec},
+        )
         Factory.get_executor().execute()
 
         # test
@@ -120,7 +128,8 @@ class NewsletterLogic(TestCase):
     def test_update_subscribed_user_unchanged(self):
         # setup
         self.service.add_subscription(
-            [{"email": self.inst_email, "first_name": self.user.first_name, "last_name": self.user.last_name}]
+            [{"email": self.inst_email, "first_name": self.user.first_name, "last_name": self.user.last_name}],
+            NEWSLETTER_LIST_ID,
         )
         self.executor.execute()
 
@@ -130,7 +139,8 @@ class NewsletterLogic(TestCase):
     def test_update_user_change_from_inst_email_to_alt_email(self):
         # setup
         self.service.add_subscription(
-            [{"email": self.inst_email, "first_name": self.user.first_name, "last_name": self.user.last_name}]
+            [{"email": self.inst_email, "first_name": self.user.first_name, "last_name": self.user.last_name}],
+            NEWSLETTER_LIST_ID,
         )
         self.executor.execute()
 
@@ -140,7 +150,8 @@ class NewsletterLogic(TestCase):
     def test_update_user_change_from_alt_email_to_inst_email(self):
         # setup
         self.service.add_subscription(
-            [{"email": self.alt_email, "first_name": self.user.first_name, "last_name": self.user.last_name}]
+            [{"email": self.alt_email, "first_name": self.user.first_name, "last_name": self.user.last_name}],
+            NEWSLETTER_LIST_ID,
         )
         self.executor.execute()
 

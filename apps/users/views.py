@@ -11,8 +11,9 @@ from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 from formtools.wizard.views import SessionWizardView
 
-from apps.async_requests.commands import MailSendCommand, SubscribeCommand
-from apps.async_requests.commands.unsubscribe_command import UnsubscribeCommand
+from apps.async_requests.commands import MailSendCommand
+from apps.async_requests.commands.subscribe_command import NewsletterSubscribeCommand
+from apps.async_requests.commands.unsubscribe_command import NewsletterUnsubscribeCommand
 from apps.async_requests.factory import Factory
 from apps.users.forms.authorization import CosmosLoginForm
 from apps.users.forms.profile import KeyAccessUpdateForm, PasswordUpdateForm, PreferencesUpdateForm, ProfileUpdateForm
@@ -92,7 +93,7 @@ class RegistrationWizard(SessionWizardView):
 
             if profile.subscribed_newsletter:
                 email = user.username if profile.newsletter_recipient == "TUE" else user.email
-                executor.add_command(SubscribeCommand(email, user.first_name, user.last_name))
+                executor.add_command(NewsletterSubscribeCommand(email, user.first_name, user.last_name))
 
         return redirect(reverse("cosmos_users:registration_done"))
 
@@ -182,8 +183,8 @@ def profile(request):
 def delete(request):
     if request.method == "POST":
         # Remove newsletter subscription before deleting the user
-        executor.add_command(UnsubscribeCommand(request.user.username))
-        executor.add_command(UnsubscribeCommand(request.user.email))
+        executor.add_command(NewsletterUnsubscribeCommand(request.user.username))
+        executor.add_command(NewsletterUnsubscribeCommand(request.user.email))
         User.objects.get(username=request.user.username).delete()
         messages.success(request, "Your account has successfully been deleted")
     return redirect("/")

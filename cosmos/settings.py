@@ -103,7 +103,7 @@ TIME_FORMAT = "H:i"
 # https://docs.djangoproject.com/en/3.2/ref/settings/#datetime-format
 DATETIME_FORMAT = "d M Y H:i"
 
-USE_TZ = True
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/

@@ -2,34 +2,13 @@
 
 {% load crispy_forms_tags %}
 
-{% block title %}Events{% endblock title%}
+{% block title %}Past Events{% endblock title%}
 
 {% block content %}
 
 <div class="container">
     <div class="w-75 mx-auto">
-        <div class="row">
-            <div class="col">
-                <h2>Events</h2>
-            </div>
-            <div class="col-md-3 py-1">
-                {% if perms.events.add_event %}
-                <div class="float-end">
-                    <a class="btn btn-cosmos-primary" href="{% url 'cosmos_events:events-create' %}">
-                        <i class="bi bi-plus-lg"></i>
-                        Add new Event
-                    </a>
-                </div>
-                {% endif %}
-            </div>
-            <div class="col-md-2 py-1">
-                <div class="float-end">
-                    <a class="btn btn-cosmos-primary" href="{% url 'cosmos_events:events-archive' %}">
-                        Past Events
-                    </a>
-                </div>
-            </div>
-        </div>
+        <h2>Past Events</h2>
         <div class="row row-cols-1 row-cols-md-3 g-2 mt-2" id="EventGrid">
         {% for event in events_list %}
             <div class="col">

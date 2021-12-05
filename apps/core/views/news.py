@@ -22,7 +22,7 @@ class NewsCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     raise_exception = True
 
     def get_success_url(self):
-        return reverse_lazy("news-list")
+        return reverse_lazy("cosmos_core:news-list")
 
 
 class NewsUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
@@ -36,7 +36,7 @@ class NewsUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     raise_exception = True
 
     def get_success_url(self):
-        return reverse_lazy("news-list")
+        return reverse_lazy("cosmos_core:news-list")
 
 
 class NewsDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):

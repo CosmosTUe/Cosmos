@@ -3,7 +3,7 @@ from django.test import Client, TestCase
 
 from apps.async_requests.factory import Factory
 from apps.users.models import Profile
-from tests.helpers import get_key_access_form_data, get_profile_form_data
+from tests.helpers import get_profile_form_data
 
 
 def get_logged_in_client() -> Client:
@@ -101,16 +101,3 @@ class ProfileUpdateFlowTest(TestCase):
         form_data = response.wsgi_request.POST
         self.assertEqual(302, response.status_code)
         self.assertEqual(exp_alt_email, form_data["email"])
-
-    def test_success_key_access_unchanged(self):
-        # setup
-        c = get_logged_in_client()
-        url = "/accounts/profile/#key-access"
-
-        exp_status_code = 302
-
-        # act
-        response = c.post(url, data=get_key_access_form_data())
-
-        # test
-        self.assertEqual(exp_status_code, response.status_code)

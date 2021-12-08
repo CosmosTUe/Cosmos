@@ -22,7 +22,7 @@
         {% for news in news_list %}
             <div class="col">
                 <div class="card h-100{% if not news.published %} news-disabled{% endif %}">
-                    {% thumbnail news.image "600x600" crop="center" as im %}
+                    {% thumbnail news.image "600" crop="center" as im %}
                         <img class="card-img-top news-image" src="{{ im.url }}">
                     {% endthumbnail %}
                     <div class="card-body">

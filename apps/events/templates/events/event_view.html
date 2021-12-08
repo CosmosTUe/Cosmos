@@ -13,7 +13,7 @@
     <div class="mx-auto w-75">
 
         <div class="card">
-            {% thumbnail event.image "800x800" crop="center" as im %}
+            {% thumbnail event.image "800" crop="center" as im %}
                 <img src="{{ im.url }}" class="card-img-top event-image-large">
             {% endthumbnail %}
             <div class="card-body">

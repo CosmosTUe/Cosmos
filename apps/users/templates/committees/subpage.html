@@ -12,7 +12,7 @@
         <div class="card w-100">
             <div class="row g-0">
                 <div class="col-md-6">
-                    {% thumbnail committee.photo "800x600" crop="center" as im %}
+                    {% thumbnail committee.photo "800" crop="center" as im %}
                     <img src="{{ im.url }}" class="w-100"
                          alt="Photo of {{ committee.name }}">
                     {% endthumbnail %}

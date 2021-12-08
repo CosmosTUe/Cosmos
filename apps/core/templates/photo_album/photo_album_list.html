@@ -42,7 +42,7 @@
             {% for album in album_list %}
             <div class="col">
                 <div class="card">
-                    {% thumbnail album.album_cover "600x600" crop="center" as im %}
+                    {% thumbnail album.album_cover "600" crop="center" as im %}
                         <img src="{{ im.url }}" class="card-img-top album-cover-image">
                     {% endthumbnail %}
                     <div class="card-body">

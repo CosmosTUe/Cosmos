@@ -48,7 +48,7 @@
         <div class="text-center py-4">
             <h3>Board</h3>
             {% if board %}
-            {% thumbnail board.photo "800x600" crop="center" as im %}
+            {% thumbnail board.photo "x800" crop="center" as im %}
                 <img src="{{ im.url }}" class="img-fluid pb-2" alt="Photo of {{ board.display_name }}">
             {% endthumbnail %}
                 <div class="d-flex flex-column">

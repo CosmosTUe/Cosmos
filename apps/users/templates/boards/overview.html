@@ -20,7 +20,7 @@
                 {% for board in boards %}
                     <div class="col">
                         <div class="card h-100">
-                            {% thumbnail board.photo "800x600" crop="center" as im %}
+                            {% thumbnail board.photo "800" crop="center" as im %}
                             <img src="{{ im.url }}" class="card-img-top"
                                  alt="Photo of {{ board.display_name }}">
                             {% endthumbnail %}

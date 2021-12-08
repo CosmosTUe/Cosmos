@@ -11,7 +11,7 @@
     <div class="mx-auto w-75">
 
         <div class="card{% if not article.published %} news-disabled{% endif %}">
-            {% thumbnail article.image "800x800" crop="center" as im %}
+            {% thumbnail article.image "800" crop="center" as im %}
                 <img src="{{ im.url }}" class="card-img-top news-image-large">
             {% endthumbnail %}
             <div class="card-body">

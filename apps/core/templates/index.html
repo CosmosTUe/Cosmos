@@ -125,7 +125,7 @@
         {% for news in news_list %}
             <div class="col">
                 <div class="card h-100">
-                    {% thumbnail news.image "450x250" crop="center" as im %}
+                    {% thumbnail news.image "x350" crop="center" as im %}
                         <img class="card-img-top news-image" src="{{ im.url }}">
                     {% endthumbnail %}
                     <div class="card-body">

@@ -16,7 +16,7 @@ from apps.async_requests.commands.subscribe_command import NewsletterSubscribeCo
 from apps.async_requests.commands.unsubscribe_command import NewsletterUnsubscribeCommand
 from apps.async_requests.factory import Factory
 from apps.users.forms.authorization import CosmosLoginForm
-from apps.users.forms.profile import KeyAccessUpdateForm, PasswordUpdateForm, PreferencesUpdateForm, ProfileUpdateForm
+from apps.users.forms.profile import PasswordUpdateForm, PreferencesUpdateForm, ProfileUpdateForm
 from apps.users.forms.registration import RegisterFontysForm, RegisterTueForm, RegisterUserForm
 from apps.users.helper_functions import is_fontys_email, is_tue_email
 from apps.users.mail import create_confirm_account_email
@@ -131,11 +131,6 @@ def profile(request):
         password_change_form = PasswordUpdateForm(data=request.POST, user=request.user)
         preferences_update_form = PreferencesUpdateForm(data=request.POST, instance=request.user.profile)
 
-        if request.user.profile.institution_name == "tue":
-            key_access_update_form = KeyAccessUpdateForm(data=request.POST, instance=request.user.profile.institution)
-        else:
-            key_access_update_form = None
-
         if "save_profile" in request.POST:
             if profile_update_form.is_valid():
                 profile_update_form.save()
@@ -151,21 +146,11 @@ def profile(request):
                 preferences_update_form.save()
                 messages.success(request, "Your preferences have been updated!")
                 return redirect(reverse("cosmos_users:user_profile") + "#preferences")
-        elif "save_key_access" in request.POST:
-            if key_access_update_form is not None and key_access_update_form.is_valid():
-                key_access_update_form.save()
-                messages.success(request, "Your key access settings have been updated!")
-                return redirect(reverse("cosmos_users:user_profile") + "#key-access")
 
     else:
         profile_update_form = ProfileUpdateForm(instance=request.user)
         password_change_form = PasswordUpdateForm(user=request.user)
         preferences_update_form = PreferencesUpdateForm(instance=request.user.profile)
-
-        if request.user.profile.institution_name == "tue":
-            key_access_update_form = KeyAccessUpdateForm(instance=request.user.profile.institution)
-        else:
-            key_access_update_form = None
 
     return render(
         request,
@@ -174,7 +159,6 @@ def profile(request):
             "profile_update_form": profile_update_form,
             "password_change_form": password_change_form,
             "preferences_update_form": preferences_update_form,
-            "key_access_update_form": key_access_update_form,
         },
     )
 

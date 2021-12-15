@@ -1,10 +1,11 @@
+import datetime
+
 import bs4
 from bs4 import BeautifulSoup
 from django.contrib.auth.models import Group, Permission, User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 from django.utils.timezone import make_aware
-import datetime
 
 from apps.events.errors import END_DATE_BEFORE_START
 from apps.events.forms import EventForm

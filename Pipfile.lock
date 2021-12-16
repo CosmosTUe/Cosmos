@@ -145,7 +145,7 @@
                 "sha256:a0713dc7a1de3f06bc0df5a9567ad19ead2d3d5689b434768a6145bff77c0667",
                 "sha256:f184f0d851d96b6d29297354ed981b7dd71df7ff500d82fa6d11f0856bee8035"
             ],
-            "markers": "python_version < '4' and python_full_version >= '3.6.2'",
+            "markers": "python_full_version >= '3.6.2' and python_full_version < '4.0.0'",
             "version": "==0.3.0"
         },
         "click-plugins": {
@@ -355,11 +355,11 @@
         },
         "fonttools": {
             "hashes": [
-                "sha256:ca6ecc67e5a5620d31754f92147f22f48fd5461fd3fafe6afe031aa9ee079b0f",
-                "sha256:edb48922873d3fda489ab400bd40888ac239ae8070b53f494b839bcdff0d01f6"
+                "sha256:581a682a7102a41421e7e484303572c565c1b8e52b1cc9fecd3c159dbe9a02f4",
+                "sha256:9934e3587dd5abf4e7f1d7176bcf0373db3f0ed728edf79791a9d2a7e664aac9"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==4.28.3"
+            "version": "==4.28.4"
         },
         "gunicorn": {
             "hashes": [
@@ -750,11 +750,11 @@
         },
         "sendgrid": {
             "hashes": [
-                "sha256:0adea6e0e5baf3652c1228614cc172914936eebc793e271b35b22b24c9cb097b",
-                "sha256:afd1c8da686d9f40a7e43300b919cfdd32b59ac113c1a3beac64fc51a0623f1e"
+                "sha256:561bd742728631d194398d856ec8c28ba2a024e7c9e5750561f529202aa1d24a",
+                "sha256:dfe281d60dedcd6386f715662c5c0e95cab539e15fddd17b4909d08b8065fc88"
             ],
             "index": "pypi",
-            "version": "==6.9.2"
+            "version": "==6.9.3"
         },
         "setuptools": {
             "hashes": [
@@ -799,7 +799,7 @@
                 "sha256:4987c65554f7a2dbf30c18fd48778ef124af6fab771a377103da0585e2336ece",
                 "sha256:c4fdf4019605b6e5423637e01bc9fe4daef873709a7973e195ceba0a62bbc844"
             ],
-            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4' and python_version < '4'",
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4' and python_full_version < '4.0.0'",
             "version": "==1.26.7"
         },
         "vine": {

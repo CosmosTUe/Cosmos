@@ -1,5 +1,5 @@
 from .auth import CosmosLoginFormTest
-from .profile import KeyAccessUpdateFormTest, PasswordUpdateFormTest, PreferencesUpdateFormTest, ProfileUpdateFormTest
+from .profile import PasswordUpdateFormTest, PreferencesUpdateFormTest, ProfileUpdateFormTest
 from .registration import RegisterUserFormTest
 
 __all__ = [
@@ -7,6 +7,5 @@ __all__ = [
     "ProfileUpdateFormTest",
     "PasswordUpdateFormTest",
     "PreferencesUpdateFormTest",
-    "KeyAccessUpdateFormTest",
     "RegisterUserFormTest",
 ]

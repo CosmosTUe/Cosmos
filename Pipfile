@@ -31,19 +31,20 @@ django-cors-middleware = "*"
 django-redis = "*"
 hiredis = "*"
 Pillow = "*"
-Django = "*"
+Django = "<4.0"
 django-ical = "*"
 
 [dev-packages]
 flake8 = "*"
 flake8-django = "*"
 pep8-naming = "*"
-flake8-isort = "*"
+isort = "*"
 black = "*"
 tox = "*"
+pre-commit = "*"
 
 [requires]
-python_version = "3.9"
+python_version = "3.8"
 
 [pipenv]
 allow_prereleases = true

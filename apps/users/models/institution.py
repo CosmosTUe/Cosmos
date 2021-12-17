@@ -24,9 +24,6 @@ class Institution(models.Model):
 class InstitutionTue(Institution):
     department = models.CharField(max_length=100, blank=False, choices=list(zip(TUE_DEPARTMENTS, TUE_DEPARTMENTS)))
     program = models.CharField(max_length=100, blank=False, choices=list(zip(TUE_PROGRAMS, TUE_PROGRAMS)))
-    tue_id = models.CharField(verbose_name="TU/e Student Number", blank=True, max_length=25)
-    card_number = models.CharField(max_length=25, blank=True)
-    key_access = models.BooleanField(max_length=3, default=False)
 
     class Meta:
         verbose_name = "Member of TU/e"

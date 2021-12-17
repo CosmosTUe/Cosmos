@@ -11,7 +11,6 @@ from django.core.exceptions import ValidationError
 from apps.async_requests.commands.subscribe_command import NewsletterSubscribeCommand
 from apps.async_requests.commands.unsubscribe_command import NewsletterUnsubscribeCommand
 from apps.async_requests.factory import Factory
-from apps.users.forms import error_codes
 from apps.users.forms.error_codes import INVALID_EMAIL, INVALID_EMAIL_CHANGE, INVALID_SUBSCRIBE_TO_EMPTY_EMAIL
 from apps.users.helper_functions import (
     is_fontys_email,
@@ -20,7 +19,6 @@ from apps.users.helper_functions import (
     same_email_institution,
 )
 from apps.users.models.constants import FONTYS_STUDIES, NATIONALITIES, TUE_DEPARTMENTS, TUE_PROGRAMS
-from apps.users.models.institution import InstitutionTue
 from apps.users.models.profile import Profile
 
 logger = logging.getLogger(__name__)
@@ -173,32 +171,3 @@ class PreferencesUpdateForm(forms.ModelForm):
         newsletter_service = Factory.get_newsletter_service()
         newsletter_service.update_newsletter_preferences(self.instance, self.initial, self.cleaned_data)
         return super(PreferencesUpdateForm, self).save(commit)
-
-
-class KeyAccessUpdateForm(forms.ModelForm):
-    class Meta:
-        model = InstitutionTue
-        fields = ["tue_id", "card_number"]
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.helper = FormHelper(self)
-        self.helper.form_id = "id-keyAccessUpdateForm"
-        self.helper.form_method = "post"
-        self.helper.form_action = "cosmos_users:user_profile"
-        self.helper.form_tag = False
-
-        self.helper.layout = Layout(
-            FloatingField("tue_id"),
-            FloatingField("card_number"),
-        )
-
-        self.helper.add_input(Submit("save_key_access", "Submit"))
-
-    def clean_tue_id(self):
-        data = self.cleaned_data["tue_id"]
-        if not len(data) < 8:
-            raise ValidationError(
-                "Please enter a valid TU/e ID. It should be less than 8 digits long", error_codes.INVALID_TUE_ID
-            )
-        return data

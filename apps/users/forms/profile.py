@@ -8,19 +8,18 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
-from apps.async_requests.commands import SubscribeCommand, UnsubscribeCommand
+from apps.async_requests.commands.subscribe_command import NewsletterSubscribeCommand
+from apps.async_requests.commands.unsubscribe_command import NewsletterUnsubscribeCommand
 from apps.async_requests.factory import Factory
-from apps.users.forms import errors
-from apps.users.forms.errors import INVALID_EMAIL, INVALID_EMAIL_CHANGE, INVALID_SUBSCRIBE_TO_EMPTY_EMAIL
+from apps.users.forms.error_codes import INVALID_EMAIL, INVALID_EMAIL_CHANGE, INVALID_SUBSCRIBE_TO_EMPTY_EMAIL
 from apps.users.helper_functions import (
     is_fontys_email,
     is_tue_email,
     is_valid_institutional_email,
     same_email_institution,
 )
-from apps.users.models.user import Profile
-from apps.users.models.user.constants import FONTYS_STUDIES, NATIONALITIES, TUE_DEPARTMENTS, TUE_PROGRAMS
-from apps.users.models.user.institution import InstitutionTue
+from apps.users.models.constants import FONTYS_STUDIES, NATIONALITIES, TUE_DEPARTMENTS, TUE_PROGRAMS
+from apps.users.models.profile import Profile
 
 logger = logging.getLogger(__name__)
 executor = Factory.get_executor()
@@ -76,9 +75,9 @@ class ProfileUpdateForm(forms.ModelForm):
 
         if "email" in self.changed_data and profile.subscribed_newsletter and profile.newsletter_recipient == "ALT":
             old_email = self.initial["email"]
-            executor.add_command(UnsubscribeCommand(old_email))
+            executor.add_command(NewsletterUnsubscribeCommand(old_email))
             new_email = self.cleaned_data["email"]
-            executor.add_command(SubscribeCommand(new_email, profile.user.first_name, profile.user.last_name))
+            executor.add_command(NewsletterSubscribeCommand(new_email, profile.user.first_name, profile.user.last_name))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -138,7 +137,7 @@ class PasswordUpdateForm(PasswordChangeForm):
 class PreferencesUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ["subscribed_newsletter", "newsletter_recipient"]
+        fields = ["subscribed_newsletter", "subscribed_gmm_invite", "newsletter_recipient"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -150,6 +149,7 @@ class PreferencesUpdateForm(forms.ModelForm):
 
         self.helper.layout = Layout(
             Field("subscribed_newsletter"),
+            Field("subscribed_gmm_invite"),
             Field("newsletter_recipient"),
         )
 
@@ -159,47 +159,15 @@ class PreferencesUpdateForm(forms.ModelForm):
         if (
             self.instance.user.email == ""
             and self.cleaned_data["newsletter_recipient"]
-            and self.cleaned_data["subscribed_newsletter"]
+            and (self.cleaned_data["subscribed_newsletter"] or self.cleaned_data["subscribed_gmm_invite"])
         ):
             raise ValidationError(
-                "Please set a secondary email or choose to receive the newsletters at your institution email.",
+                "Please set a secondary email or choose to receive emails at your institution email.",
                 INVALID_SUBSCRIBE_TO_EMPTY_EMAIL,
             )
         return self.cleaned_data
 
     def save(self, commit=True):
-        old_newsletter_state = self.initial["subscribed_newsletter"]
-        old_newsletter_recipient = self.initial["newsletter_recipient"]
-
         newsletter_service = Factory.get_newsletter_service()
-        newsletter_service.update_newsletter_preferences(self.instance, old_newsletter_state, old_newsletter_recipient)
+        newsletter_service.update_newsletter_preferences(self.instance, self.initial, self.cleaned_data)
         return super(PreferencesUpdateForm, self).save(commit)
-
-
-class KeyAccessUpdateForm(forms.ModelForm):
-    class Meta:
-        model = InstitutionTue
-        fields = ["tue_id", "card_number"]
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.helper = FormHelper(self)
-        self.helper.form_id = "id-keyAccessUpdateForm"
-        self.helper.form_method = "post"
-        self.helper.form_action = "cosmos_users:user_profile"
-        self.helper.form_tag = False
-
-        self.helper.layout = Layout(
-            FloatingField("tue_id"),
-            FloatingField("card_number"),
-        )
-
-        self.helper.add_input(Submit("save_key_access", "Submit"))
-
-    def clean_tue_id(self):
-        data = self.cleaned_data["tue_id"]
-        if not len(data) < 8:
-            raise ValidationError(
-                "Please enter a valid TU/e ID. It should be less than 8 digits long", errors.INVALID_TUE_ID
-            )
-        return data

@@ -1,6 +1,7 @@
 {% extends "subpage.html" %}
 
 {% load static %}
+{% load thumbnail %}
 
 {% block title %}
     Board
@@ -19,8 +20,10 @@
                 {% for board in boards %}
                     <div class="col">
                         <div class="card h-100">
-                            <img src="{{ board.photo.url }}" class="card-img-top"
+                            {% thumbnail board.photo "800" crop="center" as im %}
+                            <img src="{{ im.url }}" class="card-img-top"
                                  alt="Photo of {{ board.display_name }}">
+                            {% endthumbnail %}
                             <div class="card-body d-flex flex-column">
                                 <h5 class="card-title">{{ board.display_name }}</h5>
                                 {% if board.description %} <p class="card-text">{{ board.description }}</p> {% endif %}

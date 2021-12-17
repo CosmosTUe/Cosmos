@@ -2,10 +2,10 @@
 {% extends "subpage.html" %}
 
 {% load crispy_forms_tags %}
-
+{% load thumbnail %}
 {% load static %}
 
-{% block title %}{{ event.title }}{% endblock title %}
+{% block title %}{{ event.name }}{% endblock title %}
 
 {% block content %}
 
@@ -13,7 +13,9 @@
     <div class="mx-auto w-75">
 
         <div class="card">
-            <img src="{{ event.image.url}}" class="card-img-top event-image-large">
+            {% thumbnail event.image "800" crop="center" as im %}
+                <img src="{{ im.url }}" class="card-img-top event-image-large">
+            {% endthumbnail %}
             <div class="card-body">
                 {% if perms.events.change_events and perms.events.delete_events %}
                 <div class="float-end">

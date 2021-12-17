@@ -1,8 +1,0 @@
-INVALID_EMAIL = "invalid_email"
-INVALID_EMAIL_CHANGE = "invalid_email_change"
-MISSING_EMAIL = "missing_email"
-MISSING_NATIONALITY = "missing_nationality"
-DUPLICATE_EMAIL = "unique"
-REQUIRED = "required"
-INVALID_SUBSCRIBE_TO_EMPTY_EMAIL = "invalid_subscribe_to_empty_email"
-INVALID_TUE_ID = "invalid_tue_id"

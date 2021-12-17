@@ -1,0 +1,59 @@
+{% extends "subpage.html" %}
+
+{% load crispy_forms_tags %}
+{% load thumbnail %}
+
+{% block title %}Photo Albums{% endblock title %}
+
+{% block content %}
+
+<div class="container">
+    <div class="w-75 mx-auto">
+        <div class="row">
+            <div class="col-md-4 offset-md-4 text-center">
+                <h2>Photo Albums</h2>
+            </div>
+            <div class="col-md-4 text-end">
+                {% if perms.cosmos.add_photoalbum %}
+                <a class="btn btn-cosmos-primary my-auto float-end" href="{% url 'cosmos_core:photo_album-create' %}">
+                    <i class="bi bi-plus-lg"></i>
+                    Add new Photo Album
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="d-flex justify-content-center">
+            <a href="{% url 'cosmos_core:photo_album-list_year' year|add:"-1" %}" class="btn btn-cosmos-primary my-auto mx-4 {% if not prev %} invisible{% endif %}">
+                <i class="bi bi-chevron-left"></i>
+            </a>
+            <h2 class="my-auto raleway-number-title">{{ year }}-{{ year|add:"1" }}</h2>
+            <a href="{% url 'cosmos_core:photo_album-list_year' year|add:"1" %}" class="btn btn-cosmos-primary my-auto mx-4 {% if not next %} invisible{% endif %}">
+                <i class="bi bi-chevron-right"></i> 
+            </a>
+        </div>
+        <div class="d-flex justify-content-between">
+            {% if perms.cosmos.add_photoalbum %}
+    
+            {% else %}
+            <div></div>
+            {% endif %}
+        </div>
+        <div class="row row-cols-1 row-cols-md-2 g-4 mt-2">
+            {% for album in album_list %}
+            <div class="col">
+                <div class="card">
+                    {% thumbnail album.album_cover "600" crop="center" as im %}
+                        <img src="{{ im.url }}" class="card-img-top album-cover-image">
+                    {% endthumbnail %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ album.title }} ({{ album.date }})</h5>
+                        <a class="stretched-link" href="{% url 'cosmos_core:photo_album-view' album.id %}"></a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

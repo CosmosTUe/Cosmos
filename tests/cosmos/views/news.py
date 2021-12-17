@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 from django.contrib.auth.models import User
 from django.test import TestCase
 
-from cosmos.models import News
+from apps.core.models.news import News
 from tests.cosmos.helpers import get_image_file
 
 
@@ -177,7 +177,7 @@ class NewsListViewTest(TestCase):
         self, news_object: bs4.Tag, title: str, publish_date: str, can_change=False, can_delete=False
     ):
         self.assertEqual(title, news_object.find("h5", {"class": "card-title"}).contents[0])
-        date = datetime.date.fromisoformat(publish_date).strftime("%b. %d, %Y")  # default date format
+        date = datetime.date.fromisoformat(publish_date).strftime("%d %b %Y")  # default date format
         self.assertEqual(f"By  - {date}", news_object.find("small", {"class": "text-muted"}).contents[0].strip())
 
         news = News.objects.get(title=title)

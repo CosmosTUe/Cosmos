@@ -60,6 +60,19 @@ DATABASES = {
     },
 }
 
+# Cache
+# https://docs.djangoproject.com/en/3.0/ref/settings/#caches
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": secret_settings.secrets["CACHE"]["REDIS_URL"],
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "PARSER_CLASS": "redis.connection.HiredisParser",
+        },
+    }
+}
+
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -79,9 +92,18 @@ TIME_ZONE = "Europe/Amsterdam"
 
 USE_I18N = False
 
-USE_L10N = True
+# Use server-side locales
+USE_L10N = False
 
-USE_TZ = True
+# Reference: https://docs.djangoproject.com/en/3.2/ref/templates/builtins/#date
+# https://docs.djangoproject.com/en/3.2/ref/settings/#date-format
+DATE_FORMAT = "d M Y"
+# https://docs.djangoproject.com/en/3.2/ref/settings/#time-format
+TIME_FORMAT = "H:i"
+# https://docs.djangoproject.com/en/3.2/ref/settings/#datetime-format
+DATETIME_FORMAT = "d M Y H:i"
+
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
@@ -171,6 +193,7 @@ MIDDLEWARE = [
 
 INSTALLED_APPS = [
     "cosmos",
+    "apps.core",
     "apps.users",
     "apps.events",
     "apps.async_requests",
@@ -194,6 +217,7 @@ INSTALLED_APPS = [
     "django_cleanup.apps.CleanupConfig",
     "ckeditor",
     "django_celery_beat",
+    "sorl.thumbnail",
 ]
 
 LANGUAGES = (
@@ -275,7 +299,7 @@ CSRF_COOKIE_SECURE = not DEBUG
 SECURE_REFERRER_POLICY = "same-origin"
 
 # Celery
-CELERY_BROKER_URL = "amqp://guest:guest@localhost//"
+CELERY_BROKER_URL = secret_settings.secrets["CELERY"]["REDIS_URL"]
 CELERY_RESULT_BACKEND = "django-db"
 CELERY_CACHE_BACKEND = "django-cache"
 CELERY_WORKER_HIJACK_ROOT_LOGGER = True

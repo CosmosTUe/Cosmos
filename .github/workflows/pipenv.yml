@@ -1,0 +1,26 @@
+name: Pipenv update
+
+on:
+  schedule:
+    - cron: "0 0 1 * *"
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: 'staging'
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+      - name: Set up pipenv
+        run: python -m pip install --upgrade pip wheel
+      - name: Update packages
+        run: pipenv update
+      - name: Create pr
+        uses: peter-evans/create-pull-request@v3
+        with:
+          branch: 'feature/update'
+          title: Update python packages

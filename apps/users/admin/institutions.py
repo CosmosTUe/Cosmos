@@ -5,14 +5,14 @@ from django.contrib import admin
 from django.http import FileResponse
 from django.urls import path
 
-from apps.users.models.user import InstitutionFontys, InstitutionTue
+from apps.users.models.institution import InstitutionFontys, InstitutionTue
 from apps.users.stats import get_major_stats
 
 
 @admin.register(InstitutionTue)
 class InstitutionTueAdmin(admin.ModelAdmin):
-    list_display = ["username", "department", "program", "tue_id", "card_number", "key_access"]
-    list_filter = ["department", "program", "key_access"]
+    list_display = ["username", "department", "program"]
+    list_filter = ["department", "program"]
     search_fields = ["user__username"]
 
     # Used to extend the default admin page to add a button

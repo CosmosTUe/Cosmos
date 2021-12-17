@@ -1,11 +1,10 @@
-from django.conf.urls import url
 from django.contrib.auth import views as auth_views
 from django.urls import path
 from django.urls.base import reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
 
 from . import views, webhooks
-from .forms.auth import CosmosPasswordChangeForm, CosmosPasswordResetForm, CosmosSetPasswordForm
+from .forms.authorization import CosmosPasswordChangeForm, CosmosPasswordResetForm, CosmosSetPasswordForm
 
 app_name = "cosmos_users"
 
@@ -39,7 +38,7 @@ urlpatterns = [
     path("reset/done/", auth_views.PasswordResetCompleteView.as_view(), name="password_reset_complete"),
     # custom urls
     path("profile/", views.profile, name="user_profile"),
-    # path("delete/", views.delete, name="user_delete"),
+    path("delete/", views.delete, name="user_delete"),
     path(
         "register/",
         views.RegistrationWizard.as_view(views.FORMS, condition_dict=views.CONDITION_DICT),
@@ -47,5 +46,5 @@ urlpatterns = [
     ),
     path("register/done/", views.registration_done, name="registration_done"),
     path("confirm/<uidb64>/<token>/", views.activate, name="confirm_registration"),
-    url(r"hook/$", csrf_exempt(webhooks.SendGridWebhook.as_view()), name="email_hook"),
+    path("hook/", csrf_exempt(webhooks.SendGridWebhook.as_view()), name="email_hook"),
 ]

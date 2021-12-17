@@ -1,15 +1,10 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 
-from apps.users.forms import KeyAccessUpdateForm, PasswordUpdateForm, PreferencesUpdateForm, ProfileUpdateForm, errors
+from apps.async_requests.constants import NEWSLETTER_LIST_ID
+from apps.users.forms import PasswordUpdateForm, PreferencesUpdateForm, ProfileUpdateForm, error_codes
 from apps.users.models import Profile
-from apps.users.models.user import InstitutionTue
-from tests.helpers import (
-    NewsletterTestCaseMixin,
-    get_key_access_form_data,
-    get_preferences_form_data,
-    get_profile_form_data,
-)
+from tests.helpers import NewsletterTestCaseMixin, get_preferences_form_data, get_profile_form_data
 
 
 def generate_tue_user(
@@ -20,8 +15,6 @@ def generate_tue_user(
     subscribed_newsletter=False,
     department="Electrical Engineering",
     program="Bachelor",
-    tue_id=None,
-    card_number=None,
 ):
     user = User.objects.create_user(username=username, email=email, password=password)
     profile = Profile.objects.create(
@@ -33,10 +26,6 @@ def generate_tue_user(
     institution = profile.institution
     institution.department = department
     institution.program = program
-    if tue_id is not None:
-        institution.tue_id = tue_id
-    if card_number is not None:
-        institution.card_number = card_number
     institution.save()
     return user
 
@@ -144,7 +133,7 @@ class ProfileUpdateFormTest(NewsletterTestCaseMixin, TestCase):
         self.user.profile.subscribed_newsletter = True
         self.user.profile.newsletter_recipient = "ALT"
         self.newsletter_service.add_subscription(
-            [{"email": old_alt_email, "first_name": "Tosti", "last_name": "Broodjes"}]
+            [{"email": old_alt_email, "first_name": "Tosti", "last_name": "Broodjes"}], NEWSLETTER_LIST_ID
         )
         self.user.profile.save()
 
@@ -181,6 +170,7 @@ class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
 
         # test
         self.assertEqual(form.initial["subscribed_newsletter"], False)
+        self.assertEqual(form.initial["subscribed_gmm_invite"], False)
         self.assertEqual(form.initial["newsletter_recipient"], "TUE")
 
     def test_success_newsletter_unchanged(self):
@@ -193,19 +183,20 @@ class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
         form.save()  # runs update_newsletter_preferences
 
         # test
-        self.assertEqual(form.initial["subscribed_newsletter"], False)
+        self.assertEqual(form.instance.subscribed_newsletter, False)
+        self.assertEqual(form.instance.subscribed_gmm_invite, False)
         profile = Profile.objects.get(pk=self.profile.pk)
         self.assertEqual(profile.subscribed_newsletter, False)
+        self.assertEqual(profile.subscribed_gmm_invite, False)
         self.assert_newsletter_subscription(recipient, False)
+        self.assert_gmm_invite_subscription(recipient, False)
 
-    def test_success_newsletter_enable_institution_email(self):
+    def test_success_newsletter_enable_newsletter_sub_on_institution_email(self):
         # setup
         recipient = "tosti@student.tue.nl"
 
         # act
-        form = PreferencesUpdateForm(
-            instance=self.profile, data=get_preferences_form_data(subscribed_newsletter="True")
-        )
+        form = PreferencesUpdateForm(instance=self.profile, data=get_preferences_form_data(subscribed_newsletter=True))
         form.full_clean()
         form.save()  # runs update_newsletter_preferences
 
@@ -213,9 +204,11 @@ class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
         self.assertTrue(form.is_valid())
         profile = Profile.objects.get(pk=self.profile.pk)
         self.assertEqual(profile.subscribed_newsletter, True)
+        self.assertEqual(profile.subscribed_gmm_invite, False)
         self.assert_newsletter_subscription(recipient, True)
+        self.assert_gmm_invite_subscription(recipient, False)
 
-    def test_success_newsletter_disable_institution_email(self):
+    def test_success_newsletter_disable_newsletter_sub_on_institution_email(self):
         # setup
         self.profile.subscribed_newsletter = True
         self.profile.save()
@@ -230,7 +223,44 @@ class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
         self.assertEqual(form["subscribed_newsletter"].initial, True)
         profile = Profile.objects.get(pk=self.profile.pk)
         self.assertEqual(profile.subscribed_newsletter, False)
+        self.assertEqual(profile.subscribed_gmm_invite, False)
         self.assert_newsletter_subscription(recipient, False)
+        self.assert_gmm_invite_subscription(recipient, False)
+
+    def test_success_newsletter_enable_gmm_invite_sub_on_institution_email(self):
+        # setup
+        recipient = "tosti@student.tue.nl"
+
+        # act
+        form = PreferencesUpdateForm(instance=self.profile, data=get_preferences_form_data(subscribed_gmm_invite=True))
+        form.full_clean()
+        form.save()  # runs update_newsletter_preferences
+
+        # test
+        self.assertTrue(form.is_valid())
+        profile = Profile.objects.get(pk=self.profile.pk)
+        self.assertEqual(profile.subscribed_newsletter, False)
+        self.assertEqual(profile.subscribed_gmm_invite, True)
+        self.assert_newsletter_subscription(recipient, False)
+        self.assert_gmm_invite_subscription(recipient, True)
+
+    def test_success_newsletter_disable_gmm_invite_sub_on_institution_email(self):
+        # setup
+        self.profile.subscribed_newsletter = True
+        self.profile.save()
+        recipient = "tosti@student.tue.nl"
+
+        # act
+        form = PreferencesUpdateForm(instance=self.profile, data=get_preferences_form_data(subscribed_gmm_invite=True))
+        form.full_clean()
+        form.save()  # runs update_newsletter_preferences
+
+        # test
+        self.assertEqual(form["subscribed_newsletter"].initial, True)
+        profile = Profile.objects.get(pk=self.profile.pk)
+        self.assertEqual(profile.subscribed_newsletter, False)
+        self.assert_newsletter_subscription(recipient, False)
+        self.assert_gmm_invite_subscription(recipient, True)
 
     def test_success_newsletter_enable_secondary_email(self):
         # setup
@@ -248,9 +278,11 @@ class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
         self.assertEqual(form["subscribed_newsletter"].initial, False)
         profile = Profile.objects.get(pk=self.profile.pk)
         self.assertEqual(profile.subscribed_newsletter, True)
+        self.assertEqual(profile.subscribed_gmm_invite, False)
         self.assertEqual(form["newsletter_recipient"].initial, "TUE")
         self.assertEqual(profile.newsletter_recipient, "ALT")
         self.assert_newsletter_subscription(recipient, True)
+        self.assert_gmm_invite_subscription(recipient, False)
 
     def test_fail_newsletter_enable_secondary_email_empty(self):
         # setup
@@ -265,7 +297,22 @@ class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
         form.full_clean()
 
         # test
-        self.assertTrue(form.has_error("__all__", errors.INVALID_SUBSCRIBE_TO_EMPTY_EMAIL))
+        self.assertTrue(form.has_error("__all__", error_codes.INVALID_SUBSCRIBE_TO_EMPTY_EMAIL))
+
+    def test_fail_gmm_invite_enable_secondary_email_empty(self):
+        # setup
+        self.profile.user.email = ""
+        self.profile.user.save()
+
+        # act
+        form = PreferencesUpdateForm(
+            instance=self.profile,
+            data=get_preferences_form_data(subscribed_gmm_invite=True, newsletter_recipient="ALT"),
+        )
+        form.full_clean()
+
+        # test
+        self.assertTrue(form.has_error("__all__", error_codes.INVALID_SUBSCRIBE_TO_EMPTY_EMAIL))
 
     def test_success_newsletter_disable_secondary_email(self):
         # setup
@@ -284,57 +331,84 @@ class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
         self.assertEqual(form["subscribed_newsletter"].initial, True)
         profile = Profile.objects.get(pk=self.profile.pk)
         self.assertEqual(profile.subscribed_newsletter, False)
+        self.assertEqual(profile.subscribed_gmm_invite, False)
         self.assert_newsletter_subscription(recipient, False)
+        self.assert_gmm_invite_subscription(recipient, False)
 
-
-class KeyAccessUpdateFormTest(TestCase):
-    def setUp(self) -> None:
-        self.institution = generate_tue_user().profile.institution
-
-    def test_prefill_data_from_db(self):
-        # setup
+    def test_subscribe_all_primary_email(self):
+        recipient = "tosti@student.tue.nl"
 
         # act
-        form = KeyAccessUpdateForm(instance=self.institution)
-
-        # test
-        self.assertEqual(form["tue_id"].initial, "")
-        self.assertEqual(form["card_number"].initial, "")
-
-    def test_fail_login_id_submitted_as_tue_id(self):
-        # setup
-        tue_id = "20201234"
-
-        # act
-        form = KeyAccessUpdateForm(instance=self.institution, data=get_key_access_form_data(tue_id=tue_id))
-
-        # test
-        self.assertTrue(form.has_error("tue_id", errors.INVALID_TUE_ID))
-
-    def test_success_tue_id_update(self):
-        # setup
-        tue_id = "0000000"
-
-        # act
-        form = KeyAccessUpdateForm(instance=self.institution, data=get_key_access_form_data(tue_id=tue_id))
+        form = PreferencesUpdateForm(
+            instance=self.profile,
+            data=get_preferences_form_data(
+                subscribed_newsletter=True, subscribed_gmm_invite=True, newsletter_recipient="TUE"
+            ),
+        )
         form.full_clean()
-        form.save()
+        form.save()  # runs update_newsletter_preferences
 
         # test
-        self.assertTrue(form.is_valid())
-        institution = InstitutionTue.objects.get(pk=self.institution.pk)
-        self.assertEqual(institution.tue_id, tue_id)
+        self.assertEqual(form["subscribed_newsletter"].initial, False)
+        self.assertEqual(form["subscribed_gmm_invite"].initial, False)
+        profile = Profile.objects.get(pk=self.profile.pk)
+        self.assertEqual(profile.subscribed_newsletter, True)
+        self.assertEqual(profile.subscribed_gmm_invite, True)
+        self.assert_newsletter_subscription(recipient, True)
+        self.assert_gmm_invite_subscription(recipient, True)
 
-    def test_success_card_number_update(self):
+    def test_unsubscribe_all_primary_email(self):
         # setup
-        card_number = "9999999"
+        self.profile.subscribed_newsletter = True
+        self.profile.subscribed_gmm_invite = True
+        self.profile.newsletter_recipient = "TUE"
+        self.profile.save()
+
+        recipient = "tosti@student.tue.nl"
 
         # act
-        form = KeyAccessUpdateForm(instance=self.institution, data=get_key_access_form_data(card_number=card_number))
+        form = PreferencesUpdateForm(
+            instance=self.profile,
+            data=get_preferences_form_data(
+                subscribed_newsletter=False, subscribed_gmm_invite=False, newsletter_recipient="TUE"
+            ),
+        )
         form.full_clean()
-        form.save()
+        form.save()  # runs update_newsletter_preferences
 
         # test
-        self.assertTrue(form.is_valid())
-        institution = InstitutionTue.objects.get(pk=self.institution.pk)
-        self.assertEqual(institution.card_number, card_number)
+        self.assertEqual(form["subscribed_newsletter"].initial, True)
+        self.assertEqual(form["subscribed_gmm_invite"].initial, True)
+        profile = Profile.objects.get(pk=self.profile.pk)
+        self.assertEqual(profile.subscribed_newsletter, False)
+        self.assertEqual(profile.subscribed_gmm_invite, False)
+        self.assert_newsletter_subscription(recipient, False)
+        self.assert_gmm_invite_subscription(recipient, False)
+
+    def test_subscribe_all_primary_to_secondary_email(self):
+        # setup
+        self.profile.subscribed_newsletter = True
+        self.profile.subscribed_gmm_invite = True
+        self.profile.newsletter_recipient = "TUE"
+        self.profile.save()
+
+        recipient = "tosti@gmail.com"
+
+        # act
+        form = PreferencesUpdateForm(
+            instance=self.profile,
+            data=get_preferences_form_data(
+                subscribed_newsletter=True, subscribed_gmm_invite=True, newsletter_recipient="ALT"
+            ),
+        )
+        form.full_clean()
+        form.save()  # runs update_newsletter_preferences
+
+        # test
+        self.assertEqual(form["subscribed_newsletter"].initial, True)
+        self.assertEqual(form["subscribed_gmm_invite"].initial, True)
+        profile = Profile.objects.get(pk=self.profile.pk)
+        self.assertEqual(profile.subscribed_newsletter, True)
+        self.assertEqual(profile.subscribed_gmm_invite, True)
+        self.assert_newsletter_subscription(recipient, True)
+        self.assert_gmm_invite_subscription(recipient, True)

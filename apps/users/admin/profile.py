@@ -11,8 +11,6 @@ from apps.async_requests.factory import Factory
 from apps.users.models import Profile
 from apps.users.stats import get_nationality_stats
 
-# from apps.users.tasks import sync_newsletter_subcriptions_task
-
 logger = logging.getLogger(__name__)
 executor = Factory.get_executor()
 newsletter_service = Factory.get_newsletter_service()
@@ -48,7 +46,7 @@ class ProfileAdmin(admin.ModelAdmin):
         self.message_user(request, f"Sending {len(queryset)} messages...", messages.INFO)
         try:
             for profile in queryset:
-                newsletter_service.sync_newsletter_preferences(profile)
+                newsletter_service.sync_subscription_preferences(profile)
             executor.execute()
             self.message_user(request, f"{len(queryset)} newsletter preferences updated!", messages.SUCCESS)
         except UnauthorizedError:

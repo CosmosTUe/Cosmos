@@ -1,0 +1,51 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+six = "*"
+psycopg2-binary = "*"
+pytz = "*"
+matplotlib = "*"
+django-formtools = "*"
+django-crispy-forms = "*"
+crispy-bootstrap5 = "*"
+django-crum = "*"
+django-sendfile2 = "*"
+django-cleanup = "*"
+django-ckeditor = "*"
+jsonpickle = "*"
+bs4 = "*"
+gunicorn = "*"
+requests = "*"
+django-pipeline = "*"
+django-better-admin-arrayfield = "*"
+celery = "*"
+django-celery-results = "*"
+django-celery-beat = "*"
+sendgrid = "*"
+python-http-client = "*"
+django-oauth-toolkit = "*"
+django-cors-middleware = "*"
+django-redis = "*"
+hiredis = "*"
+Pillow = "*"
+Django = "<4.0"
+django-ical = "*"
+sorl-thumbnail = "*"
+
+[dev-packages]
+flake8 = "*"
+flake8-django = "*"
+pep8-naming = "*"
+isort = "*"
+black = "*"
+tox = "*"
+pre-commit = "*"
+
+[requires]
+python_version = "3.8"
+
+[pipenv]
+allow_prereleases = true

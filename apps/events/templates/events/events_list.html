@@ -1,6 +1,7 @@
 {% extends "subpage.html" %}
 
 {% load crispy_forms_tags %}
+{% load thumbnail %}
 
 {% block title %}Events{% endblock title%}
 
@@ -8,21 +9,36 @@
 
 <div class="container">
     <div class="w-75 mx-auto">
-        {% if perms.events.add_event %}
-        <div class="float-end">
-            <a class="btn btn-cosmos-primary" href="{% url 'cosmos_events:events-create' %}">
-                <i class="bi bi-plus-lg"></i>
-                Add new Event
-            </a>
+        <div class="row">
+            <div class="col">
+                <h2>Events</h2>
+            </div>
+            <div class="col-md-3 py-1">
+                {% if perms.events.add_event %}
+                <div class="float-end">
+                    <a class="btn btn-cosmos-primary" href="{% url 'cosmos_events:events-create' %}">
+                        <i class="bi bi-plus-lg"></i>
+                        Add new Event
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-md-2 py-1">
+                <div class="float-end">
+                    <a class="btn btn-cosmos-primary" href="{% url 'cosmos_events:events-archive' %}">
+                        Past Events
+                    </a>
+                </div>
+            </div>
         </div>
-        {% endif %}
-        <h2>Events</h2>
         <div class="row row-cols-1 row-cols-md-3 g-2 mt-2" id="EventGrid">
         {% for event in events_list %}
             <div class="col">
                 <div class="card h-100">
                     {# transform is added so that stretched link does not go into footer #}
-                    <img class="card-img-top events-image" src="{{ event.image.url }}">
+                    {% thumbnail event.image "600" crop="center" as im %}
+                        <img class="card-img-top events-image" src="{{ im.url }}">
+                    {% endthumbnail %}
                     <div class="card-body">
                         <h5 class="card-title">{{ event.name }}</h5>
                         <p class="event-truncate">{{ event.lead }}</p>

@@ -1,8 +1,11 @@
+import datetime
+
 import bs4
 from bs4 import BeautifulSoup
 from django.contrib.auth.models import Group, Permission, User
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
+from django.utils.timezone import make_aware
 
 from apps.events.errors import END_DATE_BEFORE_START
 from apps.events.forms import EventForm
@@ -61,8 +64,8 @@ class EventsViewTest(TestCase):
             image=get_image_file(),
             description="Public Event description",
             lead="Public Event Lead",
-            start_date_time="2200-01-01 01:20",
-            end_date_time="2200-01-01 16:36",
+            start_date_time=make_aware(datetime.datetime(2200, 1, 1, hour=1, minute=20)),
+            end_date_time=make_aware(datetime.datetime(2200, 1, 1, hour=16, minute=36)),
             member_only=False,
             location="Common Room",
             organizer=self.organizer,
@@ -74,8 +77,8 @@ class EventsViewTest(TestCase):
             image=get_image_file(),
             description="Member Event description",
             lead="Member Event Lead",
-            start_date_time="2200-01-01 01:20",
-            end_date_time="2200-01-01 16:36",
+            start_date_time=make_aware(datetime.datetime(2200, 1, 1, hour=1, minute=20)),
+            end_date_time=make_aware(datetime.datetime(2200, 1, 1, hour=16, minute=36)),
             member_only=True,
             location="Common Room",
             organizer=self.organizer,
@@ -152,8 +155,8 @@ class EventsListViewTest(TestCase):
             image=get_image_file(),
             description="Public Event description",
             lead="Public Event Lead",
-            start_date_time="2200-01-01 01:20",
-            end_date_time="2200-01-01 16:36",
+            start_date_time=make_aware(datetime.datetime(2200, 1, 1, hour=1, minute=20)),
+            end_date_time=make_aware(datetime.datetime(2200, 1, 1, hour=16, minute=36)),
             member_only=False,
             location="Common Room",
             organizer=self.organizer,
@@ -165,8 +168,8 @@ class EventsListViewTest(TestCase):
             image=get_image_file(),
             description="Member Event description",
             lead="Member Event Lead",
-            start_date_time="2201-01-01 01:20",
-            end_date_time="2201-01-01 16:36",
+            start_date_time=make_aware(datetime.datetime(2201, 1, 1, hour=1, minute=20)),
+            end_date_time=make_aware(datetime.datetime(2201, 1, 1, hour=16, minute=36)),
             member_only=True,
             location="Common Room",
             organizer=self.organizer,
@@ -284,8 +287,8 @@ class EventsUpdateViewTest(TestCase):
             image=get_image_file(),
             description="Public Event description",
             lead="Public Event Lead",
-            start_date_time="2200-01-01 01:20",
-            end_date_time="2200-01-01 16:36",
+            start_date_time=make_aware(datetime.datetime(2200, 1, 1, hour=1, minute=30)),
+            end_date_time=make_aware(datetime.datetime(2200, 1, 1, hour=16, minute=36)),
             member_only=False,
             location="Common Room",
             organizer=self.organizer,
@@ -348,8 +351,8 @@ class EventsDeleteViewTest(TestCase):
             image=get_image_file(),
             description="Public Event description",
             lead="Public Event Lead",
-            start_date_time="2200-01-01 01:20",
-            end_date_time="2200-01-01 16:36",
+            start_date_time=make_aware(datetime.datetime(2200, 1, 1, hour=1, minute=30)),
+            end_date_time=make_aware(datetime.datetime(2200, 1, 1, hour=16, minute=36)),
             member_only=False,
             location="Common Room",
             organizer=self.organizer,
@@ -404,8 +407,8 @@ class EventFormTest(TestCase):
     @staticmethod
     def generate_form(
         name="Name",
-        start_date_time="2200-01-01 01:20",
-        end_date_time="2200-01-01 01:20",
+        start_date_time=make_aware(datetime.datetime(2200, 1, 1, hour=1, minute=20)),
+        end_date_time=make_aware(datetime.datetime(2200, 1, 1, hour=1, minute=20)),
         image=None,
         member_only=False,
         lead="Lead",

@@ -93,7 +93,3 @@ def get_preferences_form_data(subscribed_newsletter=False, subscribed_gmm_invite
     }
 
     return output
-
-
-def get_key_access_form_data(tue_id="", card_number=""):
-    return {"tue_id": tue_id, "card_number": card_number, "save_key_access": "Submit"}

@@ -2,21 +2,9 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 
 from apps.async_requests.constants import NEWSLETTER_LIST_ID
-from apps.users.forms import (
-    KeyAccessUpdateForm,
-    PasswordUpdateForm,
-    PreferencesUpdateForm,
-    ProfileUpdateForm,
-    error_codes,
-)
+from apps.users.forms import PasswordUpdateForm, PreferencesUpdateForm, ProfileUpdateForm, error_codes
 from apps.users.models import Profile
-from apps.users.models.institution import InstitutionTue
-from tests.helpers import (
-    NewsletterTestCaseMixin,
-    get_key_access_form_data,
-    get_preferences_form_data,
-    get_profile_form_data,
-)
+from tests.helpers import NewsletterTestCaseMixin, get_preferences_form_data, get_profile_form_data
 
 
 def generate_tue_user(
@@ -27,8 +15,6 @@ def generate_tue_user(
     subscribed_newsletter=False,
     department="Electrical Engineering",
     program="Bachelor",
-    tue_id=None,
-    card_number=None,
 ):
     user = User.objects.create_user(username=username, email=email, password=password)
     profile = Profile.objects.create(
@@ -40,10 +26,6 @@ def generate_tue_user(
     institution = profile.institution
     institution.department = department
     institution.program = program
-    if tue_id is not None:
-        institution.tue_id = tue_id
-    if card_number is not None:
-        institution.card_number = card_number
     institution.save()
     return user
 
@@ -430,56 +412,3 @@ class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
         self.assertEqual(profile.subscribed_gmm_invite, True)
         self.assert_newsletter_subscription(recipient, True)
         self.assert_gmm_invite_subscription(recipient, True)
-
-
-class KeyAccessUpdateFormTest(TestCase):
-    def setUp(self) -> None:
-        self.institution = generate_tue_user().profile.institution
-
-    def test_prefill_data_from_db(self):
-        # setup
-
-        # act
-        form = KeyAccessUpdateForm(instance=self.institution)
-
-        # test
-        self.assertEqual(form["tue_id"].initial, "")
-        self.assertEqual(form["card_number"].initial, "")
-
-    def test_fail_login_id_submitted_as_tue_id(self):
-        # setup
-        tue_id = "20201234"
-
-        # act
-        form = KeyAccessUpdateForm(instance=self.institution, data=get_key_access_form_data(tue_id=tue_id))
-
-        # test
-        self.assertTrue(form.has_error("tue_id", error_codes.INVALID_TUE_ID))
-
-    def test_success_tue_id_update(self):
-        # setup
-        tue_id = "0000000"
-
-        # act
-        form = KeyAccessUpdateForm(instance=self.institution, data=get_key_access_form_data(tue_id=tue_id))
-        form.full_clean()
-        form.save()
-
-        # test
-        self.assertTrue(form.is_valid())
-        institution = InstitutionTue.objects.get(pk=self.institution.pk)
-        self.assertEqual(institution.tue_id, tue_id)
-
-    def test_success_card_number_update(self):
-        # setup
-        card_number = "9999999"
-
-        # act
-        form = KeyAccessUpdateForm(instance=self.institution, data=get_key_access_form_data(card_number=card_number))
-        form.full_clean()
-        form.save()
-
-        # test
-        self.assertTrue(form.is_valid())
-        institution = InstitutionTue.objects.get(pk=self.institution.pk)
-        self.assertEqual(institution.card_number, card_number)

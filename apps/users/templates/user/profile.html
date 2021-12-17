@@ -23,11 +23,6 @@
             <li class="nav-item d-grid">
                 <button class="nav-link" id="preferences-pill" data-bs-toggle="pill" data-bs-target="#preferences" role="tab">Preferences</a>
             </li>
-            {% if request.user.profile.institution_name == "tue" %}
-            <li class="nav-item d-grid">
-                <button class="nav-link" id="key-access-pill" data-bs-toggle="pill" data-bs-target="#key-access" role="tab">Key Access</a>
-            </li>
-            {% endif %}
         </ul>
     </div>
 
@@ -58,17 +53,6 @@
                     </form>
                 </div>
             </div>
-
-            {% if request.user.profile.institution_name == "tue" %}
-            <div class="tab-pane" id="key-access" role="tabpanel" aria-labelledby="key-access-tab">
-                <div class="bg-cosmos-primary p-4">
-                    <h2 class="text-white pb-3">Key Access</h2>
-                    <form method="post">
-                        {% crispy key_access_update_form %}
-                    </form>
-                <div>
-            </div>
-            {% endif %}
         </div>
     </div>
 

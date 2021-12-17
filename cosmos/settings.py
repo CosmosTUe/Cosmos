@@ -217,6 +217,7 @@ INSTALLED_APPS = [
     "django_cleanup.apps.CleanupConfig",
     "ckeditor",
     "django_celery_beat",
+    "sorl.thumbnail",
 ]
 
 LANGUAGES = (

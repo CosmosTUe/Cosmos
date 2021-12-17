@@ -1,6 +1,7 @@
 {% extends "subpage.html" %}
 
 {% load crispy_forms_tags %}
+{% load thumbnail %}
 
 {% block title %}{{ album.title }} - {{ album.date }}{% endblock title %}
 
@@ -29,7 +30,9 @@
             {% for photo_object in album.has_photos.all %}
             <div class="col">
                 <div class="card">
-                    <img src="{{ photo_object.photo.url }}" class="card-img-top album-image" loading="lazy">
+                    {% thumbnail photo_object.photo "600" crop="center" as im %}
+                        <img src="{{ im.url }}" class="card-img-top album-image" loading="lazy">
+                    {% endthumbnail %}
                     <a class="stretched-link" href="#" data-bs-toggle="modal" data-bs-target="#photoModal" data-bs-image-url="{{ photo_object.photo.url }}"></a>
                     {% if perms.cosmos.delete_photoobject %}
                     <a href="{% url 'cosmos_core:photo_object-delete' photo_object.id %}" class="photo-delete btn-over-stretched">
@@ -58,7 +61,7 @@
                                 </div>
                             </div>
                             <div class="col-10">
-                                <img src="{{ album.has_photos.all.0.photo.url }}" class="img-fluid">
+                                <img src="" class="img-fluid">
                             </div>
                             <div class="col-1">
                                 <div class="row align-items-center h-100">

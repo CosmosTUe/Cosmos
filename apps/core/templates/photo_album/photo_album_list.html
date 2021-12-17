@@ -1,6 +1,7 @@
 {% extends "subpage.html" %}
 
 {% load crispy_forms_tags %}
+{% load thumbnail %}
 
 {% block title %}Photo Albums{% endblock title %}
 
@@ -41,7 +42,9 @@
             {% for album in album_list %}
             <div class="col">
                 <div class="card">
-                    <img src="{{ album.album_cover.url }}" class="card-img-top album-cover-image">
+                    {% thumbnail album.album_cover "600" crop="center" as im %}
+                        <img src="{{ im.url }}" class="card-img-top album-cover-image">
+                    {% endthumbnail %}
                     <div class="card-body">
                         <h5 class="card-title">{{ album.title }} ({{ album.date }})</h5>
                         <a class="stretched-link" href="{% url 'cosmos_core:photo_album-view' album.id %}"></a>

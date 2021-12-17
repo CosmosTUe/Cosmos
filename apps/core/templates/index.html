@@ -1,4 +1,9 @@
-{% extends "base.html" %} {% load static %} {% block base-content %}
+{% extends "base.html" %} 
+
+{% load static %}
+{% load thumbnail %}
+
+{% block base-content %}
 <section class="home-img min-vh-100">
     <div class="container d-flex h-100">
         <div class="mx-auto text-center">
@@ -120,7 +125,9 @@
         {% for news in news_list %}
             <div class="col">
                 <div class="card h-100">
-                    <img class="card-img-top news-image" src="{{ news.image.url }}">
+                    {% thumbnail news.image "x350" crop="center" as im %}
+                        <img class="card-img-top news-image" src="{{ im.url }}">
+                    {% endthumbnail %}
                     <div class="card-body">
                         <h5 class="card-title">{{ news.title }}</h5>
                         <p class="news-truncate">{{ news.lead }}</p>

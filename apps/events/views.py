@@ -99,7 +99,7 @@ class EventFeed(ICalFeed):
 
     domain = Site.objects.get_current().domain
     product_id = "-//" + domain + "//Events//EN"
-    timezone = "UTC"
+    timezone = "Europe/Amsterdam"
     file_name = "event.ics"
 
     def items(self):

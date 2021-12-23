@@ -20,7 +20,7 @@
             {% for committee in committees %}
                 <div class="col">
                     <div class="card h-100">
-                        {% thumbnail committee.photo "800" crop="center" as im %}
+                        {% thumbnail committee.photo "800" crop="center" format="PNG" as im %}
                         <img src="{{ im.url }}" class="card-img-top"
                              alt="Photo of {{ committee.name }}">
                         {% endthumbnail %}

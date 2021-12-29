@@ -28,7 +28,7 @@ class EventForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_tag = False
         self.helper.layout = Layout(
-            Field("name"),
+            # Field("name"),
             Field("start_date_time"),
             Field("end_date_time"),
             Field("location"),

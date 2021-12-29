@@ -3,8 +3,12 @@ from crispy_forms.layout import Field, Layout
 from django import forms
 from django.core.exceptions import ValidationError
 
-from apps.events.errors import END_DATE_BEFORE_START
+from apps.events.errors import END_DATE_BEFORE_START, REQUIRED
 from apps.events.models import Event
+
+
+class ValidatedField(Field):
+    template = "bootstrap/validated_field.html"
 
 
 class EventForm(forms.ModelForm):
@@ -28,20 +32,24 @@ class EventForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_tag = False
         self.helper.layout = Layout(
-            # Field("name"),
+            ValidatedField("name"),
             Field("start_date_time"),
             Field("end_date_time"),
-            Field("location"),
-            Field("price"),
-            Field("image"),
-            Field("organizer"),
+            ValidatedField("location"),
+            ValidatedField("price"),
+            ValidatedField("image"),
+            ValidatedField("organizer"),
             Field("member_only"),
-            Field("lead"),
+            ValidatedField("lead"),
             Field("description"),
         )
 
     def clean(self):
         cleaned_data = super(EventForm, self).clean()
-        if cleaned_data["start_date_time"] > cleaned_data["end_date_time"]:
+        if (
+            "start_date_time" in cleaned_data and
+            "end_date_time" in cleaned_data and
+            cleaned_data["start_date_time"] > cleaned_data["end_date_time"]
+        ):
             raise ValidationError("Start time must be after end time", END_DATE_BEFORE_START)
         return cleaned_data

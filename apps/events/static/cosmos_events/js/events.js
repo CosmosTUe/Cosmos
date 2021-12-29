@@ -16,10 +16,20 @@ window.addEventListener('load', (event) => {
     // Fetch all the forms we want to apply custom Bootstrap validation styles to
     const forms = document.querySelectorAll('.needs-validation');
 
+    function isValid(form) {
+        let isCKEditorEmpty = CKEDITOR.instances["id_description"].getData().length === 0
+        if (isCKEditorEmpty) {
+            document.getElementById("error_1_id_description").style.display = "block";
+        } else {
+            document.getElementById("error_1_id_description").style.display = "none";
+        }
+        return form.checkValidity() && isCKEditorEmpty
+    }
+
     // Loop over them and prevent submission
     forms.forEach(function (form) {
         form.addEventListener('submit', function (event) {
-            if (!form.checkValidity()) {
+            if (!isValid(form)) {
                 event.preventDefault()
                 event.stopPropagation()
             }

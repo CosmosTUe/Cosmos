@@ -38,4 +38,4 @@ class InternalDocument(models.Model):
         super(InternalDocument, self).save(*args, **kwargs)
 
     def __str__(self):
-        return "InternalDocument: {" + self.name + ", " + str(self.date) + "}"
+        return "InternalDocument: {" + self.name + ", " + str(self.modified) + "}"

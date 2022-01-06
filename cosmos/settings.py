@@ -145,7 +145,7 @@ PIPELINE = {
         "cosmos_event_create": {
             "source_filenames": {"cosmos_events/css/event_create.css"},
             "output_filename": "cosmos_events/css/cosmos_event_create.css",
-        }
+        },
     },
     "JAVASCRIPT": {
         "cosmos": {

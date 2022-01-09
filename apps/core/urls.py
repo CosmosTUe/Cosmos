@@ -3,6 +3,8 @@ from __future__ import absolute_import, print_function, unicode_literals
 from django.conf import settings
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path
+from django.views.generic.base import TemplateView
+
 
 from apps.core.views.core import about, index, policy, privacy, resources, terms
 from apps.core.views.gmm import GMMCreate, GMMDelete, GMMUpdate, gmm_list
@@ -52,6 +54,7 @@ urlpatterns = [
     # Misc views
     path("media/<path:file_path>", protected_media, name="protected-media"),
     path("door-status", update_door_status, name="update-door-status"),
+    path("robots.txt", TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
 ]
 
 # This is only needed when using runserver.

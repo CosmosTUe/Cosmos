@@ -9,6 +9,7 @@ from .photo_view import (
     PhotoAlbumUpdateViewTest,
     PhotoAlbumViewsTest,
 )
+from .robots_view import RobotsTxtTests
 
 __all__ = [
     "GMMViewsTestLoggedOut",
@@ -26,4 +27,5 @@ __all__ = [
     "PhotoAlbumCreateViewTest",
     "PhotoAlbumListViewTest",
     "DoorSensorTest",
+    "RobotsTxtTests",
 ]

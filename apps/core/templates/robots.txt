@@ -1,0 +1,5 @@
+User-Agent: *
+Disallow: /gmm/
+Disallow: /media/
+Disallow: /privacy/
+Disallow: /internal/

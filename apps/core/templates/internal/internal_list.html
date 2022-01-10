@@ -1,0 +1,40 @@
+{% extends "subpage.html" %}
+{% block title %}Internal Documents{% endblock title%}
+{% block content %}
+
+
+<div class="container">
+
+    <h2>Internal Documents</h5>
+
+    {% if perms.cosmos.add_internaldocument %}
+    <a class="btn btn-cosmos-primary mb-2" href="{% url 'cosmos_core:internal-create' %}">
+        <i class="bi bi-plus-lg"></i>
+        Add new internal document
+    </a>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+        <div class="list-group">
+            {% for internal in internal_list %}
+                <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-start">
+                    <a href="{{ internal.file.url }}" class="ms-2 me-auto">
+                        <div class="fw-bold">{{ internal.name }}</div>
+                        Last modified: {{ internal.modified }}
+                    </a>
+                    {% if perms.cosmos.change_internaldocument and perms.cosmos.delete_internaldocument %}
+                    <div>
+                        <a class="btn p-0" href="{% url 'cosmos_core:internal-update' internal.id %}">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                        <a class="btn p-0" href="{% url 'cosmos_core:internal-delete' internal.id %}">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endblock content %}

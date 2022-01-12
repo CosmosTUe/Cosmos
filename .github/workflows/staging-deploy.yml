@@ -1,33 +1,32 @@
 name: Staging Deployment Workflow
 on:
-  pull_request:
+  push:
     branches: [staging]
-      types: [closed]
 jobs:
   deploy_job:
     runs-on: ubuntu-latest
     steps:
-    - name: deploy to staging server with ssh
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{secrets.STAGING_HOST}}
-        username: ${{secrets.STAGING_USER}}
-        key: ${{secrets.STAGING_SSH_KEY}}
-        port: ${{secrets.STAGING_PORT}}
-        script: |
-          sudo -iu cosmos
-          cd /opt/cosmos/Cosmos
-          git pull
-          pipenv sync
-          pipenv run ./manage.py migrate
-          pipenv run ./manage.py collectstatic --noinput
-          npm update
-          exit
-          sudo systemctl restart gunicorn nginx
-    - name: wait for restart
-      run: sleep 10
-    - name: check status code
-      uses: lakuapik/gh-actions-http-status@v1
-      with:
-        sites: '["https://cosmos.mkabel.xyz"]'
-        expected: '[200]'
+      - name: deploy to staging server with ssh
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{secrets.STAGING_HOST}}
+          username: ${{secrets.STAGING_USER}}
+          key: ${{secrets.STAGING_SSH_KEY}}
+          port: ${{secrets.STAGING_PORT}}
+          script: |
+            sudo -iu cosmos
+            cd /opt/cosmos/Cosmos
+            git pull
+            pipenv sync
+            pipenv run ./manage.py migrate
+            pipenv run ./manage.py collectstatic --noinput
+            npm update
+            exit
+            sudo systemctl restart gunicorn nginx
+      - name: wait for restart
+        run: sleep 10
+      - name: check status code
+        uses: lakuapik/gh-actions-http-status@v1
+        with:
+          sites: '["https://cosmos.mkabel.xyz"]'
+          expected: "[200]"

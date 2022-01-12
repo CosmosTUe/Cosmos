@@ -1,29 +1,21 @@
 {% extends "subpage.html" %}
 
 {% load crispy_forms_tags %}
-{% load pipeline %}
-
-{% block custom-css %}
-{% stylesheet "cosmos_event_create" %}
-{% endblock custom-css %}
-
-{% block title %}Create Event{% endblock title%}
 
 {% block content %}
 
 <div class="container">
     <div class="mx-auto w-50 bg-cosmos-primary rounded">
-        <form method="post" enctype="multipart/form-data" id="form-container" class="p-4 overflow-hidden" novalidate>
+        <form method="post" enctype="multipart/form-data" id="form-container" class="p-4 overflow-hidden">
             
-            <h2 class="text-white">Create Event</h2>
+            <h2 class="text-white">Create internal document</h2>
             
             {% csrf_token %}
-            {{ form.media }}
             {% crispy form %}
 
             <div class="float-end">
                 <input type="submit" name="submit" value="Create" class="btn btn-primary" id="submit-id-submit">
-                <a href="{% url 'cosmos_events:events-list' %}" class="btn btn-secondary">Cancel</a>
+                <a href="{% url 'cosmos_core:internal-list' %}" class="btn btn-secondary">Cancel</a>
             </div>
         </form>
     </div>

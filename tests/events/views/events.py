@@ -7,7 +7,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 from django.utils.timezone import make_aware
 
-from apps.events.errors import END_DATE_BEFORE_START
+from apps.events.errors import END_DATE_BEFORE_START, REQUIRED
 from apps.events.forms import EventForm
 from apps.events.models import Event
 from tests.cosmos.helpers import get_image_file
@@ -407,8 +407,8 @@ class EventFormTest(TestCase):
     @staticmethod
     def generate_form(
         name="Name",
-        start_date_time=make_aware(datetime.datetime(2200, 1, 1, hour=1, minute=20)),
-        end_date_time=make_aware(datetime.datetime(2200, 1, 1, hour=1, minute=20)),
+        start_date_time=None,
+        end_date_time=None,
         image=None,
         member_only=False,
         lead="Lead",
@@ -417,6 +417,11 @@ class EventFormTest(TestCase):
         organizer=None,
         price=20.0,
     ) -> EventForm:
+        if start_date_time is None:
+            start_date_time = make_aware(datetime.datetime(2200, 1, 1, hour=1, minute=20))
+        if end_date_time is None:
+            end_date_time = make_aware(datetime.datetime(2200, 1, 1, hour=1, minute=20))
+
         if organizer is None:
             organizer = Group(name="organizer-group").save()
         files = {}
@@ -439,6 +444,29 @@ class EventFormTest(TestCase):
             files=files,
         )
 
+    @staticmethod
+    def generate_missing_fields_form(*fields):
+        data = {
+            "name": "Name",
+            "start_date_time": make_aware(datetime.datetime(2200, 1, 1, hour=1, minute=20)),
+            "end_date_time": make_aware(datetime.datetime(2200, 1, 1, hour=1, minute=20)),
+            "member_only": True,
+            "lead": "Lead",
+            "description": "Description",
+            "location": "Location",
+            "organizer": Group(name="organizer-group").save(),
+            "price": 42.0,
+        }
+        upload_image = get_image_file()
+        files = {"image": SimpleUploadedFile(upload_image.name, upload_image.read())}
+
+        for field in fields:
+            if field in data:
+                del data[field]
+            if field in files:
+                del files[field]
+        return EventForm(data=data, files=files)
+
     def tearDown(self) -> None:
         Group.objects.all().delete()
 
@@ -448,6 +476,27 @@ class EventFormTest(TestCase):
         # image: required
         # organizer: select from available choices
         self.assertTrue(form_start_end.is_valid())
+
+    def test_empty_start_time(self):
+        form = self.generate_missing_fields_form("start_date_time")
+
+        self.assertFalse(form.is_valid())
+        self.assertEqual(len(form.errors), 1)
+        self.assertTrue(form.has_error("start_date_time", REQUIRED))
+
+    def test_empty_end_time(self):
+        form = self.generate_missing_fields_form("end_date_time")
+
+        self.assertFalse(form.is_valid())
+        self.assertEqual(len(form.errors), 1)
+        self.assertTrue(form.has_error("end_date_time", REQUIRED))
+
+    def test_empty_description(self):
+        form = self.generate_missing_fields_form("description")
+
+        self.assertFalse(form.is_valid())
+        self.assertEqual(len(form.errors), 1)
+        self.assertTrue(form.has_error("description", REQUIRED))
 
     def test_start_before_end(self):
         form_end_start = self.generate_form(start_date_time="2200-01-03 01:20", end_date_time="2200-01-01 01:20")

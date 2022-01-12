@@ -10,7 +10,7 @@
     {% if user.is_authenticated %}
 
         <div class="pb-2">
-            <button class="btn btn-cosmos-primary" type="button" onclick="switchGMMView()">Switch view</button>
+            <button class="btn btn-cosmos-primary" type="button" id="switchGMMView">Switch view</button>
             {% if perms.cosmos.add_gmm %}
             <a class="btn btn-cosmos-primary" href="{% url 'cosmos_core:gmm-create' %}">
                 <i class="bi bi-plus-lg"></i>

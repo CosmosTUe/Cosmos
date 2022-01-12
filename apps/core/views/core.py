@@ -46,10 +46,6 @@ def resources(request):
     return render(request, "resources.html")
 
 
-def policy(request):
-    return render(request, "policy.html")
-
-
 def about(request):
     testimonials = Testimonial.objects.all()
     boards = Board.objects.order_by("-period_from")
@@ -59,10 +55,6 @@ def about(request):
         board = None
     context = {"testimonials": testimonials, "board": board}
     return render(request, "about.html", context)
-
-
-def privacy(request):
-    return render(request, "privacy.html")
 
 
 def terms(request):

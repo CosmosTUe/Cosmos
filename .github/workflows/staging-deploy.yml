@@ -14,14 +14,7 @@ jobs:
           key: ${{secrets.STAGING_SSH_KEY}}
           port: ${{secrets.STAGING_PORT}}
           script: |
-            sudo -iu cosmos
-            cd /opt/cosmos/Cosmos
-            git pull
-            /opt/cosmos/.local/bin/pipenv sync
-            /opt/cosmos/.local/bin/pipenv run ./manage.py migrate
-            /opt/cosmos/.local/bin/pipenv run ./manage.py collectstatic --noinput
-            npm update
-            exit
+            sudo -u cosmos sh ~/deploy.sh
             sudo systemctl restart gunicorn nginx
       - name: wait for restart
         run: sleep 10

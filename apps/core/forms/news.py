@@ -1,3 +1,4 @@
+from crispy_bootstrap5.bootstrap5 import FloatingField
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Field, Layout
 from django import forms
@@ -15,8 +16,8 @@ class NewsForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_tag = False
         self.helper.layout = Layout(
-            Field("title"),
-            Field("publish_date"),
+            FloatingField("title"),
+            FloatingField("publish_date"),
             Field("image"),
             Field("member_only"),
             Field("lead"),

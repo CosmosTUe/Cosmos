@@ -1,0 +1,33 @@
+name: Production Deployment Workflow
+on:
+  pull_request:
+    branches: [master]
+      types: [closed]
+jobs:
+  deploy_job:
+    runs-on: ubuntu-latest
+    steps:
+    - name: deploy to production server with ssh
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{secrets.PROD_HOST}}
+        username: ${{secrets.PROD_USER}}
+        key: ${{secrets.PROD_SSH_KEY}}
+        port: ${{secrets.PROD_PORT}}
+        script: |
+          sudo -iu cosmos
+          cd /opt/cosmos/Cosmos
+          git pull
+          pipenv sync
+          pipenv run ./manage.py migrate
+          pipenv run ./manage.py collectstatic --noinput
+          npm update
+          exit
+          sudo systemctl restart gunicorn nginx
+    - name: wait for restart
+      run: sleep 10
+    - name: check status code
+      uses: lakuapik/gh-actions-http-status@v1
+      with:
+        sites: '["https://cosmostue.nl"]'
+        expected: '[200]'

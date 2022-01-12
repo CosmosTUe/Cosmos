@@ -160,3 +160,7 @@ https://www.codesmite.com/article/fixing-raleway-and-similar-fonts-numerals */
     -moz-font-feature-settings: "lnum";
     font-feature-settings: "lnum";
 }
+
+#login-box {
+    max-width: 480px;
+}

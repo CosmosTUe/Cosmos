@@ -17,9 +17,9 @@ jobs:
             sudo -iu cosmos
             cd /opt/cosmos/Cosmos
             git pull
-            pipenv sync
-            pipenv run ./manage.py migrate
-            pipenv run ./manage.py collectstatic --noinput
+            /opt/cosmos/.local/bin/pipenv sync
+            /opt/cosmos/.local/bin/pipenv run ./manage.py migrate
+            /opt/cosmos/.local/bin/pipenv run ./manage.py collectstatic --noinput
             npm update
             exit
             sudo systemctl restart gunicorn nginx

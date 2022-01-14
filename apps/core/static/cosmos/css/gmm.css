@@ -10,3 +10,7 @@
     white-space: normal;
     word-break: break-all;
 }
+
+#GMMGrid {
+    display: none;
+}

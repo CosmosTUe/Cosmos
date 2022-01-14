@@ -1,4 +1,4 @@
-window["switchGMMView"] = function() {
+document.getElementById("switchGMMView").addEventListener("click", function() {
     var table = document.getElementById("GMMTable");
     var grid = document.getElementById("GMMGrid");
 
@@ -9,7 +9,7 @@ window["switchGMMView"] = function() {
         table.style.display = "none";
         grid.style.display = "flex";
     }
-}
+});
 
 window.addEventListener('load', (event) => {
     if (document.getElementById("id_date")) {

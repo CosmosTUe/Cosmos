@@ -24,7 +24,7 @@ class GMMFormSetHelper(FormHelper):
         self.form_method = "post"
         self.form_tag = False
         self.layout = Layout(
-            Div(FloatingField("name"), css_class="col col-4"),
+            Div(Field("name"), css_class="col col-4"),
             Field("file", wrapper_class="col col-6"),
             Div("DELETE", css_class="col col-2"),
         )

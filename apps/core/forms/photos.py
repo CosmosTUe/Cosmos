@@ -1,6 +1,6 @@
 import datetime
 
-from crispy_forms.bootstrap import FieldWithButtons, StrictButton
+from crispy_bootstrap5.bootstrap5 import FloatingField
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Field, Layout
 from django import forms
@@ -21,8 +21,8 @@ class PhotoAlbumForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_tag = False
         self.helper.layout = Layout(
-            Field("title"),
-            Field("date"),
+            FloatingField("title"),
+            FloatingField("date"),
             Field("album_cover"),
             Field("photos"),
         )
@@ -46,15 +46,8 @@ class PhotoAlbumUpdateForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_tag = False
         self.helper.layout = Layout(
-            Field("title"),
-            FieldWithButtons(
-                "date",
-                StrictButton(
-                    """<i class="bi bi-calendar-date"></i>""",
-                    css_class="btn-outline-light",
-                    id="id_calendar_button",
-                ),
-            ),
+            FloatingField("title"),
+            FloatingField("date"),
             Field("album_cover"),
         )
 

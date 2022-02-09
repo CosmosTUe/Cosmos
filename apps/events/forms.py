@@ -1,3 +1,4 @@
+from crispy_bootstrap5.bootstrap5 import FloatingField
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Field, Layout
 from django import forms
@@ -28,13 +29,13 @@ class EventForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_tag = False
         self.helper.layout = Layout(
-            Field("name"),
-            Field("start_date_time"),
-            Field("end_date_time"),
-            Field("location"),
-            Field("price"),
+            FloatingField("name"),
+            FloatingField("start_date_time"),
+            FloatingField("end_date_time"),
+            FloatingField("location"),
+            FloatingField("price"),
             Field("image"),
-            Field("organizer"),
+            FloatingField("organizer"),
             Field("member_only"),
             Field("lead"),
             Field("description"),

@@ -1,6 +1,11 @@
 {% extends "subpage.html" %}
 
 {% load crispy_forms_tags %}
+{% load pipeline %}
+
+{% block custom-css %}
+{% stylesheet "cosmos_event_create" %}
+{% endblock custom-css %}
 
 {% block title %}Create Event{% endblock title%}
 
@@ -8,7 +13,7 @@
 
 <div class="container">
     <div class="mx-auto w-50 bg-cosmos-primary rounded">
-        <form method="post" enctype="multipart/form-data" id="form-container" class="p-4 overflow-hidden">
+        <form method="post" enctype="multipart/form-data" id="form-container" class="p-4 overflow-hidden" novalidate>
             
             <h2 class="text-white">Create Event</h2>
             

@@ -4,7 +4,7 @@ from django.conf import settings
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path
 
-from apps.core.views.core import about, index, resources, terms
+from apps.core.views.core import about, index, resources, terms, merch
 from apps.core.views.gmm import GMMCreate, GMMDelete, GMMUpdate, gmm_list
 from apps.core.views.internal import (
     InternalDocumentCreate,
@@ -33,6 +33,7 @@ urlpatterns = [
     path("about/", about, name="about"),
     path("resources/", resources, name="resources"),
     path("terms/", terms, name="terms"),
+    path("merch/", merch, name="merch"),
     # GMM views
     path("gmm/add/", GMMCreate.as_view(), name="gmm-create"),
     path("gmm/list/", gmm_list, name="gmm-list"),

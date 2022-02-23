@@ -1,3 +1,4 @@
+from crispy_bootstrap5.bootstrap5 import FloatingField
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Div, Field, Layout
 from django import forms
@@ -23,10 +24,9 @@ class GMMFormSetHelper(FormHelper):
         self.form_method = "post"
         self.form_tag = False
         self.layout = Layout(
-            Field("name", wrapper_class="col-4"),
-            Field("file", wrapper_class="col-6"),
-            Div("DELETE", css_class="col-2"),
-            # Field("DELETE", wrapper_class="col-2"),
+            Div(Field("name"), css_class="col col-4"),
+            Field("file", wrapper_class="col col-6"),
+            Div("DELETE", css_class="col col-2"),
         )
         self.render_required_fields = True
 
@@ -41,6 +41,6 @@ class GMMForm(forms.ModelForm):
         self.helper = FormHelper()
         self.helper.form_tag = False
         self.helper.layout = Layout(
-            Field("name"),
-            Field("date"),
+            FloatingField("name"),
+            FloatingField("date"),
         )

@@ -55,7 +55,7 @@ class _Executor:
                 else:
                     logger.warning(repr(e))
                     command.times_delayed += 1
-                    command.timer = command.backoff_factor ** command.times_delayed
+                    command.timer = command.backoff_factor**command.times_delayed
                     failed_list.append(command)
         # remove all commands from database, and add back the failed ones
         with transaction.atomic():

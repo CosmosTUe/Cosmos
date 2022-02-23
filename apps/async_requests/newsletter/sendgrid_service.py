@@ -50,9 +50,7 @@ class SendgridService(NewsletterService):
     def is_subscribed(self, email: str, list_id: str):
         # https://sendgrid.api-docs.io/v3.0/contacts/search-contacts
         response = self.sg.client.marketing.contacts.search.post(
-            request_body=self.__get_sandbox_json(
-                {"query": f"email LIKE '{email}%%' AND CONTAINS(list_ids, '${list_id}'"}
-            )
+            request_body=self.__get_sandbox_json({"query": f"email = '{email}' AND CONTAINS(list_ids, '{list_id}')"})
         )
         self.__process_status_code(response, 200)
 

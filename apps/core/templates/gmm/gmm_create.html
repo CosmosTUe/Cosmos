@@ -2,13 +2,15 @@
 
 {% load crispy_forms_tags %}
 
+{% block title %}Create GMM{% endblock %}
+
 {% block content %}
 
 <div class="container">
     <div class="mx-auto w-50 bg-cosmos-primary rounded">
         <form method="post" enctype="multipart/form-data" id="form-container" class="p-4 overflow-hidden">
             
-            <h2 class="text-white">Create gmm documents</h2>
+            <h2 class="text-white mb-4">Create gmm documents</h2>
             
             {% csrf_token %}
             {% crispy form %}

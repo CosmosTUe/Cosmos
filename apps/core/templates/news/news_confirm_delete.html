@@ -2,11 +2,14 @@
 
 {% load crispy_forms_tags %}
 
+{% block title %}Delete news{% endblock %}
+
 {% block content %}
 
 <div class="container">
     <div class="mx-auto w-50 bg-cosmos-primary rounded">
         <form method="post" class="p-4">
+            <h2 class="text-white mb-4">Delete news</h2>
             {% csrf_token %}
             <p class="text-white">Are you sure you want to delete "{{ object }}"?</p>
             <input type="submit" class="btn btn-primary" value="Confirm">

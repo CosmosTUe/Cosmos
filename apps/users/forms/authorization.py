@@ -87,7 +87,10 @@ class CosmosPasswordResetForm(PasswordResetForm):
 
         # modified
         email = self.cleaned_data["email"]
-        user = User.objects.get(**{"username__iexact": email, "is_active": True})
+        users = User.objects.filter(**{"username__iexact": email, "is_active": True})
+        if len(users) == 0:
+            return
+        user = users[0]
 
         context = {
             "email": user.username,

@@ -1,15 +1,18 @@
-document.getElementById("switchGMMView").addEventListener("click", function() {
-    var table = document.getElementById("GMMTable");
-    var grid = document.getElementById("GMMGrid");
+if (document.getElementById("switchGMMView"))
+{
+    document.getElementById("switchGMMView").addEventListener("click", function() {
+        var table = document.getElementById("GMMTable");
+        var grid = document.getElementById("GMMGrid");
 
-    if (table.style.display == "none") {
-        table.style.display = "table";
-        grid.style.display = "none";
-    } else {
-        table.style.display = "none";
-        grid.style.display = "flex";
-    }
-});
+        if (table.style.display == "none") {
+            table.style.display = "table";
+            grid.style.display = "none";
+        } else {
+            table.style.display = "none";
+            grid.style.display = "flex";
+        }
+    });
+}
 
 window.addEventListener('load', (event) => {
     if (document.getElementById("id_date")) {

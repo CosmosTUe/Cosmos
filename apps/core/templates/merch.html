@@ -1,0 +1,20 @@
+{% extends "subpage.html" %}
+{% block title %}Merch Store{% endblock title%}
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="https://pretix.cosmostue.nl/cosmos/merch/widget/v1.css">
+<script type="text/javascript" src="https://pretix.cosmostue.nl/widget/v1.en.js" async></script>
+
+<div class="container">
+    <pretix-widget event="https://pretix.cosmostue.nl/cosmos/merch/"></pretix-widget>
+    <noscript>
+       <div class="pretix-widget">
+            <div class="pretix-widget-info-message">
+                JavaScript is disabled in your browser. To access our ticket shop without JavaScript, please <a target="_blank" rel="noopener" href="https://pretix.cosmostue.nl/cosmos/merch/">click here</a>.
+            </div>
+        </div>
+    </noscript>
+</div>
+
+
+{% endblock content %}

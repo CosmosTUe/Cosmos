@@ -40,12 +40,12 @@ def event_view(request, pk):
 def events_archive(request):
     if request.user.is_authenticated:
         events_list = (
-            Event.objects.order_by("start_date_time").filter(end_date_time__lt=datetime.datetime.today()).all()
+            Event.objects.order_by("-start_date_time").filter(end_date_time__lt=datetime.datetime.today()).all()
         )
     else:
         events_list = (
             Event.objects.filter(member_only=False)
-            .order_by("start_date_time")
+            .order_by("-start_date_time")
             .filter(end_date_time__lt=datetime.datetime.today())
         )
     context = {

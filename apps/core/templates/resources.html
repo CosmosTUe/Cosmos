@@ -68,6 +68,14 @@
         <a class="btn btn-cosmos-primary" href="{% url 'cosmos_core:gmm-list' %}">GMM Documents</a>
     </div>
 
+    {% if user.is_authenticated %}
+        <h2 class="text-center mt-5">Members' Initiative</h2>
+        <p>Members' Initiative is a way for anyone to host events at Cosmos without the need to join an event organizing committee. Simply fill in the form, in which you outline your idea as well as the required budget, and we'll provide you with the means to make the event happen!</p>
+        <div class="text-center">
+            <a class="btn btn-cosmos-primary" href="https://forms.gle/uTLJnQ3uMizuP3BQ8">Members' Initiative Form</a>
+        </div>
+    {% endif%}
+
   </div>
 </div>
 

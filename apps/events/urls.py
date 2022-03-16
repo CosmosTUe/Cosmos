@@ -12,4 +12,5 @@ urlpatterns = [
     path("<int:pk>/", apps.events.views.event_view, name="events-view"),
     path("<int:pk>/update/", apps.events.views.EventUpdate.as_view(), name="events-update"),
     path("<int:pk>/delete/", apps.events.views.EventDelete.as_view(), name="events-delete"),
+    path("carousel/", apps.events.views.event_carousel, name="event-carousel"),
 ]

@@ -1,0 +1,9 @@
+.carousel-image {
+    width: 90vh;
+    height: 90vh;
+    object-fit: cover;
+}
+
+.carousel-font-size {
+    font-size: 1.5rem;
+}

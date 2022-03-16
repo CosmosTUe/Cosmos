@@ -11,7 +11,6 @@ from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 from formtools.wizard.views import SessionWizardView
 
-from apps.async_requests.commands import MailSendCommand
 from apps.async_requests.commands.subscribe_command import NewsletterSubscribeCommand
 from apps.async_requests.commands.unsubscribe_command import NewsletterUnsubscribeCommand
 from apps.async_requests.factory import Factory
@@ -89,7 +88,7 @@ class RegistrationWizard(SessionWizardView):
                 # TODO raise exception?
                 pass
 
-            executor.add_command(MailSendCommand(create_confirm_account_email(profile)))
+            create_confirm_account_email(profile).send()
 
             if profile.subscribed_newsletter:
                 email = user.username if profile.newsletter_recipient == "TUE" else user.email

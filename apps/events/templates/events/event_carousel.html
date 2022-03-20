@@ -38,7 +38,7 @@
             <div class="carousel-item{% if forloop.first %} active{% endif %}">
                 <div class="row">
                     <div class="col-6">
-                        <img src="{{ event.image.url }}" class="carousel-image">
+                        <img src="{{ event.image.url }}" class="img-fluid carousel-image">
                     </div>
                     <div class="col-6">
                         <div class="row mt-4">
@@ -62,7 +62,7 @@
             <div class="carousel-item{% if forloop.first and not event_list|length > 0 %} active{% endif %}">
                 <div class="row">
                     <div class="col-6">
-                        <img src="{{ article.image.url }}" class="carousel-image">
+                        <img src="{{ article.image.url }}" class="img-fluid carousel-image">
                     </div>
                     <div class="col-6">
                         <div class="row mt-4">

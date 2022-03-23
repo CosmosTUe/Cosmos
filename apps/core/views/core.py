@@ -59,3 +59,7 @@ def about(request):
 
 def terms(request):
     return render(request, "terms.html")
+
+
+def merch(request):
+    return render(request, "merch.html")

@@ -8,6 +8,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, UpdateView
 from django_ical.views import ICalFeed
 
+from apps.core.models import News
 from apps.events.forms import EventForm
 from apps.events.models import Event
 
@@ -40,18 +41,31 @@ def event_view(request, pk):
 def events_archive(request):
     if request.user.is_authenticated:
         events_list = (
-            Event.objects.order_by("start_date_time").filter(end_date_time__lt=datetime.datetime.today()).all()
+            Event.objects.order_by("-start_date_time").filter(end_date_time__lt=datetime.datetime.today()).all()
         )
     else:
         events_list = (
             Event.objects.filter(member_only=False)
-            .order_by("start_date_time")
+            .order_by("-start_date_time")
             .filter(end_date_time__lt=datetime.datetime.today())
         )
     context = {
         "events_list": events_list,
     }
     return render(request, "events/events_archive.html", context)
+
+
+def event_carousel(request):
+    event_list = Event.objects.order_by("start_date_time").filter(end_date_time__gt=datetime.datetime.today()).all()
+    news_list = News.objects.order_by("publish_date").filter(
+        publish_date__gt=datetime.datetime.today() - datetime.timedelta(days=31 * 2)
+    )[:3]
+
+    context = {
+        "event_list": event_list,
+        "news_list": news_list,
+    }
+    return render(request, "events/event_carousel.html", context)
 
 
 class EventCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):

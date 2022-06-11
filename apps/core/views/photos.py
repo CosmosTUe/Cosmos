@@ -45,7 +45,7 @@ class PhotoAlbumUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
 class PhotoAlbumDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = PhotoAlbum
     template_name = "photo_album/photo_album_confirm_delete.html"
-    success_url = reverse_lazy("photo_album-list")
+    success_url = reverse_lazy("cosmos_core:photo_album-list")
 
     # Permissions
     permission_required = "cosmos.delete_photoalbum"

@@ -117,7 +117,7 @@ class EventFeed(ICalFeed):
         # to an error, as there will not be any sites yet on an empty database
         try:
             self.domain = Site.objects.get_current().domain
-        except:
+        except:  # noqa
             self.domain = ""
         self.product_id = "-//" + self.domain + "//Events//EN"
         self.timezone = "Europe/Amsterdam"

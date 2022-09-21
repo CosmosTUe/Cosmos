@@ -1,0 +1,16 @@
+{% extends "admin/change_form.html" %}
+
+{% block extrahead %}{{ block.super }}
+    <script>
+        django.jQuery(function ($) {
+            $('.reconfirm-link').insertBefore('.submit-row>input:first');
+        });
+    </script>
+{% endblock extrahead %}
+
+{% block after_field_sets %}{{ block.super }}
+    {% if original %}
+        <a title="Reconfirm" href="{% url 'admin:profile_reconfirm_email' original.pk %}"
+            class="input reconfirm-link">Reconfirm</a>
+    {% endif %}
+{% endblock %}

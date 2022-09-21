@@ -134,6 +134,7 @@ PIPELINE = {
                 "cosmos/css/photos.css",
                 "cosmos/css/news.css",
                 "cosmos/css/about.css",
+                "cosmos/css/wellbeing.css",
                 "cosmos_events/css/events.css",
                 "cosmos_events/css/carousel.css",
             },

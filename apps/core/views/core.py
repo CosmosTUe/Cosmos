@@ -63,3 +63,7 @@ def terms(request):
 
 def merch(request):
     return render(request, "merch.html")
+
+
+def wellbeing(request):
+    return render(request, "wellbeing.html")

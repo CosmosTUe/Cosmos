@@ -1,0 +1,15 @@
+.accordion-button::after {
+    margin-left: 1rem;
+}
+
+.accordion-button {
+    white-space: normal;
+}
+
+.accordion-button div {
+    display: block;
+}
+
+.logo {
+    width: 40px;
+}

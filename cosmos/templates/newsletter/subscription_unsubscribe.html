@@ -10,11 +10,7 @@
     {% if error %}
         <p>{% trans "Due to a technical error we were not able to submit your confirmation email. This could be because your email address is invalid." %}</p>
 
-        {% comment %} Replace the the following dummy with a valid email address and remove this comment.
-
-        <p>{% trans "If the error persists, please don't hesitate to contact us at the following email address:" %} <a href="mailto:info@foobar.com">info@foobar.com</a></p>
-
-        {% endcomment %}
+        <p>{% trans "If the error persists, please don't hesitate to contact us at the following email address:" %} <a href="mailto:web.committee@cosmostue.nl">web.committee@cosmostue.nl</a></p>
     {% else %}
         <form enctype="multipart/form-data" method="post" action="newsletter">
             {% csrf_token %}

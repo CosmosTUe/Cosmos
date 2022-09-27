@@ -34,6 +34,7 @@ Pillow = "*"
 Django = "<4.0"
 django-ical = "*"
 sorl-thumbnail = "*"
+django-newsletter = {editable = true, git = "https://github.com/jazzband/django-newsletter.git"}
 
 [dev-packages]
 flake8 = "*"

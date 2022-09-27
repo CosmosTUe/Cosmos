@@ -35,6 +35,7 @@ Django = "<4.0"
 django-ical = "*"
 sorl-thumbnail = "*"
 django-newsletter = {editable = true, git = "https://github.com/jazzband/django-newsletter.git"}
+"backports.zoneinfo" = "==0.2.1" # support for Python <= 3.8
 
 [dev-packages]
 flake8 = "*"

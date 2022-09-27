@@ -1,0 +1,46 @@
+{% load i18n %}<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+	<title>{{ newsletter.title }}: {{ message.title }}</title>
+</head>
+<body>
+    <h1>{{ newsletter.title }}</h1>
+    <h2>{{ message.title }}</h2>
+    {% for article in message.articles.all %}
+        <h3>{{ article.title }}</h3>
+
+{# django.template.exceptions.TemplateDoesNotExist: No template names provided #}
+{#        {% include thumbnail_template %}#}
+
+        <div>{{ article.text|safe }}</div>
+
+        {% if article.url %}
+            <div><a href="{{ article.url }}">{% trans "Read more" %}</a></div>
+        {% endif %}
+    {% endfor %}
+    <ul>
+        {% if submission.publish %}
+        <li><a href="http://{{ site.domain }}{{ submission.get_absolute_url }}">{% trans "Read message online" %}</a></li>
+        {% endif %}
+        <li><a href="http://{{ site.domain }}{% url "newsletter_unsubscribe_request" newsletter.slug %}">{% trans "Unsubscribe" %}</a></li>
+    </ul>
+    {% if attachment_links %}
+        {% for att in message.attachments.all %}
+            {% if forloop.first %}
+                <strong>{% trans "Attachments" %}</strong>
+                <table>
+            {% endif %}
+            <tr>
+                <td>
+                    &#128206; <a href="{{ att.file.url }}">{{ att.file_name }}</a> ({{ att.file.size|filesizeformat }})
+                </td>
+            </tr>
+            {% if forloop.last %}
+                </table>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+</body>
+</html>

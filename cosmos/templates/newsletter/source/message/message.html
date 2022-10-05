@@ -1,0 +1,62 @@
+<!--{% load i18n %} -->
+<!--{% load thumbnail %}-->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>{{ newsletter.title }}: {{ message.title }}</title>
+</head>
+<body class="bg-blue-500">
+    <div class="container">
+        <img class="ax-center my-10 w-24" src="https://cosmostue.nl/static/cosmos/img/cosmos_alternate_descriptor.svg" />
+        <div class="card p-6 p-lg-10 space-y-4">
+            <h1 class="h3 fw-700">{{ newsletter.title }} - {{ message.title }}</h1>
+            <!-- {% for article in message.articles.all %} -->
+                <h4>{{ article.title }}</h4>
+
+                <!-- {% thumbnail article.image "200x200" as image %} -->
+                    <img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}">
+                <!-- {% endthumbnail %} -->
+
+                <div>{{ article.text|safe }}</div>
+
+                <!-- {% if article.url %} -->
+                    <div><a href="{{ article.url }}">{% trans "Read more" %}</a></div>
+                <!-- {% endif %} -->
+            <!-- {% endfor %} -->
+            <!-- {% if attachment_links %} -->
+                <!-- {% for att in message.attachments.all %} -->
+                    <!-- {% if forloop.first %} -->
+                        <strong>{% trans "Attachments" %}</strong>
+                        <table>
+                    <!-- {% endif %} -->
+                    <tr>
+                        <td>
+                            &#128206; <a href="{{ att.file.url }}">{{ att.file_name }}</a> ({{ att.file.size|filesizeformat }})
+                        </td>
+                    </tr>
+                    <!-- {% if forloop.last %} -->
+                        </table>
+                    <!-- {% endif %} -->
+                <!-- {% endfor %} -->
+            <!-- {% endif %} -->
+            <hr>
+            <div class="text-center">
+                <!-- {% if submission.publish %} -->
+                <a class="text-muted" href="https://{{ site.domain }}{{ submission.get_absolute_url }}">{% trans "Read message online" %}</a>
+                <a class="text-muted">&bull;</a>
+                <!-- {% endif %} -->
+                <a class="text-muted" href="https://{{ site.domain }}{% url 'newsletter_unsubscribe_request' newsletter.slug %}">{% trans "Unsubscribe" %}</a>
+            </div>
+        </div>
+        <img class="ax-center mt-10 w-40" src="https://cosmostue.nl/static/cosmos/img/cosmos_white_horizontal.png" />
+        <div class="text-light text-center my-6">
+            Den Dolech 2<br>
+            MetaForum 0.090<br>
+            TU Eindhoven<br>
+            5612 AZ Eindhoven<br>
+        </div>
+    </div>
+</body>
+</html>

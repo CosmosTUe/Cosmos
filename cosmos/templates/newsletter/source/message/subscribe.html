@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<!--{% load i18n %}-->
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{% blocktrans with title=newsletter.title %}Subscription to {{ title }}{% endblocktrans %}</title>
+  </head>
+  <body class="bg-blue-500">
+    <div class="container">
+      <img class="ax-center my-10 w-24" src="https://cosmostue.nl/static/cosmos/img/cosmos_alternate_descriptor.svg" />
+      <div class="card p-6 p-lg-10 space-y-4">
+        <h1 class="h3 fw-700">
+          {{ newsletter.title }} Subscription
+        </h1>
+        <p>
+            {% blocktrans with name=subscription.name|default:_("Sir/Madam") title=newsletter.title domain=site.domain url=subscription.subscribe_activate_url %}Dear {{ name }},
+
+            you, or someone in your name requested a subscription to {{ title }}.
+            
+            If you would like to confirm your subscription, please follow this activation link:
+            http://{{ domain }}{{ url }}
+            
+            Kind regards,{% endblocktrans %}
+            {{ newsletter.sender }}
+        </p>
+      </div>
+      <img class="ax-center mt-10 w-40" src="https://cosmostue.nl/static/cosmos/img/cosmos_white_horizontal.png" />
+      <div class="text-light text-center my-6">
+        Den Dolech 2<br>
+       	MetaForum 0.090<br>
+        TU Eindhoven<br>
+        5612 AZ Eindhoven<br>
+      </div>
+    </div>
+  </body>
+</html>

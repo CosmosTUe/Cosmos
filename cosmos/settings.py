@@ -224,6 +224,7 @@ INSTALLED_APPS = [
     "ckeditor",
     "django_celery_beat",
     "sorl.thumbnail",
+    "tinymce",
     "newsletter",
 ]
 
@@ -332,3 +333,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CKEDITOR_CONFIGS = {
     "default": {"width": "100%"},
 }
+
+NEWSLETTER_RICHTEXT_WIDGET = "tinymce.widgets.TinyMCE"

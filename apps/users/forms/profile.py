@@ -2,7 +2,7 @@ import logging
 
 from crispy_bootstrap5.bootstrap5 import FloatingField
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import ButtonHolder, Layout, Submit, HTML
+from crispy_forms.layout import HTML, ButtonHolder, Layout, Submit
 from django import forms
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
@@ -22,9 +22,9 @@ from apps.users.helper_functions import (
 from apps.users.models.constants import (
     FONTYS_STUDIES,
     NATIONALITIES,
+    NEWSLETTER_RECIPIENTS,
     TUE_DEPARTMENTS,
     TUE_PROGRAMS,
-    NEWSLETTER_RECIPIENTS,
 )
 
 logger = logging.getLogger(__name__)

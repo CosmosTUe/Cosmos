@@ -2,11 +2,12 @@ import logging
 
 from crispy_bootstrap5.bootstrap5 import FloatingField
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import ButtonHolder, Field, Layout, Submit
+from crispy_forms.layout import ButtonHolder, Layout, Submit, HTML
 from django import forms
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from newsletter.models import Newsletter
 
 from apps.async_requests.commands.subscribe_command import NewsletterSubscribeCommand
 from apps.async_requests.commands.unsubscribe_command import NewsletterUnsubscribeCommand
@@ -18,8 +19,13 @@ from apps.users.helper_functions import (
     is_valid_institutional_email,
     same_email_institution,
 )
-from apps.users.models.constants import FONTYS_STUDIES, NATIONALITIES, TUE_DEPARTMENTS, TUE_PROGRAMS
-from apps.users.models.profile import Profile
+from apps.users.models.constants import (
+    FONTYS_STUDIES,
+    NATIONALITIES,
+    TUE_DEPARTMENTS,
+    TUE_PROGRAMS,
+    NEWSLETTER_RECIPIENTS,
+)
 
 logger = logging.getLogger(__name__)
 executor = Factory.get_executor()
@@ -134,28 +140,33 @@ class PasswordUpdateForm(PasswordChangeForm):
         self.helper.add_input(Submit("save_password", "Submit"))
 
 
-class PreferencesUpdateForm(forms.ModelForm):
-    class Meta:
-        model = Profile
-        fields = ["subscribed_newsletter", "subscribed_gmm_invite", "newsletter_recipient"]
-
-    def __init__(self, *args, **kwargs):
+class PreferencesUpdateForm(forms.Form):
+    def __init__(self, instance, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
+        newsletters = Newsletter.objects.all()
+        recipients = [("NONE", "Disabled")] + NEWSLETTER_RECIPIENTS
+        crispy_newsletters = []
+        for newsletter in newsletters:
+            name = f"newsletter-{newsletter.slug}"
+            self.fields[name] = forms.ChoiceField(
+                label=newsletter.title,
+                choices=recipients,
+                required=False,
+            )
+            crispy_newsletters.append(FloatingField(name))
+
         self.helper.form_id = "id-preferencesUpdateForm"
         self.helper.form_method = "post"
         self.helper.form_action = "cosmos_users:user_profile"
         self.helper.form_tag = False
 
-        self.helper.layout = Layout(
-            Field("subscribed_newsletter"),
-            Field("subscribed_gmm_invite"),
-            Field("newsletter_recipient"),
-        )
+        self.helper.layout = Layout(HTML('<h3 class="text-white">Email notifications</h3>'), *crispy_newsletters)
 
         self.helper.add_input(Submit("save_preferences", "Submit"))
 
     def clean(self):
+        # TODO fix logic
         if (
             self.instance.user.email == ""
             and self.cleaned_data["newsletter_recipient"]

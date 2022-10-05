@@ -141,18 +141,18 @@ class PasswordUpdateForm(PasswordChangeForm):
 
 
 class PreferencesUpdateForm(forms.Form):
+    @staticmethod
+    def newsletter_field_name(newsletter):
+        return f"newsletter-{newsletter.slug}"
+
     def __init__(self, instance: User, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         newsletters = Newsletter.objects.all()
         recipients = [("NONE", "Disabled")] + NEWSLETTER_RECIPIENTS
         crispy_newsletters = []
-
-        def newsletter_field_name(newsletter):
-            return f"newsletter-{newsletter.slug}"
-
         for newsletter in newsletters:
-            name = newsletter_field_name(newsletter)
+            name = self.newsletter_field_name(newsletter)
             self.fields[name] = forms.ChoiceField(
                 label=newsletter.title,
                 choices=recipients,
@@ -160,17 +160,8 @@ class PreferencesUpdateForm(forms.Form):
             )
             crispy_newsletters.append(FloatingField(name))
 
-        institutional_email = instance.username
-        personal_email = instance.email
-        inst_subs = Subscription.objects.filter(email_field__exact=institutional_email)
-        pers_subs = Subscription.objects.filter(email_field__exact=personal_email)
-
-        for sub in inst_subs:
-            self.fields[newsletter_field_name(sub.newsletter)].initial = "TUE"
-
-        for sub in pers_subs:
-            print(sub)
-            self.fields[newsletter_field_name(sub.newsletter)].initial = "ALT"
+        self.set_newsletter_initials(instance.username, "TUE")
+        self.set_newsletter_initials(instance.email, "ALT")
 
         self.helper.form_id = "id-preferencesUpdateForm"
         self.helper.form_method = "post"
@@ -180,6 +171,11 @@ class PreferencesUpdateForm(forms.Form):
         self.helper.layout = Layout(HTML('<h3 class="text-white">Email notifications</h3>'), *crispy_newsletters)
 
         self.helper.add_input(Submit("save_preferences", "Submit"))
+
+    def set_newsletter_initials(self, email, value):
+        subs = Subscription.objects.filter(email_field__exact=email)
+        for sub in subs:
+            self.fields[self.newsletter_field_name(sub.newsletter)].initial = value
 
     def clean(self):
         # TODO fix logic
@@ -194,7 +190,7 @@ class PreferencesUpdateForm(forms.Form):
             )
         return self.cleaned_data
 
-    def save(self, commit=True):
+    def save(self):
+        # TODO fix impl
         newsletter_service = Factory.get_newsletter_service()
         newsletter_service.update_newsletter_preferences(self.instance, self.initial, self.cleaned_data)
-        return super(PreferencesUpdateForm, self).save(commit)

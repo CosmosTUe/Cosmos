@@ -92,6 +92,7 @@ class RegistrationWizard(SessionWizardView):
 
             if profile.subscribed_newsletter:
                 email = user.username if profile.newsletter_recipient == "TUE" else user.email
+                # TODO replace with django-newsletter
                 executor.add_command(NewsletterSubscribeCommand(email, user.first_name, user.last_name))
 
         return redirect(reverse("cosmos_users:registration_done"))
@@ -128,7 +129,7 @@ def profile(request):
 
         profile_update_form = ProfileUpdateForm(data=request.POST, instance=request.user)
         password_change_form = PasswordUpdateForm(data=request.POST, user=request.user)
-        preferences_update_form = PreferencesUpdateForm(data=request.POST, instance=request.user.profile)
+        preferences_update_form = PreferencesUpdateForm(data=request.POST, instance=request.user)
 
         if "save_profile" in request.POST:
             if profile_update_form.is_valid():
@@ -149,7 +150,7 @@ def profile(request):
     else:
         profile_update_form = ProfileUpdateForm(instance=request.user)
         password_change_form = PasswordUpdateForm(user=request.user)
-        preferences_update_form = PreferencesUpdateForm(instance=request.user.profile)
+        preferences_update_form = PreferencesUpdateForm(instance=request.user)
 
     return render(
         request,

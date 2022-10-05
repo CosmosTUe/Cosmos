@@ -129,7 +129,7 @@ def profile(request):
 
         profile_update_form = ProfileUpdateForm(data=request.POST, instance=request.user)
         password_change_form = PasswordUpdateForm(data=request.POST, user=request.user)
-        preferences_update_form = PreferencesUpdateForm(data=request.POST, instance=request.user)
+        preferences_update_form = PreferencesUpdateForm(data=request.POST, user=request.user)
 
         if "save_profile" in request.POST:
             if profile_update_form.is_valid():
@@ -150,7 +150,7 @@ def profile(request):
     else:
         profile_update_form = ProfileUpdateForm(instance=request.user)
         password_change_form = PasswordUpdateForm(user=request.user)
-        preferences_update_form = PreferencesUpdateForm(instance=request.user)
+        preferences_update_form = PreferencesUpdateForm(user=request.user)
 
     return render(
         request,

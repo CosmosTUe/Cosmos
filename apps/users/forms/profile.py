@@ -145,8 +145,9 @@ class PreferencesUpdateForm(forms.Form):
     def newsletter_field_name(newsletter):
         return f"newsletter-{newsletter.slug}"
 
-    def __init__(self, instance: User, *args, **kwargs):
+    def __init__(self, user: User, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.user = user
         self.helper = FormHelper(self)
         newsletters = Newsletter.objects.all()
         recipients = [("NONE", "Disabled")] + NEWSLETTER_RECIPIENTS
@@ -160,8 +161,8 @@ class PreferencesUpdateForm(forms.Form):
             )
             crispy_newsletters.append(FloatingField(name))
 
-        self.set_newsletter_initials(instance.username, "TUE")
-        self.set_newsletter_initials(instance.email, "ALT")
+        self.set_newsletter_initials(user.username, "TUE")
+        self.set_newsletter_initials(user.email, "ALT")
 
         self.helper.form_id = "id-preferencesUpdateForm"
         self.helper.form_method = "post"
@@ -173,24 +174,34 @@ class PreferencesUpdateForm(forms.Form):
         self.helper.add_input(Submit("save_preferences", "Submit"))
 
     def set_newsletter_initials(self, email, value):
-        subs = Subscription.objects.filter(email_field__exact=email)
+        subs = Subscription.objects.filter(email_field__exact=email, subscribed=True)
         for sub in subs:
             self.fields[self.newsletter_field_name(sub.newsletter)].initial = value
 
     def clean(self):
-        # TODO fix logic
-        if (
-            self.instance.user.email == ""
-            and self.cleaned_data["newsletter_recipient"]
-            and (self.cleaned_data["subscribed_newsletter"] or self.cleaned_data["subscribed_gmm_invite"])
-        ):
-            raise ValidationError(
-                "Please set a secondary email or choose to receive emails at your institution email.",
-                INVALID_SUBSCRIBE_TO_EMPTY_EMAIL,
-            )
+        if self.user.email == "":
+            for sub in self.cleaned_data.values():
+                if sub == "ALT":
+                    raise ValidationError(
+                        "Please set a secondary email, or choose to receive emails at your institution email.",
+                        INVALID_SUBSCRIBE_TO_EMPTY_EMAIL,
+                    )
+
         return self.cleaned_data
 
     def save(self):
-        # TODO fix impl
-        newsletter_service = Factory.get_newsletter_service()
-        newsletter_service.update_newsletter_preferences(self.instance, self.initial, self.cleaned_data)
+        for (name, value) in self.cleaned_data.items():
+            slug = name.lstrip("newsletter-")
+            newsletter = Newsletter.objects.get(slug__exact=slug)
+            inst_sub, _ = Subscription.objects.get_or_create(newsletter=newsletter, email_field=self.user.username)
+            pers_sub, _ = Subscription.objects.get_or_create(newsletter=newsletter, email_field=self.user.email)
+
+            if value == "NONE":
+                inst_sub.update("unsubscribe")
+                pers_sub.update("unsubscribe")
+            elif value == "TUE":
+                inst_sub.update("subscribe")
+                pers_sub.update("unsubscribe")
+            elif value == "ALT":
+                inst_sub.update("unsubscribe")
+                pers_sub.update("subscribe")

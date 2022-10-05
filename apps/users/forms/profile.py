@@ -7,7 +7,7 @@ from django import forms
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from newsletter.models import Newsletter
+from newsletter.models import Newsletter, Subscription
 
 from apps.async_requests.commands.subscribe_command import NewsletterSubscribeCommand
 from apps.async_requests.commands.unsubscribe_command import NewsletterUnsubscribeCommand
@@ -141,20 +141,36 @@ class PasswordUpdateForm(PasswordChangeForm):
 
 
 class PreferencesUpdateForm(forms.Form):
-    def __init__(self, instance, *args, **kwargs):
+    def __init__(self, instance: User, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         newsletters = Newsletter.objects.all()
         recipients = [("NONE", "Disabled")] + NEWSLETTER_RECIPIENTS
         crispy_newsletters = []
+
+        def newsletter_field_name(newsletter):
+            return f"newsletter-{newsletter.slug}"
+
         for newsletter in newsletters:
-            name = f"newsletter-{newsletter.slug}"
+            name = newsletter_field_name(newsletter)
             self.fields[name] = forms.ChoiceField(
                 label=newsletter.title,
                 choices=recipients,
                 required=False,
             )
             crispy_newsletters.append(FloatingField(name))
+
+        institutional_email = instance.username
+        personal_email = instance.email
+        inst_subs = Subscription.objects.filter(email_field__exact=institutional_email)
+        pers_subs = Subscription.objects.filter(email_field__exact=personal_email)
+
+        for sub in inst_subs:
+            self.fields[newsletter_field_name(sub.newsletter)].initial = "TUE"
+
+        for sub in pers_subs:
+            print(sub)
+            self.fields[newsletter_field_name(sub.newsletter)].initial = "ALT"
 
         self.helper.form_id = "id-preferencesUpdateForm"
         self.helper.form_method = "post"

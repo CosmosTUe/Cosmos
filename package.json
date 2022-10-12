@@ -4,7 +4,7 @@
   "description": "Website for Cosmos, the international students association at the TU/e.",
   "private": true,
   "dependencies": {
-    "google-closure-compiler": "^20220601.0.0",
+    "google-closure-compiler": "^20220905.0.0",
     "yuglify": "^2.0.0"
   },
   "devDependencies": {}

@@ -23,8 +23,7 @@ django-pipeline = "*"
 django-better-admin-arrayfield = "*"
 celery = "*"
 django-celery-results = "*"
-# needs git, as no release since django 4.0 support is added, see https://github.com/celery/django-celery-beat/issues/465
-django-celery-beat = {editable = true, git = "https://github.com/celery/django-celery-beat"} 
+django-celery-beat = "*"
 sendgrid = "*"
 python-http-client = "*"
 django-oauth-toolkit = "*"

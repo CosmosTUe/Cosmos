@@ -111,10 +111,17 @@ class EventFeed(ICalFeed):
     A simple event calender
     """
 
-    domain = Site.objects.get_current().domain
-    product_id = "-//" + domain + "//Events//EN"
-    timezone = "Europe/Amsterdam"
-    file_name = "event.ics"
+    def __init__(self):
+        super().__init__()
+        # Handle exception thrown during migrations, as it checks all routes first for some reason, leading
+        # to an error, as there will not be any sites yet on an empty database
+        try:
+            self.domain = Site.objects.get_current().domain
+        except:  # noqa
+            self.domain = ""
+        self.product_id = "-//" + self.domain + "//Events//EN"
+        self.timezone = "Europe/Amsterdam"
+        self.file_name = "event.ics"
 
     def items(self):
         return Event.objects.all().order_by("-start_date_time").filter(end_date_time__gte=datetime.datetime.today())

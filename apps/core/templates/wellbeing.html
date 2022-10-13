@@ -1,0 +1,815 @@
+{% extends "subpage.html" %}
+
+{% load static %}
+
+{% block title %}Wellbeing{% endblock title %}
+{% block content %}
+
+<div class="container">
+    <div class="w-75 mx-auto">
+
+        <h2>Well-being</h2>
+
+        <p>On this page you can find all contact points regarding well-being and practical matters If you don't know where to go, your first points of contact could always be your academic advisor. Your academic advisor is here to help with practical issues regarding your study. On top of that they are very much willing to listen and think along about personal problems.</p>
+
+        <div class="accordion" id="accordionWellbeing">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingStudyRelated">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseStudyRelated">
+                        Study Related
+                    </button>
+                </h2>
+                <div id="collapseStudyRelated" class="accordion-collapse collapse show" data-bs-parent="#accordionWellbeing">
+                    <div class="accordion-body">
+                        <div class="accordion" id="accordionStudyRelated">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingAcademicAdvisor">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAcademicAdvisor">
+                                        <div class="me-auto">
+                                            <h5>Academic Advisor</h5>
+                                            <small>Department specific contact point when you encounter personal and study problems.</small>
+                                        </div>
+                                        <img class="image logo" src="{% static 'cosmos/img/wellbeing/TUE.png' %}">
+                                    </button>
+                                </h2>
+                                <div id="collapseAcademicAdvisor" class="accordion-collapse collapse" data-bs-parent="#accordionStudyRelated">
+                                    <div class="accordion-body">
+                                        <p class="mt-1">Every study program has an academic advisor who knows everything about the program, the scheduling, the department, etc. For ways to plan your study program, study progress, catching up on lectures or exams because of illness, your choice of specializations and electives, please contact the department's academic advisor. An academic advisor can also request students to come in based on study progress and he/she can also refer students to the student counsellor or psychologist.</p>
+                                        <div>
+                                            <h6>Contact info:</h6>
+                                            <a href="https://educationguide.tue.nl/practical-info/student-guidance/academic-advisor/?L=2">Academic advisors</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingMentor">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMentor">
+                                        <div class="me-auto">
+                                            <h5>First year mentor</h5>
+                                            <small>Contact point for first year students regarding practical matters.</small>
+                                        </div>
+                                        <img class="image logo" src="{% static 'cosmos/img/wellbeing/TUE.png' %}">
+                                    </button>
+                                </h2>
+                                <div id="collapseMentor" class="accordion-collapse collapse" data-bs-parent="#accordionStudyRelated">
+                                    <div class="accordion-body">
+                                        <p class="mt-1">Every first-year student will receive guidance from a student mentor appointed by the department during the first year of his/her Bachelor's program.</p>
+                                        <p>The student mentor is a second year or third year (or further) student. He/she will help you with all your practical issues that may arise when you start studying at the university (e.g. registration of courses, online sources, redirection: where to find what or who and how) but he/she can also explain you about effective study skills (i.e., how to plan, how to study big books, how to prepare for exams). In the first few weeks student mentors will meet weekly with their group of first year students, and as time goes on the frequency will depend on the important topics to be discussed with first year students. If you haven't been assigned a student mentor, please contact the academic advisor of your department.</p>
+                                        <div>
+                                            <h6>Info:</h6>
+                                            <a href="https://www.tue.nl/en/education/bachelor-college/program-structure/student-and-study-coaching/">Student Mentor</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingStudyManagement">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseStudyManagement">
+                                        <div class="me-auto">
+                                            <h5>Study Management Advisor</h5>
+                                            <small>Study related questions/problems concerning for example: concentration/motivation, day- and night rhythm, planning & organizing.</small>
+                                        </div>
+                                        <img class="image logo" src="{% static 'cosmos/img/wellbeing/TUE.png' %}">
+                                    </button>
+                                </h2>
+                                <div id="collapseStudyManagement" class="accordion-collapse collapse" data-bs-parent="#accordionStudyRelated">
+                                    <div class="accordion-body">
+                                        <p class="mt-1">Studying demands considerable independence and discipline. If you are not satisfied with your study progress or your exam results are disappointing, then the TU/e can help you improve your study output. Study management consists of various forms of support: you can make use of individual coaching from one of the study management advisors, or work in a group.</p>
+                                        <div>
+                                            <h6>Contact info:</h6>
+                                            <a href="https://educationguide.tue.nl/organization/advisors-and-tutors/study-management-advisor/">Study Management Advisor</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingStudyChoice">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseStudyChoice">
+                                        <div class="me-auto">
+                                            <h5>Study Choice Advisor</h5>
+                                            <small>Questions or problems regarding study choice, for example switching to a different study program or choosing a Master program.</small>
+                                        </div>
+                                        <img class="image logo" src="{% static 'cosmos/img/wellbeing/TUE.png' %}">
+                                    </button>
+                                </h2>
+                                <div id="collapseStudyChoice" class="accordion-collapse collapse" data-bs-parent="#accordionStudyRelated">
+                                    <div class="accordion-body">
+                                        <p class="mt-1">The study choice advisor can help you with questions pertaining to the study choice process. Questions can be related to doubts you have about your present or future choice of study and figure out what to choose. Moreover, it is also possible to discuss, and get insight in, which studies best match your interest and abilities together with the study choice advisor.</p>
+                                        <div>
+                                            <h6>Contact info:</h6>
+                                            <a href="https://educationguide.tue.nl/organization/advisors-and-tutors/study-choice-advisors/">Study Management Advisor</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingPersonalDevelopment">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePersonalDevelopment">
+                        Personal Development
+                    </button>
+                </h2>
+                <div id="collapsePersonalDevelopment" class="accordion-collapse collapse" data-bs-parent="#accordionWellbeing">
+                    <div class="accordion-body">
+                        <div class="accordion" id="accordionPersonalDevelopment">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingStudyAssociations1">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseStudyAssociations1">
+                                        <div class="me-auto">
+                                            <h5>Study Associations</h5>
+                                            <small>Association where you can connect with other students from your department.</small>
+                                        </div>
+                                        <img class="image logo" src="{% static 'cosmos/img/wellbeing/FSE.png' %}">
+                                    </button>
+                                </h2>
+                                <div id="collapseStudyAssociations1" class="accordion-collapse collapse" data-bs-parent="#accordionPersonalDevelopment">
+                                    <div class="accordion-body">
+                                        <p class="mt-1">Every department has a study associating organizing many events where you can connect with students from your faculty.</p>
+                                        <div>
+                                            <h6>Info:</h6>
+                                            <a href="https://fse.tue.nl/#association">Study associations</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingSkillsLab">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSkillsLab">
+                                        <div class="me-auto">
+                                            <h5>Skills Lab</h5>
+                                            <small>Student team that is in contact with many professional trainers to supply you with the skills you need to get the career you want.</small>
+                                        </div>
+                                        <img class="image logo" src="{% static 'cosmos/img/wellbeing/SkillsLab.jpg' %}">
+                                    </button>
+                                </h2>
+                                <div id="collapseSkillsLab" class="accordion-collapse collapse" data-bs-parent="#accordionPersonalDevelopment">
+                                    <div class="accordion-body">
+                                        <p class="mt-1">At Skills Lab you can participate in many workshops related to teamwork, writing, presenting and much more, all to help you develop professionally. Workshops are open to every TU/e student. Skills lab also provides online trainings (e-courses) that are designed to give you aan introduction to and focus attention on which skills you might want to improve. The e-courses are ideal to see where your interests are, and to further develop them using the skills libraries or our workshops of course.</p>
+                                        <div>
+                                            <h6>Info:</h6>
+                                            <a href="https://skillslab.tue.nl/home">Skillslab</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingCareerAcademy">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCareerAcademy">
+                                        <div class="me-auto">
+                                            <h5>Career Academy</h5>
+                                            <small>Career related workshops and activities, as well as coaching and professional checks.</small>
+                                        </div>
+                                        <img class="image logo" src="{% static 'cosmos/img/wellbeing/CareerAcademy.png' %}">
+                                    </button>
+                                </h2>
+                                <div id="collapseCareerAcademy" class="accordion-collapse collapse" data-bs-parent="#accordionPersonalDevelopment">
+                                    <div class="accordion-body">
+                                        <p class="mt-1">Do you have questions about your career path, the job application process or do you want help finding out what kind of career would suit you best? TU/e Career Academy can help you find your way to the labor market by providing information, career-related workshops and activities, as well as individual career coaching. Furthermore, you can find Career Academy every Tuesday, Wednesday and Thursday between 12:00 and 15:00 in the EnergyForum (MF-building, 1st floor). During these walk-in sessions you can easily get a free CV, cover letter or LinkedIn check.</p>
+                                        <div>
+                                            <h6>Info:</h6>
+                                            <a href="https://www.tue.nl/universiteit/community/career-academy/">Career Academy</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingSocialContact">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSocialContact">
+                        Social Contact and Community
+                    </button>
+                </h2>
+                <div id="collapseSocialContact" class="accordion-collapse collapse" data-bs-parent="#accordionWellbeing">
+                    <div class="accordion-body">
+                        <div class="accordion" id="accordionSocialContact">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingStudyAssociations2">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseStudyAssociations2">
+                                        <div class="me-auto">
+                                            <h5>Study Associations</h5>
+                                            <small>Association where you can connect with other students from your department.</small>
+                                        </div>
+                                        <img class="image logo" src="{% static 'cosmos/img/wellbeing/FSE.png' %}">
+                                    </button>
+                                </h2>
+                                <div id="collapseStudyAssociations2" class="accordion-collapse collapse" data-bs-parent="#accordionSocialContact">
+                                    <div class="accordion-body">
+                                        <p class="mt-1">Every department has a study associating organizing many events where you can connect with students from your faculty.</p>
+                                        <div>
+                                            <h6>Info:</h6>
+                                            <a href="https://fse.tue.nl/#association">Study associations</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingCosmos">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCosmos">
+                                        <div class="me-auto">
+                                            <h5>Cosmos</h5>
+                                            <small>International student association of the TU/e, also open to Dutch students.</small>
+                                        </div>
+                                        <img class="image logo" src="{% static 'cosmos/img/cosmos_alternate_grey.svg' %}">
+                                    </button>
+                                </h2>
+                                <div id="collapseCosmos" class="accordion-collapse collapse" data-bs-parent="#accordionSocialContact">
+                                    <div class="accordion-body">
+                                        <p class="mt-1">Community that provides a warm and welcome environment for the international students of the TU/e. With members from over 80 different countries, Cosmos provides a voice for the international students on matters related to the TU/e. They have several committees that organize activities, as well as the introduction day(s) for the new internationals at the TU/e in August every year. Despite its many internationals, the association also embraces Dutch students who are interested in connecting with and learning more about different cultures. </p>
+                                        <div>
+                                            <h6>Info:</h6>
+                                            <a href="https://www.cosmostue.nl/">Cosmos</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingCompass">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCompass">
+                                        <div class="me-auto">
+                                            <h5>Compass</h5>
+                                            <small>Fully inclusive community for LGBTQ+ members as well as straight friends.</small>
+                                        </div>
+                                        <img class="image logo" src="{% static 'cosmos/img/wellbeing/Compass.jpg' %}">
+                                    </button>
+                                </h2>
+                                <div id="collapseCompass" class="accordion-collapse collapse" data-bs-parent="#accordionSocialContact">
+                                    <div class="accordion-body">
+                                        <p class="mt-1">Compass is an association with as a goal to celebrate diversity and expand their circle of like-minded people. They organize events open to all but centered around LGBTQ+ themes. They show their visibility as an LGBTQ+ community and create a community for people to meet and make friends.</p>
+                                        <div>
+                                            <h6>Info:</h6>
+                                            <a href="https://www.compasstue.com/">Compass</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingTINT">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTINT">
+                                        <div class="me-auto">
+                                            <h5>TINT</h5>
+                                            <small>TINT hosts events with the focus on meeting new people, learning from others and gaining new insights and life skills.</small>
+                                        </div>
+                                        <img class="image logo" src="{% static 'cosmos/img/wellbeing/TINT.png' %}">
+                                    </button>
+                                </h2>
+                                <div id="collapseTINT" class="accordion-collapse collapse" data-bs-parent="#accordionSocialContact">
+                                    <div class="accordion-body">
+                                        <p class="mt-1">TINT offers students the opportunity and a safe place to deal with questions related to personal development, the meaning of life, spirituality, mindfulness, and living in a multicultural diverse community. For that, TINT organizes events and workshops with a wide variety of themes such as self-leadership, identity, work-life balance, future dreams, burn-out prevention, mindfulness, among many others. Also, TINT welcomes students for confidential one-to-one conversations with a life coach who is happy to listen to what is in your mind, help structure your thoughts and to find your path again. Just feel free to contact any of TINT Life Coaches!</p>
+                                        <p>Students looking for more mindfulness in their life can join the weekly mindfulness breaks or explore in their own time the TINT Podcast - Tools for life with inspiring conversations and guided meditations. In addition, TINT coordinates the umbrella organization Credo that encourages the meeting, exchange, and cooperation between students with different philosophical, spiritual, and religious backgrounds.</p>
+                                        <div>
+                                            <h6>Info:</h6>
+                                            <a href="https://www.tint-eindhoven.nl/">TINT</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingLighthouse">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLighthouse">
+                                        <div class="me-auto">
+                                            <h5>Lighthouse</h5>
+                                            <small>Community that focuses on the mental well-being of students and staff on the Eindhoven campus. </small>
+                                        </div>
+                                        <img class="image logo" src="{% static 'cosmos/img/wellbeing/Lighthouse.jpg' %}">
+                                    </button>
+                                </h2>
+                                <div id="collapseLighthouse" class="accordion-collapse collapse" data-bs-parent="#accordionSocialContact">
+                                    <div class="accordion-body">
+                                        <p class="mt-1">Lighthouse is a community of people who are struggling with different mental health issues They aim to support each other and share common experiences in the hope to feel less alone with our problems. To do so, they organize walk-in hours and support meetings focusing on the mental well-being of students and staff members. These meetings are open for everyone to join.</p>
+                                        <div>
+                                            <h6>Info:</h6>
+                                            <a href="https://www.facebook.com/Lighthouse.Eindhoven">Facebook</a>
+                                            <br>
+                                            <a href="mailto:lighthouse.eindhoven@gmail.com">E-mail</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingStudentAssociations">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseStudentAssociations">
+                                        <div class="me-auto">
+                                            <h5>Student Associations</h5>
+                                            <small>The TU/e has three student associations where you can meet other students from the university.</small>
+                                        </div>
+                                        <img class="image logo" src="{% static 'cosmos/img/wellbeing/Compositum.jpg' %}">
+                                    </button>
+                                </h2>
+                                <div id="collapseStudentAssociations" class="accordion-collapse collapse" data-bs-parent="#accordionSocialContact">
+                                    <div class="accordion-body">
+                                        <p class="mt-1">Compositum is the umbrella for all three student associations in Eindhoven: Het Eindhovens Studenten Corps, SSRE and Demos.</p>
+                                        <div>
+                                            <h6>Info:</h6>
+                                            <a href="https://www.tue.nl/en/our-university/community/compositum-communis-opinio/">Compositium</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingSportsAssociations">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSportsAssociations">
+                                        <div class="me-auto">
+                                            <h5>Sports Associations</h5>
+                                            <small>The TU/e has a wide variety of sport associations where you can connect with students that share your same interests.</small>
+                                        </div>
+                                        <img class="image logo" src="{% static 'cosmos/img/wellbeing/ESSF.png' %}">
+                                    </button>
+                                </h2>
+                                <div id="collapseSportsAssociations" class="accordion-collapse collapse" data-bs-parent="#accordionSocialContact">
+                                    <div class="accordion-body">
+                                        <p class="mt-1">ESSF is the student sports umbrella for Eindhoven. They represent all those using the student sports facilities, as well as the student sports associations in Eindhoven. Visit their webpage to find out all the different sports associations.</p>
+                                        <div>
+                                            <h6>Info:</h6>
+                                            <a href="https://www.essf.nl/en/associations">ESSF</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingCultureAssociations">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCultureAssociations">
+                                        <div class="me-auto">
+                                            <h5>Culture Associations</h5>
+                                            <small>The TU/e has a wide variety of cultural/creative associations where you can connect with students that share your same interests.</small>
+                                        </div>
+                                        <img class="image logo" src="{% static 'cosmos/img/wellbeing/Scala.jpg' %}">
+                                    </button>
+                                </h2>
+                                <div id="collapseCultureAssociations" class="accordion-collapse collapse" data-bs-parent="#accordionSocialContact">
+                                    <div class="accordion-body">
+                                        <p class="mt-1">Scala is the umbrella association of the cultural student associations in Eindhoven, located in the Luna building on the TU/e campus. The associations offer many different activities, ranging from dance to board games, from theater to photography, and much more. This website provides an overview of Scala, here you can find more information about the associations, including contact details and links to their own website.</p>
+                                        <div>
+                                            <h6>Info:</h6>
+                                            <a href="http://studentencultuur.nl/verenigingen/">Scala</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingReligiousAssociations">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseReligiousAssociations">
+                                        <div class="me-auto">
+                                            <h5>Religious Associations</h5>
+                                            <small>The TU/e has a wide variety of religious associations where you can connect with students from the university.</small>
+                                        </div>
+                                        <img class="image logo" src="{% static 'cosmos/img/wellbeing/Credo.png' %}">
+                                    </button>
+                                </h2>
+                                <div id="collapseReligiousAssociations" class="accordion-collapse collapse" data-bs-parent="#accordionSocialContact">
+                                    <div class="accordion-body">
+                                        <p class="mt-1">Credo is the religious umbrella association, representing all spiritual and philosophical student associations, aimed towards connecting all life views. Everyone has a way of looking at life, the students of the TU/e have a large diversity in backgrounds. It is important to find people with similar views on life as well as different views. Finally, the goal is to maintain meaningful contact between every student while discovering your path in life.</p>
+                                        <div>
+                                            <h6>Info:</h6>
+                                            <a href="https://www.tue.nl/universiteit/community/credo/">Credo</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingMentalHealth">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMentalHealth">
+                        Mental Health
+                    </button>
+                </h2>
+                <div id="collapseMentalHealth" class="accordion-collapse collapse" data-bs-parent="#accordionWellbeing">
+                    <div class="accordion-body">
+                        <div class="accordion" id="accordionMentalHealth">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingAcademicAdvisor2">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAcademicAdvisor2">
+                                        <div class="me-auto">
+                                            <h5>Academic Advisor</h5>
+                                            <small>Department specific contact point when you encounter personal and study problems.</small>
+                                        </div>
+                                        <img class="image logo" src="{% static 'cosmos/img/wellbeing/TUE.png' %}">
+                                    </button>
+                                </h2>
+                                <div id="collapseAcademicAdvisor2" class="accordion-collapse collapse" data-bs-parent="#accordionMentalHealth">
+                                    <div class="accordion-body">
+                                        <p class="mt-1">Every study program has an academic advisor who knows everything about the program, the scheduling, the department, etc. For ways to plan your study program, study progress, catching up on lectures or exams because of illness, your choice of specializations and electives, please contact the department's academic advisor. An academic advisor can also request students to come in based on study progress and he/she can also refer students to the student counsellor or psychologist. </p>
+                                        <div>
+                                            <h6>Contact Info:</h6>
+                                            <a href="https://educationguide.tue.nl/practical-info/student-guidance/academic-advisor/?L=2">Academic Advisor(s)</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingAcademicAdvisor2">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseStudentCounsellor">
+                                        <div class="me-auto">
+                                            <h5>Student Counsellor</h5>
+                                            <small>Information about (extra) facilities, for example about studying with special needs, extra examination time or (re-)enrollment.</small>
+                                        </div>
+                                        <img class="image logo" src="{% static 'cosmos/img/wellbeing/TUE.png' %}">
+                                    </button>
+                                </h2>
+                                <div id="collapseStudentCounsellor" class="accordion-collapse collapse" data-bs-parent="#accordionMentalHealth">
+                                    <div class="accordion-body">
+                                        <p class="mt-1"> Student counsellors provide information and advice about a range of matters that are not directly related to the content of your study program. The student counsellor can advise you, act as an intermediary, or refer you. Even if you donâ€™t know exactly what the matter is, it is often useful to have a conversation with a relative outsider. Gaining insight into a problematic situation can help clear things up. For example, study grants, financial support due to study delay, enrolment, postponement of the BSA etc.</p>
+                                        <div>
+                                            <h6>Contact Info:</h6>
+                                            <a href="https://educationguide.tue.nl/organization/advisors-and-tutors/student-counsellor/">Student Counsellor</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingContactPerson">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseContactPerson">
+                                        <div class="me-auto">
+                                            <h5>Confidential Contact Person (peer support)</h5>
+                                            <small>Low threshold, student to student, contact point for if you need to talk to someone and don't know where to go.</small>
+                                        </div>
+                                        <img class="image logo" src="{% static 'cosmos/img/wellbeing/TUE.png' %}">
+                                    </button>
+                                </h2>
+                                <div id="collapseContactPerson" class="accordion-collapse collapse" data-bs-parent="#accordionMentalHealth">
+                                    <div class="accordion-body">
+                                        <p class="mt-1">Have you experienced something unpleasant? Is there something bothering you? Or are you not feeling like your best self? Then let's talk about it! The TU/e has trained 24 students from various associations to be a first point of contact if you don't know where to go. Find an overview of all confidential contact persons of them on the page linked on the side. </p>
+                                        <div>
+                                            <h6>Info:</h6>
+                                            <a href="https://educationguide.tue.nl/practical-info/student-guidance/confidential-contact-persons-peer-listeners/?L=2">Contact Persons</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingWalkTalk">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWalkTalk">
+                                        <div class="me-auto">
+                                            <h5>Walk & Talk</h5>
+                                            <small>Have a walk with someone new and have the opportunity to have a small talk or address heavy concerns.</small>
+                                        </div>
+                                        <img class="image logo" src="{% static 'cosmos/img/wellbeing/TUE.png' %}">
+                                    </button>
+                                </h2>
+                                <div id="collapseWalkTalk" class="accordion-collapse collapse" data-bs-parent="#accordionMentalHealth">
+                                    <div class="accordion-body">
+                                        <p class="mt-1">Walk and talk gives you the opportunity to take your thoughts for a walk. During the walk around the Karpendonkse Plas in Eindhoven, you will have a conversation with someone new. You can talk about every day stuff and enjoy the human contact or discuss specific topics and address heavy concerns. This is totally up to you.</p>
+                                        <div>
+                                            <h6>Contact Info:</h6>
+                                            <a href="https://enjoyn.co/events/2b515c79-173b-41e0-a7c7-4fc735d5835f">Walk & Talk</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingTINT2">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTINT2">
+                                        <div class="me-auto">
+                                            <h5>TINT</h5>
+                                            <small>TINT hosts events with the focus on meeting new people, learning from others and gaining new insights and life skills.</small>
+                                        </div>
+                                        <img class="image logo" src="{% static 'cosmos/img/wellbeing/TINT.png' %}">
+                                    </button>
+                                </h2>
+                                <div id="collapseTINT2" class="accordion-collapse collapse" data-bs-parent="#accordionMentalHealth">
+                                    <div class="accordion-body">
+                                        <p class="mt-1">TINT offers students the opportunity and a safe place to deal with questions related to personal development, the meaning of life, spirituality, mindfulness, and living in a multicultural diverse community. For that, TINT organizes events and workshops with a wide variety of themes such as self-leadership, identity, work-life balance, future dreams, burn-out prevention, mindfulness, among many others. Also, TINT welcomes students for confidential one-to-one conversations with a life coach who is happy to listen to what is in your mind, help structure your thoughts and to find your path again. Just feel free to contact any of TINT Life Coaches! Students looking for more mindfulness in their life can join the weekly mindfulness breaks or explore in their own time the TINT Podcast - Tools for life with inspiring conversations and guided meditations. In addition, TINT coordinates the umbrella organization Credo that encourages the meeting, exchange, and cooperation between students with different philosophical, spiritual, and religious backgrounds. </p>
+                                        <div>
+                                            <h6>Info:</h6>
+                                            <a href="https://www.tint-eindhoven.nl/">TINT</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingLighthouse2">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseLighthouse2">
+                                        <div class="me-auto">
+                                            <h5>Lighthouse</h5>
+                                            <small>Community that focuses on the mental well-being of students and staff on the Eindhoven campus.</small>
+                                        </div>
+                                        <img class="image logo" src="{% static 'cosmos/img/wellbeing/Lighthouse.jpg' %}">
+                                    </button>
+                                </h2>
+                                <div id="collapseLighthouse2" class="accordion-collapse collapse" data-bs-parent="#accordionMentalHealth">
+                                    <div class="accordion-body">
+                                        <p class="mt-1">Lighthouse is a community of people who are struggling with different mental health issues They aim to support each other and share common experiences in the hope to feel less alone with our problems. To do so, they organize walk-in hours and support meetings focusing on the mental well-being of students and staff members. These meetings are open for everyone to join.</p>
+                                        <div>
+                                            <h6>Info:</h6>
+                                            <a href="https://www.facebook.com/Lighthouse.Eindhoven">Facebook</a>
+                                            <br>
+                                            <a href="mailto:lighthouse.eindhoven@gmail.com">E-mail</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingSSC">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSSC">
+                                        <div class="me-auto">
+                                            <h5>Student Sport Center</h5>
+                                            <small>Group lessons focusing on physical complaints like backache and neck pain, food and mindfulness.</small>
+                                        </div>
+                                        <img class="image logo" src="{% static 'cosmos/img/wellbeing/SSC.jpg' %}">
+                                    </button>
+                                </h2>
+                                <div id="collapseSSC" class="accordion-collapse collapse" data-bs-parent="#accordionMentalHealth">
+                                    <div class="accordion-body">
+                                        <p class="mt-1">The SSC offers events, courses, workshops and advise with as a goal to keep or make your body healthy and vital. The events variate from fit breaks and mindfulness to life style courses. Furthermore, they organize the annual Vitality Week to create awareness about the importance of vitality.</p>
+                                        <div>
+                                            <h6>Info:</h6>
+                                            <a href="https://ssceindhoven.tue.nl/en/sports-offer/health-and-vitality/">SSC</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingPsychologist">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePsychologist">
+                                        <div class="me-auto">
+                                            <h5>Student Psychologist</h5>
+                                            <small>Professional help for personal problems, like anxiety, gloominess, stress, relational problems or mourning.</small>
+                                        </div>
+                                        <img class="image logo" src="{% static 'cosmos/img/wellbeing/TUE.png' %}">
+                                    </button>
+                                </h2>
+                                <div id="collapsePsychologist" class="accordion-collapse collapse" data-bs-parent="#accordionMentalHealth">
+                                    <div class="accordion-body">
+                                        <p class="mt-1">If you feel that one or more life issues are getting in the way of your study progress, you may be eligible to visit one of the student psychologists (first six sessions are free of charge). Topics that can be discussed with the student psychologist include the following: depressive complaints, anxiety issues like fear of failure, stress related issues and personal circumstances. The student psychologists offer several courses for which you can register (e.g. Dealing with stress, stress and burnout prevention).: For more info click <a href="https://educationguide.tue.nl/broadening/group-training-sessions/">here</a>. You can register by making an online personal appointment (individual intake interview) with a student psychologist. Please state in the appointment text which course you want to take (e.g. intake interview SFC24 Dealing with stress). During this interview, it will be determined whether the course is indeed suitable for your request for help. </p>
+                                        <div>
+                                            <h6>Contact Info:</h6>
+                                            <a href="https://educationguide.tue.nl/organization/advisors-and-tutors/student-psychologists/">Student Psychologist</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingGP">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseGP">
+                                        <div class="me-auto">
+                                            <h5>General Practicioner</h5>
+                                            <small>A general practitioner or family doctor (huisarts) gives full medical assistance.</small>
+                                        </div>
+                                        <img class="image logo" src="{% static 'cosmos/img/wellbeing/GP.png' %}">
+                                    </button>
+                                </h2>
+                                <div id="collapseGP" class="accordion-collapse collapse" data-bs-parent="#accordionMentalHealth">
+                                    <div class="accordion-body">
+                                        <p class="mt-1">It is strongly recommended that you register with a general practitioner upon your arrival in the Netherlands. The international office (io@tue.nl) can help you with questions about health insurance and GPs in the Netherlands. If you wish to see your GP, you must make an appointment. Consultations are not free. If you wish to see a specialist you will need to be referred by your GP, so you must see your GP first. Please note that when visiting a GP, specialist, dentist or hospital, you will need to show your insurance papers. </p>
+                                        <div>
+                                            <h6>Info:</h6>
+                                            <a href="http://hellodoc.nl/">General Practicioner</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading113">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse113">
+                                        <div class="me-auto">
+                                            <h5>113 Suicide Prevention</h5>
+                                            <small>Provide confidential support if you think about suicide.</small>
+                                        </div>
+                                        <img class="image logo" src="{% static 'cosmos/img/wellbeing/113.jpg' %}">
+                                    </button>
+                                </h2>
+                                <div id="collapse113" class="accordion-collapse collapse" data-bs-parent="#accordionMentalHealth">
+                                    <div class="accordion-body">
+                                        <p class="mt-1"><b>Do you need help and want to talk anonymously about thoughts of suicide? Then call 113 or chat with them on the website.</b></p>
+                                        <p>113 Suicide Prevention is the national Dutch suicide prevention center (in both English and Dutch). They employ psychologists and psychiatrists and a large group of fully trained volunteers who allow them to provide round-the-clock confidential support through chats and phone calls. 113 works in close cooperation with the mental health institutes' crisis centers. Together, these professionals are available 24 hours a day, seven days a week across the Netherlands for crisis dialogues and psychological treatments.</p>
+                                        <p>
+                                            Their mental health services include: 
+                                            <ul>
+                                                <li>Crisis chat (a direct opportunity to talk online to a trained volunteer) </li>
+                                                <li>Crisis telephone (a direct opportunity to talk to a trained volunteer by phone and, if necessary, to a professional) </li>
+                                                <li>Chat therapy (a maximum of 8 online chat dialogues with a professional) </li>
+                                                <li>Self-help course (an independent online course aimed at reducing suicidal tendencies) </li>
+                                                <li>Self-tests (questionnaires to fill in and to offer an indication of the severity of your troubles and symptoms (an anxiety and depression test and a test that measures suicidal tendencies) </li>
+                                                <li>Consultationâ€¯by telephone for other professionals, next of kin or friends about somebody in need (the opportunity to pose a brief question to a professional in a session lasting a maximum of ten minutes) </li>
+                                            </ul>
+                                        </p>
+                                        <div>
+                                            <h6>Info:</h6>
+                                            <a href="https://www.113.nl/">Website</a>
+                                            <br>
+                                            Phone number: 113 / 0800-0113
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingMIND">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMIND">
+                                        <div class="me-auto">
+                                            <h5>MIND</h5>
+                                            <small>National platform for psychological health.</small>
+                                        </div>
+                                        <img class="image logo" src="{% static 'cosmos/img/wellbeing/MIND.jpg' %}">
+                                    </button>
+                                </h2>
+                                <div id="collapseMIND" class="accordion-collapse collapse" data-bs-parent="#accordionMentalHealth">
+                                    <div class="accordion-body">
+                                        <p class="mt-1">MIND is the umbrella organization for clients and family organizations in the mental health care. They play an important role in a variety of national organizations striving for a structural better position for everyone who has experience with phycological problems. They gather national information and events regarding mental health.   Furthermore, they write national newsletters concerning mental health subjects. </p>
+                                        <div>
+                                            <h6>Info:</h6>
+                                            <a href="https://mindplatform.nl/">MIND</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingConflicts">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseConflicts">
+                        Conflicts
+                    </button>
+                </h2>
+                <div id="collapseConflicts" class="accordion-collapse collapse" data-bs-parent="#accordionWellbeing">
+                    <div class="accordion-body">
+                        <div class="accordion" id="accordionConflicts">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingConfidentialCounsellor">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseConfidentialCounsellor">
+                                        <div class="me-auto">
+                                            <h5>Confidential Counsellor</h5>
+                                            <small>Trust person which can be contacted when anyone on the university is confronted with undesirable or unwelcome behavior. </small>
+                                        </div>
+                                        <img class="image logo" src="{% static 'cosmos/img/wellbeing/TUE.png' %}">
+                                    </button>
+                                </h2>
+                                <div id="collapseConfidentialCounsellor" class="accordion-collapse collapse" data-bs-parent="#accordionConflicts">
+                                    <div class="accordion-body">
+                                        <p class="mt-1">Confidential counsellors can help if there are any problems and/or conflicts between students and staff and/or with supervisors or teachers. They can offer support when filling in a formal complaint about undesirable behavior. By undesirable behavior is meant sexual intimidation, aggression, violence and intimidation, bullying and discrimination. There are three confidential advisors on the university. All confidential counsellors are obliged to handle your story confidentially. </p>
+                                        <div>
+                                            <h6>Info:</h6>
+                                            <a href="https://educationguide.tue.nl/organization/advisors-and-tutors/confidential-counsellor/">Confidential Counsellor</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingVeiligThuis">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseVeiligThuis">
+                                        <div class="me-auto">
+                                            <h5>Veilig Thuis (Safety at Home)</h5>
+                                            <small>Provides advice and support regarding domestic violence and child abuse.</small>
+                                        </div>
+                                        <img class="image logo" src="{% static 'cosmos/img/wellbeing/VeiligThuis.png' %}">
+                                    </button>
+                                </h2>
+                                <div id="collapseVeiligThuis" class="accordion-collapse collapse" data-bs-parent="#accordionConflicts">
+                                    <div class="accordion-body">
+                                        <p class="mt-1"><b>Are you a victim, know someone who is (potentially) a victim, or are you abusive or violent yourself? You can call Veilig Thuis for advice and support regarding domestic violence and child abuse.</b></p>
+                                        <p>For children, young people, adults and the elderly. Whether you are a victim, know someone who is (potentially) a victim, or if you are abusive or violent yourself. Any form of abuse or violence is enough.</p>
+                                        <p>Veilig Thuis offers advice and support regarding domestic violence and child abuse. Veilig Thuis is there for you if you need help or are worried about someone else. Problems have often been going on for a long time and cannot be solved without the help of others. However, mere suspicions should be reported as well; For example, you think certain people or children are not safe, but you are not sure. Help is important, because violence will not end on its own. Someone has to take that first step!</p>
+                                        <p>You can call for advice or help. You will speak to one of their employees, who will carefully listen to your story. This person will answer questions and give advice. If you want or need to, you can remain anonymous.</p>
+                                        <div>
+                                            <h6>Info:</h6>
+                                            <a href="https://veiligthuis.nl/">Website</a>
+                                            <br>
+                                            <a href="https://veiligthuis-ken.nl/wp-content/uploads/Veilig-Thuis-Engels.pdf">English</a>
+                                            <br>
+                                            Phone number:
+                                            <br>
+                                            0800-2000 for information, advice or to submit a report
+                                            <br>
+                                            0888-6200 for any other questions
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingAddiction">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAddiction">
+                        Addiction and Harrasment
+                    </button>
+                </h2>
+                <div id="collapseAddiction" class="accordion-collapse collapse" data-bs-parent="#accordionWellbeing">
+                    <div class="accordion-body">
+                        <div class="accordion" id="accordionAddiction">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingSense">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSense">
+                                        <div class="me-auto">
+                                            <h5>Sense</h5>
+                                            <small>Any questions related to sex, STD's or safe sex.</small>
+                                        </div>
+                                        <img class="image logo" src="{% static 'cosmos/img/wellbeing/SENSE.jpg' %}">
+                                    </button>
+                                </h2>
+                                <div id="collapseSense" class="accordion-collapse collapse" data-bs-parent="#accordionAddiction">
+                                    <div class="accordion-body">
+                                        <p class="mt-1">Sense, for everything you need to know and all your questions about sex, love and relationships. </p>
+                                        <div>
+                                            <h6>Info:</h6>
+                                            <a href="https://sense.info/en/">Sense</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingDrugs">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDrugs">
+                                        <div class="me-auto">
+                                            <h5>Drugs Info</h5>
+                                            <small>For questions related to drugs.</small>
+                                        </div>
+                                        <img class="image logo" src="{% static 'cosmos/img/wellbeing/DrugsInfo.jpg' %}">
+                                    </button>
+                                </h2>
+                                <div id="collapseDrugs" class="accordion-collapse collapse" data-bs-parent="#accordionAddiction">
+                                    <div class="accordion-body">
+                                        <p class="mt-1">On the website of drugs info you can find all information about drugs. If you have a question or want to chat about drugs you can contact them as well.</p>
+                                        <div>
+                                            <h6>Info:</h6>
+                                            <a href="https://www.drugsinfo.nl/">Drugs Info</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingConfidentialCounsellor2">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseConfidentialCounsellor2">
+                                        <div class="me-auto">
+                                            <h5>Confidential Counsellor</h5>
+                                            <small>Problems about undesirable behavior like discrimination, racism, (sexual) intimidation, bullying or aggression</small>
+                                        </div>
+                                        <img class="image logo" src="{% static 'cosmos/img/wellbeing/TUE.png' %}">
+                                    </button>
+                                </h2>
+                                <div id="collapseConfidentialCounsellor2" class="accordion-collapse collapse" data-bs-parent="#accordionAddiction">
+                                    <div class="accordion-body">
+                                        <p class="mt-1">The confidential counsellors can help if there are problems and/or conflicts between students and staff and/or with supervisors or teachers. They are here to help anyone at the university who is confronted withâ€¯undesirable or unwelcome behavior. In addition, they can offer support when filing a formal complaint. </p>
+                                        <div>
+                                            <h6>Info:</h6>
+                                            <a href="https://www.tue.nl/en/our-university/about-the-university/integrity/undesirable-behaviour/">Confidential Counsellor</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingSexualAssault">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSexualAssault">
+                                        <div class="me-auto">
+                                            <h5>Centrum Seksueel Geweld (Sexual Assault Center)</h5>
+                                            <small>Provides help when you have experienced sexual harassment.</small>
+                                        </div>
+                                        <img class="image logo" src="{% static 'cosmos/img/wellbeing/CSG.png' %}">
+                                    </button>
+                                </h2>
+                                <div id="collapseSexualAssault" class="accordion-collapse collapse" data-bs-parent="#accordionAddiction">
+                                    <div class="accordion-body">
+                                        <p class="mt-1"><b>Were you recently sexually assaulted or raped? Do you need help or do you have questions? They can help and are there for you day and night.</b></p>
+                                        <p>At the Sexual Assault Center, a team of doctors, nurses, police officers, psychologists, social workers and sex therapists work together to provide specialist care to victims of sexual assault and rape. Ideally, they like to provide professional help within seven days after the event, as this time frame reduces the chances of medical and psychological issues considerably. The police also have a much better chance of finding the perpetrator if forensic investigations are carried out within a week of the event. </p>
+                                        <p>Call sexual assault center and they will put you in touch with a center nearby. It is important that you contact them as soon as possible after the assault or rape so that they can help you as best they can. Everything you discuss with them is treated confidentially. </p>
+                                        <div>
+                                            <h6>Info:</h6>
+                                            <a href="https://centrumseksueelgeweld.nl/csg-en/">Website</a>
+                                            <br>
+                                            Phone number: 0800-0188 (24/7)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingNovadicKentron">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNovadicKentron">
+                                        <div class="me-auto">
+                                            <h5>Novadic Kentron</h5>
+                                            <small>Organization that can offer help if you think you might have an addiction.</small>
+                                        </div>
+                                        <img class="image logo" src="{% static 'cosmos/img/wellbeing/NK.jpg' %}">
+                                    </button>
+                                </h2>
+                                <div id="collapseNovadicKentron" class="accordion-collapse collapse" data-bs-parent="#accordionAddiction">
+                                    <div class="accordion-body">
+                                        <p class="mt-1"><b>Are you experiencing problems because of an addiction to alcohol, drugs, medication, gambling or gaming? Novadic Kentron offers a new chance at a happier and healthier life. </b></p>
+                                        <p>At NK, they focus on your own strengths and on what you want and can yourself. You are in charge of your own life. NK is there to help you reach your goals. There is help available from treatments, but also support from experience workers.   </p>
+                                        <p>Novadic Kentron is a dynamic organization with loyal, professional and involved staff members. Whether it is about prevention, short or specialized treatments, or intensive care and guidance, Novadic Kentron is there fo you.  </p>
+                                        <div>
+                                            <h6>Info:</h6>
+                                            <a href="https://www.novadic-kentron.nl/">Novadic Kentron</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

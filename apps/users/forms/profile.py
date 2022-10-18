@@ -9,8 +9,6 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from newsletter.models import Newsletter, Subscription
 
-from apps.async_requests.commands.subscribe_command import NewsletterSubscribeCommand
-from apps.async_requests.commands.unsubscribe_command import NewsletterUnsubscribeCommand
 from apps.async_requests.factory import Factory
 from apps.users.forms.error_codes import INVALID_EMAIL, INVALID_EMAIL_CHANGE, INVALID_SUBSCRIBE_TO_EMPTY_EMAIL
 from apps.users.helper_functions import (
@@ -79,11 +77,14 @@ class ProfileUpdateForm(forms.ModelForm):
             institution.study = self.cleaned_data["study"]
             institution.save()
 
-        if "email" in self.changed_data and profile.subscribed_newsletter and profile.newsletter_recipient == "ALT":
+        if "email" in self.changed_data:
             old_email = self.initial["email"]
-            executor.add_command(NewsletterUnsubscribeCommand(old_email))
             new_email = self.cleaned_data["email"]
-            executor.add_command(NewsletterSubscribeCommand(new_email, profile.user.first_name, profile.user.last_name))
+            subs = Subscription.objects.filter(email_field=old_email)
+            for sub in subs:
+                sub.update("unsubscribe")
+                new_sub, _ = Subscription.objects.get_or_create(newsletter=sub.newsletter, email_field=new_email)
+                new_sub.update("subscribe")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

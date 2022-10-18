@@ -5,9 +5,9 @@ from django.contrib import messages
 from django.contrib.admin import AdminSite
 from django.contrib.auth.models import User
 from django.test import TestCase
+from newsletter.models import Newsletter
 from python_http_client import UnauthorizedError
 
-from apps.async_requests.constants import GMM_INVITE_LIST_ID, NEWSLETTER_LIST_ID
 from apps.async_requests.newsletter.newsletter_service import NewsletterService
 from apps.users.admin import ProfileAdmin
 from apps.users.models import Profile
@@ -75,132 +75,49 @@ class ProfileAdminTest(NewsletterTestCaseMixin, TestCase):
             newsletter_recipient=newsletter_recipient,
         )
 
-    def test_sync_newsletter_subscriptions_no_changes(self):
-        # test
-        a = self.create_new_profile(first_name="A", username="a@student.tue.nl", newsletter=False)
-        b = self.create_new_profile(first_name="B", username="b@student.tue.nl", newsletter=False)
-        c = self.create_new_profile(first_name="C", username="c@student.tue.nl", newsletter=False)
-        query = [a, b, c]
-
+    def test_newsletters_not_created(self):
+        # setup
+        Newsletter.objects.all().delete()
+        a = self.create_new_profile(first_name="A", username="a@student.tue.nl", newsletter=True)
+        query = [a]
         # act
         self.admin.sync_newsletter_subscriptions(self.request, query)
-
         # test
-        self.assert_changes_informed_to_user(3)
-        self.assert_newsletter_subscription("a@student.tue.nl", False)
-        self.assert_newsletter_subscription("b@student.tue.nl", False)
-        self.assert_newsletter_subscription("c@student.tue.nl", False)
+        self.assert_error_informed_to_user(
+            1, "Missing Newsletter object(s). Ensure Newsletter objects have the following slugs: cosmos-news, gmm."
+        )
 
-    def test_sync_newsletter_subscriptions_one_new_subscription(self):
+    def test_sync_newsletter_subscriptions_single(self):
         # setup
         a = self.create_new_profile(first_name="A", username="a@student.tue.nl", newsletter=True)
         query = [a]
-
         # act
         self.admin.sync_newsletter_subscriptions(self.request, query)
-
         # test
         self.assert_changes_informed_to_user(1)
         self.assert_newsletter_subscription("a@student.tue.nl", True)
-        self.assert_newsletter_subscription("b@student.tue.nl", False)
-        self.assert_newsletter_subscription("c@student.tue.nl", False)
+        self.assert_gmm_invite_subscription("a@student.tue.nl", False)
 
-    def test_sync_newsletter_subscriptions_multiple_new_subscribers(self):
+    def test_sync_newsletter_subscriptions_multiple_subscribers(self):
         # setup
         a = self.create_new_profile(first_name="A", username="a@student.tue.nl", newsletter=True)
         b = self.create_new_profile(first_name="B", username="b@student.tue.nl", newsletter=True)
         query = [a, b]
-
         # act
         self.admin.sync_newsletter_subscriptions(self.request, query)
-
         # test
         self.assert_changes_informed_to_user(2)
         self.assert_newsletter_subscription("a@student.tue.nl", True)
+        self.assert_gmm_invite_subscription("a@student.tue.nl", False)
         self.assert_newsletter_subscription("b@student.tue.nl", True)
+        self.assert_gmm_invite_subscription("b@student.tue.nl", False)
 
-    def test_sync_newsletter_subscriptions_one_unsubscribes(self):
+    def test_sync_newsletter_subscriptions_unsubscribe(self):
         # setup
-        a = self.create_new_profile(first_name="A", username="a@student.tue.nl", newsletter=False)
-        self.create_new_profile(first_name="B", username="b@student.tue.nl", newsletter=True)
-        self.create_new_profile(first_name="C", username="c@student.tue.nl", newsletter=True)
-        self.newsletter_service.add_subscription(
-            [
-                {"email": "a@student.tue.nl", "first_name": "A", "last_name": "Broodjes"},
-                {"email": "b@student.tue.nl", "first_name": "B", "last_name": "Broodjes"},
-                {"email": "c@student.tue.nl", "first_name": "C", "last_name": "Broodjes"},
-            ],
-            NEWSLETTER_LIST_ID,
-        )
+        a = self.create_new_profile(first_name="A", username="a@student.tue.nl")
         query = [a]
-
         # act
         self.admin.sync_newsletter_subscriptions(self.request, query)
-
-        # test
-        self.assert_changes_informed_to_user(1)
-        self.assert_newsletter_subscription("a@student.tue.nl", False)
-        self.assert_newsletter_subscription("b@student.tue.nl", True)
-        self.assert_newsletter_subscription("c@student.tue.nl", True)
-
-    def test_sync_switch_from_inst_email_to_secondary_email(self):
-        # setup
-        a = self.create_new_profile(
-            first_name="A",
-            username="a@student.tue.nl",
-            email="a@gmail.com",
-            newsletter=True,
-            newsletter_recipient="ALT",
-        )
-        self.newsletter_service.add_subscription(
-            [
-                {"email": "a@student.tue.nl", "first_name": "A", "last_name": "Broodjes"},
-            ],
-            NEWSLETTER_LIST_ID,
-        )
-        query = [a]
-
-        # act
-        self.admin.sync_newsletter_subscriptions(self.request, query)
-
-        # test
-        self.assert_changes_informed_to_user(1)
-        self.assert_newsletter_subscription("a@student.tue.nl", False)
-        self.assert_newsletter_subscription("a@gmail.com", True)
-
-    def test_subscribe_newsletter_and_gmm_invite(self):
-        # setup
-        a = self.create_new_profile(first_name="A", username="a@student.tue.nl", newsletter=True, gmm_invite=True)
-        query = [a]
-
-        # act
-        self.admin.sync_newsletter_subscriptions(self.request, query)
-
-        # test
-        self.assert_changes_informed_to_user(1)
-        self.assert_newsletter_subscription("a@student.tue.nl", True)
-        self.assert_gmm_invite_subscription("a@student.tue.nl", True)
-
-    def test_unsubscribe_newsletter_and_gmm_invite(self):
-        # setup
-        a = self.create_new_profile(first_name="A", username="a@student.tue.nl", newsletter=False, gmm_invite=False)
-        self.newsletter_service.add_subscription(
-            [
-                {"email": "a@student.tue.nl", "first_name": "A", "last_name": "Broodjes"},
-            ],
-            NEWSLETTER_LIST_ID,
-        )
-        self.newsletter_service.add_subscription(
-            [
-                {"email": "a@student.tue.nl", "first_name": "A", "last_name": "Broodjes"},
-            ],
-            GMM_INVITE_LIST_ID,
-        )
-        query = [a]
-
-        # act
-        self.admin.sync_newsletter_subscriptions(self.request, query)
-
         # test
         self.assert_changes_informed_to_user(1)
         self.assert_newsletter_subscription("a@student.tue.nl", False)
@@ -211,12 +128,10 @@ class ProfileAdminTest(NewsletterTestCaseMixin, TestCase):
         a = create_new_profile(username="a@student.tue.nl", newsletter=True)
         query = [a]
         exp_error_msg = "Authorization error. Please check newsletter config."
-
         # act
         with patch.object(NewsletterService, "sync_subscription_preferences") as mock_method:
             mock_method.side_effect = UnauthorizedError(401, "mock", "", "")
             self.admin.sync_newsletter_subscriptions(self.request, query)
-
         # test
         self.assert_error_informed_to_user(1, exp_error_msg)
 
@@ -225,12 +140,10 @@ class ProfileAdminTest(NewsletterTestCaseMixin, TestCase):
         a = create_new_profile(username="a@student.tue.nl", newsletter=True)
         query = [a]
         exp_error_msg = "Unknown HTTP error. Please check newsletter config."
-
         # act
         with patch.object(NewsletterService, "sync_subscription_preferences") as mock_method:
             mock_method.side_effect = HTTPException(400, "mock", "", "")
             self.admin.sync_newsletter_subscriptions(self.request, query)
-
         # test
         self.assert_error_informed_to_user(1, exp_error_msg)
 

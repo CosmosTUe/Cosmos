@@ -117,7 +117,7 @@ class ProfileUpdateFormTest(NewsletterTestCaseMixin, TestCase):
         # act
         form = ProfileUpdateForm(instance=self.user, data=get_profile_form_data(email="tosti@hotmail.com"))
         form.full_clean()
-        form.save()  # runs update_newsletter_preferences
+        form.save()  # updates newsletter preferences
 
         # test
         self.assert_newsletter_subscription(institution_email, False)
@@ -134,7 +134,7 @@ class ProfileUpdateFormTest(NewsletterTestCaseMixin, TestCase):
         # act
         form = ProfileUpdateForm(instance=self.user, data=get_profile_form_data(email="tosti@hotmail.com"))
         form.full_clean()
-        form.save()  # runs update_newsletter_preferences
+        form.save()  # updates newsletter preferences
 
         # test
         self.assert_newsletter_subscription(institution_email, False)
@@ -173,7 +173,7 @@ class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
         # act
         form = PreferencesUpdateForm(user=self.user, data=get_preferences_form_data())
         form.full_clean()
-        form.save()  # runs update_newsletter_preferences
+        form.save()  # updates newsletter preferences
 
         # test
         self.assertEqual(form.initial["newsletter-cosmos-news"], "NONE")
@@ -188,7 +188,7 @@ class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
         # act
         form = PreferencesUpdateForm(user=self.user, data=get_preferences_form_data(news="TUE"))
         form.full_clean()
-        form.save()  # runs update_newsletter_preferences
+        form.save()  # updates newsletter preferences
 
         # test
         self.assertTrue(form.is_valid())
@@ -204,7 +204,7 @@ class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
         # act
         form = PreferencesUpdateForm(user=self.user, data=get_preferences_form_data())
         form.full_clean()
-        form.save()  # runs update_newsletter_preferences
+        form.save()  # updates newsletter preferences
 
         # test
         self.assertEqual(form["newsletter-cosmos-news"].initial, "TUE")
@@ -218,7 +218,7 @@ class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
         # act
         form = PreferencesUpdateForm(user=self.user, data=get_preferences_form_data(gmm="TUE"))
         form.full_clean()
-        form.save()  # runs update_newsletter_preferences
+        form.save()  # updates newsletter preferences
 
         # test
         self.assertTrue(form.is_valid())
@@ -234,7 +234,7 @@ class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
         # act
         form = PreferencesUpdateForm(user=self.user, data=get_preferences_form_data(gmm="TUE"))
         form.full_clean()
-        form.save()  # runs update_newsletter_preferences
+        form.save()  # updates newsletter preferences
 
         # test
         self.assertEqual(form["newsletter-cosmos-news"].initial, "TUE")
@@ -251,7 +251,7 @@ class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
             data=get_preferences_form_data(news="ALT"),
         )
         form.full_clean()
-        form.save()  # runs update_newsletter_preferences
+        form.save()  # updates newsletter preferences
 
         # test
         self.assertEqual(form["newsletter-cosmos-news"].initial, "NONE")
@@ -297,7 +297,7 @@ class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
         # act
         form = PreferencesUpdateForm(user=self.user, data=get_preferences_form_data(news="NONE"))
         form.full_clean()
-        form.save()  # runs update_newsletter_preferences
+        form.save()  # updates newsletter preferences
 
         # test
         self.assertEqual(form["newsletter-cosmos-news"].initial, "ALT")
@@ -313,7 +313,7 @@ class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
             data=get_preferences_form_data(news="TUE", gmm="TUE"),
         )
         form.full_clean()
-        form.save()  # runs update_newsletter_preferences
+        form.save()  # updates newsletter preferences
 
         # test
         self.assertEqual(form["newsletter-cosmos-news"].initial, "NONE")
@@ -334,7 +334,7 @@ class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
             data=get_preferences_form_data(),
         )
         form.full_clean()
-        form.save()  # runs update_newsletter_preferences
+        form.save()  # updates newsletter preferences
 
         # test
         self.assertEqual(form["newsletter-cosmos-news"].initial, "TUE")
@@ -355,7 +355,7 @@ class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
             data=get_preferences_form_data(news="ALT", gmm="ALT"),
         )
         form.full_clean()
-        form.save()  # runs update_newsletter_preferences
+        form.save()  # updates newsletter preferences
 
         # test
         self.assertEqual(form["newsletter-cosmos-news"].initial, "TUE")

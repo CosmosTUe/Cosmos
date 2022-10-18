@@ -146,7 +146,7 @@ class PreferencesUpdateForm(forms.Form):
         return f"newsletter-{newsletter.slug}"
 
     def __init__(self, user: User, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super().__init__(*args, initial={}, **kwargs)
         self.user = user
         self.helper = FormHelper(self)
         newsletters = Newsletter.objects.all()
@@ -161,6 +161,7 @@ class PreferencesUpdateForm(forms.Form):
             )
             crispy_newsletters.append(FloatingField(name))
 
+        self.init_newsletter_initials()
         self.set_newsletter_initials(user.username, "TUE")
         self.set_newsletter_initials(user.email, "ALT")
 
@@ -173,10 +174,15 @@ class PreferencesUpdateForm(forms.Form):
 
         self.helper.add_input(Submit("save_preferences", "Submit"))
 
+    def init_newsletter_initials(self):
+        newsletters = Newsletter.objects.all()
+        for newsletter in newsletters:
+            self.initial[self.newsletter_field_name(newsletter)] = "NONE"
+
     def set_newsletter_initials(self, email, value):
         subs = Subscription.objects.filter(email_field__exact=email, subscribed=True)
         for sub in subs:
-            self.fields[self.newsletter_field_name(sub.newsletter)].initial = value
+            self.initial[self.newsletter_field_name(sub.newsletter)] = value
 
     def clean(self):
         if self.user.email == "":

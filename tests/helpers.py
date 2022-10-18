@@ -4,7 +4,7 @@ from django.contrib.messages.storage.base import Message
 from django.db import models
 from django.test import Client
 from django.urls import reverse
-from newsletter.models import Subscription, Newsletter
+from newsletter.models import Newsletter, Subscription
 
 from apps.async_requests.factory import Factory
 from apps.async_requests.newsletter.newsletter_service import NewsletterService

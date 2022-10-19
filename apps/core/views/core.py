@@ -6,6 +6,7 @@ from django.shortcuts import render
 from apps.core.constants import FOUNDING_DATE
 from apps.core.models.core import Partner, Testimonial
 from apps.core.models.news import News
+from apps.events.models import Event
 from apps.users.models import Board, Profile
 
 
@@ -24,8 +25,10 @@ def index(request):
         news_list = News.objects.filter(member_only=False, publish_date__lte=datetime.date.today()).order_by(
             "-publish_date"
         )[:3]
+        event_list = Event.objects.filter(member_only=False).order_by("-start_date_time")[:3]
     else:
         news_list = News.objects.filter(publish_date__lte=datetime.date.today()).order_by("-publish_date")[:3]
+        event_list = Event.objects.order_by("-start_date_time")[:3]
 
     return render(
         request,
@@ -38,6 +41,7 @@ def index(request):
             "news_list": news_list,
             "partners": partners,
             "door_status": door_status,
+            "event_list": event_list,
         },
     )
 

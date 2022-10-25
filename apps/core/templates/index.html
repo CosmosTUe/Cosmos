@@ -66,62 +66,38 @@
         </div>
     </div>
 </section>
-{% comment %}
 <section id="events" class="pb-5 section-bg">
     <div class="container py-5">
         <div class="section-title">
             <h2>Events</h2>
         </div>
         <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for event in event_list %}
             <div class="col">
                 <div class="card h-100">
-                    <img src="https://bit.ly/2RUOxXK" class="card-img-top" alt="...">
+                    {% thumbnail event.image "x350" crop="center" as im %}
+                        <img src="{{ im.url }}" class="card-img-top">
+                    {% endthumbnail %}
                     <div class="card-body">
-                        <h5 class="card-title">Super Cool Event</h5>
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                        <a href="#" class="stretched-link"></a>
+                        <h5 class="card-title">{{ event.name }}</h5>
+                        <p class="card-text">{{ event.lead }}</p>
+                        <a href="{% url 'cosmos_events:events-view' event.id %}" class="stretched-link"></a>
                     </div>
                     <div class="card-footer">
-                        <small class="text-muted">Last updated 3 mins ago</small>
+                        <small class="text-muted">{{ event.start_date_time }} - {{ event.end_date_time }}, {{ event.location }}</small>
                     </div>
                 </div>
             </div>
-            <div class="col">
-                <div class="card h-100">
-                    <img src="https://bit.ly/3cavqQ4" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Another Cool Event</h5>
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                        <a href="#" class="stretched-link"></a>
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-muted">Last updated 3 mins ago</small>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <img src="https://bit.ly/3uKs50y" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Did I Mention Free Pizza?</h5>
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                        <a href="#" class="stretched-link"></a>
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-muted">Last updated 3 mins ago</small>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 </section>
-{% endcomment %}
-<section id="news" class="pb-5 section-bg">
+<section id="news" class="pb-5">
     <div class="container py-5">
         <a class="section-title" href="{% url 'cosmos_core:news-list' %}">
             <h2>News</h2>
         </a>
-        <div class="row row-cols-1 row-cols-md-3 g-4" id="GMMGrid">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
         {% for news in news_list %}
             <div class="col">
                 <div class="card h-100">
@@ -145,8 +121,11 @@
     </div>
 </section>
 {% if partners %}
-<section id="partners" class="">
-    <div class="container">
+<section id="partners" class="section-bg">
+    <div class="container py-5">
+        <div class="section-title">
+            <h2>Partners</h2>
+        </div>
         <div class="mx-auto my-auto justify-content-center partners">
                 <div id="partnerCarousel" class="carousel slide" data-bs-ride="carousel">
                     <div class="row {% if partners.count > 3  %} carousel-inner {% else %} static-partners {% endif %}" role="listbox">

@@ -8,7 +8,6 @@ from newsletter.models import Newsletter, Subscription
 
 from apps.async_requests.factory import Factory
 from apps.async_requests.newsletter.newsletter_service import NewsletterService
-
 from cosmos import settings
 
 

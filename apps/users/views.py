@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
+from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -12,7 +13,6 @@ from django.utils.http import urlsafe_base64_decode
 from formtools.wizard.views import SessionWizardView
 from newsletter.models import Subscription
 
-from apps.async_requests.commands.unsubscribe_command import NewsletterUnsubscribeCommand
 from apps.async_requests.factory import Factory
 from apps.users.forms.authorization import CosmosLoginForm
 from apps.users.forms.profile import PasswordUpdateForm, PreferencesUpdateForm, ProfileUpdateForm
@@ -164,8 +164,7 @@ def profile(request):
 def delete(request):
     if request.method == "POST":
         # Remove newsletter subscription before deleting the user
-        executor.add_command(NewsletterUnsubscribeCommand(request.user.username))
-        executor.add_command(NewsletterUnsubscribeCommand(request.user.email))
+        Subscription.objects.filter(Q(email_field=request.user.username) | Q(email_field=request.user.email)).delete()
         User.objects.get(username=request.user.username).delete()
         messages.success(request, "Your account has successfully been deleted")
     return redirect("/")

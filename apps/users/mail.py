@@ -3,6 +3,7 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 
+from cosmos import settings
 from .models import Profile
 from .tokens import account_activation_token
 
@@ -20,7 +21,7 @@ def create_confirm_account_email(profile: Profile) -> EmailMessage:
     email = EmailMessage(
         subject=mail_subject,
         body=message,
-        from_email="noreply@cosmostue.nl",
+        from_email=settings.DEFAULT_FROM_EMAIL,
         to=[profile.user.username],
         # List-Unsubscribe headers allows for easy unsubscribing from the mailing list by sending an email to
         # the specified email automatically. Is needed to not be classified as spam, and very import to handle

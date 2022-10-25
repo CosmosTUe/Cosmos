@@ -9,6 +9,8 @@ from newsletter.models import Newsletter, Subscription
 from apps.async_requests.factory import Factory
 from apps.async_requests.newsletter.newsletter_service import NewsletterService
 
+from cosmos import settings
+
 
 # Reference: https://stackoverflow.com/a/60323415/3787761
 def get_admin_change_view_url(obj: models.Model) -> str:
@@ -22,10 +24,10 @@ class NewsletterTestCaseMixin:
         # TODO adapt to django-newsletter
         self.newsletter_service = Factory.get_newsletter_service(True)
         self.news = Newsletter.objects.create(
-            title="Cosmos News", slug="cosmos-news", email="noreply@cosmostue.nl", sender="Cosmos"
+            title="Cosmos News", slug="cosmos-news", email=settings.DEFAULT_FROM_EMAIL, sender="Cosmos"
         )
         self.gmm = Newsletter.objects.create(
-            title="GMM", slug="gmm", email="noreply@cosmostue.nl", sender="Cosmos Board"
+            title="GMM", slug="gmm", email=settings.DEFAULT_FROM_EMAIL, sender="Cosmos Board"
         )
         return super(NewsletterTestCaseMixin, self).setUp()
 

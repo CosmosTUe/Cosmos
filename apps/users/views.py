@@ -10,8 +10,8 @@ from django.urls import reverse
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 from formtools.wizard.views import SessionWizardView
+from newsletter.models import Subscription
 
-from apps.async_requests.commands.subscribe_command import NewsletterSubscribeCommand
 from apps.async_requests.commands.unsubscribe_command import NewsletterUnsubscribeCommand
 from apps.async_requests.factory import Factory
 from apps.users.forms.authorization import CosmosLoginForm
@@ -89,12 +89,6 @@ class RegistrationWizard(SessionWizardView):
                 pass
 
             create_confirm_account_email(profile).send()
-
-            if profile.subscribed_newsletter:
-                email = user.username if profile.newsletter_recipient == "TUE" else user.email
-                # TODO replace with django-newsletter
-                executor.add_command(NewsletterSubscribeCommand(email, user.first_name, user.last_name))
-
         return redirect(reverse("cosmos_users:registration_done"))
 
     def get_template_names(self):
@@ -112,6 +106,9 @@ def activate(request, uidb64, token):
         if user is not None and account_activation_token.check_token(user, token):
             user.is_active = True
             user.save()
+            # activate newsletter subscription
+            for sub in Subscription.objects.filter(email_field=user.username):
+                sub.update("subscribe")
             return HttpResponse("Thank you for your email confirmation. Now you can login your account.")
         else:
             return HttpResponse("Activation link is invalid!")

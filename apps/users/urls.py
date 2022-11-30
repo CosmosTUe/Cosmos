@@ -47,4 +47,6 @@ urlpatterns = [
     path("register/done/", views.registration_done, name="registration_done"),
     path("confirm/<uidb64>/<token>/", views.activate, name="confirm_registration"),
     path("hook/", csrf_exempt(webhooks.SendGridWebhook.as_view()), name="email_hook"),
+    path("reconfirm/", views.ReconfirmView.as_view(), name="reconfirm"),
+    path("reconfirm_done/", views.reconfirm_done, name="reconfirm-done"),
 ]

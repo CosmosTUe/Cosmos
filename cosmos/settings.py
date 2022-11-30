@@ -335,3 +335,7 @@ CKEDITOR_CONFIGS = {
 }
 
 NEWSLETTER_RICHTEXT_WIDGET = "tinymce.widgets.TinyMCE"
+
+# deactivated users still cant log in due to the form denying them, but this allows us to catch
+# inactive users in the view
+AUTHENTICATION_BACKENDS = ["django.contrib.auth.backends.AllowAllUsersModelBackend"]

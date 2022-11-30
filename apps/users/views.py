@@ -12,11 +12,13 @@ from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 from formtools.wizard.views import SessionWizardView
 from newsletter.models import Subscription
+from django.views.generic.edit import FormView
+from django.urls import reverse_lazy
 
 from apps.async_requests.factory import Factory
 from apps.users.forms.authorization import CosmosLoginForm
 from apps.users.forms.profile import PasswordUpdateForm, PreferencesUpdateForm, ProfileUpdateForm
-from apps.users.forms.registration import RegisterFontysForm, RegisterTueForm, RegisterUserForm
+from apps.users.forms.registration import RegisterFontysForm, RegisterTueForm, RegisterUserForm, ReconfirmationForm
 from apps.users.helper_functions import is_fontys_email, is_tue_email
 from apps.users.mail import create_confirm_account_email
 from apps.users.models import Board, Committee
@@ -69,7 +71,7 @@ class RegistrationWizard(SessionWizardView):
 
         if user_form.is_valid() and institution_form.is_valid():
             user = user_form.save(commit=False)
-            user.is_active = False
+            user.is_active = False # TODO check this is working correctly
             user.save()
             user.refresh_from_db()
 
@@ -197,3 +199,21 @@ class CosmosLoginView(LoginView):
             self.request.session.set_expiry(1209600)  # 2 weeks
             self.request.session.modified = True
         return super(CosmosLoginView, self).form_valid(form)
+
+class ReconfirmView(FormView):
+    template_name = "registration/reconfirm.html"
+    form_class = ReconfirmationForm
+    success_url = reverse_lazy("cosmos_users:reconfirm-done")
+
+    def form_valid(self, form):
+        # resend activation email for user with specified email
+        try:
+            user = User.objects.filter(username=form.cleaned_data["email"]).get()
+            create_confirm_account_email(user.profile).send()
+        except:
+            # do not leak email information
+            pass
+        return super().form_valid(form)
+
+def reconfirm_done(request):
+    return render(request, "registration/reconfirm_done.html")

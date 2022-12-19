@@ -6,9 +6,8 @@ from newsletter.models import Newsletter
 
 def init_default_newsletters(apps, schema_editor):
     email = "noreply@cosmostue.nl"
-    sender = "Cosmos"
-    Newsletter(title="Cosmos News", slug="cosmos-news", email=email, sender=sender).save()
-    Newsletter(title="GMM", slug="gmm", email=email, sender=sender).save()
+    Newsletter(title="Cosmos News", slug="cosmos-news", email=email, sender="Cosmos").save()
+    Newsletter(title="GMM", slug="gmm", email=email, sender="Cosmos Board").save()
 
 
 def delete_default_newsletters(apps, schema_editor):

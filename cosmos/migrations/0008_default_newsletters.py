@@ -18,6 +18,7 @@ def delete_default_newsletters(apps, schema_editor):
 class Migration(migrations.Migration):
     dependencies = [
         ("cosmos", "0007_delete_models"),
+        ("newsletter", "0001_initial"),
     ]
 
     operations = [migrations.RunPython(init_default_newsletters, delete_default_newsletters)]

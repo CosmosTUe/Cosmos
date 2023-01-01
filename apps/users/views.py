@@ -4,15 +4,15 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
+from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 from formtools.wizard.views import SessionWizardView
+from newsletter.models import Subscription
 
-from apps.async_requests.commands.subscribe_command import NewsletterSubscribeCommand
-from apps.async_requests.commands.unsubscribe_command import NewsletterUnsubscribeCommand
 from apps.async_requests.factory import Factory
 from apps.users.forms.authorization import CosmosLoginForm
 from apps.users.forms.profile import PasswordUpdateForm, PreferencesUpdateForm, ProfileUpdateForm
@@ -89,11 +89,6 @@ class RegistrationWizard(SessionWizardView):
                 pass
 
             create_confirm_account_email(profile).send()
-
-            if profile.subscribed_newsletter:
-                email = user.username if profile.newsletter_recipient == "TUE" else user.email
-                executor.add_command(NewsletterSubscribeCommand(email, user.first_name, user.last_name))
-
         return redirect(reverse("cosmos_users:registration_done"))
 
     def get_template_names(self):
@@ -111,6 +106,9 @@ def activate(request, uidb64, token):
         if user is not None and account_activation_token.check_token(user, token):
             user.is_active = True
             user.save()
+            # activate newsletter subscription
+            for sub in Subscription.objects.filter(email_field=user.username):
+                sub.update("subscribe")
             return HttpResponse("Thank you for your email confirmation. Now you can login your account.")
         else:
             return HttpResponse("Activation link is invalid!")
@@ -128,7 +126,7 @@ def profile(request):
 
         profile_update_form = ProfileUpdateForm(data=request.POST, instance=request.user)
         password_change_form = PasswordUpdateForm(data=request.POST, user=request.user)
-        preferences_update_form = PreferencesUpdateForm(data=request.POST, instance=request.user.profile)
+        preferences_update_form = PreferencesUpdateForm(data=request.POST, user=request.user)
 
         if "save_profile" in request.POST:
             if profile_update_form.is_valid():
@@ -149,7 +147,7 @@ def profile(request):
     else:
         profile_update_form = ProfileUpdateForm(instance=request.user)
         password_change_form = PasswordUpdateForm(user=request.user)
-        preferences_update_form = PreferencesUpdateForm(instance=request.user.profile)
+        preferences_update_form = PreferencesUpdateForm(user=request.user)
 
     return render(
         request,
@@ -166,8 +164,7 @@ def profile(request):
 def delete(request):
     if request.method == "POST":
         # Remove newsletter subscription before deleting the user
-        executor.add_command(NewsletterUnsubscribeCommand(request.user.username))
-        executor.add_command(NewsletterUnsubscribeCommand(request.user.email))
+        Subscription.objects.filter(Q(email_field=request.user.username) | Q(email_field=request.user.email)).delete()
         User.objects.get(username=request.user.username).delete()
         messages.success(request, "Your account has successfully been deleted")
     return redirect("/")

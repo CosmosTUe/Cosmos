@@ -224,6 +224,8 @@ INSTALLED_APPS = [
     "ckeditor",
     "django_celery_beat",
     "sorl.thumbnail",
+    "tinymce",
+    "newsletter",
 ]
 
 LANGUAGES = (
@@ -241,6 +243,8 @@ THUMBNAIL_PROCESSORS = (
     "filer.thumbnail_processors.scale_and_crop_with_subject_location",
     "easy_thumbnails.processors.filters",
 )
+
+NEWSLETTER_THUMBNAIL = "sorl-thumbnail"
 
 # Logging
 # https://docs.djangoproject.com/en/3.1/topics/logging/
@@ -329,3 +333,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CKEDITOR_CONFIGS = {
     "default": {"width": "100%"},
 }
+
+NEWSLETTER_RICHTEXT_WIDGET = "tinymce.widgets.TinyMCE"

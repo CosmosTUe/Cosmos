@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "bb217699f5d3e4075ce823e4721d5b20ad8484b26a2df23460e93f02f8916e3d"
+            "sha256": "4004a1c3c5ca7cd09330a99e02f8f5fb5a1f0d2794e051ee5bf25ecbc054e8e1"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -59,7 +59,7 @@
                 "sha256:f04e857b59d9d1ccc39ce2da1021d196e47234873820cbeaad210724b1ee28ac",
                 "sha256:fadbfe37f74051d024037f223b8e001611eac868b5c5b06144ef4d8b799862f2"
             ],
-            "markers": "python_version < '3.9'",
+            "index": "pypi",
             "version": "==0.2.1"
         },
         "beautifulsoup4": {
@@ -169,6 +169,14 @@
                 "sha256:fcd131dd944808b5bdb38e6f5b53013c5aa4f334c5cad0c72742f6eba4b73db0"
             ],
             "version": "==1.15.1"
+        },
+        "chardet": {
+            "hashes": [
+                "sha256:0d62712b956bc154f85fb0a266e2a3c5913c2967e00348701b32411d6def31e5",
+                "sha256:362777fb014af596ad31334fde1e8c327dfdb076e1960d1694662d46a6917ab9"
+            ],
+            "markers": "python_version >= '3.7'",
+            "version": "==5.1.0"
         },
         "charset-normalizer": {
             "hashes": [
@@ -435,6 +443,11 @@
             "markers": "python_version >= '3.6'",
             "version": "==2.0.0"
         },
+        "django-newsletter": {
+            "editable": true,
+            "git": "https://github.com/jazzband/django-newsletter.git",
+            "ref": "9e0573b5a280f51a311647cd6112b879461c3eb0"
+        },
         "django-oauth-toolkit": {
             "hashes": [
                 "sha256:46890decb24a34e2a5382debeaf7752e50d90b7a11716cf2a9fd067097ec0963",
@@ -482,6 +495,14 @@
             ],
             "markers": "python_version >= '3.7' and python_version < '4.0'",
             "version": "==5.0"
+        },
+        "django-tinymce": {
+            "hashes": [
+                "sha256:ebe7e39e080415a0d4ca339f0f159754a7cc1dc7cd5276f32f9d3db3220134f8",
+                "sha256:f9d3758670ad55912cbabdd41a14e0b6cfda47868f9c6d92a4480ca320356d53"
+            ],
+            "index": "pypi",
+            "version": "==3.5.0"
         },
         "fonttools": {
             "hashes": [
@@ -705,6 +726,12 @@
             ],
             "markers": "python_version >= '3.7'",
             "version": "==5.3.0b2"
+        },
+        "ldif3": {
+            "hashes": [
+                "sha256:ccdf6ac2ed3f88912b7509529694c0e289c4392d34f2095cca22fa6d70ac189a"
+            ],
+            "version": "==3.1.1"
         },
         "matplotlib": {
             "hashes": [
@@ -970,6 +997,12 @@
             "markers": "python_full_version >= '3.6.8'",
             "version": "==3.0.9"
         },
+        "python-card-me": {
+            "hashes": [
+                "sha256:37ca483a574534177227152123b1e1381330c75a62c4d4d60cd2eeb188384bf2"
+            ],
+            "version": "==0.9.3"
+        },
         "python-crontab": {
             "hashes": [
                 "sha256:9c374d1c9d401afdd8dd958f20077f74c158ab3fffb9604296802715e887fe48",
@@ -1086,6 +1119,12 @@
             ],
             "markers": "python_version >= '2'",
             "version": "==2022.7"
+        },
+        "unicodecsv": {
+            "hashes": [
+                "sha256:018c08037d48649a0412063ff4eda26eaa81eff1546dbffa51fa5293276ff7fc"
+            ],
+            "version": "==0.14.1"
         },
         "urllib3": {
             "hashes": [

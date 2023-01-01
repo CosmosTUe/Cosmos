@@ -5,6 +5,7 @@ from django.contrib import admin, messages
 from django.db.models.query import QuerySet
 from django.http import FileResponse
 from django.urls import path
+from newsletter.models import Newsletter
 from python_http_client import UnauthorizedError
 
 from apps.async_requests.factory import Factory
@@ -49,6 +50,12 @@ class ProfileAdmin(admin.ModelAdmin):
                 newsletter_service.sync_subscription_preferences(profile)
             executor.execute()
             self.message_user(request, f"{len(queryset)} newsletter preferences updated!", messages.SUCCESS)
+        except Newsletter.DoesNotExist:
+            self.message_user(
+                request,
+                "Missing Newsletter object(s). Ensure Newsletter objects have the following slugs: cosmos-news, gmm.",
+                messages.ERROR,
+            )
         except UnauthorizedError:
             self.message_user(request, "Authorization error. Please check newsletter config.", messages.ERROR)
         except HTTPException:

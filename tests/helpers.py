@@ -4,11 +4,11 @@ from django.contrib.messages.storage.base import Message
 from django.db import models
 from django.test import Client
 from django.urls import reverse
+from newsletter.models import Newsletter, Subscription
 
-from apps.async_requests.constants import GMM_INVITE_LIST_ID, NEWSLETTER_LIST_ID
-from apps.async_requests.executor import _Executor
 from apps.async_requests.factory import Factory
 from apps.async_requests.newsletter.newsletter_service import NewsletterService
+from cosmos import settings
 
 
 # Reference: https://stackoverflow.com/a/60323415/3787761
@@ -16,23 +16,49 @@ def get_admin_change_view_url(obj: models.Model) -> str:
     return reverse(f"admin:{obj._meta.app_label}_{type(obj).__name__.lower()}_change", args=(obj.pk,))
 
 
-# noinspection PyUnresolvedReferences
 class NewsletterTestCaseMixin:
-    executor: _Executor
     newsletter_service: NewsletterService
 
     def setUp(self):
-        self.executor = Factory.get_executor()
+        # TODO adapt to django-newsletter
         self.newsletter_service = Factory.get_newsletter_service(True)
+        self.news, _ = Newsletter.objects.get_or_create(
+            title="Cosmos News", slug="cosmos-news", email=settings.DEFAULT_FROM_EMAIL, sender="Cosmos"
+        )
+        self.gmm, _ = Newsletter.objects.get_or_create(
+            title="GMM", slug="gmm", email=settings.DEFAULT_FROM_EMAIL, sender="Cosmos Board"
+        )
         return super(NewsletterTestCaseMixin, self).setUp()
 
+    def tearDown(self) -> None:
+        Subscription.objects.all().delete()
+
+    @staticmethod
+    def _set_subscription(newsletter: Newsletter, email: str, state: bool):
+        sub = Subscription.objects.create(newsletter=newsletter, email_field=email)
+        if state:
+            sub.update("subscribe")
+        else:
+            sub.update("unsubscribe")
+
+    def set_newsletter_subscription(self, email: str, state: bool):
+        self._set_subscription(self.news, email, state)
+
+    def set_gmm_invite_subscription(self, email: str, state: bool):
+        self._set_subscription(self.gmm, email, state)
+
+    def _assert_subscription(self, newsletter: Newsletter, email: str, state: bool):
+        subs = Subscription.objects.filter(newsletter=newsletter, email_field=email)
+        if subs.exists():
+            self.assertEqual(subs[0].subscribed, state)
+        else:
+            self.assertFalse(state, f'{email} should have no subscription to "{newsletter.title}"')
+
     def assert_newsletter_subscription(self, email: str, state: bool):
-        self.executor.execute()
-        self.assertEqual(state, self.newsletter_service.is_subscribed(email, NEWSLETTER_LIST_ID))
+        self._assert_subscription(self.news, email, state)
 
     def assert_gmm_invite_subscription(self, email: str, state: bool):
-        self.executor.execute()
-        self.assertEqual(state, self.newsletter_service.is_subscribed(email, GMM_INVITE_LIST_ID))
+        self._assert_subscription(self.gmm, email, state)
 
 
 # noinspection PyUnresolvedReferences
@@ -84,12 +110,11 @@ def get_profile_form_data(
     return {k: v for k, v in output.items() if v is not None}
 
 
-def get_preferences_form_data(subscribed_newsletter=False, subscribed_gmm_invite=False, newsletter_recipient="TUE"):
+def get_preferences_form_data(news="NONE", gmm="NONE"):
     output = {
-        "newsletter_recipient": newsletter_recipient,
         "save_preferences": "Submit",
-        "subscribed_newsletter": subscribed_newsletter,
-        "subscribed_gmm_invite": subscribed_gmm_invite,
+        "newsletter-cosmos-news": news,
+        "newsletter-gmm": gmm,
     }
 
     return output

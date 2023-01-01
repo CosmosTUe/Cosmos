@@ -34,6 +34,9 @@ Pillow = "*"
 Django = "*"
 django-ical = "*"
 sorl-thumbnail = "*"
+django-newsletter = {editable = true, git = "https://github.com/jazzband/django-newsletter.git"}
+"backports.zoneinfo" = "==0.2.1" # support for Python <= 3.8
+django-tinymce = "*"
 
 [dev-packages]
 flake8 = "*"

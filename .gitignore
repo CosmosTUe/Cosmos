@@ -18,3 +18,5 @@ UNKNOWN.egg-info/
 /static
 /node_modules/
 /logs/
+
+.sass-cache

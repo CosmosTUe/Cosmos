@@ -13,10 +13,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ValidationError
+from django.urls import reverse
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.utils.safestring import SafeString
-from django.urls import reverse
 
 from apps.users.forms.error_codes import INVALID_EMAIL
 from apps.users.helper_functions import is_valid_institutional_email
@@ -43,8 +43,11 @@ class CosmosLoginForm(AuthenticationForm):
     def confirm_login_allowed(self, user):
         if not user.is_active:
             raise ValidationError(
-                SafeString(f"""This has not been activated, click <a href='{reverse("cosmos_users:reconfirm")}'>here</a> to resend the activation email."""),
-                code='inactive',
+                SafeString(
+                    f"""This has not been activated, click <a href='{reverse("cosmos_users:reconfirm")}'>here</a>
+                     to resend the activation email."""
+                ),
+                code="inactive",
             )
         return super().confirm_login_allowed(user)
 

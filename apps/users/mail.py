@@ -4,6 +4,7 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 
 from cosmos import settings
+
 from .models import Profile
 from .tokens import account_activation_token
 

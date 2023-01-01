@@ -22,10 +22,10 @@ class NewsletterTestCaseMixin:
     def setUp(self):
         # TODO adapt to django-newsletter
         self.newsletter_service = Factory.get_newsletter_service(True)
-        self.news = Newsletter.objects.create(
+        self.news, _ = Newsletter.objects.get_or_create(
             title="Cosmos News", slug="cosmos-news", email=settings.DEFAULT_FROM_EMAIL, sender="Cosmos"
         )
-        self.gmm = Newsletter.objects.create(
+        self.gmm, _ = Newsletter.objects.get_or_create(
             title="GMM", slug="gmm", email=settings.DEFAULT_FROM_EMAIL, sender="Cosmos Board"
         )
         return super(NewsletterTestCaseMixin, self).setUp()

@@ -150,7 +150,7 @@ class PreferencesUpdateForm(forms.Form):
         super().__init__(*args, initial={}, **kwargs)
         self.user = user
         self.helper = FormHelper(self)
-        newsletters = Newsletter.objects.all()
+        newsletters = [Newsletter.objects.get(slug__exact="cosmos-news"), Newsletter.objects.get(slug__exact="gmm")]
         recipients = [("NONE", "Disabled")] + NEWSLETTER_RECIPIENTS
         crispy_newsletters = []
         for newsletter in newsletters:

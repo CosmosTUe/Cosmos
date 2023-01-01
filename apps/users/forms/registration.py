@@ -141,3 +141,18 @@ class RegisterFontysForm(forms.ModelForm):
 
         # self.helper.add_input(Button("wizard_goto_step", "0"))
         # self.helper.add_input(Submit("submit", "Submit"))
+
+
+class ReconfirmationForm(forms.Form):
+    email = forms.EmailField(
+        max_length=254,
+        label="Institutional email",
+        required=True,
+        initial="",
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(FloatingField("email"))
+        self.helper.form_tag = False

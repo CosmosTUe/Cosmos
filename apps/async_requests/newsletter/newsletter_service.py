@@ -13,7 +13,7 @@ https://sendgrid.api-docs.io/v3.0/how-to-use-the-sendgrid-v3-api/api-authenticat
 from abc import ABCMeta, abstractmethod
 from typing import List
 
-from newsletter.models import Subscription, Newsletter
+from newsletter.models import Newsletter, Subscription
 
 from apps.async_requests.commands import (
     GMMInviteSubscribeCommand,

@@ -1,0 +1,33 @@
+{% extends "subpage.html" %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+Login
+{% endblock %}
+
+{% block content %}
+
+<div class="mx-auto bg-cosmos-primary rounded" id="login-box">
+
+    <form method="post" class="p-4">
+        {% csrf_token %}
+        
+        <div class="mb-5">
+            <img src="{% static "cosmos/img/cosmos_white_horizontal.png" %}" class="img-fluid mx-auto d-block" alt="Cosmos logo">
+        </div>
+
+        <p class="text-white pb-3">Your account has not been activated yet. Please check your email for the confirmation email. Use the button below to send a new confirmation email.</p>
+
+        {% crispy form %}
+
+        <div class="d-grid">
+            <button class="btn btn-primary btn-block" type="submit" value="reconfirm">Send confirmation email</button>
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

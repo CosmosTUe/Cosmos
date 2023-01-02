@@ -17,7 +17,11 @@ import secret_settings
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DATA_DIR = os.path.dirname(os.path.dirname(__file__))
+# On production extra drive is mounted on /media
+if secret_settings.secrets["DEBUG"]:
+    DATA_DIR = os.path.dirname(os.path.dirname(__file__))
+else:
+    DATA_DIR = "/media"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/

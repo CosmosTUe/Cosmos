@@ -5,6 +5,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from newsletter.models import Newsletter, Subscription
 
 from apps.users.forms.error_codes import INVALID_EMAIL
 from apps.users.helper_functions import is_valid_institutional_email
@@ -36,7 +37,10 @@ class RegisterUserForm(UserCreationForm):
     # profile fields
     nationality = forms.ChoiceField(choices=list(zip(NATIONALITIES, NATIONALITIES)))
     terms_confirmed = forms.BooleanField()
-    subscribed_newsletter = forms.BooleanField(required=False)
+
+    # newsletters
+    newsletter_cosmos_news = forms.BooleanField(label="Subscribe to the COSMOS newsletter", required=False)
+    newsletter_gmm = forms.BooleanField(label="Subscribe to GMM Invites", required=False)
 
     class Meta:
         model = User
@@ -60,9 +64,18 @@ class RegisterUserForm(UserCreationForm):
             user=instance,
             nationality=self.cleaned_data["nationality"],
             terms_confirmed=self.cleaned_data["terms_confirmed"],
-            subscribed_newsletter=self.cleaned_data["subscribed_newsletter"],
         )
         profile.save()
+
+        newsletter_preferences = [
+            (Newsletter.objects.get(slug__exact="cosmos-news"), self.cleaned_data["newsletter_cosmos_news"]),
+            (Newsletter.objects.get(slug__exact="gmm"), self.cleaned_data["newsletter_gmm"]),
+        ]
+        # create unactivated subscription objects using institutional email
+        for (newsletter, preference) in newsletter_preferences:
+            if preference:
+                Subscription.objects.create(newsletter=newsletter, email_field=instance.username)
+
         return instance
 
     def __init__(self, *args, **kwargs):
@@ -81,7 +94,8 @@ class RegisterUserForm(UserCreationForm):
             FloatingField("password2"),
             FloatingField("nationality"),
             Field("terms_confirmed"),
-            Field("subscribed_newsletter"),
+            Field("newsletter_cosmos_news"),
+            Field("newsletter_gmm"),
         )
 
 
@@ -127,3 +141,18 @@ class RegisterFontysForm(forms.ModelForm):
 
         # self.helper.add_input(Button("wizard_goto_step", "0"))
         # self.helper.add_input(Submit("submit", "Submit"))
+
+
+class ReconfirmationForm(forms.Form):
+    email = forms.EmailField(
+        max_length=254,
+        label="Institutional email",
+        required=True,
+        initial="",
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.layout = Layout(FloatingField("email"))
+        self.helper.form_tag = False

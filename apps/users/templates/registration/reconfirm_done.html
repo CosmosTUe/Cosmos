@@ -1,0 +1,27 @@
+{% extends "subpage.html" %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+Login
+{% endblock %}
+
+{% block content %}
+
+<div class="mx-auto bg-cosmos-primary rounded" id="login-box">
+
+    <form method="post" class="p-4">
+        {% csrf_token %}
+        
+        <div class="mb-5">
+            <img src="{% static "cosmos/img/cosmos_white_horizontal.png" %}" class="img-fluid mx-auto d-block" alt="Cosmos logo">
+        </div>
+
+        <p class="text-white pb-3">A new confirmation email has been send to the given email address if it was associated.</p>
+
+    </form>
+
+</div>
+
+{% endblock %}

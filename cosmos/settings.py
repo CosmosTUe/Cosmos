@@ -224,6 +224,8 @@ INSTALLED_APPS = [
     "ckeditor",
     "django_celery_beat",
     "sorl.thumbnail",
+    "tinymce",
+    "newsletter",
 ]
 
 LANGUAGES = (
@@ -241,6 +243,8 @@ THUMBNAIL_PROCESSORS = (
     "filer.thumbnail_processors.scale_and_crop_with_subject_location",
     "easy_thumbnails.processors.filters",
 )
+
+NEWSLETTER_THUMBNAIL = "sorl-thumbnail"
 
 # Logging
 # https://docs.djangoproject.com/en/3.1/topics/logging/
@@ -293,7 +297,7 @@ EMAIL_HOST_USER = secret_settings.secrets["EMAIL"]["USERNAME"]
 EMAIL_HOST_PASSWORD = secret_settings.secrets["EMAIL"]["PASSWORD"]
 EMAIL_USE_TLS = secret_settings.secrets["EMAIL"]["USE_TLS"]
 
-DEFAULT_FROM_EMAIL = secret_settings.secrets["EMAIL_GSUITE"]["USERNAME"]
+DEFAULT_FROM_EMAIL = secret_settings.secrets["EMAIL"]["FROM_EMAIL"]
 
 LOGIN_URL = "/accounts/login/"
 LOGOUT_REDIRECT_URL = "/"
@@ -329,3 +333,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CKEDITOR_CONFIGS = {
     "default": {"width": "100%"},
 }
+
+NEWSLETTER_RICHTEXT_WIDGET = "tinymce.widgets.TinyMCE"
+
+# deactivated users still cant log in due to the form denying them, but this allows us to catch
+# inactive users in the view
+AUTHENTICATION_BACKENDS = ["django.contrib.auth.backends.AllowAllUsersModelBackend"]

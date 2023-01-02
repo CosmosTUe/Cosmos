@@ -4,19 +4,20 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
+from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
+from django.views.generic.edit import FormView
 from formtools.wizard.views import SessionWizardView
+from newsletter.models import Subscription
 
-from apps.async_requests.commands.subscribe_command import NewsletterSubscribeCommand
-from apps.async_requests.commands.unsubscribe_command import NewsletterUnsubscribeCommand
 from apps.async_requests.factory import Factory
 from apps.users.forms.authorization import CosmosLoginForm
 from apps.users.forms.profile import PasswordUpdateForm, PreferencesUpdateForm, ProfileUpdateForm
-from apps.users.forms.registration import RegisterFontysForm, RegisterTueForm, RegisterUserForm
+from apps.users.forms.registration import ReconfirmationForm, RegisterFontysForm, RegisterTueForm, RegisterUserForm
 from apps.users.helper_functions import is_fontys_email, is_tue_email
 from apps.users.mail import create_confirm_account_email
 from apps.users.models import Board, Committee
@@ -69,7 +70,7 @@ class RegistrationWizard(SessionWizardView):
 
         if user_form.is_valid() and institution_form.is_valid():
             user = user_form.save(commit=False)
-            user.is_active = False
+            user.is_active = False  # TODO check this is working correctly
             user.save()
             user.refresh_from_db()
 
@@ -89,11 +90,6 @@ class RegistrationWizard(SessionWizardView):
                 pass
 
             create_confirm_account_email(profile).send()
-
-            if profile.subscribed_newsletter:
-                email = user.username if profile.newsletter_recipient == "TUE" else user.email
-                executor.add_command(NewsletterSubscribeCommand(email, user.first_name, user.last_name))
-
         return redirect(reverse("cosmos_users:registration_done"))
 
     def get_template_names(self):
@@ -111,6 +107,9 @@ def activate(request, uidb64, token):
         if user is not None and account_activation_token.check_token(user, token):
             user.is_active = True
             user.save()
+            # activate newsletter subscription
+            for sub in Subscription.objects.filter(email_field=user.username):
+                sub.update("subscribe")
             return HttpResponse("Thank you for your email confirmation. Now you can login your account.")
         else:
             return HttpResponse("Activation link is invalid!")
@@ -128,7 +127,7 @@ def profile(request):
 
         profile_update_form = ProfileUpdateForm(data=request.POST, instance=request.user)
         password_change_form = PasswordUpdateForm(data=request.POST, user=request.user)
-        preferences_update_form = PreferencesUpdateForm(data=request.POST, instance=request.user.profile)
+        preferences_update_form = PreferencesUpdateForm(data=request.POST, user=request.user)
 
         if "save_profile" in request.POST:
             if profile_update_form.is_valid():
@@ -149,7 +148,7 @@ def profile(request):
     else:
         profile_update_form = ProfileUpdateForm(instance=request.user)
         password_change_form = PasswordUpdateForm(user=request.user)
-        preferences_update_form = PreferencesUpdateForm(instance=request.user.profile)
+        preferences_update_form = PreferencesUpdateForm(user=request.user)
 
     return render(
         request,
@@ -166,8 +165,7 @@ def profile(request):
 def delete(request):
     if request.method == "POST":
         # Remove newsletter subscription before deleting the user
-        executor.add_command(NewsletterUnsubscribeCommand(request.user.username))
-        executor.add_command(NewsletterUnsubscribeCommand(request.user.email))
+        Subscription.objects.filter(Q(email_field=request.user.username) | Q(email_field=request.user.email)).delete()
         User.objects.get(username=request.user.username).delete()
         messages.success(request, "Your account has successfully been deleted")
     return redirect("/")
@@ -200,3 +198,23 @@ class CosmosLoginView(LoginView):
             self.request.session.set_expiry(1209600)  # 2 weeks
             self.request.session.modified = True
         return super(CosmosLoginView, self).form_valid(form)
+
+
+class ReconfirmView(FormView):
+    template_name = "registration/reconfirm.html"
+    form_class = ReconfirmationForm
+    success_url = reverse_lazy("cosmos_users:reconfirm-done")
+
+    def form_valid(self, form):
+        # resend activation email for user with specified email
+        try:
+            user = User.objects.filter(username=form.cleaned_data["email"]).get()
+            create_confirm_account_email(user.profile).send()
+        except Exception:
+            # do not leak email information
+            pass
+        return super().form_valid(form)
+
+
+def reconfirm_done(request):
+    return render(request, "registration/reconfirm_done.html")

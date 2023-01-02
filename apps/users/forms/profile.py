@@ -2,14 +2,13 @@ import logging
 
 from crispy_bootstrap5.bootstrap5 import FloatingField
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import ButtonHolder, Field, Layout, Submit
+from crispy_forms.layout import HTML, ButtonHolder, Layout, Submit
 from django import forms
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from newsletter.models import Newsletter, Subscription
 
-from apps.async_requests.commands.subscribe_command import NewsletterSubscribeCommand
-from apps.async_requests.commands.unsubscribe_command import NewsletterUnsubscribeCommand
 from apps.async_requests.factory import Factory
 from apps.users.forms.error_codes import INVALID_EMAIL, INVALID_EMAIL_CHANGE, INVALID_SUBSCRIBE_TO_EMPTY_EMAIL
 from apps.users.helper_functions import (
@@ -18,8 +17,13 @@ from apps.users.helper_functions import (
     is_valid_institutional_email,
     same_email_institution,
 )
-from apps.users.models.constants import FONTYS_STUDIES, NATIONALITIES, TUE_DEPARTMENTS, TUE_PROGRAMS
-from apps.users.models.profile import Profile
+from apps.users.models.constants import (
+    FONTYS_STUDIES,
+    NATIONALITIES,
+    NEWSLETTER_RECIPIENTS,
+    TUE_DEPARTMENTS,
+    TUE_PROGRAMS,
+)
 
 logger = logging.getLogger(__name__)
 executor = Factory.get_executor()
@@ -73,11 +77,14 @@ class ProfileUpdateForm(forms.ModelForm):
             institution.study = self.cleaned_data["study"]
             institution.save()
 
-        if "email" in self.changed_data and profile.subscribed_newsletter and profile.newsletter_recipient == "ALT":
+        if "email" in self.changed_data:
             old_email = self.initial["email"]
-            executor.add_command(NewsletterUnsubscribeCommand(old_email))
             new_email = self.cleaned_data["email"]
-            executor.add_command(NewsletterSubscribeCommand(new_email, profile.user.first_name, profile.user.last_name))
+            subs = Subscription.objects.filter(email_field=old_email)
+            for sub in subs:
+                sub.update("unsubscribe")
+                new_sub, _ = Subscription.objects.get_or_create(newsletter=sub.newsletter, email_field=new_email)
+                new_sub.update("subscribe")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -134,40 +141,74 @@ class PasswordUpdateForm(PasswordChangeForm):
         self.helper.add_input(Submit("save_password", "Submit"))
 
 
-class PreferencesUpdateForm(forms.ModelForm):
-    class Meta:
-        model = Profile
-        fields = ["subscribed_newsletter", "subscribed_gmm_invite", "newsletter_recipient"]
+class PreferencesUpdateForm(forms.Form):
+    @staticmethod
+    def newsletter_field_name(newsletter):
+        return f"newsletter-{newsletter.slug}"
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, user: User, *args, **kwargs):
+        super().__init__(*args, initial={}, **kwargs)
+        self.user = user
         self.helper = FormHelper(self)
+        newsletters = [Newsletter.objects.get(slug__exact="cosmos-news"), Newsletter.objects.get(slug__exact="gmm")]
+        recipients = [("NONE", "Disabled")] + NEWSLETTER_RECIPIENTS
+        crispy_newsletters = []
+        for newsletter in newsletters:
+            name = self.newsletter_field_name(newsletter)
+            self.fields[name] = forms.ChoiceField(
+                label=newsletter.title,
+                choices=recipients,
+                required=False,
+            )
+            crispy_newsletters.append(FloatingField(name))
+
+        self.init_newsletter_initials()
+        self.set_newsletter_initials(user.username, "TUE")
+        self.set_newsletter_initials(user.email, "ALT")
+
         self.helper.form_id = "id-preferencesUpdateForm"
         self.helper.form_method = "post"
         self.helper.form_action = "cosmos_users:user_profile"
         self.helper.form_tag = False
 
-        self.helper.layout = Layout(
-            Field("subscribed_newsletter"),
-            Field("subscribed_gmm_invite"),
-            Field("newsletter_recipient"),
-        )
+        self.helper.layout = Layout(HTML('<h3 class="text-white">Email notifications</h3>'), *crispy_newsletters)
 
         self.helper.add_input(Submit("save_preferences", "Submit"))
 
+    def init_newsletter_initials(self):
+        newsletters = Newsletter.objects.all()
+        for newsletter in newsletters:
+            self.initial[self.newsletter_field_name(newsletter)] = "NONE"
+
+    def set_newsletter_initials(self, email, value):
+        subs = Subscription.objects.filter(email_field__exact=email, subscribed=True)
+        for sub in subs:
+            self.initial[self.newsletter_field_name(sub.newsletter)] = value
+
     def clean(self):
-        if (
-            self.instance.user.email == ""
-            and self.cleaned_data["newsletter_recipient"]
-            and (self.cleaned_data["subscribed_newsletter"] or self.cleaned_data["subscribed_gmm_invite"])
-        ):
-            raise ValidationError(
-                "Please set a secondary email or choose to receive emails at your institution email.",
-                INVALID_SUBSCRIBE_TO_EMPTY_EMAIL,
-            )
+        if self.user.email == "":
+            for sub in self.cleaned_data.values():
+                if sub == "ALT":
+                    raise ValidationError(
+                        "Please set a secondary email, or choose to receive emails at your institution email.",
+                        INVALID_SUBSCRIBE_TO_EMPTY_EMAIL,
+                    )
+
         return self.cleaned_data
 
-    def save(self, commit=True):
-        newsletter_service = Factory.get_newsletter_service()
-        newsletter_service.update_newsletter_preferences(self.instance, self.initial, self.cleaned_data)
-        return super(PreferencesUpdateForm, self).save(commit)
+    def save(self):
+        for (name, value) in self.cleaned_data.items():
+            slug = name.lstrip("newsletter-")
+            newsletter = Newsletter.objects.get(slug__exact=slug)
+            inst_sub, _ = Subscription.objects.get_or_create(newsletter=newsletter, email_field=self.user.username)
+            pers_sub, _ = Subscription.objects.get_or_create(newsletter=newsletter, email_field=self.user.email)
+
+            if value == "NONE":
+                inst_sub.update("unsubscribe")
+                pers_sub.update("unsubscribe")
+            elif value == "TUE":
+                inst_sub.update("subscribe")
+                pers_sub.update("unsubscribe")
+            elif value == "ALT":
+                inst_sub.update("unsubscribe")
+                pers_sub.update("subscribe")

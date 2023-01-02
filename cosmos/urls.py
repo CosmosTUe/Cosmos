@@ -19,6 +19,8 @@ urlpatterns = [
     path("boards/", board_overview, name="boards_overview"),
     path("committees/", committee_overview, name="committee_overview"),
     path("committees/<slug>/", committee_subpage, name="committee_subpage"),
+    path("newsletter/", include("newsletter.urls")),
+    path("tinymce/", include("tinymce.urls")),
     path("", include("apps.core.urls")),
     re_path(r"^sitemap\.xml$", sitemap),
 ]

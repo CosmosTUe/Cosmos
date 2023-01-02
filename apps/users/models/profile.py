@@ -26,6 +26,8 @@ class Profile(models.Model):
     user = models.OneToOneField(User, blank=False, on_delete=models.CASCADE)
     nationality = models.CharField(max_length=100, blank=False, choices=list(zip(NATIONALITIES, NATIONALITIES)))
     terms_confirmed = models.BooleanField(default=False)
+
+    # TODO remove
     subscribed_newsletter = models.BooleanField(default=False, verbose_name="Subscribe to the newsletter")
     subscribed_gmm_invite = models.BooleanField(default=False, verbose_name="Subscribe to GMM invites")
     newsletter_recipient = models.CharField(

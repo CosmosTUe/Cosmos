@@ -27,13 +27,16 @@ django-celery-beat = "*"
 sendgrid = "*"
 python-http-client = "*"
 django-oauth-toolkit = "*"
-django-cors-middleware = "*"
+django-cors-headers = "*"
 django-redis = "*"
 hiredis = "*"
 Pillow = "*"
-Django = "<4.0"
+Django = "*"
 django-ical = "*"
 sorl-thumbnail = "*"
+django-newsletter = {editable = true, git = "https://github.com/jazzband/django-newsletter.git"}
+"backports.zoneinfo" = "==0.2.1" # support for Python <= 3.8
+django-tinymce = "*"
 
 [dev-packages]
 flake8 = "*"

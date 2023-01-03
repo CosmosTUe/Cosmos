@@ -101,14 +101,22 @@ class NewsletterService(metaclass=ABCMeta):
 
         for (newsletter, legacy_pref) in newsletter_preferences:
             inst_sub, _ = Subscription.objects.get_or_create(newsletter=newsletter, email_field=inst_email)
-            pers_sub, _ = Subscription.objects.get_or_create(newsletter=newsletter, email_field=pers_email)
+
+            if pers_email is not None:
+                pers_sub, _ = Subscription.objects.get_or_create(newsletter=newsletter, email_field=pers_email)
+            else:
+                pers_sub = None
+
             if not legacy_pref:
                 # user unsubscribed from all newsletters
                 inst_sub.update("unsubscribe")
-                pers_sub.update("unsubscribe")
+                if pers_sub is not None:
+                    pers_sub.update("unsubscribe")
             elif profile.newsletter_recipient == "TUE":
                 inst_sub.update("subscribe")
-                pers_sub.update("unsubscribe")
+                if pers_sub is not None:
+                    pers_sub.update("unsubscribe")
             else:
                 inst_sub.update("unsubscribe")
-                pers_sub.update("subscribe")
+                if pers_sub is not None:
+                    pers_sub.update("subscribe")

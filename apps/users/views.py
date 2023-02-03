@@ -124,7 +124,6 @@ def registration_done(request):
 @login_required
 def profile(request):
     if request.method == "POST":
-
         profile_update_form = ProfileUpdateForm(data=request.POST, instance=request.user)
         password_change_form = PasswordUpdateForm(data=request.POST, user=request.user)
         preferences_update_form = PreferencesUpdateForm(data=request.POST, user=request.user)

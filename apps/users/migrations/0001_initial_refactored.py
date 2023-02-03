@@ -10,7 +10,6 @@ import apps.users.models.committee
 
 
 class Migration(migrations.Migration):
-
     replaces = [
         ("users", "0001_initial"),
         ("users", "0002_text_to_htmlfield"),

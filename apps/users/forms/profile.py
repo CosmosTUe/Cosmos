@@ -197,7 +197,7 @@ class PreferencesUpdateForm(forms.Form):
         return self.cleaned_data
 
     def save(self):
-        for (name, value) in self.cleaned_data.items():
+        for name, value in self.cleaned_data.items():
             slug = name.lstrip("newsletter-")
             newsletter = Newsletter.objects.get(slug__exact=slug)
             inst_sub, _ = Subscription.objects.get_or_create(newsletter=newsletter, email_field=self.user.username)

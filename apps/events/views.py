@@ -130,7 +130,6 @@ class EventFeed(ICalFeed):
         return "{}{}".format(item.pk, "global_name")
 
     def item_title(self, item):
-
         return "{}".format(item.name)
 
     def item_description(self, item):

@@ -3,7 +3,6 @@ from django.db.models import Count
 
 
 def get_nationality_stats(query):
-
     # Creates a list of dictionaries of the nationalities and their count
     nationality_list = query.values("nationality").annotate(Count("nationality"))
 

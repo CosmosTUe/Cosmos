@@ -99,7 +99,7 @@ class NewsletterService(metaclass=ABCMeta):
             (Newsletter.objects.get(slug__exact="gmm"), profile.subscribed_gmm_invite),
         ]
 
-        for (newsletter, legacy_pref) in newsletter_preferences:
+        for newsletter, legacy_pref in newsletter_preferences:
             inst_sub, _ = Subscription.objects.get_or_create(newsletter=newsletter, email_field=inst_email)
 
             if pers_email is not None:

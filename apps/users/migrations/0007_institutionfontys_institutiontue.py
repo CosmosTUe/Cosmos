@@ -20,7 +20,6 @@ def update_profile(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("users", "0006_alter_fields"),
     ]

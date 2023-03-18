@@ -72,7 +72,7 @@ class RegisterUserForm(UserCreationForm):
             (Newsletter.objects.get(slug__exact="gmm"), self.cleaned_data["newsletter_gmm"]),
         ]
         # create unactivated subscription objects using institutional email
-        for (newsletter, preference) in newsletter_preferences:
+        for newsletter, preference in newsletter_preferences:
             if preference:
                 Subscription.objects.create(newsletter=newsletter, email_field=instance.username)
 

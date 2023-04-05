@@ -75,9 +75,11 @@
             {% for event in event_list %}
             <div class="col">
                 <div class="card h-100">
+                    <div class="ratio ratio-16x9">
                     {% thumbnail event.image "x350" crop="center" as im %}
                         <img src="{{ im.url }}" class="card-img-top">
                     {% endthumbnail %}
+                    </div>
                     <div class="card-body">
                         <h5 class="card-title">{{ event.name }}</h5>
                         <p class="card-text">{{ event.lead }}</p>

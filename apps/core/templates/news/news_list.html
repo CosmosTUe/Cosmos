@@ -1,5 +1,7 @@
 {% extends "subpage.html" %}
 
+{% load static %}
+
 {% load crispy_forms_tags %}
 {% load thumbnail %}
 
@@ -9,15 +11,29 @@
 
 <div class="container">
     <div class="w-75 mx-auto">
-        {% if perms.cosmos.change_news %}
-        <div class="float-end">
-            <a class="btn btn-cosmos-primary" href="{% url 'cosmos_core:news-create' %}">
-                <i class="bi bi-plus-lg"></i>
-                Add new Article
-            </a>
+        <div class="row">
+            <div class="col-6">
+                <h2>News</h2>
+            </div>
+            <div class="col-3 py-1">
+                {% if perms.cosmos.change_news %}
+                <div class="float-end">
+                    <a class="btn btn-cosmos-primary" href="{% url 'cosmos_core:news-create' %}">
+                        <span class="d-md-block d-none"><i class="bi bi-plus-lg"></i> Add new Article</span>
+                        <i class="bi bi-plus-lg d-sm-block d-md-none"></i>
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-3 py-1">
+                <div class="float-end">
+                    <a class="btn btn-cosmos-primary" href="{% url 'cosmos_users:subscribe-newsletter' active_tab='preferences'%}">
+                        <span class="d-md-block d-none">Subscribe to the Newsletter</span>
+                        <i class="bi bi-envelope d-sm-block d-md-none"></i>
+                    </a>
+                </div>
+            </div>
         </div>
-        {% endif %}
-        <h2>News</h2>
         <div class="row row-cols-1 row-cols-md-3 g-2 mt-2" id="NewsGrid">
         {% for news in news_list %}
             <div class="col">

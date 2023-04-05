@@ -49,4 +49,5 @@ urlpatterns = [
     path("hook/", csrf_exempt(webhooks.SendGridWebhook.as_view()), name="email_hook"),
     path("reconfirm/", views.ReconfirmView.as_view(), name="reconfirm"),
     path("reconfirm_done/", views.reconfirm_done, name="reconfirm-done"),
+    path("profile#<active_tab>", views.profile, name="subscribe-newsletter"),
 ]

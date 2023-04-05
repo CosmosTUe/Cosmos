@@ -122,7 +122,7 @@ def registration_done(request):
 
 
 @login_required
-def profile(request):
+def profile(request, active_tab="profile"):
     if request.method == "POST":
         profile_update_form = ProfileUpdateForm(data=request.POST, instance=request.user)
         password_change_form = PasswordUpdateForm(data=request.POST, user=request.user)
@@ -153,6 +153,7 @@ def profile(request):
         request,
         "user/profile.html",
         {
+            "active_tab": active_tab,
             "profile_update_form": profile_update_form,
             "password_change_form": password_change_form,
             "preferences_update_form": preferences_update_form,

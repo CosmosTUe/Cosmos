@@ -61,16 +61,22 @@
 
         <h2 class="text-center">Testimonials</h2>
         <div class="row mx-auto my-auto justify-content-center testimonials">
-            <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval=10000>
                 <div class="carousel-inner" role="listbox">
                     {% for testimonial in testimonials %}
-                    <div class="carousel-item{% if forloop.first %} active{% endif %}">
-                        <div class="col-md-4">
-                            <figure class="text-center">
-                                <blockquote class="blockquote">
-                                    <p>{{ testimonial.text }}</p>
+                    <div class="carousel-item {% if forloop.first %} active {% endif %}">
+                        <div class="col-lg-4 col-12 ">
+                            <figure class="card h-100 text-left shadow-sm mx-1 mb-5 bg-white rounded">
+                                {% if testimonial.image %}
+                                {% thumbnail testimonial.image "1000x1000" crop="center" as im %}
+                                    <img src="{{ im.url }}" class="rounded-circle mx-5 mt-4 shadow-sm" alt="Photo of {{ testimonial.author }}">
+                                {% endthumbnail %}
+                                {% endif %}
+                                <blockquote class="blockquote px-4">
+                                    <p class="testimonial-text">{{ testimonial.text }}</p>
                                 </blockquote>
-                                <figcaption class="blockquote-footer">
+                                <br />
+                                <figcaption class="blockquote-footer px-4">
                                     {{ testimonial.author }}
                                 </figcaption>
                             </figure>
@@ -78,14 +84,6 @@
                     </div>
                     {% endfor %}
                 </div>
-                <button class="carousel-control-prev btn-cosmos" type="button" data-bs-target="#testimonialCarousel">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next btn-cosmos" type="button" data-bs-target="#testimonialCarousel">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
             </div>
         </div>
 

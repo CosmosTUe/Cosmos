@@ -1,5 +1,6 @@
 import datetime
 
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
@@ -81,6 +82,7 @@ def photo_album_add_photo(request, pk):
     return render(request, "photo_album/photo_album_add_photos.html", {"form": form})
 
 
+@login_required
 def photo_album_list(request):
     newest_album = PhotoAlbum.objects.order_by("-date")
     if not newest_album.exists():
@@ -100,6 +102,7 @@ def photo_album_list(request):
     return photo_album_list_year(request, year)
 
 
+@login_required
 def photo_album_list_year(request, year):
     # Take august 1st as start of new academic year so as to include intro
     start_academic_year = datetime.datetime(year, 8, 1)
@@ -130,6 +133,7 @@ def photo_album_list_year(request, year):
     return render(request, "photo_album/photo_album_list.html", context)
 
 
+@login_required
 def photo_album_view(request, pk):
     album = get_object_or_404(PhotoAlbum, pk=pk)
     context = {"album": album}

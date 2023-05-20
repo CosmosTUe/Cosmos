@@ -40,6 +40,8 @@ class PhotoAlbumListViewTest(TestCase):
     def test_success_blank_db(self):
         # setup
         exp_status_code = 200
+        User.objects.create_user(username="tosti@student.tue.nl", email="tosti@cosmostue.nl", password="ikbeneenbrood")
+        self.client.login(username="tosti@student.tue.nl", password="ikbeneenbrood")
 
         # act
         response = self.client.get(self.url)
@@ -56,7 +58,8 @@ class PhotoAlbumViewsTest(TestCase):
         PhotoAlbum(pk=1, title="Borrel", date="2010-10-21", album_cover=get_image_file()).save()
 
     def test_album_view_forbidden_for_public(self):
-        self.client.logout()
+        User.objects.create_user(username="tosti@student.tue.nl", email="tosti@cosmostue.nl", password="ikbeneenbrood")
+        self.client.login(username="tosti@student.tue.nl", password="ikbeneenbrood")
 
         response = self.client.get(self.url)
 

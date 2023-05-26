@@ -16,7 +16,10 @@ class Migration(migrations.Migration):
             model_name="testimonial",
             name="image",
             field=models.ImageField(
-                blank=True, upload_to="testimonials", validators=[apps.utils.AspectRatioValidator(1.0)]
+                blank=True,
+                upload_to="testimonials",
+                default="testimonials/default.png",
+                validators=[apps.utils.AspectRatioValidator(1.0)],
             ),
         ),
     ]

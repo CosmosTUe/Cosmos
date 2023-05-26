@@ -1,14 +1,6 @@
-import math
-
 from django.contrib.auth.models import Group
-from django.core.validators import FileExtensionValidator, ValidationError
+from django.core.validators import FileExtensionValidator
 from django.db import models
-
-
-def validate_aspect_ratio(image):
-    ratio = 1 / 1
-    if not math.isclose(image.width / image.height, ratio, rel_tol=1e-6):
-        raise ValidationError("The aspect ratio is not correct. The aspect ratio should be: " + str(ratio))
 
 
 class Committee(models.Model):

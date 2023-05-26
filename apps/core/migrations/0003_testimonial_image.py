@@ -2,7 +2,7 @@
 
 from django.db import migrations, models
 
-import apps.core.models.core
+import apps.utils
 
 
 class Migration(migrations.Migration):
@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
             model_name="testimonial",
             name="image",
             field=models.ImageField(
-                blank=True, upload_to="testimonials", validators=[apps.core.models.core.validate_aspect_ratio]
+                blank=True, upload_to="testimonials", validators=[apps.utils.AspectRatioValidator(1.0)]
             ),
         ),
     ]

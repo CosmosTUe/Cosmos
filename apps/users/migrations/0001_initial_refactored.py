@@ -5,8 +5,7 @@ import django_better_admin_arrayfield.models.fields
 from django.conf import settings
 from django.db import migrations, models
 
-import apps.users.models.board
-import apps.users.models.committee
+import apps.utils
 
 
 class Migration(migrations.Migration):
@@ -48,7 +47,7 @@ class Migration(migrations.Migration):
                     models.ImageField(
                         default="boards/default.jpg",
                         upload_to="boards",
-                        validators=[apps.users.models.board.validate_aspect_ratio],
+                        validators=[apps.utils.AspectRatioValidator(1.5)],
                     ),
                 ),
                 ("group", models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to="auth.group")),
@@ -350,7 +349,7 @@ class Migration(migrations.Migration):
                     models.ImageField(
                         default="committees/default.png",
                         upload_to="committees",
-                        validators=[apps.users.models.committee.validate_aspect_ratio],
+                        validators=[apps.utils.AspectRatioValidator(1.0)],
                     ),
                 ),
                 (

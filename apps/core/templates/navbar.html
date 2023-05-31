@@ -28,7 +28,9 @@
           </li>
           <a class="nav-link" href="{% url 'cosmos_events:events-list' %}">Events</a>
           <a class="nav-link" href="{% url 'cosmos_core:news-list' %}">News</a>
-          <a class="nav-link" href="{% url 'cosmos_core:photo_album-list' %}">Photos</a>
+          {% if user.is_authenticated %}
+            <a class="nav-link" href="{% url 'cosmos_core:photo_album-list' %}">Photos</a>
+          {% endif %}
           <a class="nav-link" href="{% url 'cosmos_core:resources' %}">Resources</a>
           <a class="nav-link" href="https://commonroom.nl"> Common Room
             {% if user.is_authenticated %}

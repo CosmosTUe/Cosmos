@@ -1,15 +1,8 @@
-import math
-
 from django.contrib.auth.models import Group
-from django.core.validators import ValidationError
 from django.db import models
 from django_better_admin_arrayfield.models.fields import ArrayField
 
-
-def validate_aspect_ratio(image):
-    ratio = 1.5
-    if not math.isclose(image.width / image.height, ratio, rel_tol=1e-6):
-        raise ValidationError("The aspect ratio is not correct. The aspect ratio should be: " + str(ratio))
+from apps.utils import AspectRatioValidator
 
 
 class Board(models.Model):
@@ -39,7 +32,7 @@ class Board(models.Model):
     photo = models.ImageField(
         upload_to="boards",
         default="boards/default.jpg",
-        validators=[validate_aspect_ratio],
+        validators=[AspectRatioValidator(1.5)],
     )
 
     @property

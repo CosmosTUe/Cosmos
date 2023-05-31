@@ -36,9 +36,11 @@
             <div class="col">
                 <div class="card h-100">
                     {# transform is added so that stretched link does not go into footer #}
+                    <div class="ratio ratio-16x9">
                     {% thumbnail event.image "600" crop="center" as im %}
                         <img class="card-img-top events-image" src="{{ im.url }}">
                     {% endthumbnail %}
+                    </div>
                     <div class="card-body">
                         <h5 class="card-title">{{ event.name }}</h5>
                         <p class="event-truncate">{{ event.lead }}</p>

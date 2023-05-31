@@ -25,10 +25,14 @@ def index(request):
         news_list = News.objects.filter(member_only=False, publish_date__lte=datetime.date.today()).order_by(
             "-publish_date"
         )[:3]
-        event_list = Event.objects.filter(member_only=False).order_by("-start_date_time")[:3]
+        event_list = (
+            Event.objects.filter(member_only=False)
+            .order_by("start_date_time")
+            .filter(end_date_time__gte=datetime.datetime.today())[:3]
+        )    
     else:
         news_list = News.objects.filter(publish_date__lte=datetime.date.today()).order_by("-publish_date")[:3]
-        event_list = Event.objects.order_by("-start_date_time")[:3]
+        event_list = Event.objects.order_by("start_date_time").filter(end_date_time__gte=datetime.datetime.today())[:3]
 
     return render(
         request,

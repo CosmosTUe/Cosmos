@@ -22,6 +22,7 @@ urlpatterns = [
     path("newsletter/", include("newsletter.urls")),
     path("tinymce/", include("tinymce.urls")),
     path("", include("apps.core.urls")),
+    path("", include("newsletter.urls")),
     re_path(r"^sitemap\.xml$", sitemap),
 ]
 

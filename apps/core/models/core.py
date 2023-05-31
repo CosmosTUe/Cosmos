@@ -1,7 +1,12 @@
 from django.db import models
 
+from apps.utils import AspectRatioValidator
+
 
 class Testimonial(models.Model):
+    image = models.ImageField(
+        upload_to="testimonials", blank=True, default="testimonials/default.png", validators=[AspectRatioValidator(1.0)]
+    )
     text = models.TextField(blank=False)
     author = models.CharField(blank=False, max_length=100)
 

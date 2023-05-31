@@ -1,7 +1,7 @@
 let items = document.querySelectorAll('.carousel .carousel-item')
 
 items.forEach((el) => {
-    if (window.matchMedia("(min-width: 768px)").matches)
+    if (window.matchMedia("(min-width: 992px)").matches)
     {
         const minPerSlide = 3
         let next = el.nextElementSibling

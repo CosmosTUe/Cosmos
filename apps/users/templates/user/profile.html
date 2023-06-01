@@ -15,13 +15,13 @@
     <div class="col-md-2">
         <ul class="nav nav-pills flex-column">
             <li class="nav-item d-grid">
-                <button class="nav-link active" id="profile-pill" data-bs-toggle="pill" data-bs-target="#profile" role="tab" aria-current="page">Profile</a>
+                <button class="nav-link {% if active_tab == 'profile' %}active{% endif %}" id="profile-pill" data-bs-toggle="pill" data-bs-target="#profile" role="tab" aria-current="page">Profile</a>
             </li>
             <li class="nav-item d-grid">
-                <button class="nav-link" id="password-pill" data-bs-toggle="pill" data-bs-target="#password" role="tab">Password</a>
+                <button class="nav-link {% if active_tab == 'password' %}active{% endif %}" id="password-pill" data-bs-toggle="pill" data-bs-target="#password" role="tab">Password</a>
             </li>
             <li class="nav-item d-grid">
-                <button class="nav-link" id="preferences-pill" data-bs-toggle="pill" data-bs-target="#preferences" role="tab">Preferences</a>
+                <button class="nav-link {% if active_tab == 'preferences' %}active{% endif %}" id="preferences-pill" data-bs-toggle="pill" data-bs-target="#preferences" role="tab">Preferences</a>
             </li>
         </ul>
     </div>
@@ -29,7 +29,7 @@
 
     <div class="col-md-4">
         <div class="tab-content">
-            <div class="tab-pane active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="tab-pane {% if active_tab == 'profile' %}active{% endif %}" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                 <div class="bg-cosmos-primary p-4">
                     <h2 class="text-white pb-3">Profile</h2>
                     <form method="post">
@@ -37,7 +37,7 @@
                     </form>
                 </div>
             </div>
-            <div class="tab-pane" id="password" role="tabpanel" aria-labelledby="password-tab">
+            <div class="tab-pane {% if active_tab == 'password' %}active{% endif %}" id="password" role="tabpanel" aria-labelledby="password-tab">
                 <div class="bg-cosmos-primary p-4">
                     <h2 class="text-white pb-3">Password</h2>
                     <form method="post">
@@ -45,7 +45,7 @@
                     </form>
                 </div>
             </div>
-            <div class="tab-pane" id="preferences" role="tabpanel" aria-labelledby="preferences-tab">
+            <div class="tab-pane {% if active_tab == 'preferences' %}active{% endif %}" id="preferences" role="tabpanel" aria-labelledby="preferences-tab">
                 <div class="bg-cosmos-primary p-4">
                     <h2 class="text-white pb-3">Preferences</h2>
                     <form method="post">

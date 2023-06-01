@@ -75,9 +75,11 @@
             {% for event in event_list %}
             <div class="col">
                 <div class="card h-100">
+                    <div class="ratio ratio-16x9">
                     {% thumbnail event.image "x350" crop="center" as im %}
                         <img src="{{ im.url }}" class="card-img-top">
                     {% endthumbnail %}
+                    </div>
                     <div class="card-body">
                         <h5 class="card-title">{{ event.name }}</h5>
                         <p class="card-text">{{ event.lead }}</p>
@@ -94,9 +96,21 @@
 </section>
 <section id="news" class="pb-5">
     <div class="container py-5">
-        <a class="section-title" href="{% url 'cosmos_core:news-list' %}">
-            <h2>News</h2>
-        </a>
+        <div class="row">
+            <div class="col"></div>
+            <div class="col">
+                <a class="section-title" href="{% url 'cosmos_core:news-list' %}">
+                    <h2>News</h2>
+                </a>
+            </div>
+            <div class="col py-1">
+                <div class="float-end d-md-block d-none">
+                    <a class="btn btn-cosmos-primary" href="{% url 'cosmos_users:subscribe-newsletter' active_tab='preferences'%}">
+                        Subscribe to the Newsletter
+                    </a>
+                </div>
+            </div>
+        </div>
         <div class="row row-cols-1 row-cols-md-3 g-4">
         {% for news in news_list %}
             <div class="col">
@@ -117,6 +131,13 @@
                 </div>
             </div>
         {% endfor %}
+        </div>
+        <div class="row py-4">
+            <div class="col d-flex justify-content-center d-md-none">
+                <a class="btn btn-cosmos-primary" href="{% url 'cosmos_users:subscribe-newsletter' active_tab='preferences'%}">
+                    Subscribe to the Newsletter
+                </a>
+            </div>
         </div>
     </div>
 </section>

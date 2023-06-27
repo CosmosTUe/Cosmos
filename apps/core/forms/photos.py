@@ -10,7 +10,7 @@ from apps.core.models.photos import PhotoAlbum, PhotoObject
 
 
 class PhotoAlbumForm(forms.ModelForm):
-    photos = forms.ImageField(widget=forms.ClearableFileInput(attrs={"multiple": True}), required=False)
+    photos = forms.ImageField(widget=forms.ClearableFileInput(attrs={"allow_multiple_selected": True}), required=False)
 
     class Meta:
         model = PhotoAlbum
@@ -53,7 +53,7 @@ class PhotoAlbumUpdateForm(forms.ModelForm):
 
 
 class PhotoObjectForm(forms.ModelForm):
-    photo = forms.ImageField(widget=forms.ClearableFileInput(attrs={"multiple": True}), required=True)
+    photo = forms.ImageField(widget=forms.ClearableFileInput(attrs={"allow_multiple_selected": True}), required=True)
 
     class Meta:
         model = PhotoObject

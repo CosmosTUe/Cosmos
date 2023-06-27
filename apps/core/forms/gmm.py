@@ -10,7 +10,7 @@ from apps.core.models.gmm import GMM, FileObject
 class FileObjectForm(forms.ModelForm):
     class Meta:
         model = FileObject
-        exclude = ()
+        fields = ["name", "file"]
 
 
 GMMFormSet = inlineformset_factory(

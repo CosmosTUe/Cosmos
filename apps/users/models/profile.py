@@ -34,6 +34,9 @@ class Profile(models.Model):
         max_length=3, verbose_name="Emails are sent to", default="TUE", choices=NEWSLETTER_RECIPIENTS
     )
 
+    def __str__(self):
+        return f"{self.username}"
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -59,6 +62,3 @@ class Profile(models.Model):
         elif is_fontys_email(self.username):
             return "fontys"
         return None
-
-    def __str__(self):
-        return f"{self.username}"

@@ -30,6 +30,9 @@ class Committee(models.Model):
         validators=[FileExtensionValidator(["svg", "jpg", "jpeg", "png"])],
     )
 
+    def __str__(self):
+        return f"{self.name}: {self.description}"
+
     @property
     def name(self):
         return self.group.name
@@ -37,6 +40,3 @@ class Committee(models.Model):
     @property
     def permissions(self):
         return self.group.permissions
-
-    def __str__(self):
-        return f"{self.name}: {self.description}"

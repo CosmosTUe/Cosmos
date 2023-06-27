@@ -28,6 +28,9 @@ class InternalDocument(models.Model):
 
     file = models.FileField(null=False, blank=False, upload_to="internal/")
 
+    def __str__(self):
+        return "InternalDocument: {" + self.name + ", " + str(self.modified) + "}"
+
     def save(self, *args, **kwargs):
         user = get_current_user()
         if user and not user.pk:
@@ -36,6 +39,3 @@ class InternalDocument(models.Model):
             self.created_by = user
         self.modified_by = user
         super(InternalDocument, self).save(*args, **kwargs)
-
-    def __str__(self):
-        return "InternalDocument: {" + self.name + ", " + str(self.modified) + "}"

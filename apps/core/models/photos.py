@@ -7,11 +7,11 @@ class PhotoAlbum(models.Model):
     date = models.DateField()
     album_cover = models.ImageField(upload_to="photos")
 
-    def get_absolute_url(self):
-        return reverse("cosmos_core:photo_album-list")
-
     def __str__(self):
         return "PhotoAlbum: {" + self.title + "}"
+
+    def get_absolute_url(self):
+        return reverse("cosmos_core:photo_album-list")
 
 
 class PhotoObject(models.Model):

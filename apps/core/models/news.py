@@ -18,11 +18,8 @@ class News(models.Model):
         User, blank=True, null=True, default=None, on_delete=models.SET_NULL, related_name="author"
     )
 
-    def published(self):
-        if self.publish_date > datetime.date.today():
-            return False
-        else:
-            return True
+    def __str__(self):
+        return "News: {" + self.title + ", " + str(self.publish_date) + "}"
 
     def save(self, *args, **kwargs):
         user = get_current_user()
@@ -33,5 +30,8 @@ class News(models.Model):
     def get_absolute_url(self):
         return reverse("cosmos_core:news-list")
 
-    def __str__(self):
-        return "News: {" + self.title + ", " + str(self.publish_date) + "}"
+    def published(self):
+        if self.publish_date > datetime.date.today():
+            return False
+        else:
+            return True

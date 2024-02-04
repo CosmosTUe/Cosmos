@@ -13,12 +13,12 @@ class Institution(models.Model):
     class Meta:
         abstract = True
 
+    def __str__(self):
+        return f"{self.username}"
+
     @property
     def username(self):
         return self.profile.user.username
-
-    def __str__(self):
-        return f"{self.username}"
 
 
 class InstitutionTue(Institution):
@@ -29,6 +29,9 @@ class InstitutionTue(Institution):
         verbose_name = "Member of TU/e"
         verbose_name_plural = "Members of TU/e"
 
+    def __str__(self):
+        return "Institute - TU/e"
+
 
 class InstitutionFontys(Institution):
     study = models.CharField(max_length=100, blank=False, choices=list(zip(FONTYS_STUDIES, FONTYS_STUDIES)))
@@ -36,6 +39,9 @@ class InstitutionFontys(Institution):
     class Meta:
         verbose_name = "Member of Fontys"
         verbose_name_plural = "Members of Fontys"
+
+    def __str__(self):
+        return "Institute - Fontys"
 
 
 @receiver(post_save, sender=Profile)

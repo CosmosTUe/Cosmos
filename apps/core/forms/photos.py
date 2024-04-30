@@ -9,8 +9,12 @@ from django.core.exceptions import ValidationError
 from apps.core.models.photos import PhotoAlbum, PhotoObject
 
 
+class MultipleFileInput(forms.ClearableFileInput):
+    allow_multiple_selected = True
+
+
 class PhotoAlbumForm(forms.ModelForm):
-    photos = forms.ImageField(widget=forms.ClearableFileInput(attrs={"allow_multiple_selected": True}), required=False)
+    photos = forms.ImageField(widget=MultipleFileInput(), required=False)
 
     class Meta:
         model = PhotoAlbum
@@ -53,7 +57,7 @@ class PhotoAlbumUpdateForm(forms.ModelForm):
 
 
 class PhotoObjectForm(forms.ModelForm):
-    photo = forms.ImageField(widget=forms.ClearableFileInput(attrs={"allow_multiple_selected": True}), required=True)
+    photo = forms.ImageField(widget=MultipleFileInput(), required=True)
 
     class Meta:
         model = PhotoObject

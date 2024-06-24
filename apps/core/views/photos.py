@@ -73,7 +73,7 @@ def photo_album_add_photo(request, pk):
 
     if request.method == "POST":
         print(request.FILES)
-        for img in request.FILES.getlist("photo"):
+        for img in request.FILES.getlist("photos"):
             PhotoObject.objects.create(album=album, photo=img)
         return redirect(reverse("cosmos_core:photo_album-view", kwargs={"pk": album.id}))
     else:

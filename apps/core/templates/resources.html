@@ -1,6 +1,7 @@
 {% extends "subpage.html" %}
 {% block title %}Resources{% endblock title%}
 {% block content %}
+{% load static %}
 
 <div class="container">
   <div class="w-75 mx-auto">
@@ -67,6 +68,20 @@
         <a class="btn btn-cosmos-primary" href="{% url 'cosmos_core:internal-list' %}">Internal Documents</a>
         <a class="btn btn-cosmos-primary" href="{% url 'cosmos_core:gmm-list' %}">GMM Documents</a>
     </div>
+
+    <h2 class="text-center mt-5">Code of Conduct</h2>
+    <p>
+        Everyone within Cosmos, in the Common Room, and at Cosmos events, including students, 
+        staff, and guests, is entitled to fair treatment. The Code of Conduct details the rules that 
+        we all have to follow, your rights, and who you can go to when you feel these rights 
+        have been violated.
+    </p>
+    <p>
+        The Code of Conduct is available 
+        <a href="{% static 'cosmos/pdf/CodeOfConduct1-0-0.pdf' %}">here</a>, 
+        and applies to anyone at a Cosmos event, and to any Cosmos
+        member in the Common Room.
+    </p>
 
     {% if user.is_authenticated %}
         <h2 class="text-center mt-5">Members' Initiative</h2>

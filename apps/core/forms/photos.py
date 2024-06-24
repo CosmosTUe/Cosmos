@@ -13,8 +13,22 @@ class MultipleFileInput(forms.ClearableFileInput):
     allow_multiple_selected = True
 
 
+class MultipleImageField(forms.ImageField):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("widget", MultipleFileInput())
+        super().__init__(*args, **kwargs)
+
+    def clean(self, data, initial=None):
+        single_file_clean = super().clean
+        if isinstance(data, (list, tuple)):
+            result = [single_file_clean(d, initial) for d in data]
+        else:
+            result = [single_file_clean(data, initial)]
+        return result
+
+
 class PhotoAlbumForm(forms.ModelForm):
-    photos = forms.ImageField(widget=MultipleFileInput(), required=False)
+    photos = MultipleImageField(widget=MultipleFileInput(), required=False)
 
     class Meta:
         model = PhotoAlbum
@@ -57,17 +71,17 @@ class PhotoAlbumUpdateForm(forms.ModelForm):
 
 
 class PhotoObjectForm(forms.ModelForm):
-    photo = forms.ImageField(widget=MultipleFileInput(), required=True)
+    photos = forms.ImageField(widget=MultipleFileInput(), required=True)
 
     class Meta:
         model = PhotoObject
-        fields = ["photo"]
+        fields = ["photos"]
 
     def __init__(self, *args, **kwargs):
         super(PhotoObjectForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_tag = False
-        self.helper.layout = Layout(Field("photo"))
+        self.helper.layout = Layout(Field("photos"))
 
 
 PHOTO_ALBUM_FUTURE_DATE = "future_photo_album"

@@ -11,8 +11,8 @@ from apps.users.models import Board, Profile
 
 
 def index(request):
-    members = Profile.objects.count()
-    nationalities = Profile.objects.values("nationality").distinct().count()
+    members = Profile.objects.filter(user__is_active=True).count()
+    nationalities = Profile.objects.filter(user__is_active=True).values("nationality").distinct().count()
     active_years = int((datetime.date.today() - FOUNDING_DATE).days // 365.25)
     events_amount = "20+"
     partners = Partner.objects.all().order_by("?")

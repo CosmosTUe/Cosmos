@@ -1,4 +1,5 @@
 if (document.readyState == "complete") {
+    console.log("doc-already-complete")
     if (document.getElementById("id_start_date_time")) {
         flatpickr("#id_start_date_time", { enableTime: true, dateFormat: "Y-m-d H:i", time_24hr: true, });
     }

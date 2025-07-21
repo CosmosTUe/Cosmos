@@ -70,7 +70,7 @@ class RegistrationWizard(SessionWizardView):
 
         if user_form.is_valid() and institution_form.is_valid():
             user = user_form.save(commit=False)
-            user.is_active = False  # TODO check this is working correctly
+            user.is_active = True  # TODO check this is working correctly and TODO set this to False once email API is fixed
             user.save()
             user.refresh_from_db()
 
@@ -89,7 +89,8 @@ class RegistrationWizard(SessionWizardView):
                 # TODO raise exception?
                 pass
 
-            create_confirm_account_email(profile).send()
+            # create_confirm_account_email(profile).send()
+            # TODO once email API is fixed, uncomment this
         return redirect(reverse("cosmos_users:registration_done"))
 
     def get_template_names(self):

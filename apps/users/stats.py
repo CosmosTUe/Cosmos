@@ -31,9 +31,18 @@ def make_plot(data, name):
     # Makes a plot from the data and then returns the location of where it's saved
     filepath = "/tmp/" + name + "-graph.jpg"
     plt.figure(1, [20, 8])
-    plt.bar(data.keys(), data.values())
+    rects = plt.bar(data.keys(), data.values())
     plt.title(name.capitalize())
     plt.xticks(rotation=45, ha="right")
+
+    # Attach a text label above each bar displaying its height
+    for rect in rects:
+        height = rect.get_height()
+        plt.text(rect.get_x() + rect.get_width()/2., 1.05*height,
+                '%d' % int(height),
+                ha='center', va='bottom')
+
+
     plt.tight_layout()
     plt.savefig(filepath)
     plt.close()

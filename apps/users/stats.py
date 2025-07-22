@@ -73,7 +73,7 @@ def get_major_stats(query):
 
 def make_plot(data, name):
     # Makes a plot from the data and then returns the location of where it's saved
-    filepath = "/temp/" + name + "-graph.jpg"
+    filepath = "/tmp/" + name + "-graph.jpg"
     plt.figure(1, [20, 8])
     rects = plt.bar(data.keys(), data.values())
     plt.title(name.capitalize())

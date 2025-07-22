@@ -26,7 +26,6 @@ class Profile(models.Model):
     user = models.OneToOneField(User, blank=False, on_delete=models.CASCADE)
     nationality = models.CharField(max_length=100, blank=False, choices=list(zip(NATIONALITIES, NATIONALITIES)))
     terms_confirmed = models.BooleanField(default=False)
-    institution = models.ForeignKey('Institution', on_delete=models.SET_NULL, null=True, blank=True)
     
     # TODO remove
     subscribed_newsletter = models.BooleanField(default=False, verbose_name="Subscribe to the newsletter")

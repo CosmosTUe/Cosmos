@@ -5,16 +5,15 @@ from django.db.models.functions import ExtractMonth, ExtractYear, Concat
 from apps.users.models.profile import Profile
 
 def get_date_joined_stats(query):
-    EU_NATIONALITIES = ["Austrian", "Belgian", "Bulgarian", "Croatian", "Cypriot", "Czech",
+    EUEEA_NATIONALITIES = ["Austrian", "Belgian", "Bulgarian", "Croatian", "Cypriot", "Czech",
                         "Danish", "Dutch", "Estonian", "Finnish", "French", "German", "Greek",
                         "Hungarian", "Icelander", "Irish", "Italian", "Latvian", "Liechtensteiner",
                         "Lithuanian", "Luxembourger", "Maltese", "Norwegian", "Polish", "Portuguese",
                         "Romanian", "Slovakian", "Slovenian", "Spanish", "Swedish"]
 
-
-    # Takes an academic year as July 1-June 30th, coinciding with a board year,
-    # makes a list with other relevant data
+    # First annotates (i.e. attaches to all entries, all students in this case) year and month of join date ...
     date_joined_list = query.annotate(month=ExtractMonth('user__date_joined'), year=ExtractYear('user__date_joined'),
+            # ... so we can then annotate academic year coinciding with a board year (e.g. July 1 2025 - June 30 2026) ...
             academic_start_year=Case(
                 When(month__gte=7, then=F('year')),                     
                 default=F('year') - 1                                   
@@ -29,21 +28,25 @@ def get_date_joined_stats(query):
                 F('academic_end_year'),
                 output_field=CharField()
             ),
-            is_eu=Case(
-                When(nationality__in=EU_NATIONALITIES, then=Value(True)),
+            # ... as well as if the student is from the EU/EEA ...
+            is_eueea=Case(
+                When(nationality__in=EUEEA_NATIONALITIES, then=Value(True)),
                 default=Value(False),
                 output_field=BooleanField()
             )
-        ).values('academic_year', 'institutiontue__program', 'is_eu'
+            # ... we then group all students by unique combination of academic year, program, and EU/EEA or non-EU/EEA ...
+        ).values('academic_year', 'institutiontue__program', 'is_eueea'
+                 # ... then annotate the groups to get the count of students in each group ...
                  ).annotate(count=Count('id')
-                            ).order_by('academic_year', 'institutiontue__program', 'is_eu')
+                            # ... and order for convenience's sake.
+                            ).order_by('academic_year', 'institutiontue__program', 'is_eueea')
 
     # Turn the list of dictionaries into one dictionary
-    date_joined = {f"{item['academic_year']} | {item['institutiontue__program']} | {'EU' if item['is_eu']else 'Non-EU'}": item['count']
+    date_joined = {f"{item['academic_year']} | {item['institutiontue__program']} | {'EU/EEA' if item['is_eueea']else 'Non-EU/EEA'}": item['count']
                    for item in date_joined_list}
 
     # Call the plotting function (used in case the plotting function wants to be changed)
-    plots = [make_plot(date_joined, 'AON wanted this data ONLY TUE STUDENTS HERE tho tbf thats by far the vast majority')]
+    plots = [make_plot(date_joined, 'students joined in each academic year ONLY TUE STUDENTS HERE')]
     return plots
 
 def get_nationality_stats(query):

@@ -10,6 +10,7 @@ https://github.com/sendgrid/sendgrid-python
 https://github.com/sendgrid/python-http-client
 https://sendgrid.api-docs.io/v3.0/how-to-use-the-sendgrid-v3-api/api-authentication
 """
+
 from abc import ABCMeta, abstractmethod
 from typing import List
 

@@ -70,7 +70,7 @@ class RegistrationWizard(SessionWizardView):
 
         if user_form.is_valid() and institution_form.is_valid():
             user = user_form.save(commit=False)
-            user.is_active = False  # TODO check this is working correctly
+            user.is_active = False
             user.save()
             user.refresh_from_db()
 

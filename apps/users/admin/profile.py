@@ -11,6 +11,7 @@ from python_http_client import UnauthorizedError
 from apps.async_requests.factory import Factory
 from apps.users.models import Profile
 from apps.users.stats import get_nationality_stats
+from apps.users.stats import get_date_joined_stats
 
 logger = logging.getLogger(__name__)
 executor = Factory.get_executor()
@@ -36,7 +37,9 @@ class ProfileAdmin(admin.ModelAdmin):
 
     def send_stats(self, request):
         # https://djangosnippets.org/snippets/365/
-        filenames = get_nationality_stats(self.model.objects)  # get file objects of plots
+        # filenames = get_nationality_stats(self.model.objects)  # get file objects of plots
+        # TODO you can uncomment above line and comment below line for the button to now show nationality stats 
+        filenames = get_date_joined_stats(self.model.objects.select_related('user', 'institutiontue'))
         response = FileResponse(open(filenames[0], "rb"))
 
         return response

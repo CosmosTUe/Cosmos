@@ -1,9 +1,20 @@
-window.addEventListener('load', (event) => {
-    console.log("event-outside-log")
-    if (document.getElementById("id_start_date_time")) {
-        flatpickr("#id_start_date_time", { enableTime: true, dateFormat: "Y-m-d H:i", time_24hr: true, });
-    }
-    if (document.getElementById("id_end_date_time")) {
-        flatpickr("#id_end_date_time", { enableTime: true, dateFormat: "Y-m-d H:i", time_24hr: true, });
-    }
-});
+// TODO: Fix date picker
+// if (document.readyState == "complete") {
+//     console.log("doc-already-complete")
+//     if (document.getElementById("id_start_date_time")) {
+//         flatpickr("#id_start_date_time", { enableTime: true, dateFormat: "Y-m-d H:i", time_24hr: true, });
+//     }
+//     if (document.getElementById("id_end_date_time")) {
+//         flatpickr("#id_end_date_time", { enableTime: true, dateFormat: "Y-m-d H:i", time_24hr: true, });
+//     }
+// } else{
+//     window.addEventListener('load', (event) => {
+//         console.log("event-outside-log")
+//         if (document.getElementById("id_start_date_time")) {
+//             flatpickr("#id_start_date_time", { enableTime: true, dateFormat: "Y-m-d H:i", time_24hr: true, });
+//         }
+//         if (document.getElementById("id_end_date_time")) {
+//             flatpickr("#id_end_date_time", { enableTime: true, dateFormat: "Y-m-d H:i", time_24hr: true, });
+//         }
+//     });
+// }

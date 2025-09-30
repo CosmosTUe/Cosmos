@@ -6,7 +6,7 @@ from django.db.models.functions import ExtractMonth, ExtractYear, Concat
 
 
 def get_date_joined_stats(query):
-    EUEEA_NATIONALITIES = [
+    eueea_nationalities = [
         "Austrian",
         "Belgian",
         "Bulgarian",
@@ -52,7 +52,7 @@ def get_date_joined_stats(query):
             ),
             # ... as well as if the student is from the EU/EEA ...
             is_eueea=Case(
-                When(nationality__in=EUEEA_NATIONALITIES, then=Value(True)),
+                When(nationality__in=eueea_nationalities, then=Value(True)),
                 default=Value(False),
                 output_field=BooleanField(),
             ),

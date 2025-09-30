@@ -18,7 +18,7 @@ def protected_media(request, file_path):
 
 
 def update_door_status(request):
-    global door_status
+    # global door_status
     try:
         request_token = request.GET.get("access_token")
         status = int(request.GET.get("status"))

@@ -1,3 +1,8 @@
+# macOS
+.DS_Store
+**/.DS_Store
+.python-version
+
 .venv
 .vscode
 .tox

@@ -6,8 +6,8 @@ import json
 import os
 import sys
 
-if sys.platform.startswith("linux"):
-    if os.path.exists("/etc/secrets.json"):  # Linux local dev or staging/production server
+if sys.platform.startswith(("linux", "darwin")):
+    if os.path.exists("/etc/secrets.json"):  # Linux/macOS local dev or staging/production server
         with open("/etc/secrets.json", "r") as f:
             secrets = json.load(f)
     elif os.path.exists("tests/secrets.json"):  # CI server

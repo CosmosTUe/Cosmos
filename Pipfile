@@ -8,7 +8,7 @@ six = "*"
 psycopg2-binary = "*"
 pytz = "*"
 matplotlib = "*"
-django-formtools = "<2.4"
+django-formtools = "*"
 django-crispy-forms = "*"
 crispy-bootstrap5 = "*"
 django-crum = "*"
@@ -34,8 +34,9 @@ Pillow = "*"
 Django = "*"
 django-ical = "*"
 sorl-thumbnail = "*"
-django-newsletter = {editable = true, git = "https://github.com/CosmosTUe/django-newsletter.git"}
-"backports.zoneinfo" = "==0.2.1" # support for Python <= 3.8
+django-newsletter = "*"
+#django-newsletter = {editable = true, git = "https://github.com/CosmosTUe/django-newsletter.git"}
+#"backports.zoneinfo" = "==0.2.1" # support for Python <= 3.8
 django-tinymce = "*"
 
 [dev-packages]
@@ -48,7 +49,7 @@ tox = "*"
 pre-commit = "*"
 
 [requires]
-python_version = "3.8"
+python_version = "3.13"
 
 [pipenv]
 allow_prereleases = true

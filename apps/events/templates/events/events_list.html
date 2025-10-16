@@ -65,6 +65,45 @@
             </div>
         {% endfor %}
         </div>
+        <div class="row mt-5">
+            <div class="col">
+                <h2>Past Events</h2>
+            </div>
+        </div>
+        <div class="row row-cols-1 row-cols-md-3 g-2 mt-2" id="EventGrid">
+        {% for event in events_list_past %}
+            <div class="col">
+                <div class="card h-100">
+                    {# transform is added so that stretched link does not go into footer #}
+                    <div class="ratio ratio-16x9">
+                    {% thumbnail event.image "600" crop="center" as im %}
+                        <img class="card-img-top events-image" src="{{ im.url }}">
+                    {% endthumbnail %}
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ event.name }}</h5>
+                        <p class="event-truncate">{{ event.lead }}</p>
+                        <a class="stretched-link" href="{% url 'cosmos_events:events-view' event.id %}"></a>
+                    </div>
+                    <div class="card-footer">
+                        {% if perms.events.change_event and perms.events.delete_event %}
+                        <div class="float-end">
+                            <a class="btn p-0 btn-over-stretched" href="{% url 'cosmos_events:events-update' event.id %}">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                            <a class="btn p-0 btn-over-stretched" href="{% url 'cosmos_events:events-delete' event.id %}">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </div>
+                        {% endif %}
+                        <small class="text-muted">
+                            {{ event.start_date_time }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
     </div>
 </div>
 

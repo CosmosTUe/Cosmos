@@ -18,14 +18,23 @@ def events_list(request):
         events_list = (
             Event.objects.order_by("start_date_time").filter(end_date_time__gte=datetime.datetime.today()).all()
         )
+        events_list_past = (
+            Event.objects.order_by("start_date_time").filter(end_date_time__lte=datetime.datetime.today()).all()
+        )
     else:
         events_list = (
             Event.objects.filter(member_only=False)
             .order_by("start_date_time")
             .filter(end_date_time__gte=datetime.datetime.today())
         )
+        events_list_past = (
+            Event.objects.filter(member_only=False)
+            .order_by("start_date_time")
+            .filter(end_date_time__lte=datetime.datetime.today())
+        )
     context = {
         "events_list": events_list,
+        "events_list_past": events_list_past,
     }
     return render(request, "events/events_list.html", context)
 

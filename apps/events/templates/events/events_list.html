@@ -23,13 +23,6 @@
                 </div>
                 {% endif %}
             </div>
-            <div class="col-md-2 py-1">
-                <div class="float-end">
-                    <a class="btn btn-cosmos-primary" href="{% url 'cosmos_events:events-archive' %}">
-                        Past Events
-                    </a>
-                </div>
-            </div>
         </div>
         <div class="row row-cols-1 row-cols-md-3 g-2 mt-2" id="EventGrid">
         {% for event in events_list %}

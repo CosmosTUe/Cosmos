@@ -19,7 +19,7 @@ def events_list(request):
             Event.objects.order_by("start_date_time").filter(end_date_time__gte=datetime.datetime.today()).all()
         )
         events_list_past = (
-            Event.objects.order_by("start_date_time").filter(end_date_time__lte=datetime.datetime.today()).all()
+            Event.objects.order_by("-start_date_time").filter(end_date_time__lte=datetime.datetime.today()).all()
         )
     else:
         events_list = (
@@ -29,7 +29,7 @@ def events_list(request):
         )
         events_list_past = (
             Event.objects.filter(member_only=False)
-            .order_by("start_date_time")
+            .order_by("-start_date_time")
             .filter(end_date_time__lte=datetime.datetime.today())
         )
     context = {

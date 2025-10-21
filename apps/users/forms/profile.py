@@ -73,7 +73,7 @@ class ProfileUpdateForm(forms.ModelForm):
             institution.department = self.cleaned_data["department"]
             institution.program = self.cleaned_data["program"]
             institution.save()
-        elif is_tue_email(username):
+        elif is_fontys_email(username):
             institution.study = self.cleaned_data["study"]
             institution.save()
 
@@ -119,7 +119,14 @@ class ProfileUpdateForm(forms.ModelForm):
             FloatingField("department", type=hidden_tue),
             FloatingField("program", type=hidden_tue),
             FloatingField("study", type=hidden_fontys),
-            ButtonHolder(Submit("save_profile", "Submit")),
+            ButtonHolder(
+                Submit(
+                    "save_profile",
+                    "Save changes",
+                    css_class="js-submit js-profile-submit",
+                    disabled="disabled",
+                )
+            ),
         )
 
 
@@ -138,7 +145,15 @@ class PasswordUpdateForm(PasswordChangeForm):
             FloatingField("new_password2"),
         )
 
-        self.helper.add_input(Submit("save_password", "Submit"))
+        self.helper.add_input(
+            Submit(
+                "save_password",
+                "Save changes",
+                css_class="js-submit js-password-submit",
+                disabled="disabled",
+            )
+        )
+
 
 
 class PreferencesUpdateForm(forms.Form):
@@ -173,8 +188,15 @@ class PreferencesUpdateForm(forms.Form):
 
         self.helper.layout = Layout(HTML('<h3 class="text-white">Email notifications</h3>'), *crispy_newsletters)
 
-        self.helper.add_input(Submit("save_preferences", "Submit"))
-
+        self.helper.add_input(
+            Submit(
+                "save_preferences",
+                "Save changes",
+                css_class="js-submit js-preferences-submit",
+                disabled="disabled",
+            )
+        )
+        
     def init_newsletter_initials(self):
         newsletters = Newsletter.objects.all()
         for newsletter in newsletters:

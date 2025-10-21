@@ -124,30 +124,39 @@ def registration_done(request):
 @login_required
 def profile(request, active_tab="profile"):
     if request.method == "POST":
-        profile_update_form = ProfileUpdateForm(data=request.POST, instance=request.user)
-        password_change_form = PasswordUpdateForm(data=request.POST, user=request.user)
-        preferences_update_form = PreferencesUpdateForm(data=request.POST, user=request.user)
+        profile_update_form = ProfileUpdateForm(instance=request.user)
+        password_change_form = PasswordUpdateForm(user=request.user)
+        preferences_update_form = PreferencesUpdateForm(user=request.user)
 
         if "save_profile" in request.POST:
+            active_tab = "profile"
+            profile_update_form = ProfileUpdateForm(data=request.POST, instance=request.user)
             if profile_update_form.is_valid():
                 profile_update_form.save()
                 messages.success(request, "Your profile has been updated!")
-                return redirect(reverse("cosmos_users:user_profile") + "#profile")
+                return redirect(reverse("cosmos_users:user_profile") + "?tab=profile")
         elif "save_password" in request.POST:
+            active_tab = "password"
+            password_change_form = PasswordUpdateForm(data=request.POST, user=request.user)
             if password_change_form.is_valid():
                 password_change_form.save()
                 messages.success(request, "Your password has been updated!")
-                return redirect(reverse("cosmos_users:user_profile") + "#password")
+                return redirect(reverse("cosmos_users:user_profile") + "?tab=password")
         elif "save_preferences" in request.POST:
+            active_tab = "preferences"
+            preferences_update_form = PreferencesUpdateForm(data=request.POST, user=request.user)
             if preferences_update_form.is_valid():
                 preferences_update_form.save()
                 messages.success(request, "Your preferences have been updated!")
-                return redirect(reverse("cosmos_users:user_profile") + "#preferences")
+                return redirect(reverse("cosmos_users:user_profile") + "?tab=preferences")
 
     else:
         profile_update_form = ProfileUpdateForm(instance=request.user)
         password_change_form = PasswordUpdateForm(user=request.user)
         preferences_update_form = PreferencesUpdateForm(user=request.user)
+
+    if request.method == "GET":
+        active_tab = request.GET.get("tab", active_tab)
 
     return render(
         request,

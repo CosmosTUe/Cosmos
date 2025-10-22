@@ -155,7 +155,6 @@ class PasswordUpdateForm(PasswordChangeForm):
         )
 
 
-
 class PreferencesUpdateForm(forms.Form):
     @staticmethod
     def newsletter_field_name(newsletter):
@@ -196,7 +195,7 @@ class PreferencesUpdateForm(forms.Form):
                 disabled="disabled",
             )
         )
-        
+
     def init_newsletter_initials(self):
         newsletters = Newsletter.objects.all()
         for newsletter in newsletters:

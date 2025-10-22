@@ -4,7 +4,7 @@
 
 
 {% block title %}
-    Your Profile
+Your Profile
 {% endblock %}
 
 
@@ -15,13 +15,16 @@
     <div class="col-md-2">
         <ul class="nav nav-pills flex-column">
             <li class="nav-item d-grid">
-                <button class="nav-link {% if active_tab == 'profile' %}active{% endif %}" id="profile-pill" data-bs-toggle="pill" data-bs-target="#profile" role="tab" aria-current="page">Profile</a>
+                <button class="nav-link {% if active_tab == 'profile' %}active{% endif %}" id="profile-pill"
+                    data-bs-toggle="pill" data-bs-target="#profile" role="tab" aria-current="page">Profile</a>
             </li>
             <li class="nav-item d-grid">
-                <button class="nav-link {% if active_tab == 'password' %}active{% endif %}" id="password-pill" data-bs-toggle="pill" data-bs-target="#password" role="tab">Password</a>
+                <button class="nav-link {% if active_tab == 'password' %}active{% endif %}" id="password-pill"
+                    data-bs-toggle="pill" data-bs-target="#password" role="tab">Password</a>
             </li>
             <li class="nav-item d-grid">
-                <button class="nav-link {% if active_tab == 'preferences' %}active{% endif %}" id="preferences-pill" data-bs-toggle="pill" data-bs-target="#preferences" role="tab">Preferences</a>
+                <button class="nav-link {% if active_tab == 'preferences' %}active{% endif %}" id="preferences-pill"
+                    data-bs-toggle="pill" data-bs-target="#preferences" role="tab">Preferences</a>
             </li>
         </ul>
     </div>
@@ -29,26 +32,32 @@
 
     <div class="col-md-4">
         <div class="tab-content">
-            <div class="tab-pane {% if active_tab == 'profile' %}active{% endif %}" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="tab-pane {% if active_tab == 'profile' %}active{% endif %}" id="profile" role="tabpanel"
+                aria-labelledby="profile-tab">
                 <div class="bg-cosmos-primary p-4">
                     <h2 class="text-white pb-3">Profile</h2>
-                    <form method="post">
+                    <form id="profile-form" method="post">
+                        {% csrf_token %}
                         {% crispy profile_update_form %}
                     </form>
                 </div>
             </div>
-            <div class="tab-pane {% if active_tab == 'password' %}active{% endif %}" id="password" role="tabpanel" aria-labelledby="password-tab">
+            <div class="tab-pane {% if active_tab == 'password' %}active{% endif %}" id="password" role="tabpanel"
+                aria-labelledby="password-tab">
                 <div class="bg-cosmos-primary p-4">
                     <h2 class="text-white pb-3">Password</h2>
-                    <form method="post">
+                    <form id="password-form" method="post">
+                        {% csrf_token %}
                         {% crispy password_change_form %}
                     </form>
                 </div>
             </div>
-            <div class="tab-pane {% if active_tab == 'preferences' %}active{% endif %}" id="preferences" role="tabpanel" aria-labelledby="preferences-tab">
+            <div class="tab-pane {% if active_tab == 'preferences' %}active{% endif %}" id="preferences" role="tabpanel"
+                aria-labelledby="preferences-tab">
                 <div class="bg-cosmos-primary p-4">
                     <h2 class="text-white pb-3">Preferences</h2>
-                    <form method="post">
+                    <form id="preferences-form" method="post">
+                        {% csrf_token %}
                         {% crispy preferences_update_form %}
                     </form>
                 </div>
@@ -57,5 +66,49 @@
     </div>
 
 </div>
+<script> // Enable submit buttons only when form is dirty
+    (function () {
+        function isDirty(form) {
+            const els = Array.from(form.elements).filter(e => e.name && !e.disabled);
+            return els.some(el => {
+                const tag = el.tagName;
+                const type = (el.type || "").toLowerCase();
+
+                if (type === "checkbox" || type === "radio") {
+                    return el.checked !== el.defaultChecked;
+                }
+                if (tag === "SELECT") {
+                    // any option selection changed?
+                    return Array.from(el.options).some(opt => opt.selected !== opt.defaultSelected);
+                }
+                // inputs/textareas
+                return el.value !== el.defaultValue;
+            });
+        }
+
+        function wire(formId) {
+            const form = document.getElementById(formId);
+            if (!form) return;
+
+            const submit = form.querySelector('button[type="submit"], input[type="submit"]');
+            if (!submit) return;
+
+            function update() {
+                submit.disabled = !isDirty(form);
+            }
+
+            // Enable button as soon as any field actually differs from its default
+            form.addEventListener("input", update, true);
+            form.addEventListener("change", update, true);
+
+            // Initial state
+            update();
+        }
+
+        wire("profile-form");
+        wire("password-form");
+        wire("preferences-form");
+    })();
+</script>
 
 {% endblock %}

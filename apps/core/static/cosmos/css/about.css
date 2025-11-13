@@ -1,3 +1,6 @@
+.partners .carousel-inner .carousel-item.active,
+.partners .carousel-inner .carousel-item-next,
+.partners .carousel-inner .carousel-item-prev,
 .testimonials .carousel-inner .carousel-item.active,
 .testimonials .carousel-inner .carousel-item-next,
 .testimonials .carousel-inner .carousel-item-prev {
@@ -5,17 +8,20 @@
 }
 
 @media (min-width: 992px) {
-
+    .partners .carousel-inner .carousel-item-end.active,
+    .partners .carousel-inner .carousel-item-next,
     .testimonials .carousel-inner .carousel-item-end.active,
     .testimonials .carousel-inner .carousel-item-next {
         transform: translateX(33.333%);
     }
-
+    .partners .carousel-inner .carousel-item-start.active,
+    .partners .carousel-inner .carousel-item-prev,
     .testimonials .carousel-inner .carousel-item-start.active,
     .testimonials .carousel-inner .carousel-item-prev {
         transform: translateX(-33.333%);
     }
-
+    .partners .carousel-inner .carousel-item-end,
+    .partners .carousel-inner .carousel-item-start,
     .testimonials .carousel-inner .carousel-item-end,
     .testimonials .carousel-inner .carousel-item-start {
         transform: translateX(0);
@@ -23,17 +29,20 @@
 }
 
 @media (max-width: 992px) {
-
+    .partners .carousel-inner .carousel-item-end.active,
+    .partners .carousel-inner .carousel-item-next,
     .testimonials .carousel-inner .carousel-item-end.active,
     .testimonials .carousel-inner .carousel-item-next {
         transform: translateX(100%);
     }
-
+    .partners .carousel-inner .carousel-item-start.active,
+    .partners .carousel-inner .carousel-item-prev,
     .testimonials .carousel-inner .carousel-item-start.active,
     .testimonials .carousel-inner .carousel-item-prev {
         transform: translateX(-100%);
     }
-
+    .partners .carousel-inner .carousel-item-end,
+    .partners .carousel-inner .carousel-item-start,
     .testimonials .carousel-inner .carousel-item-end,
     .testimonials .carousel-inner .carousel-item-start {
         transform: translateX(0);
@@ -48,7 +57,6 @@
     .partners .static-partners>div:first-child {
         display: block;
     }
-
     .partners .static-partners>div {
         display: none;
     }
@@ -57,7 +65,6 @@
 .partners img {
     max-height: 80px;
     vertical-align: middle;
-    object-fit: contain;
 }
 
 .partners .carousel-item {

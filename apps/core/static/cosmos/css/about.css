@@ -57,6 +57,7 @@
 .partners img {
     max-height: 80px;
     vertical-align: middle;
+    object-fit: contain;
 }
 
 .partners .carousel-item {

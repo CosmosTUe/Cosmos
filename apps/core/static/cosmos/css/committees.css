@@ -1,8 +1,3 @@
-/* committees.css
- * Styles for the Committees overview and detail pages.
- * Designed to sit on top of Bootstrap and core.css without fighting them.
- */
-
 :root {
     --committee-blue: #005274;
     --committee-blue-hover: #0e6e9e;

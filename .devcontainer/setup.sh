@@ -4,6 +4,10 @@
 echo "------------------------------------------------"
 echo "SETTING UP DEVELOPMENT ENVIRONMENT..."
 echo "------------------------------------------------"
+
+# Disable git file mode checking to avoid permission issues inside the container
+git config core.fileMode false
+
 # 1. Create and configure secrets.json for Docker environment
 
 if [ ! -f secrets.json ]; then

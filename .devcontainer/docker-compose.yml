@@ -1,8 +1,6 @@
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: mcr.microsoft.com/devcontainers/base:bullseye
     volumes:
       - ../:/workspace:cached
     command: sleep infinity

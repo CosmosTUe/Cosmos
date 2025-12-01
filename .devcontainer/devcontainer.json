@@ -4,6 +4,26 @@
 	"service": "app",
 	"workspaceFolder": "/workspace",
 
+	// Adding features to the dev container
+	"features": {
+		"ghcr.io/devcontainers/features/python:1": {
+			"version": "3.8",
+			"installTools": true
+		},
+		"ghcr.io/devcontainers/features/node:1": {
+			"version": "lts"
+		},
+		"ghcr.io/devcontainers-extra/features/pipenv:2": {},
+
+		"ghcr.io/rocker-org/devcontainer-features/apt-packages:1": {
+			"packages": "libpq-dev,postgresql-client,build-essential,git"
+		},
+		"ghcr.io/devcontainers/features/common-utils:2": {
+			"installZsh": true,
+			"configureZshAsDefaultShell": true
+		}
+	},
+
 	// Automatically installing useful VS Code extensions
 	"customizations": {
 		"vscode": {
@@ -16,8 +36,8 @@
 	},
 
 	// Run setup script after the container is created
-	"postCreateCommand": "chmod +x .devcontainer/setup.sh && bash .devcontainer/setup.sh",
+	"postCreateCommand": "bash .devcontainer/setup.sh",
 
 	"forwardPorts": [8000],
-	"remoteUser": "root"
+	"remoteUser": "vscode"
 }

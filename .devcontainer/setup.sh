@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Exit immediately if a command exits with a non-zero status
+set -e
+
 # This script is run inside the devcontainer after it is created.
 echo "------------------------------------------------"
 echo "SETTING UP DEVELOPMENT ENVIRONMENT..."
@@ -34,7 +37,8 @@ fi
 
 # Copy secrets.json to /etc inside the container (required by secret_settings.py)
 echo "Copying secrets.json to /etc/secrets.json..."
-cp secrets.json /etc/secrets.json
+sudo cp secrets.json /etc/secrets.json
+sudo chmod 644 /etc/secrets.json
 # Cleaning up secrets.json from the project directory
 rm secrets.json
 
@@ -45,7 +49,11 @@ pipenv install --system --dev
 
 # 3. Install NPM packages
 echo "Installing NPM packages..."
-npm ci
+if ! npm ci; then
+    echo "npm ci failed. Trying npm install with package-lock.json modification..."
+    # Fallback: install without modifying package-lock.json
+    npm install --no-save --package-lock=false
+fi
 
 # 4. Migrate the database
 echo "Running database migrations..."

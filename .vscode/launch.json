@@ -5,7 +5,7 @@
             "name": "Docker: Django Runserver",
             "type": "python",
             "request": "launch",
-            "python": "/usr/local/bin/python",
+            "python": "/usr/local/python/current/bin/python",
             "program": "${workspaceFolder}/manage.py",
             "args": [
                 "runserver",

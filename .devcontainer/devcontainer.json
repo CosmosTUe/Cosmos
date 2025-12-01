@@ -24,6 +24,10 @@
 		}
 	},
 
+	"containerEnv": {
+        "PIPENV_VENV_IN_PROJECT": "1"
+    },
+
 	// Automatically installing useful VS Code extensions
 	"customizations": {
 		"vscode": {

@@ -20,25 +20,27 @@ sudo chmod 644 /etc/secrets.json
 
 # 2. Install Python dependencies using Pipenv
 
+# Remove existing virtual environment if it exists
+rm -rf .venv
+
 echo "Installing Python dependencies..."
-pipenv install --system --dev
+pipenv install --dev
 
 # 3. Install NPM packages
 echo "Installing NPM packages..."
 if ! npm ci; then
-    echo "npm ci failed. Trying npm install with package-lock.json modification..."
-    # Fallback: install without modifying package-lock.json
+    echo "npm ci failed. Trying npm install..."
     npm install --no-save --package-lock=false
 fi
 
 # 4. Migrate the database
 echo "Running database migrations..."
-python manage.py migrate
+pipenv run python manage.py migrate
 
 # 5. Create default superuser
 # Default superuser credentials: username: admin, password: admin
 echo "Creating default superuser (admin / admin)..."
-python manage.py shell -c "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.filter(username='admin').exists() or User.objects.create_superuser('admin', 'admin@example.com', 'admin')"
+pipenv run python manage.py shell -c "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.filter(username='admin').exists() or User.objects.create_superuser('admin', 'admin@example.com', 'admin')"
 
 echo "------------------------------------------------"
 echo "SETUP FINISHED!"

@@ -11,36 +11,12 @@ echo "------------------------------------------------"
 # Disable git file mode checking to avoid permission issues inside the container
 git config core.fileMode false
 
-# 1. Create and configure secrets.json for Docker environment
+# 1. Handle secrets.json
 
-if [ ! -f secrets.json ]; then
-    echo "Creating secrets.json from template..."
-    cp secrets.json.template secrets.json
-    
-    echo "Configuring secrets.json for Docker environment..."
-
-    # Rewrite database USER: github_actions -> cosmos_website_tester
-    sed -i 's/"USER": "github_actions"/"USER": "cosmos_website_tester"/g' secrets.json
-    
-    # Rewrite database HOST: localhost -> db
-    sed -i 's/"HOST": "localhost"/"HOST": "db"/g' secrets.json
-    
-    # Rewrite Redis URL: redis://localhost -> redis://redis
-    sed -i 's/redis:\/\/localhost/redis:\/\/redis/g' secrets.json
-    
-    # Modifying ALLOWED_HOSTS: [] -> ["localhost", "127.0.0.1", "0.0.0.0"]
-    # This allows accessing teh server from the host machine
-    sed -i 's/"ALLOWED_HOSTS": \[\]/"ALLOWED_HOSTS": \["localhost", "127.0.0.1", "0.0.0.0"\]/g' secrets.json
-    
-    echo "Docker configuration applied!"
-fi
-
-# Copy secrets.json to /etc inside the container (required by secret_settings.py)
-echo "Copying secrets.json to /etc/secrets.json..."
-sudo cp secrets.json /etc/secrets.json
+# Copy dev.secrets.json to /etc/secrets.json inside the container (required by secret_settings.py)
+echo "Copying dev.secrets.json to /etc/secrets.json..."
+sudo cp dev.secrets.json /etc/secrets.json
 sudo chmod 644 /etc/secrets.json
-# Cleaning up secrets.json from the project directory
-rm secrets.json
 
 # 2. Install Python dependencies using Pipenv
 

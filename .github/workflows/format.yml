@@ -29,4 +29,4 @@ jobs:
       - name: Install requirements
         run: pipenv install --deploy --dev
       - name: Run isort
-        run: pipenv run isort **/*.py -c
+      run: pipenv run isort **/*.py -c

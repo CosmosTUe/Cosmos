@@ -26,15 +26,13 @@ def index(request):
             gmm = Newsletter.objects.get(slug__exact="gmm")
 
             cosmos_subscribed = Subscription.objects.filter(
-                Q(email_field=request.user.username)
-                | Q(email_field=request.user.email),
+                Q(email_field=request.user.username) | Q(email_field=request.user.email),
                 newsletter=cosmos_news,
                 subscribed=True,
             ).exists()
 
             gmm_subscribed = Subscription.objects.filter(
-                Q(email_field=request.user.username)
-                | Q(email_field=request.user.email),
+                Q(email_field=request.user.username) | Q(email_field=request.user.email),
                 newsletter=gmm,
                 subscribed=True,
             ).exists()
@@ -48,21 +46,17 @@ def index(request):
     else:
         door_status = 0
     if not request.user.is_authenticated:
-        news_list = News.objects.filter(
-            member_only=False, publish_date__lte=datetime.date.today()
-        ).order_by("-publish_date")[:3]
+        news_list = News.objects.filter(member_only=False, publish_date__lte=datetime.date.today()).order_by(
+            "-publish_date"
+        )[:3]
         event_list = (
             Event.objects.filter(member_only=False)
             .order_by("start_date_time")
             .filter(end_date_time__gte=datetime.datetime.today())[:3]
         )
     else:
-        news_list = News.objects.filter(
-            publish_date__lte=datetime.date.today()
-        ).order_by("-publish_date")[:3]
-        event_list = Event.objects.order_by("start_date_time").filter(
-            end_date_time__gte=datetime.datetime.today()
-        )[:3]
+        news_list = News.objects.filter(publish_date__lte=datetime.date.today()).order_by("-publish_date")[:3]
+        event_list = Event.objects.order_by("start_date_time").filter(end_date_time__gte=datetime.datetime.today())[:3]
 
     return render(
         request,

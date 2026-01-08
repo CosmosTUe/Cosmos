@@ -54,9 +54,7 @@ class NewsDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
 def news_view(request, pk):
     article = get_object_or_404(News, pk=pk)
     context = {"article": article}
-    if not article.published() and not request.user.has_perms(
-        ["cosmos.change_news", "cosmos.delete_news"]
-    ):
+    if not article.published() and not request.user.has_perms(["cosmos.change_news", "cosmos.delete_news"]):
         return error403(request, None)
     if article.member_only and not request.user.is_authenticated:
         return redirect("%s?next=%s" % (LOGIN_URL, request.path))
@@ -65,17 +63,13 @@ def news_view(request, pk):
 
 def news_list(request):
     if not request.user.is_authenticated:
-        news_list = News.objects.filter(
-            member_only=False, publish_date__lte=datetime.date.today()
-        ).order_by("-publish_date")
+        news_list = News.objects.filter(member_only=False, publish_date__lte=datetime.date.today()).order_by(
+            "-publish_date"
+        )
     elif request.user.has_perm("cosmos.view_news"):
         news_list = News.objects.order_by("-publish_date").all()
     else:
-        news_list = (
-            News.objects.filter(publish_date__lte=datetime.date.today())
-            .order_by("-publish_date")
-            .all()
-        )
+        news_list = News.objects.filter(publish_date__lte=datetime.date.today()).order_by("-publish_date").all()
 
     # Check if user is subscribed to BOTH newsletters
     is_subscribed = False
@@ -85,15 +79,13 @@ def news_list(request):
             gmm = Newsletter.objects.get(slug__exact="gmm")
 
             cosmos_subscribed = Subscription.objects.filter(
-                Q(email_field=request.user.username)
-                | Q(email_field=request.user.email),
+                Q(email_field=request.user.username) | Q(email_field=request.user.email),
                 newsletter=cosmos_news,
                 subscribed=True,
             ).exists()
 
             gmm_subscribed = Subscription.objects.filter(
-                Q(email_field=request.user.username)
-                | Q(email_field=request.user.email),
+                Q(email_field=request.user.username) | Q(email_field=request.user.email),
                 newsletter=gmm,
                 subscribed=True,
             ).exists()

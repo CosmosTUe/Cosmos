@@ -26,12 +26,14 @@
                 {% endif %}
             </div>
             <div class="col-3 py-1">
+                {% if not is_subscribed %}
                 <div class="float-end">
                     <a class="btn btn-cosmos-primary" href="{% url 'cosmos_users:subscribe-newsletter' active_tab='preferences'%}">
                         <span class="d-md-block d-none">Subscribe to the Newsletter</span>
                         <i class="bi bi-envelope d-sm-block d-md-none"></i>
                     </a>
                 </div>
+                {% endif %}
             </div>
         </div>
         <div class="row row-cols-1 row-cols-md-3 g-2 mt-2" id="NewsGrid">

@@ -25,8 +25,8 @@
 	},
 
 	"containerEnv": {
-        "PIPENV_VENV_IN_PROJECT": "1"
-    },
+		"PIPENV_VENV_IN_PROJECT": "1"
+	},
 
 	// Automatically installing useful VS Code extensions
 	"customizations": {
@@ -34,11 +34,37 @@
 			"extensions": [
 				"ms-python.python",
 				"ms-python.vscode-pylance",
-				"batisteo.vscode-django"
-			]
+				"batisteo.vscode-django",
+				"ms-python.black-formatter",
+				"ms-python.isort",
+				"ms-python.flake8"
+			],
+			"settings": {
+				"python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+				"files.trimTrailingWhitespace": true,
+				"python.analysis.extraPaths": ["./apps"],
+				"[python]": {
+					"editor.formatOnSave": true,
+					"editor.defaultFormatter": "ms-python.black-formatter",
+					"editor.codeActionsOnSave": {
+						"source.organizeImports": "explicit"
+					}
+				},
+
+				"black-formatter.importStrategy": "fromEnvironment",
+
+				"black-formatter.args": [
+				],
+				"isort.args": [
+					"--profile",
+					"black"
+				],
+				"flake8.args": [
+					"--ignore=E203,E501,W503"
+				]
+			}
 		}
 	},
-
 	// Run setup script after the container is created
 	"postCreateCommand": "bash .devcontainer/setup.sh",
 

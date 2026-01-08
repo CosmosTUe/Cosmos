@@ -69,7 +69,7 @@
                             <figure class="card h-100 text-left shadow-sm mx-1 mb-5 bg-white rounded">
                                 {% if testimonial.image %}
                                 {% thumbnail testimonial.image "1000x1000" crop="center" as im %}
-                                    <img src="{{ im.url }}" class="rounded-circle mx-5 mt-4 shadow-sm" alt="Photo of {{ testimonial.author }}">
+                                    <img src="{{ im.url }}" class="rounded-circle mx-auto d-block mt-4 shadow-sm" style="object-fit: cover; aspect-ratio: 1/1; max-width: 200px;" alt="Photo of {{ testimonial.author }}">
                                 {% endthumbnail %}
                                 {% endif %}
                                 <blockquote class="blockquote px-4">

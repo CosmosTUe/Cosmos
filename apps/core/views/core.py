@@ -1,7 +1,9 @@
 import datetime
 import os
 
+from django.db.models import Q
 from django.shortcuts import render
+from newsletter.models import Newsletter, Subscription
 
 from apps.core.constants import FOUNDING_DATE
 from apps.core.models.core import Partner, Testimonial
@@ -16,6 +18,28 @@ def index(request):
     active_years = int((datetime.date.today() - FOUNDING_DATE).days // 365.25)
     events_amount = "20+"
     partners = Partner.objects.all().order_by("?")
+
+    is_subscribed = False
+    if request.user.is_authenticated:
+        try:
+            cosmos_news = Newsletter.objects.get(slug__exact="cosmos-news")
+            gmm = Newsletter.objects.get(slug__exact="gmm")
+
+            cosmos_subscribed = Subscription.objects.filter(
+                Q(email_field=request.user.username) | Q(email_field=request.user.email),
+                newsletter=cosmos_news,
+                subscribed=True,
+            ).exists()
+
+            gmm_subscribed = Subscription.objects.filter(
+                Q(email_field=request.user.username) | Q(email_field=request.user.email),
+                newsletter=gmm,
+                subscribed=True,
+            ).exists()
+
+            is_subscribed = cosmos_subscribed and gmm_subscribed
+        except Newsletter.DoesNotExist:
+            is_subscribed = False
 
     if os.path.exists("/tmp/door-open"):
         door_status = 1
@@ -46,6 +70,7 @@ def index(request):
             "partners": partners,
             "door_status": door_status,
             "event_list": event_list,
+            "is_subscribed": is_subscribed,
         },
     )
 

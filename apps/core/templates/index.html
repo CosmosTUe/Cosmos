@@ -106,12 +106,14 @@
                 </a>
             </div>
             <div class="col py-1">
+                {% if not is_subscribed %}
                 <div class="float-end d-md-block d-none">
                     <a class="btn btn-cosmos-primary"
                         href="{% url 'cosmos_users:subscribe-newsletter' active_tab='preferences'%}">
                         Subscribe to the Newsletter
                     </a>
                 </div>
+                {% endif %}
             </div>
         </div>
         <div class="row row-cols-1 row-cols-md-3 g-4">
@@ -136,12 +138,14 @@
             {% endfor %}
         </div>
         <div class="row py-4">
+            {% if not is_subscribed %}
             <div class="col d-flex justify-content-center d-md-none">
                 <a class="btn btn-cosmos-primary"
                     href="{% url 'cosmos_users:subscribe-newsletter' active_tab='preferences'%}">
                     Subscribe to the Newsletter
                 </a>
             </div>
+            {% endif %}
         </div>
     </div>
 </section>

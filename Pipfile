@@ -34,7 +34,7 @@ Pillow = "*"
 Django = "*"
 django-ical = "*"
 sorl-thumbnail = "*"
-django-newsletter = {editable = true, git = "https://github.com/CosmosTUe/django-newsletter.git"}
+django-newsletter = {git = "https://github.com/CosmosTUe/django-newsletter.git", ref = "485fd1a7cbb9b8f0b9e63210ef0ff7e22dba3d7c"}
 "backports.zoneinfo" = "==0.2.1" # support for Python <= 3.8
 django-tinymce = "*"
 

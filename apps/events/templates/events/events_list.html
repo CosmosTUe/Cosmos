@@ -2,16 +2,13 @@
 
 {% load crispy_forms_tags %}
 {% load thumbnail %}
-{% load static %}
 
-{% block title %}Events{% endblock title %}
+{% block title %}Events{% endblock title%}
 
 {% block content %}
 
 <div class="container">
     <div class="w-75 mx-auto">
-
-        <!-- Upcoming events -->
         <div class="row">
             <div class="col">
                 <h2>Events</h2>
@@ -19,8 +16,7 @@
             <div class="col-md-3 py-1">
                 {% if perms.events.add_event %}
                 <div class="float-end">
-                    <a class="btn btn-cosmos-primary"
-                       href="{% url 'cosmos_events:events-create' %}">
+                    <a class="btn btn-cosmos-primary" href="{% url 'cosmos_events:events-create' %}">
                         <i class="bi bi-plus-lg"></i>
                         Add new Event
                     </a>
@@ -28,11 +24,11 @@
                 {% endif %}
             </div>
         </div>
-
         <div class="row row-cols-1 row-cols-md-3 g-2 mt-2" id="EventGrid">
         {% for event in events_list %}
             <div class="col">
                 <div class="card h-100">
+                    {# transform is added so that stretched link does not go into footer #}
                     <div class="ratio ratio-16x9">
                     {% thumbnail event.image "600" crop="center" as im %}
                         <img class="card-img-top events-image" src="{{ im.url }}">
@@ -41,55 +37,67 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ event.name }}</h5>
                         <p class="event-truncate">{{ event.lead }}</p>
-                        <a class="stretched-link"
-                           href="{% url 'cosmos_events:events-view' event.id %}"></a>
+                        <a class="stretched-link" href="{% url 'cosmos_events:events-view' event.id %}"></a>
                     </div>
                     <div class="card-footer">
                         {% if perms.events.change_event and perms.events.delete_event %}
                         <div class="float-end">
-                            <a class="btn p-0 btn-over-stretched"
-                            href="{% url 'cosmos_events:events-update' event.id %}">
+                            <a class="btn p-0 btn-over-stretched" href="{% url 'cosmos_events:events-update' event.id %}">
                                 <i class="bi bi-pencil-square"></i>
                             </a>
-                            <a class="btn p-0 btn-over-stretched"
-                            href="{% url 'cosmos_events:events-delete' event.id %}">
+                            <a class="btn p-0 btn-over-stretched" href="{% url 'cosmos_events:events-delete' event.id %}">
                                 <i class="bi bi-trash"></i>
                             </a>
                         </div>
                         {% endif %}
-                        <small class="text-muted">{{ event.start_date_time }}</small>
+                        <small class="text-muted">
+                            {{ event.start_date_time }}
+                        </small>
                     </div>
                 </div>
             </div>
         {% endfor %}
         </div>
-
-        <!-- Past events -->
         <div class="row mt-5">
             <div class="col">
                 <h2>Past Events</h2>
             </div>
         </div>
-
-        <div class="row row-cols-1 row-cols-md-3 g-2 mt-2"
-             id="past-events-container"
-             data-next-page="2"
-             data-has-next="{{ past_has_next|yesno:'true,false' }}">
-
-            {% include "events/_past_events_cards.html" %}
+        <div class="row row-cols-1 row-cols-md-3 g-2 mt-2" id="EventGrid">
+        {% for event in events_list_past %}
+            <div class="col">
+                <div class="card h-100">
+                    {# transform is added so that stretched link does not go into footer #}
+                    <div class="ratio ratio-16x9">
+                    {% thumbnail event.image "600" crop="center" as im %}
+                        <img class="card-img-top events-image" src="{{ im.url }}">
+                    {% endthumbnail %}
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ event.name }}</h5>
+                        <p class="event-truncate">{{ event.lead }}</p>
+                        <a class="stretched-link" href="{% url 'cosmos_events:events-view' event.id %}"></a>
+                    </div>
+                    <div class="card-footer">
+                        {% if perms.events.change_event and perms.events.delete_event %}
+                        <div class="float-end">
+                            <a class="btn p-0 btn-over-stretched" href="{% url 'cosmos_events:events-update' event.id %}">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                            <a class="btn p-0 btn-over-stretched" href="{% url 'cosmos_events:events-delete' event.id %}">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </div>
+                        {% endif %}
+                        <small class="text-muted">
+                            {{ event.start_date_time }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
         </div>
-
-        <div class="text-center my-4"
-             id="past-events-loader"
-             style="display:none;">
-            <div class="spinner-border"></div>
-        </div>
-
     </div>
 </div>
 
 {% endblock content %}
-
-{% block extra_js %}
-<script src="{% static 'js/events.js' %}"></script>
-{% endblock %}

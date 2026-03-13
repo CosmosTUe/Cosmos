@@ -3,12 +3,8 @@ import datetime
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.sites.models import Site
 from django.core.exceptions import PermissionDenied
-from django.core.paginator import EmptyPage, Paginator
-from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, render
-from django.template.loader import render_to_string
 from django.urls import reverse_lazy
-from django.utils import timezone
 from django.views.generic import CreateView, DeleteView, UpdateView
 from django_ical.views import ICalFeed
 
@@ -16,65 +12,31 @@ from apps.core.models import News
 from apps.events.forms import EventForm
 from apps.events.models import Event
 
-PAST_EVENTS_PAGE_SIZE = 20
-
 
 def events_list(request):
-    now = timezone.now()
-
     if request.user.is_authenticated:
-        upcoming_events = Event.objects.order_by("start_date_time").filter(end_date_time__gte=now)
-        past_events = Event.objects.order_by("-start_date_time").filter(end_date_time__lte=now)
+        events_list = (
+            Event.objects.order_by("start_date_time").filter(end_date_time__gte=datetime.datetime.today()).all()
+        )
+        events_list_past = (
+            Event.objects.order_by("-start_date_time").filter(end_date_time__lte=datetime.datetime.today()).all()
+        )
     else:
-        upcoming_events = (
-            Event.objects.filter(member_only=False).order_by("start_date_time").filter(end_date_time__gte=now)
+        events_list = (
+            Event.objects.filter(member_only=False)
+            .order_by("start_date_time")
+            .filter(end_date_time__gte=datetime.datetime.today())
         )
-        past_events = (
-            Event.objects.filter(member_only=False).order_by("-start_date_time").filter(end_date_time__lte=now)
+        events_list_past = (
+            Event.objects.filter(member_only=False)
+            .order_by("-start_date_time")
+            .filter(end_date_time__lte=datetime.datetime.today())
         )
-
-    paginator = Paginator(past_events, PAST_EVENTS_PAGE_SIZE)
-    first_page = paginator.page(1)
-
     context = {
-        "events_list": upcoming_events,
-        "events_list_past": first_page.object_list,
-        "past_has_next": first_page.has_next(),
+        "events_list": events_list,
+        "events_list_past": events_list_past,
     }
     return render(request, "events/events_list.html", context)
-
-
-def past_events_page(request):
-    if request.headers.get("x-requested-with") != "XMLHttpRequest":
-        raise Http404()
-
-    now = timezone.now()
-
-    past_events = Event.objects.filter(
-        end_date_time__lte=now,
-        member_only=False if not request.user.is_authenticated else None,
-    ).order_by("-start_date_time")
-
-    paginator = Paginator(past_events, PAST_EVENTS_PAGE_SIZE)
-    page_number = request.GET.get("page", 1)
-
-    try:
-        page_obj = paginator.page(page_number)
-    except EmptyPage:
-        return JsonResponse({"html": "", "has_next": False})
-
-    html = render_to_string(
-        "events/_past_events_cards.html",
-        {"events_list_past": page_obj.object_list},
-        request=request,
-    )
-
-    return JsonResponse(
-        {
-            "html": html,
-            "has_next": page_obj.has_next(),
-        }
-    )
 
 
 def event_view(request, pk):

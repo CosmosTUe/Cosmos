@@ -186,7 +186,7 @@ def board_overview(request):
 
 
 def committee_overview(request):
-    committees = Committee.objects.all()
+    committees = Committee.objects.filter(hidden=False)
     return render(request, "committees/overview.html", {"committees": committees})
 
 

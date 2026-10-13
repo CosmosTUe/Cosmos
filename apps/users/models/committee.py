@@ -23,6 +23,9 @@ class Committee(models.Model):
     pretix_team_token = models.CharField(max_length=64, blank=True)
     display_name = models.CharField(max_length=50, blank=False, default="None")
     slug = models.SlugField(blank=False, unique=True, default="None")
+    hidden = models.BooleanField(
+        default=False, help_text="Hide from the committees overview. The page stays reachable through its link."
+    )
 
     photo = models.FileField(
         upload_to="committees",

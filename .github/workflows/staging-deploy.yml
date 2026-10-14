@@ -17,7 +17,16 @@ env:
   VM_NAME: Cosmos-Staging
 
 jobs:
+  # the same checks as on pull requests; the deploy only runs if all three pass
+  format:
+    uses: ./.github/workflows/format.yml
+  lint:
+    uses: ./.github/workflows/lint.yml
+  test:
+    uses: ./.github/workflows/test.yml
+
   deploy_job:
+    needs: [format, lint, test]
     runs-on: ubuntu-latest
     steps:
       - name: sign in to Azure

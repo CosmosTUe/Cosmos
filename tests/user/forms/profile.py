@@ -288,6 +288,39 @@ class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
         # test
         self.assertTrue(form.has_error("__all__", error_codes.INVALID_SUBSCRIBE_TO_EMPTY_EMAIL))
 
+    def test_success_newsletter_enable_on_institution_email_without_secondary_email(self):
+        # setup
+        self.user.email = ""
+        self.user.save()
+        recipient = "tosti@student.tue.nl"
+
+        # act
+        form = PreferencesUpdateForm(user=self.user, data=get_preferences_form_data(news="TUE"))
+        form.full_clean()
+        form.save()  # updates newsletter preferences
+
+        # test
+        self.assertTrue(form.is_valid())
+        self.assert_newsletter_subscription(recipient, True)
+        self.assert_gmm_invite_subscription(recipient, False)
+
+    def test_success_newsletter_disable_on_institution_email_without_secondary_email(self):
+        # setup
+        self.user.email = ""
+        self.user.save()
+        recipient = "tosti@student.tue.nl"
+        self.set_newsletter_subscription(recipient, True)
+
+        # act
+        form = PreferencesUpdateForm(user=self.user, data=get_preferences_form_data(news="NONE"))
+        form.full_clean()
+        form.save()  # updates newsletter preferences
+
+        # test
+        self.assertTrue(form.is_valid())
+        self.assert_newsletter_subscription(recipient, False)
+        self.assert_gmm_invite_subscription(recipient, False)
+
     def test_success_newsletter_disable_secondary_email(self):
         # setup
         email = "tosti@gmail.com"

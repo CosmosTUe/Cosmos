@@ -220,14 +220,19 @@ class PreferencesUpdateForm(forms.Form):
             slug = name.lstrip("newsletter-")
             newsletter = Newsletter.objects.get(slug__exact=slug)
             inst_sub, _ = Subscription.objects.get_or_create(newsletter=newsletter, email_field=self.user.username)
-            pers_sub, _ = Subscription.objects.get_or_create(newsletter=newsletter, email_field=self.user.email)
+            # the personal email is optional; without one there is only the institution address to update
+            pers_sub = None
+            if self.user.email:
+                pers_sub, _ = Subscription.objects.get_or_create(newsletter=newsletter, email_field=self.user.email)
 
             if value == "NONE":
                 inst_sub.update("unsubscribe")
-                pers_sub.update("unsubscribe")
+                if pers_sub:
+                    pers_sub.update("unsubscribe")
             elif value == "TUE":
                 inst_sub.update("subscribe")
-                pers_sub.update("unsubscribe")
+                if pers_sub:
+                    pers_sub.update("unsubscribe")
             elif value == "ALT":
                 inst_sub.update("unsubscribe")
                 pers_sub.update("subscribe")

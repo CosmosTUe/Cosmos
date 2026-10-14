@@ -6,8 +6,6 @@ from django.test import Client
 from django.urls import reverse
 from newsletter.models import Newsletter, Subscription
 
-from apps.async_requests.factory import Factory
-from apps.async_requests.newsletter.newsletter_service import NewsletterService
 from cosmos import settings
 
 
@@ -17,11 +15,7 @@ def get_admin_change_view_url(obj: models.Model) -> str:
 
 
 class NewsletterTestCaseMixin:
-    newsletter_service: NewsletterService
-
     def setUp(self):
-        # TODO adapt to django-newsletter
-        self.newsletter_service = Factory.get_newsletter_service(True)
         self.news, _ = Newsletter.objects.get_or_create(
             title="Cosmos News", slug="cosmos-news", email=settings.DEFAULT_FROM_EMAIL, sender="Cosmos"
         )

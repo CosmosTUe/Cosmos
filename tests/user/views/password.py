@@ -2,10 +2,6 @@ from django.contrib.auth.models import User
 from django.core import mail
 from django.test import TestCase
 
-from apps.async_requests.factory import Factory
-
-executor = Factory.get_executor()
-
 
 class PasswordResetViewTest(TestCase):
     def assert_email_sent(self, recipient):
@@ -13,9 +9,6 @@ class PasswordResetViewTest(TestCase):
         exp_email_sender = "noreply@cosmostue.nl"
         exp_email_recipient = recipient
         exp_email_subject = "[Cosmos] Password reset"
-
-        # act
-        executor.execute()
 
         # test
         self.assertEqual(len(mail.outbox), 1, "1 message sent")

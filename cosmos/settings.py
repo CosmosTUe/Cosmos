@@ -222,7 +222,6 @@ INSTALLED_APPS = [
     "apps.core",
     "apps.users",
     "apps.events",
-    "apps.async_requests",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -233,7 +232,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django_better_admin_arrayfield",
     "pipeline",
-    "django_celery_results",
     "oauth2_provider",
     "corsheaders",
     "formtools",
@@ -242,7 +240,6 @@ INSTALLED_APPS = [
     "django_sendfile",
     "django_cleanup.apps.CleanupConfig",
     "ckeditor",
-    "django_celery_beat",
     "sorl.thumbnail",
     "tinymce",
     "newsletter",
@@ -327,15 +324,6 @@ SESSION_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_SECURE = not DEBUG
 
 SECURE_REFERRER_POLICY = "same-origin"
-
-# Celery
-CELERY_BROKER_URL = secret_settings.secrets["CELERY"]["REDIS_URL"]
-CELERY_RESULT_BACKEND = "django-db"
-CELERY_CACHE_BACKEND = "django-cache"
-CELERY_WORKER_HIJACK_ROOT_LOGGER = True
-CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
-
-SENDGRID_WEBHOOK_SIGNATURE = secret_settings.secrets["SENDGRID_WEBHOOK_SIGNATURE"]
 
 # Crispy forms
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"

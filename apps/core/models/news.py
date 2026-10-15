@@ -1,16 +1,16 @@
 import datetime
 
-from ckeditor.fields import RichTextField
 from crum import get_current_user
 from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
+from tinymce.models import HTMLField
 
 
 class News(models.Model):
     title = models.CharField(max_length=255)
     image = models.ImageField(upload_to="news")
-    content = RichTextField()
+    content = HTMLField()
     lead = models.TextField(blank=True)
     publish_date = models.DateField()
     member_only = models.BooleanField()

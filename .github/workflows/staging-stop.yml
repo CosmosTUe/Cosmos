@@ -24,10 +24,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - vm: Cosmos-Staging
-            deploy_workflow: staging-deploy.yml
           - vm: Cosmos-Staging-Next
-            deploy_workflow: staging-next-deploy.yml
+            deploy_workflow: staging-deploy.yml
     env:
       VM_NAME: ${{ matrix.vm }}
       DEPLOY_WORKFLOW: ${{ matrix.deploy_workflow }}

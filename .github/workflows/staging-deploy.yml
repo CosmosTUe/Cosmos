@@ -14,7 +14,7 @@ concurrency:
 
 env:
   RESOURCE_GROUP: COSMOS-RESOURCE-GROUP
-  VM_NAME: Cosmos-Staging
+  VM_NAME: Cosmos-Staging-Next
 
 jobs:
   # the same checks as on pull requests; the deploy only runs if all three pass

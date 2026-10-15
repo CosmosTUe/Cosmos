@@ -16,6 +16,13 @@ class Event(models.Model):
     location = models.CharField(max_length=255)
     organizer = models.ForeignKey(Group, blank=True, null=True, on_delete=models.SET_NULL)
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    pretix_shop = models.URLField(
+        "Ticket shop link",
+        max_length=300,
+        blank=True,
+        help_text="Paste the link to the event's ticket shop on pretix.cosmostue.nl. "
+        "The ticket widget is then shown on the event page automatically.",
+    )
 
     def __str__(self):
         return "Event: {" + self.name + "}"

@@ -16,7 +16,7 @@ Staging is a copy of the Cosmos website and Common Room for trying changes befor
 
 ## Good to know
 
-- Emails are never sent from staging. They all get sent to an email sink that can be accessed through logs, though we are working on a way to see this without SSH'ing into the server.
+- Emails are never sent from staging. They all end up in the staging inbox at https://staging.cosmostue.nl/mail/ (same login as staging), where you can read them.
 - The server switches itself off after 2 hours without deploys, and every night at 23:00 (UTC). Any deployment restarts the timer. If you need to launch staging again for some reason, re-run the latest "Staging Deployment Workflow" in the Actions tab.
 - Don't put real personal data on staging, and don't use your real passwords there.
 - The data can be refreshed with a new anonymised copy of production if needed, ask Anas for this.

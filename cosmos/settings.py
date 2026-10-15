@@ -36,10 +36,6 @@ DEBUG = secret_settings.secrets["DEBUG"]
 # https://stackoverflow.com/questions/4088253/django-how-to-detect-test-environment-check-determine-if-tests-are-being-ru/7651002#7651002
 TESTING = len(sys.argv) > 1 and sys.argv[1] == "test"
 
-# Pretix config
-PRETIX_DOMAIN = secret_settings.secrets["PRETIX_DOMAIN"]
-AUTHORIZATION_HEADER = secret_settings.secrets["PRETIX_AUTHORIZATION_HEADER"]
-
 ALLOWED_HOSTS = secret_settings.secrets["ALLOWED_HOSTS"]
 
 # Application definition

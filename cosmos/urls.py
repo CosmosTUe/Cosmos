@@ -8,6 +8,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path, re_path
 
 from apps.users.views import board_overview, committee_overview, committee_subpage
+from cosmos.sitemaps import SITEMAPS
 
 admin.autodiscover()
 
@@ -23,7 +24,7 @@ urlpatterns = [
     path("tinymce/", include("tinymce.urls")),
     path("", include("apps.core.urls")),
     path("", include("newsletter.urls")),
-    re_path(r"^sitemap\.xml$", sitemap),
+    re_path(r"^sitemap\.xml$", sitemap, {"sitemaps": SITEMAPS}, name="django.contrib.sitemaps.views.sitemap"),
 ]
 
 handler400 = "apps.core.views.errors.error400"

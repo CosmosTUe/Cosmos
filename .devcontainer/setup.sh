@@ -8,6 +8,9 @@ echo "------------------------------------------------"
 echo "SETTING UP DEVELOPMENT ENVIRONMENT..."
 echo "------------------------------------------------"
 
+# The project folder is mounted from the host with a different owner; tell git it's safe
+git config --global --add safe.directory /workspace
+
 # Disable git file mode checking to avoid permission issues inside the container
 git config core.fileMode false
 
@@ -24,7 +27,7 @@ sudo chmod 644 /etc/secrets.json
 rm -rf .venv
 
 echo "Installing Python dependencies..."
-pipenv install --dev
+pipenv sync --dev  # exactly the locked versions; 'install' could rewrite Pipfile.lock
 
 # 3. Install NPM packages
 echo "Installing NPM packages..."
@@ -45,4 +48,5 @@ pipenv run python manage.py shell -c "from django.contrib.auth import get_user_m
 echo "------------------------------------------------"
 echo "SETUP FINISHED!"
 echo "To start the server, go to the 'Run and Debug' tab in VS Code and start the 'Docker: Django Runserver' configuration."
+echo "Website: http://localhost:8000   Emails the site sends: http://localhost:8025"
 echo "------------------------------------------------"

@@ -239,7 +239,6 @@ INSTALLED_APPS = [
     "crispy_bootstrap5",
     "django_sendfile",
     "django_cleanup.apps.CleanupConfig",
-    "ckeditor",
     "sorl.thumbnail",
     "tinymce",
     "newsletter",
@@ -338,8 +337,64 @@ SENDFILE_URL = "/protected-media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-CKEDITOR_CONFIGS = {
-    "default": {"width": "100%"},
+# Rich-text editor for news articles, event descriptions and newsletters. The toolbar mirrors the
+# "Full" toolbar of CKEditor 4, which these fields used until October 2026 (Flash support dropped).
+TINYMCE_DEFAULT_CONFIG = {
+    "license_key": "gpl",
+    "height": 360,
+    "width": "100%",
+    "menubar": False,
+    "promotion": False,
+    "branding": False,
+    "browser_spellcheck": True,
+    "contextmenu": False,
+    "plugins": "advlist autolink lists link anchor image table charmap emoticons code "
+    "searchreplace visualblocks fullscreen wordcount",
+    "toolbar": "styles blocks | bold italic underline strikethrough | undo redo | link unlink anchor | "
+    "image table hr | forecolor backcolor | emoticons charmap | bullist numlist | "
+    "alignleft aligncenter alignright | removeformat code fullscreen",
+    # the paragraph formats CKEditor offered
+    "block_formats": "Paragraph=p; Heading 1=h1; Heading 2=h2; Heading 3=h3; Heading 4=h4; Heading 5=h5; "
+    "Heading 6=h6; Preformatted=pre; Address=address; Normal (DIV)=div",
+    # CKEditor's default "Styles" menu
+    "style_formats": [
+        {"title": "Italic Title", "block": "h2", "styles": {"font-style": "italic"}},
+        {"title": "Subtitle", "block": "h3", "styles": {"color": "#aaa", "font-style": "italic"}},
+        {
+            "title": "Special Container",
+            "block": "div",
+            "wrapper": True,
+            "styles": {"padding": "5px 10px", "background": "#eee", "border": "1px solid #ccc"},
+        },
+        {"title": "Marker", "inline": "span", "styles": {"background-color": "yellow"}},
+        {"title": "Big", "inline": "big"},
+        {"title": "Small", "inline": "small"},
+        {"title": "Typewriter", "inline": "tt"},
+        {"title": "Computer Code", "inline": "code"},
+        {"title": "Keyboard Phrase", "inline": "kbd"},
+        {"title": "Sample Text", "inline": "samp"},
+        {"title": "Variable", "inline": "var"},
+        {"title": "Deleted Text", "inline": "del"},
+        {"title": "Inserted Text", "inline": "ins"},
+        {"title": "Cited Work", "inline": "cite"},
+        {"title": "Inline Quotation", "inline": "q"},
+    ],
+    "link_target_list": [{"title": "Same window", "value": ""}, {"title": "New window", "value": "_blank"}],
+    # keep links and image addresses exactly as written
+    "relative_urls": False,
+    "remove_script_host": False,
+    "convert_urls": False,
+    "entity_encoding": "raw",
+    # Event descriptions embed the pretix ticket widget (stylesheet, script, <pretix-widget>, <noscript> fallback);
+    # TinyMCE removes these by default, so allow exactly what the widget code uses, plus CKEditor's old style tags.
+    "custom_elements": "pretix-widget,pretix-button",
+    "extended_valid_elements": "script[src|type|async|defer|crossorigin],link[rel|type|href|media|crossorigin],"
+    "noscript,pretix-widget[event|items|categories|variations|single-item-select|disable-vouchers|"
+    "disable-iframe|skip-ssl-check|list-type|filter|voucher|style],pretix-button[event|items|style],"
+    "div[class|style|id|event|items|single-item-select],big,tt,"
+    "a[href|target|rel|title|tabindex|style|class|id|name]",
+    "valid_children": "+body[script|link|noscript|style],+div[script|link|noscript|pretix-widget],"
+    "+p[script|noscript|pretix-widget]",
 }
 
 NEWSLETTER_RICHTEXT_WIDGET = "tinymce.widgets.TinyMCE"

@@ -1,14 +1,14 @@
-from ckeditor.fields import RichTextField
 from django.contrib.auth.models import Group
 from django.contrib.sites.models import Site
 from django.db import models
 from django.urls import reverse
+from tinymce.models import HTMLField
 
 
 class Event(models.Model):
     name = models.CharField(max_length=255)
     image = models.ImageField(upload_to="events")
-    description = RichTextField()
+    description = HTMLField()
     lead = models.TextField()
     start_date_time = models.DateTimeField()
     end_date_time = models.DateTimeField()

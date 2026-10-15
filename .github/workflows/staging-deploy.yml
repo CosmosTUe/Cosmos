@@ -14,7 +14,7 @@ concurrency:
 
 env:
   RESOURCE_GROUP: COSMOS-RESOURCE-GROUP
-  VM_NAME: Cosmos-Staging
+  VM_NAME: Cosmos-Staging-Next
 
 jobs:
   # the same checks as on pull requests; the deploy only runs if all three pass
@@ -56,6 +56,7 @@ jobs:
           port: ${{ secrets.STAGING_PORT }}
           command_timeout: 30m
           script: |
+            set -e  # stop at the first failing command (ssh-action dropped script_stop)
             sudo -u cosmos sh ~/deploy.sh
             sudo systemctl restart gunicorn nginx
       - name: check status code

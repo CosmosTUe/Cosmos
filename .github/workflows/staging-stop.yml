@@ -2,7 +2,7 @@ name: Stop Staging Server
 on:
   workflow_dispatch: # the "Stop staging" button in the Actions tab
   schedule:
-    - cron: "*/15 * * * *" # checks every 15 minutes; stops staging after 2 idle hours
+    - cron: "*/15 * * * *" # checks every 15 minutes; stops each staging server after 2 idle hours
 
 permissions:
   id-token: write # lets GitHub sign in to Azure without a stored password
@@ -15,12 +15,20 @@ concurrency:
 
 env:
   RESOURCE_GROUP: COSMOS-RESOURCE-GROUP
-  VM_NAME: Cosmos-Staging
   IDLE_MINUTES: 120
 
 jobs:
   stop_job:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - vm: Cosmos-Staging-Next
+            deploy_workflow: staging-deploy.yml
+    env:
+      VM_NAME: ${{ matrix.vm }}
+      DEPLOY_WORKFLOW: ${{ matrix.deploy_workflow }}
     steps:
       - name: sign in to Azure
         uses: azure/login@v3.1.0
@@ -37,11 +45,14 @@ jobs:
           echo "staging server is: $state"
           if [ "$state" != "PowerState/running" ]; then echo "nothing to do"; exit 0; fi
 
+          # a repo that doesn't have this deploy workflow counts as having no runs
+          runs() { local v; v=$(gh api "repos/$1/actions/workflows/$DEPLOY_WORKFLOW/runs?$2" --jq "$3" 2>/dev/null) || v=""; echo "$v"; }
+
           # never stop in the middle of a deploy
           busy=0
           for repo in CosmosTUe/Cosmos CosmosTUe/Commonroom; do
-            n=$(gh api "repos/$repo/actions/workflows/staging-deploy.yml/runs?status=in_progress" --jq '.total_count')
-            q=$(gh api "repos/$repo/actions/workflows/staging-deploy.yml/runs?status=queued" --jq '.total_count')
+            n=$(runs "$repo" "status=in_progress" '.total_count'); [[ "$n" =~ ^[0-9]+$ ]] || n=0
+            q=$(runs "$repo" "status=queued" '.total_count'); [[ "$q" =~ ^[0-9]+$ ]] || q=0
             busy=$((busy + n + q))
           done
           if [ "$busy" -gt 0 ]; then echo "a staging deploy is running; leaving staging on"; exit 0; fi
@@ -54,7 +65,7 @@ jobs:
             last=$(to_epoch "$started")
             if ! [[ "$last" =~ ^[0-9]+$ ]]; then echo "could not read when staging was started; leaving it on"; exit 0; fi
             for repo in CosmosTUe/Cosmos CosmosTUe/Commonroom; do
-              t=$(to_epoch "$(gh api "repos/$repo/actions/workflows/staging-deploy.yml/runs?per_page=1" --jq '.workflow_runs[0].updated_at // empty')")
+              t=$(to_epoch "$(runs "$repo" "per_page=1" '.workflow_runs[0].updated_at // empty')")
               if [[ "$t" =~ ^[0-9]+$ ]] && [ "$t" -gt "$last" ]; then last=$t; fi
             done
             idle=$(( ($(date +%s) - last) / 60 ))

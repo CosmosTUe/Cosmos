@@ -7,13 +7,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: deploy to production server with ssh
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v1.2.5
         with:
           host: ${{secrets.PROD_HOST}}
           username: ${{secrets.PROD_USER}}
           key: ${{secrets.PROD_SSH_KEY}}
           port: ${{secrets.PROD_PORT}}
+          command_timeout: 30m
           script: |
+            set -e  # stop at the first failing command (ssh-action dropped script_stop)
             sudo -u cosmos sh ~/deploy.sh
             sudo systemctl restart gunicorn nginx
       - name: wait for restart

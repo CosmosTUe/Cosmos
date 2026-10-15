@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
-from django.db.models import Count, Case, When, Value, BooleanField, F, CharField
-from django.db.models.functions import ExtractMonth, ExtractYear, Concat
+from django.db.models import BooleanField, Case, CharField, Count, F, Value, When
+from django.db.models.functions import Concat, ExtractMonth, ExtractYear
 
 # from apps.users.models.profile import Profile
 

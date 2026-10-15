@@ -3,7 +3,16 @@ on:
   push:
     branches: [master]
 jobs:
+  # the same checks as on pull requests; production only deploys if all three pass
+  format:
+    uses: ./.github/workflows/format.yml
+  lint:
+    uses: ./.github/workflows/lint.yml
+  test:
+    uses: ./.github/workflows/test.yml
+
   deploy_job:
+    needs: [format, lint, test]
     runs-on: ubuntu-latest
     steps:
       - name: deploy to production server with ssh

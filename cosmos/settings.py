@@ -147,7 +147,7 @@ PIPELINE = {
     "CLOSURE_BINARY": "node_modules/.bin/google-closure-compiler",
     "STYLESHEETS": {
         "cosmos": {
-            "source_filenames": {
+            "source_filenames": [
                 "cosmos/css/core.css",
                 "cosmos/css/gmm.css",
                 "cosmos/css/photos.css",
@@ -157,26 +157,26 @@ PIPELINE = {
                 "cosmos/css/committees.css",
                 "cosmos_events/css/events.css",
                 "cosmos_events/css/carousel.css",
-            },
+            ],
             "output_filename": "cosmos/css/cosmos.css",
         },
         "cosmos_users": {
-            "source_filenames": {"cosmos_users/css/auth.css"},
+            "source_filenames": ["cosmos_users/css/auth.css"],
             "output_filename": "cosmos_users/css/cosmos_users.css",
         },
         "cosmos_event_create": {
-            "source_filenames": {"cosmos_events/css/event_create.css"},
+            "source_filenames": ["cosmos_events/css/event_create.css"],
             "output_filename": "cosmos_events/css/cosmos_event_create.css",
         },
     },
     "JAVASCRIPT": {
         "cosmos": {
-            "source_filenames": {
+            "source_filenames": [
                 "cosmos/js/gmm.js",
                 "cosmos/js/photos.js",
                 "cosmos/js/about.js",
                 "cosmos_events/js/events.js",
-            },
+            ],
             "output_filename": "cosmos/js/cosmos.js",
         },
     },

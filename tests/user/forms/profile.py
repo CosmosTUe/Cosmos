@@ -326,6 +326,27 @@ class PreferencesUpdateFormTest(NewsletterTestCaseMixin, TestCase):
         # test
         self.assertTrue(form.has_error("__all__", error_codes.INVALID_SUBSCRIBE_TO_EMPTY_EMAIL))
 
+    def test_personal_email_choice_disabled_without_secondary_email(self):
+        # setup
+        self.user.email = ""
+        self.user.save()
+
+        # act
+        form = PreferencesUpdateForm(user=self.user)
+        html = str(form["newsletter-cosmos-news"])
+
+        # test
+        self.assertInHTML('<option value="ALT" disabled>Personal email</option>', html)
+        self.assertInHTML('<option value="TUE">TU/e email</option>', html)
+
+    def test_personal_email_choice_enabled_with_secondary_email(self):
+        # act
+        form = PreferencesUpdateForm(user=self.user)
+        html = str(form["newsletter-cosmos-news"])
+
+        # test
+        self.assertInHTML('<option value="ALT">Personal email</option>', html)
+
     def test_success_newsletter_enable_on_institution_email_without_secondary_email(self):
         # setup
         self.user.email = ""

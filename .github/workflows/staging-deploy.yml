@@ -56,6 +56,7 @@ jobs:
           port: ${{ secrets.STAGING_PORT }}
           command_timeout: 30m
           script: |
+            set -e  # stop at the first failing command (ssh-action dropped script_stop)
             sudo -u cosmos sh ~/deploy.sh
             sudo systemctl restart gunicorn nginx
       - name: check status code

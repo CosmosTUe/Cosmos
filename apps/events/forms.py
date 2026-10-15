@@ -6,6 +6,7 @@ from django.core.exceptions import ValidationError
 
 from apps.events.errors import END_DATE_BEFORE_START
 from apps.events.models import Event
+from apps.events.pretix import shop_url
 
 
 class EventForm(forms.ModelForm):
@@ -22,6 +23,7 @@ class EventForm(forms.ModelForm):
             "location",
             "organizer",
             "price",
+            "pretix_shop",
         ]
 
     def __init__(self, *args, **kwargs):
@@ -39,7 +41,12 @@ class EventForm(forms.ModelForm):
             Field("member_only"),
             Field("lead"),
             Field("description"),
+            FloatingField("pretix_shop"),
         )
+
+    def clean_pretix_shop(self):
+        link = self.cleaned_data.get("pretix_shop", "")
+        return shop_url(link) if link else ""
 
     def clean(self):
         cleaned_data = super(EventForm, self).clean()

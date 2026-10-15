@@ -344,6 +344,8 @@ TINYMCE_DEFAULT_CONFIG = {
     "height": 360,
     "width": "100%",
     "menubar": False,
+    # show every button, wrapping onto extra rows like CKEditor did, instead of hiding some behind a "more" button
+    "toolbar_mode": "wrap",
     "promotion": False,
     "branding": False,
     "browser_spellcheck": True,
@@ -395,6 +397,12 @@ TINYMCE_DEFAULT_CONFIG = {
     "a[href|target|rel|title|tabindex|style|class|id|name]",
     "valid_children": "+body[script|link|noscript|style],+div[script|link|noscript|pretix-widget],"
     "+p[script|noscript|pretix-widget]",
+    # Keep embed code byte for byte: without this TinyMCE wraps <script>/<link> in <p> and adds blank lines inside
+    # <noscript> each time a text is opened and saved (54 of the 214 existing texts kept changing on every save).
+    # "protect" needs JavaScript regexes, which can't be expressed in this JSON config, so it is set from "setup"
+    # (django-tinymce evaluates the "setup" string as a function).
+    "setup": "function (editor) { editor.options.set('protect', [/<link\\b[^>]*>/g, "
+    "/<script\\b[\\s\\S]*?<\\/script>/g, /<noscript\\b[\\s\\S]*?<\\/noscript>/g]); }",
 }
 
 NEWSLETTER_RICHTEXT_WIDGET = "tinymce.widgets.TinyMCE"

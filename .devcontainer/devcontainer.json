@@ -68,6 +68,10 @@
 	// Run setup script after the container is created
 	"postCreateCommand": "bash .devcontainer/setup.sh",
 
-	"forwardPorts": [8000],
+	"forwardPorts": [8000, 8025],
+	"portsAttributes": {
+		"8000": {"label": "Website"},
+		"8025": {"label": "Mailpit (emails)"}
+	},
 	"remoteUser": "vscode"
 }

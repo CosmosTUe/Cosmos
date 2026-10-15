@@ -1,9 +1,8 @@
 from django.contrib.auth import views as auth_views
 from django.urls import path
 from django.urls.base import reverse_lazy
-from django.views.decorators.csrf import csrf_exempt
 
-from . import views, webhooks
+from . import views
 from .forms.authorization import CosmosPasswordChangeForm, CosmosPasswordResetForm, CosmosSetPasswordForm
 
 app_name = "cosmos_users"
@@ -46,7 +45,6 @@ urlpatterns = [
     ),
     path("register/done/", views.registration_done, name="registration_done"),
     path("confirm/<uidb64>/<token>/", views.activate, name="confirm_registration"),
-    path("hook/", csrf_exempt(webhooks.SendGridWebhook.as_view()), name="email_hook"),
     path("reconfirm/", views.ReconfirmView.as_view(), name="reconfirm"),
     path("reconfirm_done/", views.reconfirm_done, name="reconfirm-done"),
     path("profile#<active_tab>", views.profile, name="subscribe-newsletter"),

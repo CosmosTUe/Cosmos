@@ -2,17 +2,10 @@ from bs4 import BeautifulSoup
 from django.contrib.auth.models import User
 from django.core import mail
 
-from apps.async_requests.constants import NEWSLETTER_LIST_ID
-from apps.async_requests.factory import Factory
 from tests.user.views.wizard_helper import WizardViewTestCase
-
-executor = Factory.get_executor()
 
 
 class RegistrationFlowTest(WizardViewTestCase):
-    def setUp(self) -> None:
-        self.newsletter_service = Factory.get_newsletter_service(True)
-
     def assert_inactive_user_state(self, username):
         user = User.objects.get(username=username)
         self.assertFalse(user.is_active)
@@ -27,14 +20,11 @@ class RegistrationFlowTest(WizardViewTestCase):
         exp_email_recipient = recipient
         exp_email_subject = "[Cosmos] Confirm your email address"
 
-        # act
-        executor.execute()
-
         # test
-        self.assertEqual(len(self.newsletter_service.outbox), 1, "1 message sent")
-        self.assertEqual(self.newsletter_service.outbox[0].personalizations[0].tos[0]["email"], exp_email_recipient)
-        self.assertEqual(self.newsletter_service.outbox[0].from_email.email, exp_email_sender)
-        self.assertEqual(self.newsletter_service.outbox[0].subject.subject, exp_email_subject)
+        self.assertEqual(len(mail.outbox), 1, "1 message sent")
+        self.assertEqual(mail.outbox[0].to[0], exp_email_recipient)
+        self.assertEqual(mail.outbox[0].from_email, exp_email_sender)
+        self.assertEqual(mail.outbox[0].subject, exp_email_subject)
         self.assert_working_activation_view(recipient)
 
     def assert_no_email_sent(self):
@@ -42,7 +32,7 @@ class RegistrationFlowTest(WizardViewTestCase):
 
     def assert_working_activation_view(self, username):
         # setup
-        html_parser = BeautifulSoup(self.newsletter_service.outbox[0].contents[0].content, "html.parser")
+        html_parser = BeautifulSoup(mail.outbox[0].body, "html.parser")
         link = html_parser.find("a")
         link_text = link.contents[0].strip()
         link_url = link.get("href")
@@ -57,15 +47,6 @@ class RegistrationFlowTest(WizardViewTestCase):
         self.assertEqual(link_text, exp_link_text)
         self.assertContains(response, exp_activation_message)
         self.assert_active_user_state(username)
-
-    def assert_newsletter_subscription(self, email: str, state: bool):
-        # setup - none
-
-        # act
-        executor.execute()
-
-        # test
-        self.assertEqual(state, self.newsletter_service.is_subscribed(email, NEWSLETTER_LIST_ID))
 
     # def test_success_fontys(self):
     #     # setup

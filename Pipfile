@@ -15,17 +15,11 @@ django-crum = "*"
 django-sendfile2 = "*"
 django-cleanup = "*"
 django-ckeditor = "*"
-jsonpickle = "==5.0.0rc1"  # current pre-release, held until the next PR
 bs4 = "*"
 gunicorn = "*"
 requests = "*"
 django-pipeline = "*"
 django-better-admin-arrayfield = "*"
-celery = "==5.6.0b1"  # current pre-release, held until the next PR
-django-celery-results = "*"
-django-celery-beat = "*"
-sendgrid = "==7.0.0rc2"  # current pre-release, held until the next PR
-python-http-client = "*"
 django-oauth-toolkit = "*"
 django-cors-headers = "*"
 django-redis = "*"
@@ -37,9 +31,6 @@ sorl-thumbnail = "*"
 django-newsletter = {git = "https://github.com/CosmosTUe/django-newsletter.git", ref = "485fd1a7cbb9b8f0b9e63210ef0ff7e22dba3d7c"}
 "backports.zoneinfo" = "==0.2.1" # support for Python <= 3.8
 django-tinymce = "*"
-# pre-releases currently in use as dependencies, held until the next PR
-kombu = "==5.6.0rc1"
-icalendar = "==7.0.0a2"
 
 [dev-packages]
 flake8 = "*"

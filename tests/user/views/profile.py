@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
 from django.test import Client, TestCase
 
-from apps.async_requests.factory import Factory
 from apps.users.models import Profile
 from tests.helpers import get_profile_form_data
 
@@ -29,8 +28,6 @@ class ProfileUpdateFlowTest(TestCase):
             terms_confirmed=True,
             subscribed_newsletter=False,
         ).save()
-        self.executor = Factory.get_executor()
-        self.newsletter_service = Factory.get_newsletter_service(True)
 
     def test_success_do_nothing(self):
         # setup

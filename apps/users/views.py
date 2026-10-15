@@ -14,7 +14,6 @@ from django.views.generic.edit import FormView
 from formtools.wizard.views import SessionWizardView
 from newsletter.models import Subscription
 
-from apps.async_requests.factory import Factory
 from apps.users.forms.authorization import CosmosLoginForm
 from apps.users.forms.profile import PasswordUpdateForm, PreferencesUpdateForm, ProfileUpdateForm
 from apps.users.forms.registration import ReconfirmationForm, RegisterFontysForm, RegisterTueForm, RegisterUserForm
@@ -25,7 +24,6 @@ from apps.users.models.institution import InstitutionFontys, InstitutionTue
 from apps.users.tokens import account_activation_token
 
 logger = logging.getLogger(__name__)
-executor = Factory.get_executor()
 
 
 def show_tue_form_condition(wizard):

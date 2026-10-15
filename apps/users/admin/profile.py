@@ -1,22 +1,15 @@
 import logging
-from http.client import HTTPException
 
-from django.contrib import admin, messages
-from django.db.models.query import QuerySet
+from django.contrib import admin
 from django.http import FileResponse
 from django.urls import path
-from newsletter.models import Newsletter
-from python_http_client import UnauthorizedError
 
-from apps.async_requests.factory import Factory
 from apps.users.models import Profile
 
 # from apps.users.stats import get_nationality_stats
 from apps.users.stats import get_date_joined_stats
 
 logger = logging.getLogger(__name__)
-executor = Factory.get_executor()
-newsletter_service = Factory.get_newsletter_service()
 
 
 @admin.register(Profile)
@@ -44,23 +37,3 @@ class ProfileAdmin(admin.ModelAdmin):
         response = FileResponse(open(filenames[0], "rb"))
 
         return response
-
-    actions = ["sync_newsletter_subscriptions"]
-
-    def sync_newsletter_subscriptions(self, request, queryset: QuerySet):
-        self.message_user(request, f"Sending {len(queryset)} messages...", messages.INFO)
-        try:
-            for profile in queryset:
-                newsletter_service.sync_subscription_preferences(profile)
-            executor.execute()
-            self.message_user(request, f"{len(queryset)} newsletter preferences updated!", messages.SUCCESS)
-        except Newsletter.DoesNotExist:
-            self.message_user(
-                request,
-                "Missing Newsletter object(s). Ensure Newsletter objects have the following slugs: cosmos-news, gmm.",
-                messages.ERROR,
-            )
-        except UnauthorizedError:
-            self.message_user(request, "Authorization error. Please check newsletter config.", messages.ERROR)
-        except HTTPException:
-            self.message_user(request, "Unknown HTTP error. Please check newsletter config.", messages.ERROR)

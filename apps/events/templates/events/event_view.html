@@ -37,6 +37,7 @@
                 
                 <p class="lead">{{ event.lead }}</p>
                 {{ event.description|safe }}
+                {% if event.pretix_shop %}{% include "events/pretix_widget.html" with shop=event.pretix_shop %}{% endif %}
             </div>
         </div>
     </div>

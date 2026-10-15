@@ -78,11 +78,13 @@ class ProfileUpdateForm(forms.ModelForm):
         if "email" in self.changed_data:
             old_email = self.initial["email"]
             new_email = self.cleaned_data["email"]
-            subs = Subscription.objects.filter(email_field=old_email)
+            # move only the newsletters that were on; if the personal email was removed, just switch them off
+            subs = Subscription.objects.filter(email_field=old_email, subscribed=True)
             for sub in subs:
                 sub.update("unsubscribe")
-                new_sub, _ = Subscription.objects.get_or_create(newsletter=sub.newsletter, email_field=new_email)
-                new_sub.update("subscribe")
+                if new_email:
+                    new_sub, _ = Subscription.objects.get_or_create(newsletter=sub.newsletter, email_field=new_email)
+                    new_sub.update("subscribe")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

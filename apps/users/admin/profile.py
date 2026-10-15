@@ -5,8 +5,6 @@ from django.http import FileResponse
 from django.urls import path
 
 from apps.users.models import Profile
-
-# from apps.users.stats import get_nationality_stats
 from apps.users.stats import get_date_joined_stats
 
 logger = logging.getLogger(__name__)

@@ -29,7 +29,12 @@ logger = logging.getLogger(__name__)
 
 class ProfileUpdateForm(forms.ModelForm):
     username = forms.EmailField(max_length=254, label="Institution email")
-    email = forms.EmailField(max_length=254, label="Personal email (optional)", required=False)
+    email = forms.EmailField(
+        max_length=254,
+        label="Personal email (optional)",
+        required=False,
+        help_text="Add one to get newsletters here instead of your institution email.",
+    )
     nationality = forms.ChoiceField(choices=list(zip(NATIONALITIES, NATIONALITIES)))
 
     # When the user is from TUe, 'study' is empty.
@@ -155,6 +160,18 @@ class PasswordUpdateForm(PasswordChangeForm):
         )
 
 
+class SelectWithDisabledChoices(forms.Select):
+    def __init__(self, disabled_values=(), *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.disabled_values = set(disabled_values)
+
+    def create_option(self, name, value, *args, **kwargs):
+        option = super().create_option(name, value, *args, **kwargs)
+        if value in self.disabled_values:
+            option["attrs"]["disabled"] = True
+        return option
+
+
 class PreferencesUpdateForm(forms.Form):
     @staticmethod
     def newsletter_field_name(newsletter):
@@ -166,6 +183,7 @@ class PreferencesUpdateForm(forms.Form):
         self.helper = FormHelper(self)
         newsletters = [Newsletter.objects.get(slug__exact="cosmos-news"), Newsletter.objects.get(slug__exact="gmm")]
         recipients = [("NONE", "Disabled")] + NEWSLETTER_RECIPIENTS
+        unavailable = [] if user.email else ["ALT"]  # no personal email to send to
         crispy_newsletters = []
         for newsletter in newsletters:
             name = self.newsletter_field_name(newsletter)
@@ -173,6 +191,7 @@ class PreferencesUpdateForm(forms.Form):
                 label=newsletter.title,
                 choices=recipients,
                 required=False,
+                widget=SelectWithDisabledChoices(disabled_values=unavailable),
             )
             crispy_newsletters.append(FloatingField(name))
 

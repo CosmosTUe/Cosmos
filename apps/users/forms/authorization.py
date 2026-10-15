@@ -43,10 +43,8 @@ class CosmosLoginForm(AuthenticationForm):
     def confirm_login_allowed(self, user):
         if not user.is_active:
             raise ValidationError(
-                SafeString(
-                    f"""This has not been activated, click <a href='{reverse("cosmos_users:reconfirm")}'>here</a>
-                     to resend the activation email."""
-                ),
+                SafeString(f"""This has not been activated, click <a href='{reverse("cosmos_users:reconfirm")}'>here</a>
+                     to resend the activation email."""),
                 code="inactive",
             )
         return super().confirm_login_allowed(user)

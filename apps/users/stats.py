@@ -72,13 +72,8 @@ def get_date_joined_stats(query):
     )
 
     # Turn the list of dictionaries into one dictionary
-    date_joined = {
-        f"""{item['academic_year']} | {item['institutiontue__program']} |
-         {'EU/EEA' if item['is_eueea']else 'Non-EU/EEA'}""": item[
-            "count"
-        ]
-        for item in date_joined_list
-    }
+    date_joined = {f"""{item['academic_year']} | {item['institutiontue__program']} |
+         {'EU/EEA' if item['is_eueea']else 'Non-EU/EEA'}""": item["count"] for item in date_joined_list}
 
     # Call the plotting function (used in case the plotting function wants to be changed)
     plots = [make_plot(date_joined, "students joined in each academic year ONLY TUE STUDENTS HERE")]

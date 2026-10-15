@@ -1,18 +1,19 @@
+# Every hook uses the tool version from Pipfile.lock, the same version CI checks with
 repos:
-- repo: https://github.com/pycqa/flake8
-  rev: '6.0.0'
+- repo: local
   hooks:
   - id: flake8
-    additional_dependencies:
-      - flake8-django
-      - pep8-naming
-- repo: https://github.com/psf/black
-  rev: 22.8.0
-  hooks:
+    name: flake8
+    entry: pipenv run flake8
+    language: system
+    types: [python]
   - id: black
-    language_version: python3.12
-- repo: https://github.com/pycqa/isort
-  rev: 5.12.0
-  hooks:
-    - id: isort
-      name: isort (python)
+    name: black
+    entry: pipenv run black
+    language: system
+    types: [python]
+  - id: isort
+    name: isort (python)
+    entry: pipenv run isort
+    language: system
+    types: [python]

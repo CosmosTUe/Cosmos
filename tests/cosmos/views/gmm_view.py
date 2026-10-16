@@ -312,3 +312,10 @@ class GMMViewsTestLoggedOut(TestCase):
         url = "/gmm/add/"
         response = self.client.get(url)
         self.assertEqual(403, response.status_code)
+
+
+class FileObjectStrTest(TestCase):
+    def test_str_uses_gmm_date(self):
+        gmm = GMM.objects.create(name="TestGMM", date="2010-10-21")
+        file_object = FileObject(name="minutes.pdf", container=gmm)
+        self.assertEqual("FileObjectGMM: {minutes.pdf, 2010-10-21}", str(file_object))

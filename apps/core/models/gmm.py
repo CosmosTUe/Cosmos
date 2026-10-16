@@ -37,7 +37,7 @@ class FileObject(models.Model):
     container = models.ForeignKey(GMM, on_delete=models.CASCADE, related_name="has_files")
 
     def __str__(self):
-        return "FileObjectGMM: {" + self.name + ", " + str(self.date) + "}"
+        return "FileObjectGMM: {" + self.name + ", " + str(self.container.date) + "}"
 
     def save(self, *args, **kwargs):
         user = get_current_user()

@@ -24,11 +24,11 @@ django-cors-headers = "*"
 django-redis = "*"
 hiredis = "*"
 Pillow = "*"
-Django = "~=4.2"
 django-ical = "*"
 sorl-thumbnail = "*"
 django-newsletter = "~=1.2"
 django-tinymce = "*"
+django = "~=5.2"
 
 [dev-packages]
 flake8 = "*"

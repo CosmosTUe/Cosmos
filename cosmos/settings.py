@@ -91,32 +91,9 @@ TIME_ZONE = "Europe/Amsterdam"
 
 USE_I18N = False
 
-# Use server-side locales
-USE_L10N = False
-
-# Reference: https://docs.djangoproject.com/en/3.2/ref/templates/builtins/#date
-# https://docs.djangoproject.com/en/3.2/ref/settings/#date-format
-DATE_FORMAT = "d M Y"
-# https://docs.djangoproject.com/en/3.2/ref/settings/#time-format
-TIME_FORMAT = "H:i"
-# https://docs.djangoproject.com/en/3.2/ref/settings/#datetime-format
-DATETIME_FORMAT = "d M Y H:i"
-
-DATETIME_INPUT_FORMATS = [
-    "%d-%m-%Y %H:%M",  # 25-10-2006 14:30
-    "%d-%m-%y %H:%M",  # 25-10-06 14:30
-    "%d/%m/%Y %H:%M",  # 25/10/06 14:30
-    "%d/%m/%y %H:%M",  # 25/10/06 14:30
-    "%Y-%m-%d %H:%M:%S",  # '2006-10-25 14:30:59'
-    "%Y-%m-%d %H:%M:%S.%f",  # '2006-10-25 14:30:59.000200'
-    "%Y-%m-%d %H:%M",  # '2006-10-25 14:30'
-    "%m/%d/%Y %H:%M:%S",  # '10/25/2006 14:30:59'
-    "%m/%d/%Y %H:%M:%S.%f",  # '10/25/2006 14:30:59.000200'
-    "%m/%d/%Y %H:%M",  # '10/25/2006 14:30'
-    "%m/%d/%y %H:%M:%S",  # '10/25/06 14:30:59'
-    "%m/%d/%y %H:%M:%S.%f",  # '10/25/06 14:30:59.000200'
-    "%m/%d/%y %H:%M",  # '10/25/06 14:30'
-]
+# Django always formats dates with the formats of the active language ("en");
+# cosmos/formats/en/formats.py sets the formats the site uses.
+FORMAT_MODULE_PATH = "cosmos.formats"
 
 USE_TZ = False
 
@@ -128,7 +105,10 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(DATA_DIR, "media")
 STATIC_ROOT = os.path.join(DATA_DIR, "static")
 
-STATICFILES_STORAGE = "pipeline.storage.PipelineManifestStorage"
+STORAGES = {
+    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+    "staticfiles": {"BACKEND": "pipeline.storage.PipelineManifestStorage"},
+}
 
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",

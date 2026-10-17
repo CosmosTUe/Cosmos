@@ -26,12 +26,16 @@
                <li><a class="dropdown-item" href="{% url 'cosmos_core:wellbeing' %}">Well-being</a></li>
              </ul>
           </li>
-          <a class="nav-link" href="{% url 'cosmos_events:events-list' %}">Events</a>
-          <a class="nav-link" href="{% url 'cosmos_core:news-list' %}">News</a>
+          {% url 'cosmos_events:events-list' as events_link %}
+          <a class="nav-link {% if request.path == events_link %}active-nav-link{% endif %}" href="{{ events_link }}">Events</a>
+          {% url 'cosmos_core:news-list' as news_link %}
+          <a class="nav-link {% if request.path == news_link %}active-nav-link{% endif %}" href="{{ news_link }}">News</a>
           {% if user.is_authenticated %}
-            <a class="nav-link" href="{% url 'cosmos_core:photo_album-list' %}">Photos</a>
+            {% url 'cosmos_core:photo_album-list' as photos_link %}
+            <a class="nav-link {% if request.path == photos_link %}active-nav-link{% endif %}" href="{{ photos_link }}">Photos</a>
           {% endif %}
-          <a class="nav-link" href="{% url 'cosmos_core:resources' %}">Resources</a>
+          {% url 'cosmos_core:resources' as resources_link %}
+          <a class="nav-link {% if request.path == resources_link %}active-nav-link{% endif %}" href="{{ resources_link }}">Resources</a>
           <a class="nav-link" href="https://commonroom.nl"> Common Room
             {% if user.is_authenticated %}
               {% if door_status == 1 %}
@@ -46,11 +50,15 @@
         {# Login and registration buttons or profile button #}
         <div class="navbar-nav ms-auto">
           {% if user.is_authenticated %}
-            <a class="nav-link" href="{% url 'cosmos_users:user_profile' %}">Profile</a>
-            <a class="nav-link" href="{% url 'cosmos_users:logout' %}">Logout</a>
+            {% url 'cosmos_users:user_profile' as profile_link %}
+            <a class="nav-link {% if request.path == profile_link %}active-nav-link{% endif %}" href="{{ profile_link }}">Profile</a>
+            {% url 'cosmos_users:logout' as logout_link %}
+            <a class="nav-link {% if request.path == logout_link %}active-nav-link{% endif %}" href="{{ logout_link }}">Logout</a>
           {% else %}
-            <a class="nav-link" href="{% url 'cosmos_users:login' %}">Login</a>
-            <a class="nav-link" href="{% url 'cosmos_users:user_register' %}">Register</a>
+            {% url 'cosmos_users:login' as login_link %}
+            <a class="nav-link {% if request.path == login_link %}active-nav-link{% endif %}" href="{{ login_link }}">Login</a>
+            {% url 'cosmos_users:user_register' as register_link %}
+            <a class="nav-link {% if request.path == register_link %}active-nav-link{% endif %}" href="{{ register_link }}">Register</a>
           {% endif %}
         </div>
       </div>

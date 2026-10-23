@@ -14,7 +14,7 @@ class InternalDocumentCreate(LoginRequiredMixin, PermissionRequiredMixin, Create
     success_url = reverse_lazy("cosmos_core:internal-list")
 
     # Permissions
-    permission_required = "cosmos.add_internaldocument"
+    permission_required = "core.add_internaldocument"
     raise_exception = True
 
 
@@ -25,7 +25,7 @@ class InternalDocumentUpdate(LoginRequiredMixin, PermissionRequiredMixin, Update
     success_url = reverse_lazy("cosmos_core:internal-list")
 
     # Permissions
-    permission_required = "cosmos.change_internaldocument"
+    permission_required = "core.change_internaldocument"
     raise_exception = True
 
 
@@ -35,7 +35,7 @@ class InternalDocumentDelete(LoginRequiredMixin, PermissionRequiredMixin, Delete
     success_url = reverse_lazy("cosmos_core:internal-list")
 
     # Permissions
-    permission_required = "cosmos.delete_internaldocument"
+    permission_required = "core.delete_internaldocument"
     raise_exception = True
 
 

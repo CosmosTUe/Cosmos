@@ -20,7 +20,7 @@ class NewsCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     success_url = None
 
     # Permissions
-    permission_required = "cosmos.add_news"
+    permission_required = "core.add_news"
     raise_exception = True
 
     def get_success_url(self):
@@ -34,7 +34,7 @@ class NewsUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     success_url = None
 
     # Permissions
-    permission_required = "cosmos.change_news"
+    permission_required = "core.change_news"
     raise_exception = True
 
     def get_success_url(self):
@@ -47,14 +47,14 @@ class NewsDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     success_url = reverse_lazy("news-list")
 
     # Permissions
-    permission_required = "cosmos.delete_news"
+    permission_required = "core.delete_news"
     raise_exception = True
 
 
 def news_view(request, pk):
     article = get_object_or_404(News, pk=pk)
     context = {"article": article}
-    if not article.published() and not request.user.has_perms(["cosmos.change_news", "cosmos.delete_news"]):
+    if not article.published() and not request.user.has_perms(["core.change_news", "core.delete_news"]):
         return error403(request, None)
     if article.member_only and not request.user.is_authenticated:
         return redirect("%s?next=%s" % (LOGIN_URL, request.path))
@@ -66,7 +66,7 @@ def news_list(request):
         news_list = News.objects.filter(member_only=False, publish_date__lte=datetime.date.today()).order_by(
             "-publish_date"
         )
-    elif request.user.has_perm("cosmos.view_news"):
+    elif request.user.has_perm("core.view_news"):
         news_list = News.objects.order_by("-publish_date").all()
     else:
         news_list = News.objects.filter(publish_date__lte=datetime.date.today()).order_by("-publish_date").all()

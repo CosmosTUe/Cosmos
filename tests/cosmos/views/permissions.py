@@ -2,6 +2,7 @@ import datetime
 import importlib
 
 from django.apps import apps
+from django.contrib.admin.models import CHANGE, LogEntry
 from django.contrib.auth.models import Group, Permission, User
 from django.contrib.contenttypes.models import ContentType
 from django.test import TestCase
@@ -11,6 +12,7 @@ from apps.events.models import Event
 from tests.cosmos.helpers import get_image_file
 
 copy_permissions = importlib.import_module("apps.core.migrations.0006_copy_old_cosmos_permissions")
+remove_stale = importlib.import_module("apps.core.migrations.0007_remove_stale_content_types")
 
 
 def committee_member(*perms):
@@ -78,3 +80,30 @@ class CopyOldPermissionsMigrationTest(TestCase):
         self.assertTrue(group.permissions.filter(content_type__app_label="core", codename="add_news").exists())
         self.assertTrue(group.permissions.filter(content_type__app_label="users", codename="view_board").exists())
         self.assertTrue(User.objects.get(pk=user.pk).has_perm("core.add_news"))
+
+
+class RemoveStaleContentTypesMigrationTest(TestCase):
+    def test_stale_types_go_and_current_ones_stay(self):
+        old_news = ContentType.objects.create(app_label="cosmos", model="news")
+        old_perm = Permission.objects.create(content_type=old_news, codename="add_news", name="Can add news")
+        ContentType.objects.create(app_label="legacy", model="mysitedoor")
+        ContentType.objects.create(app_label="users", model="groupmember")
+        group = Group.objects.create(name="Board")
+        group.permissions.add(old_perm, Permission.objects.get(content_type__app_label="core", codename="add_news"))
+        admin = User.objects.create_superuser(username="admin@student.tue.nl")
+        entry = LogEntry.objects.create(
+            user=admin, content_type=old_news, object_id="1", object_repr="Old news", action_flag=CHANGE
+        )
+
+        remove_stale.remove_stale_content_types(apps, None)
+
+        for app_label, model in [("cosmos", "news"), ("legacy", "mysitedoor"), ("users", "groupmember")]:
+            self.assertFalse(ContentType.objects.filter(app_label=app_label, model=model).exists())
+        self.assertFalse(Permission.objects.filter(pk=old_perm.pk).exists())
+        # current types, and the permission the group holds through them, are untouched
+        self.assertTrue(ContentType.objects.filter(app_label="users", model="committee").exists())
+        self.assertEqual(["add_news"], list(group.permissions.values_list("codename", flat=True)))
+        # admin history is kept, without the link to the removed type
+        entry.refresh_from_db()
+        self.assertIsNone(entry.content_type)
+        self.assertEqual("Old news", entry.object_repr)

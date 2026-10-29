@@ -2,7 +2,11 @@ from .gmm_view import FileObjectStrTest, GMMViewsTestAdminLoggedIn, GMMViewsTest
 from .index import DoorSensorTest
 from .logout import LogoutTest
 from .news import NewsCreateViewTest, NewsDeleteViewTest, NewsListViewTest, NewsUpdateViewTest, NewsViewTest
-from .permissions import CopyOldPermissionsMigrationTest, CurrentPermissionNamesTest
+from .permissions import (
+    CopyOldPermissionsMigrationTest,
+    CurrentPermissionNamesTest,
+    RemoveStaleContentTypesMigrationTest,
+)
 from .photo_view import (
     PhotoAlbumAddPhotoViewTest,
     PhotoAlbumCreateViewTest,
@@ -16,6 +20,7 @@ from .sitemap import SitemapTest
 __all__ = [
     "CurrentPermissionNamesTest",
     "CopyOldPermissionsMigrationTest",
+    "RemoveStaleContentTypesMigrationTest",
     "LogoutTest",
     "GMMViewsTestLoggedOut",
     "GMMViewsTestMemberLoggedIn",

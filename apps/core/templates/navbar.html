@@ -52,8 +52,11 @@
           {% if user.is_authenticated %}
             {% url 'cosmos_users:user_profile' as profile_link %}
             <a class="nav-link {% if request.path == profile_link %}active-nav-link{% endif %}" href="{{ profile_link }}">Profile</a>
-            {% url 'cosmos_users:logout' as logout_link %}
-            <a class="nav-link {% if request.path == logout_link %}active-nav-link{% endif %}" href="{{ logout_link }}">Logout</a>
+            {# Django only logs out on POST, so Logout is a small form styled as a navbar link #}
+            <form method="post" action="{% url 'cosmos_users:logout' %}" class="d-flex">
+              {% csrf_token %}
+              <button type="submit" class="nav-link nav-link-button">Logout</button>
+            </form>
           {% else %}
             {% url 'cosmos_users:login' as login_link %}
             <a class="nav-link {% if request.path == login_link %}active-nav-link{% endif %}" href="{{ login_link }}">Login</a>

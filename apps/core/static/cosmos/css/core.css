@@ -98,6 +98,20 @@ a:hover {
     height: 6rem;
 }
 
+.navbar-dark .navbar-nav .active-nav-link {
+    color: rgba(255, 255, 255, 0.9);
+    pointer-events: none;
+    cursor: default;
+    transition: none;
+    font-weight: bold;
+}
+
+/* the Logout button in the navbar looks like the links next to it */
+.navbar-nav .nav-link-button {
+    background: none;
+    border: 0;
+}
+
 .footer-filler {
     height: 2rem;
 }

@@ -2,6 +2,7 @@ from .gmm_view import FileObjectStrTest, GMMViewsTestAdminLoggedIn, GMMViewsTest
 from .index import DoorSensorTest
 from .logout import LogoutTest
 from .news import NewsCreateViewTest, NewsDeleteViewTest, NewsListViewTest, NewsUpdateViewTest, NewsViewTest
+from .permissions import CopyOldPermissionsMigrationTest, CurrentPermissionNamesTest
 from .photo_view import (
     PhotoAlbumAddPhotoViewTest,
     PhotoAlbumCreateViewTest,
@@ -13,6 +14,8 @@ from .photo_view import (
 from .sitemap import SitemapTest
 
 __all__ = [
+    "CurrentPermissionNamesTest",
+    "CopyOldPermissionsMigrationTest",
     "LogoutTest",
     "GMMViewsTestLoggedOut",
     "GMMViewsTestMemberLoggedIn",

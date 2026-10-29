@@ -7,7 +7,7 @@
 
     <h2>Internal Documents</h5>
 
-    {% if perms.cosmos.add_internaldocument %}
+    {% if perms.core.add_internaldocument %}
     <a class="btn btn-cosmos-primary mb-2" href="{% url 'cosmos_core:internal-create' %}">
         <i class="bi bi-plus-lg"></i>
         Add new internal document
@@ -22,7 +22,7 @@
                         <div class="fw-bold">{{ internal.name }}</div>
                         Last modified: {{ internal.modified }}
                     </a>
-                    {% if perms.cosmos.change_internaldocument and perms.cosmos.delete_internaldocument %}
+                    {% if perms.core.change_internaldocument and perms.core.delete_internaldocument %}
                     <div>
                         <a class="btn p-0" href="{% url 'cosmos_core:internal-update' internal.id %}">
                             <i class="bi bi-pencil-square"></i>

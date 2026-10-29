@@ -15,7 +15,7 @@ class GMMCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     success_url = None
 
     # Permissions
-    permission_required = "cosmos.add_gmm"
+    permission_required = "core.add_gmm"
     raise_exception = True
 
     def get_context_data(self, **kwargs):
@@ -51,7 +51,7 @@ class GMMUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     success_url = None
 
     # Permissions
-    permission_required = "cosmos.change_gmm"
+    permission_required = "core.change_gmm"
     raise_exception = True
 
     def get_context_data(self, **kwargs):
@@ -84,7 +84,7 @@ class GMMDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     success_url = reverse_lazy("cosmos_core:gmm-list")
 
     # Permissions
-    permission_required = "cosmos.delete_gmm"
+    permission_required = "core.delete_gmm"
     raise_exception = True
 
 

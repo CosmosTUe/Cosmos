@@ -1,6 +1,7 @@
 from django.contrib.auth.models import Group
 from django.core.validators import FileExtensionValidator
 from django.db import models
+from django_better_admin_arrayfield.models.fields import ArrayField
 
 
 class Committee(models.Model):
@@ -25,6 +26,17 @@ class Committee(models.Model):
     slug = models.SlugField(blank=False, unique=True, default="None")
     hidden = models.BooleanField(
         default=False, help_text="Hide from the committees overview. The page stays reachable through its link."
+    )
+
+    members = ArrayField(
+        models.CharField(max_length=100, blank=True),
+        blank=True,
+        default=list,
+        help_text="Current members, one name per row.",
+    )
+    contact_name = models.CharField(max_length=100, blank=True, help_text="Who to ask about joining.")
+    contact_email = models.EmailField(
+        blank=True, help_text="Use the committee's shared address where possible, not a personal one."
     )
 
     photo = models.FileField(

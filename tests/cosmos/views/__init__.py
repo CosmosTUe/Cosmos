@@ -1,3 +1,4 @@
+from .committees import CommitteeOverviewTest
 from .gmm_view import FileObjectStrTest, GMMViewsTestAdminLoggedIn, GMMViewsTestLoggedOut, GMMViewsTestMemberLoggedIn
 from .index import DoorSensorTest
 from .logout import LogoutTest
@@ -18,6 +19,7 @@ from .photo_view import (
 from .sitemap import SitemapTest
 
 __all__ = [
+    "CommitteeOverviewTest",
     "CurrentPermissionNamesTest",
     "CopyOldPermissionsMigrationTest",
     "RemoveStaleContentTypesMigrationTest",

@@ -8,19 +8,21 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container committee-detail-page">
-        <div class="card w-100">
-            <div class="row g-0">
-                <div class="col-md-6">
-                    {% thumbnail committee.photo "800" crop="center" format="PNG" as im %}
-                    <img src="{{ im.url }}" class="w-100"
-                         alt="Photo of {{ committee.name }}">
-                    {% endthumbnail %}
-                </div>
-                <div class="col-md-6">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ committee.display_name }}</h5>
-                        <p class="card-text">{{ committee.description }}</p>
+    <div class="committee-detail-band">
+        <div class="container committee-detail-page">
+            <div class="card w-100">
+                <div class="row g-0">
+                    <div class="col-md-6">
+                        {% thumbnail committee.photo "800" crop="center" format="PNG" as im %}
+                        <img src="{{ im.url }}" class="w-100"
+                             alt="Photo of {{ committee.name }}">
+                        {% endthumbnail %}
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ committee.display_name }}</h5>
+                            <p class="card-text">{{ committee.description }}</p>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -11,7 +11,7 @@
 
         <div class="pb-2">
             <button class="btn btn-cosmos-primary" type="button" id="switchGMMView">Switch view</button>
-            {% if perms.cosmos.add_gmm %}
+            {% if perms.core.add_gmm %}
             <a class="btn btn-cosmos-primary" href="{% url 'cosmos_core:gmm-create' %}">
                 <i class="bi bi-plus-lg"></i>
                 Add new GMM
@@ -43,7 +43,7 @@
                             {% endfor %}
                             {% endif%}
 
-                            {% if perms.cosmos.change_gmm and perms.cosmos.delete_gmm %}
+                            {% if perms.core.change_gmm and perms.core.delete_gmm %}
                             <div class="float-end">
                                 <a class="btn p-0" href="{% url 'cosmos_core:gmm-update' gmm.id %}">
                                     <i class="bi bi-pencil-square"></i>
@@ -77,7 +77,7 @@
                             {% endfor %}
                             {% endif%}
                         
-                            {% if perms.cosmos.change_gmm and perms.cosmos.delete_gmm %}
+                            {% if perms.core.change_gmm and perms.core.delete_gmm %}
                             <div class="float-end">
                                 <a class="btn p-0" href="{% url 'cosmos_core:gmm-update' gmm.id %}">
                                     <i class="bi bi-pencil-square"></i>

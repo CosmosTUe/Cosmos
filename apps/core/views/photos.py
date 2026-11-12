@@ -19,7 +19,7 @@ class PhotoAlbumCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     success_url = None
 
     # Permissions
-    permission_required = "cosmos.add_photoalbum"
+    permission_required = "core.add_photoalbum"
     raise_exception = True
 
     def form_valid(self, form):
@@ -39,7 +39,7 @@ class PhotoAlbumUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     success_url = None
 
     # permissions
-    permission_required = "cosmos.change_photoalbum"
+    permission_required = "core.change_photoalbum"
     raise_exception = True
 
 
@@ -49,7 +49,7 @@ class PhotoAlbumDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     success_url = reverse_lazy("cosmos_core:photo_album-list")
 
     # Permissions
-    permission_required = "cosmos.delete_photoalbum"
+    permission_required = "core.delete_photoalbum"
     raise_exception = True
 
 
@@ -58,7 +58,7 @@ class PhotoObjectDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView)
     template_name = "photo_album/photo_object_confirm_delete.html"
 
     # Permissions
-    permission_required = "cosmos.delete_photoobject"
+    permission_required = "core.delete_photoobject"
     raise_exception = True
 
     def get_success_url(self) -> str:
@@ -66,7 +66,7 @@ class PhotoObjectDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView)
 
 
 def photo_album_add_photo(request, pk):
-    if not request.user.has_perm("cosmos.change_photoalbum"):
+    if not request.user.has_perm("core.change_photoalbum"):
         return error403(request, None)
 
     album = get_object_or_404(PhotoAlbum, pk=pk)

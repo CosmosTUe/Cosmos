@@ -14,7 +14,7 @@
                 <h2>Photo Albums</h2>
             </div>
             <div class="col-md-4 text-end">
-                {% if perms.cosmos.add_photoalbum %}
+                {% if perms.core.add_photoalbum %}
                 <a class="btn btn-cosmos-primary my-auto float-end" href="{% url 'cosmos_core:photo_album-create' %}">
                     <i class="bi bi-plus-lg"></i>
                     Add new Photo Album
@@ -32,7 +32,7 @@
             </a>
         </div>
         <div class="d-flex justify-content-between">
-            {% if perms.cosmos.add_photoalbum %}
+            {% if perms.core.add_photoalbum %}
     
             {% else %}
             <div></div>

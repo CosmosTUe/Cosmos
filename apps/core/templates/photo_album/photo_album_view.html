@@ -11,7 +11,7 @@
     <div class="w-75 mx-auto">
         <div class="d-flex justify-content-between">
             <h2>{{ album.title }} - {{ album.date }}</h2>
-            {% if perms.cosmos.add_photoobject and perms.cosmos.delete_photoalbum %}
+            {% if perms.core.add_photoobject and perms.core.delete_photoalbum %}
             <div>
                 <a class="btn btn-cosmos-primary" href="{% url 'cosmos_core:photo_album-add_photos' album.id %}">
                     <i class="bi bi-plus-lg"></i>
@@ -34,7 +34,7 @@
                         <img src="{{ im.url }}" class="card-img-top album-image" loading="lazy">
                     {% endthumbnail %}
                     <a class="stretched-link" href="#" data-bs-toggle="modal" data-bs-target="#photoModal" data-bs-image-url="{{ photo_object.photo.url }}"></a>
-                    {% if perms.cosmos.delete_photoobject %}
+                    {% if perms.core.delete_photoobject %}
                     <a href="{% url 'cosmos_core:photo_object-delete' photo_object.id %}" class="photo-delete btn-over-stretched">
                         <i class="bi bi-trash"></i>
                     </a>

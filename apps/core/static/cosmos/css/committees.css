@@ -1,86 +1,211 @@
+/* Cosmos blue as a 12-step scale (Radix Colors layout): 1-2 backgrounds, 3-5 component fills,
+   6-8 borders, 9-10 solid (9 is the brand blue, 10 its hover), 11-12 text. */
+:root {
+    --cosmos-blue-1: #fafdff;
+    --cosmos-blue-2: #f3f8fc;
+    --cosmos-blue-3: #e7f1f8;
+    --cosmos-blue-4: #d9e9f3;
+    --cosmos-blue-5: #c8deed;
+    --cosmos-blue-6: #b1cfe3;
+    --cosmos-blue-7: #8fb8d3;
+    --cosmos-blue-8: #5f97bb;
+    --cosmos-blue-9: #005274;
+    --cosmos-blue-10: #0e6e9e;
+    --cosmos-blue-11: #135f85;
+    --cosmos-blue-12: #0f2c3b;
+    --cosmos-text-muted: #5b6770;
+}
+
 :root {
     --committee-blue: #005274;
     --committee-blue-hover: #0e6e9e;
     --committee-text: #454545;
     --committee-muted: #6c757d;
-    --committee-bg-soft: #f5faff;
     --committee-card-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
 }
 
 /* Shared basics (scoped to avoid overriding the whole site) */
-.committees-page,
 .committee-detail-page {
     color: var(--committee-text);
 }
 
 /* Committees overview page */
 
-.committees-page {
-    padding-top: 2.5rem;
-    padding-bottom: 3rem;
+.committees-overview {
+    padding-block: 2.5rem 3rem;
+    color: var(--black);
 }
 
-.committees-header {
-    padding-bottom: 0.25rem;
+.committees-overview ::selection {
+    background: var(--cosmos-blue-5);
+    color: var(--cosmos-blue-12);
 }
 
-.committees-page.py-4 {
-    margin-top: 0.75rem;
+.committees-overview-header {
+    max-width: 40rem;
+    margin-bottom: 2.25rem;
 }
 
-.committees-page .card {
-    border: none;
-    border-radius: 1rem;
+.committees-overview-header h1 {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--cosmos-blue-12);
+    margin-bottom: 0.75rem;
+    text-wrap: balance;
+}
+
+.committees-overview-header p {
+    margin: 0;
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: var(--cosmos-text-muted);
+}
+
+/* Card: square image on the left, text on the right. The title link stretches over the
+   whole card, so the card is one click target. */
+.committee-card {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    height: 100%;
+    background: #fff;
+    border: 1px solid var(--cosmos-blue-4);
+    border-radius: 0.75rem;
     overflow: hidden;
-    box-shadow: var(--committee-card-shadow);
-    background-color: #ffffff;
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease,
-        border-color 0.2s ease;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.committees-page .card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.08);
+.committee-card:hover {
+    border-color: var(--cosmos-blue-7);
+    box-shadow: 0 6px 18px -8px rgba(15, 44, 59, 0.25);
 }
 
-.committees-page .card-img-top {
-    height: 220px;
+.committee-card:has(a:focus-visible) {
+    outline: 2px solid var(--cosmos-blue-9);
+    outline-offset: 2px;
+}
+
+/* The ring goes around the whole card instead of the stretched title link */
+.committee-card a:focus-visible {
+    outline: none;
+}
+
+/* Committee images are being redrawn as squares. The panel runs the full card height, so a
+   card with a long description keeps the square at the top on a pale blue strip, and
+   multiply turns the white backgrounds of the older icons into that blue. */
+.committee-card-media {
+    background: var(--cosmos-blue-2);
+    border-right: 1px solid var(--cosmos-blue-3);
+    transition: background-color 0.2s ease;
+}
+
+.committee-card:hover .committee-card-media {
+    background: var(--cosmos-blue-3);
+}
+
+.committee-card-media img,
+.committee-card-initial {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+}
+
+.committee-card-media img {
     object-fit: cover;
+    mix-blend-mode: multiply;
 }
 
-@media (max-width: 576px) {
-    .committees-page .card-img-top {
-        height: 180px;
-    }
+.committee-card-initial {
+    font-family: "Raleway", sans-serif;
+    font-weight: 800;
+    font-size: 4.5rem;
+    line-height: 1;
+    color: var(--cosmos-blue-7);
 }
 
-.committees-page .card-body {
+.committee-card-body {
     display: flex;
     flex-direction: column;
-    padding: 1.25rem 1.25rem 1.5rem;
+    flex: 1;
+    padding: 1.25rem 1.25rem 1.375rem;
 }
 
-.committees-page .card-title {
-    font-size: 1.15rem;
-    font-weight: 600;
+.committee-card-body h2 {
+    font-size: 1.25rem;
+    font-weight: 800;
     margin-bottom: 0.5rem;
 }
 
-.committees-page .card-text {
-    font-size: 0.95rem;
-    line-height: 1.5;
-    color: var(--committee-muted);
-    margin-top: 0.45rem;
-    margin-bottom: 1rem;
+.committee-card-body h2 a,
+.committee-card-body h2 a:hover {
+    color: var(--cosmos-blue-12);
 }
 
-.committees-page .card-body .btn {
+.committee-card-body p {
+    margin: 0 0 1.25rem;
+    font-size: 0.975rem;
+    line-height: 1.6;
+    color: var(--cosmos-text-muted);
+    text-wrap: pretty;
+}
+
+.committee-card-more {
     margin-top: auto;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--cosmos-blue-11);
 }
 
-.committees-page .btn-primary,
+.committee-card-more .bi {
+    display: inline-block;
+    font-size: 0.8em;
+    transition: transform 0.2s ease;
+}
+
+.committee-card:hover .committee-card-more {
+    color: var(--cosmos-blue-10);
+}
+
+.committee-card:hover .committee-card-more .bi {
+    transform: translateX(3px);
+}
+
+.committees-overview-empty {
+    color: var(--cosmos-text-muted);
+}
+
+@media (max-width: 575.98px) {
+    .committees-overview {
+        padding-block: 1.75rem 2.5rem;
+    }
+
+    .committees-overview-header h1 {
+        font-size: 1.875rem;
+    }
+
+    .committee-card {
+        grid-template-columns: 6.5rem minmax(0, 1fr);
+    }
+
+    .committee-card-initial {
+        font-size: 2.75rem;
+    }
+
+    .committee-card-body {
+        padding: 1rem 1rem 1.125rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .committee-card,
+    .committee-card-media,
+    .committee-card-more .bi {
+        transition: none;
+    }
+}
+
 .committee-detail-page .btn-primary {
     background-color: var(--committee-blue);
     border-color: var(--committee-blue);
@@ -89,13 +214,20 @@
     padding-inline: 1.4rem;
 }
 
-.committees-page .btn-primary:hover,
 .committee-detail-page .btn-primary:hover {
     background-color: var(--committee-blue-hover);
     border-color: var(--committee-blue-hover);
 }
 
 /* Committee detail (subpage) */
+
+/* Full-width fade that starts under the fixed navbar: the negative margin pulls the band up
+   over the navbar filler, so the colour begins right at the bar's bottom edge. */
+.committee-detail-band {
+    margin-top: -6rem;
+    padding-top: 6rem;
+    background: linear-gradient(to bottom, #e7f1f8 0, #ffffff 26rem);
+}
 
 .committee-detail-page {
     padding-top: 3rem;
@@ -144,18 +276,9 @@
 .committee-detail-page .card-text {
     font-size: 1rem;
     line-height: 1.7;
+    margin-top: 0;
     margin-bottom: 0;
     color: var(--committee-text);
-}
-
-@media (min-width: 992px) {
-    .committee-detail-page {
-        background: linear-gradient(
-            to bottom,
-            var(--committee-bg-soft) 0,
-            #ffffff 240px
-        );
-    }
 }
 
 @media (max-width: 575.98px) {

@@ -46,4 +46,6 @@ class CommitteeSubpageTest(TestCase):
 
     def test_leaves_out_empty_sections(self):
         response = self.client.get("/committees/bar/")
-        self.assertNotContains(response, "committee-detail-heading")
+        self.assertContains(response, "<h1>Bar</h1>", html=True)
+        self.assertNotContains(response, "<h2>Members</h2>", html=True)
+        self.assertNotContains(response, "<h2>Contact</h2>", html=True)

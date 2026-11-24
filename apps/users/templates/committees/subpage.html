@@ -10,40 +10,39 @@
 {% block content %}
     <div class="committee-detail-band">
         <div class="container committee-detail-page">
-            <div class="card w-100">
-                <div class="row g-0">
-                    <div class="col-md-6">
+            <article class="committee-detail">
+                <div class="committee-detail-media">
+                    {% if committee.photo and committee.photo.name != "committees/default.png" %}
                         {% thumbnail committee.photo "800" crop="center" format="PNG" as im %}
-                        <img src="{{ im.url }}" class="w-100"
-                             alt="Photo of {{ committee.name }}">
+                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="">
                         {% endthumbnail %}
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ committee.display_name }}</h5>
-                            <p class="card-text">{{ committee.description }}</p>
-                            {% if committee.members %}
-                                <h6 class="committee-detail-heading">Members</h6>
-                                <ul class="committee-detail-members">
-                                    {% for person in committee.members %}
-                                        <li>{{ person }}</li>
-                                    {% endfor %}
-                                </ul>
-                            {% endif %}
-                            {% if committee.contact_name or committee.contact_email %}
-                                <h6 class="committee-detail-heading">Contact</h6>
-                                <p class="committee-detail-contact">
-                                    {{ committee.contact_name }}
-                                    {% if committee.contact_email %}
-                                        {% if committee.contact_name %}<br>{% endif %}
-                                        <a href="mailto:{{ committee.contact_email }}">{{ committee.contact_email }}</a>
-                                    {% endif %}
-                                </p>
-                            {% endif %}
-                        </div>
-                    </div>
+                    {% else %}
+                        <span class="committee-detail-initial" aria-hidden="true">{{ committee.display_name|first }}</span>
+                    {% endif %}
                 </div>
-            </div>
+                <div class="committee-detail-body">
+                    <h1>{{ committee.display_name }}</h1>
+                    <p>{{ committee.description }}</p>
+                    {% if committee.members %}
+                        <h2>Members</h2>
+                        <ul>
+                            {% for person in committee.members %}
+                                <li>{{ person }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    {% if committee.contact_name or committee.contact_email %}
+                        <h2>Contact</h2>
+                        <p>
+                            {{ committee.contact_name }}
+                            {% if committee.contact_email %}
+                                {% if committee.contact_name %}<br>{% endif %}
+                                <a href="mailto:{{ committee.contact_email }}">{{ committee.contact_email }}</a>
+                            {% endif %}
+                        </p>
+                    {% endif %}
+                </div>
+            </article>
         </div>
     </div>
 {% endblock %}

@@ -1,0 +1,379 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-19T16:52:55Z",
+  "title": "Design System: Cosmos",
+  "extensions": {
+    "colorMeta": {
+      "blue-9": {
+        "role": "primary",
+        "displayName": "Cosmos Blue",
+        "tonalRamp": [
+          "#0f2c3b",
+          "#135f85",
+          "#0e6e9e",
+          "#005274",
+          "#5f97bb",
+          "#8fb8d3",
+          "#c8deed",
+          "#f3f8fc"
+        ]
+      },
+      "blue-10": {
+        "role": "primary",
+        "displayName": "Bright Cosmos Blue",
+        "tonalRamp": [
+          "#0f2c3b",
+          "#135f85",
+          "#0e6e9e",
+          "#005274",
+          "#5f97bb",
+          "#8fb8d3",
+          "#c8deed",
+          "#f3f8fc"
+        ]
+      },
+      "blue-11": {
+        "role": "primary",
+        "displayName": "Link Blue",
+        "tonalRamp": [
+          "#0f2c3b",
+          "#135f85",
+          "#0e6e9e",
+          "#005274",
+          "#5f97bb",
+          "#8fb8d3",
+          "#c8deed",
+          "#f3f8fc"
+        ]
+      },
+      "blue-12": {
+        "role": "primary",
+        "displayName": "Ink Blue",
+        "tonalRamp": [
+          "#0f2c3b",
+          "#135f85",
+          "#0e6e9e",
+          "#005274",
+          "#5f97bb",
+          "#8fb8d3",
+          "#c8deed",
+          "#f3f8fc"
+        ]
+      },
+      "blue-1": {
+        "role": "neutral",
+        "displayName": "Mist",
+        "tonalRamp": [
+          "#0f2c3b",
+          "#135f85",
+          "#0e6e9e",
+          "#005274",
+          "#5f97bb",
+          "#8fb8d3",
+          "#c8deed",
+          "#f3f8fc"
+        ]
+      },
+      "blue-2": {
+        "role": "neutral",
+        "displayName": "Mist",
+        "tonalRamp": [
+          "#0f2c3b",
+          "#135f85",
+          "#0e6e9e",
+          "#005274",
+          "#5f97bb",
+          "#8fb8d3",
+          "#c8deed",
+          "#f3f8fc"
+        ]
+      },
+      "blue-3": {
+        "role": "neutral",
+        "displayName": "Pale Wash",
+        "tonalRamp": [
+          "#0f2c3b",
+          "#135f85",
+          "#0e6e9e",
+          "#005274",
+          "#5f97bb",
+          "#8fb8d3",
+          "#c8deed",
+          "#f3f8fc"
+        ]
+      },
+      "blue-4": {
+        "role": "neutral",
+        "displayName": "Hairline Blue",
+        "tonalRamp": [
+          "#0f2c3b",
+          "#135f85",
+          "#0e6e9e",
+          "#005274",
+          "#5f97bb",
+          "#8fb8d3",
+          "#c8deed",
+          "#f3f8fc"
+        ]
+      },
+      "blue-5": {
+        "role": "neutral",
+        "displayName": "Selection Blue",
+        "tonalRamp": [
+          "#0f2c3b",
+          "#135f85",
+          "#0e6e9e",
+          "#005274",
+          "#5f97bb",
+          "#8fb8d3",
+          "#c8deed",
+          "#f3f8fc"
+        ]
+      },
+      "blue-6": {
+        "role": "neutral",
+        "displayName": "Soft Rule",
+        "tonalRamp": [
+          "#0f2c3b",
+          "#135f85",
+          "#0e6e9e",
+          "#005274",
+          "#5f97bb",
+          "#8fb8d3",
+          "#c8deed",
+          "#f3f8fc"
+        ]
+      },
+      "blue-7": {
+        "role": "neutral",
+        "displayName": "Hover Border",
+        "tonalRamp": [
+          "#0f2c3b",
+          "#135f85",
+          "#0e6e9e",
+          "#005274",
+          "#5f97bb",
+          "#8fb8d3",
+          "#c8deed",
+          "#f3f8fc"
+        ]
+      },
+      "blue-8": {
+        "role": "neutral",
+        "displayName": "Muted Steel",
+        "tonalRamp": [
+          "#0f2c3b",
+          "#135f85",
+          "#0e6e9e",
+          "#005274",
+          "#5f97bb",
+          "#8fb8d3",
+          "#c8deed",
+          "#f3f8fc"
+        ]
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "Body Grey",
+        "tonalRamp": [
+          "#0f2c3b",
+          "#135f85",
+          "#0e6e9e",
+          "#005274",
+          "#5f97bb",
+          "#8fb8d3",
+          "#c8deed",
+          "#f3f8fc"
+        ]
+      },
+      "text-muted": {
+        "role": "neutral",
+        "displayName": "Slate",
+        "tonalRamp": [
+          "#0f2c3b",
+          "#135f85",
+          "#0e6e9e",
+          "#005274",
+          "#5f97bb",
+          "#8fb8d3",
+          "#c8deed",
+          "#f3f8fc"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "tonalRamp": [
+          "#0f2c3b",
+          "#135f85",
+          "#0e6e9e",
+          "#005274",
+          "#5f97bb",
+          "#8fb8d3",
+          "#c8deed",
+          "#f3f8fc"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "page-title": {
+        "displayName": "Page title",
+        "purpose": "One per page, Ink Blue."
+      },
+      "lead": {
+        "displayName": "Lead",
+        "purpose": "Intro sentence under the page title."
+      },
+      "card-title": {
+        "displayName": "Card title",
+        "purpose": "Name on each card."
+      },
+      "section-heading": {
+        "displayName": "Section heading",
+        "purpose": "Small headings inside detail cards."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Running text."
+      },
+      "card-text": {
+        "displayName": "Card text",
+        "purpose": "Descriptions in cards."
+      },
+      "link-label": {
+        "displayName": "Link label",
+        "purpose": "More-about links."
+      }
+    },
+    "shadows": [
+      {
+        "name": "hover-lift",
+        "value": "0 6px 18px -8px rgba(15, 44, 59, 0.25)",
+        "purpose": "Cards on hover only."
+      }
+    ],
+    "motion": [
+      {
+        "name": "state",
+        "value": "0.2s ease",
+        "purpose": "Border, background, shadow and chevron changes; off under prefers-reduced-motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "576px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "992px"
+      },
+      {
+        "name": "xl",
+        "value": "1200px"
+      },
+      {
+        "name": "xxl",
+        "value": "1400px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "One card per committee, event or album; the whole card is the link.",
+      "html": "<article class=\"ds-card\"><div class=\"ds-card-media\"><span class=\"ds-card-initial\">W</span></div><div class=\"ds-card-body\"><h2><a href=\"#\" class=\"ds-card-link\">Website Committee</a></h2><p>Keeps cosmostue.nl running and builds new features for members.</p><span class=\"ds-card-more\">More about Website Committee <svg width=\"12\" height=\"12\" viewBox=\"0 0 16 16\" fill=\"currentColor\" aria-hidden=\"true\"><path fill-rule=\"evenodd\" d=\"M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z\"/></svg></span></div></article>",
+      "css": ":host{--cosmos-blue-2:#f3f8fc;--cosmos-blue-3:#e7f1f8;--cosmos-blue-4:#d9e9f3;--cosmos-blue-7:#8fb8d3;--cosmos-blue-9:#005274;--cosmos-blue-10:#0e6e9e;--cosmos-blue-11:#135f85;--cosmos-blue-12:#0f2c3b;--cosmos-text-muted:#5b6770}.ds-card{position:relative;display:grid;grid-template-columns:minmax(0,2fr) minmax(0,3fr);max-width:560px;background:#fff;border:1px solid var(--cosmos-blue-4);border-radius:.75rem;overflow:hidden;transition:border-color .2s ease,box-shadow .2s ease;font-family:'Open Sans',sans-serif}.ds-card:hover{border-color:var(--cosmos-blue-7);box-shadow:0 6px 18px -8px rgba(15,44,59,.25)}.ds-card:has(a:focus-visible){outline:2px solid var(--cosmos-blue-9);outline-offset:2px}.ds-card a:focus-visible{outline:none}.ds-card-media{background:var(--cosmos-blue-2);border-right:1px solid var(--cosmos-blue-3);transition:background-color .2s ease}.ds-card:hover .ds-card-media{background:var(--cosmos-blue-3)}.ds-card-initial{display:grid;place-items:center;aspect-ratio:1;font-family:Raleway,sans-serif;font-weight:800;font-size:4.5rem;color:var(--cosmos-blue-7)}.ds-card-body{display:flex;flex-direction:column;padding:1.25rem 1.25rem 1.375rem}.ds-card-body h2{margin:0 0 .5rem;font-family:Raleway,sans-serif;font-size:1.25rem;font-weight:800}.ds-card-link{color:var(--cosmos-blue-12);text-decoration:none}.ds-card-link::after{content:'';position:absolute;inset:0}.ds-card-body p{margin:0 0 1.25rem;font-size:.975rem;line-height:1.6;color:var(--cosmos-text-muted)}.ds-card-more{margin-top:auto;font-weight:600;font-size:.95rem;color:var(--cosmos-blue-11)}.ds-card-more svg{transition:transform .2s ease}.ds-card:hover .ds-card-more{color:var(--cosmos-blue-10)}.ds-card:hover .ds-card-more svg{transform:translateX(3px)}"
+    },
+    {
+      "name": "Page header",
+      "kind": "custom",
+      "refersTo": "page-title",
+      "description": "Left-aligned page title with one lead sentence.",
+      "html": "<header class=\"ds-header\"><h1>Committees</h1><p>Committees organise most of what happens at Cosmos. Find the one that fits you.</p></header>",
+      "css": ":host{--cosmos-blue-2:#f3f8fc;--cosmos-blue-3:#e7f1f8;--cosmos-blue-4:#d9e9f3;--cosmos-blue-7:#8fb8d3;--cosmos-blue-9:#005274;--cosmos-blue-10:#0e6e9e;--cosmos-blue-11:#135f85;--cosmos-blue-12:#0f2c3b;--cosmos-text-muted:#5b6770}.ds-header{max-width:40rem}.ds-header h1{margin:0 0 .75rem;font-family:Raleway,sans-serif;font-size:2.25rem;font-weight:800;color:var(--cosmos-blue-12);text-wrap:balance}.ds-header p{margin:0;font-family:'Open Sans',sans-serif;font-size:1.125rem;line-height:1.6;color:var(--cosmos-text-muted)}"
+    },
+    {
+      "name": "Primary button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Actions only (submit, save, register); shape still to be settled.",
+      "html": "<button class=\"ds-btn-primary\">Save changes</button>",
+      "css": ":host{--cosmos-blue-2:#f3f8fc;--cosmos-blue-3:#e7f1f8;--cosmos-blue-4:#d9e9f3;--cosmos-blue-7:#8fb8d3;--cosmos-blue-9:#005274;--cosmos-blue-10:#0e6e9e;--cosmos-blue-11:#135f85;--cosmos-blue-12:#0f2c3b;--cosmos-text-muted:#5b6770}.ds-btn-primary{background:var(--cosmos-blue-9);color:#fff;border:0;border-radius:.375rem;padding:.5rem 1.25rem;font-family:'Open Sans',sans-serif;font-weight:600;font-size:1rem;cursor:pointer;transition:background-color .2s ease}.ds-btn-primary:hover{background:var(--cosmos-blue-10)}.ds-btn-primary:focus-visible{outline:2px solid var(--cosmos-blue-9);outline-offset:2px}"
+    },
+    {
+      "name": "Text link",
+      "kind": "custom",
+      "refersTo": "link-more",
+      "description": "Inline and card links in Link Blue.",
+      "html": "<a class=\"ds-link\" href=\"#\">Read the GMM minutes</a>",
+      "css": ":host{--cosmos-blue-2:#f3f8fc;--cosmos-blue-3:#e7f1f8;--cosmos-blue-4:#d9e9f3;--cosmos-blue-7:#8fb8d3;--cosmos-blue-9:#005274;--cosmos-blue-10:#0e6e9e;--cosmos-blue-11:#135f85;--cosmos-blue-12:#0f2c3b;--cosmos-text-muted:#5b6770}.ds-link{font-family:'Open Sans',sans-serif;color:var(--cosmos-blue-11);text-decoration:none}.ds-link:hover{color:var(--cosmos-blue-10)}.ds-link:focus-visible{outline:2px solid var(--cosmos-blue-9);outline-offset:2px;border-radius:2px}"
+    },
+    {
+      "name": "Navbar",
+      "kind": "nav",
+      "refersTo": "navbar",
+      "description": "Fixed Cosmos Blue bar with white links; current page bold.",
+      "html": "<nav class=\"ds-nav\"><span class=\"ds-nav-logo\">COSMOS</span><a href=\"#\">Association</a><a href=\"#\" aria-current=\"page\">Committees</a><a href=\"#\">Events</a></nav>",
+      "css": ".ds-nav{display:flex;align-items:center;gap:1.25rem;background:#005274;padding:1rem 1.5rem;font-family:'Open Sans',sans-serif}.ds-nav-logo{font-family:Raleway,sans-serif;font-weight:800;color:#fff;margin-right:auto;letter-spacing:.05em}.ds-nav a{color:rgba(255,255,255,.65);text-decoration:none}.ds-nav a:hover{color:rgba(255,255,255,.85)}.ds-nav a[aria-current]{color:rgba(255,255,255,.9);font-weight:700}.ds-nav a:focus-visible{outline:2px solid #fff;outline-offset:2px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Notice Board",
+    "overview": "The site works like a well-kept association notice board: everything has its own card, cards are easy to scan, and a visitor finds their committee, event or document without reading the whole page. It is friendly and orderly rather than flashy. Cosmos blue does the branding; the layout stays calm and predictable so the content (committees, events, photos, people) carries the personality.\n\nDensity is moderate: generous space around each card, compact text inside it. Pages lead with a plain heading and one sentence of context, then go straight into the content. Decoration is limited to the blue scale and one soft fade under the navbar on detail pages.",
+    "keyCharacteristics": [
+      "One brand colour, Cosmos blue, used as a 12-step scale for every tint, border and text shade.",
+      "Raleway (extra bold) for headings, Open Sans for everything else.",
+      "Flat cards with a thin pale-blue border; depth only appears on hover.",
+      "The whole card is the link; navigation is text links, buttons are for actions.",
+      "Left-aligned page headers with an intro line, not centred titles."
+    ],
+    "rules": [
+      {
+        "name": "The One Blue Rule",
+        "body": "Every colour on a page comes from the blue scale or the two greys. No other hues, and no raw hex values in templates or page CSS; use the `--cosmos-blue-*` variables.",
+        "section": "colors"
+      },
+      {
+        "name": "The Step Rule",
+        "body": "Steps 1–2 are backgrounds, 3–5 fills, 6–8 borders, 9–10 solid colour, 11–12 text. If a colour is doing a job outside its step range, pick another step.",
+        "section": "colors"
+      },
+      {
+        "name": "The Real Heading Rule",
+        "body": "Use heading levels for structure, not size: one `h1` per page, `h2` for cards or sections. Size comes from the role above, never from picking `h5` because it looks right.",
+        "section": "typography"
+      },
+      {
+        "name": "The No Global Paragraph Rule",
+        "body": "Paragraphs are 1rem with no top margin. The old site-wide rule (`p { margin-top: 2em; font-size: 18px }`) is legacy; new components must not depend on it and it will be removed.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat-At-Rest Rule",
+        "body": "Nothing has a shadow until the pointer is on it. The older always-on card shadow (`0 10px 25px rgba(0,0,0,.06)`) and the lift-on-hover (`translateY(-4px)`) are legacy.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** take every colour from `--cosmos-blue-1` to `--cosmos-blue-12`, `--black` (body text; the global-fixes PR renames it `--cosmos-text`) or `--cosmos-text-muted`.",
+      "**Do** make the whole card the click target with one stretched title link.",
+      "**Do** give every list an empty state written as a plain sentence (\"No committees to show yet.\").",
+      "**Do** use square images in cards, and the initial fallback when there's no image.",
+      "**Do** check new pages at 390px, 768px and 1280px wide."
+    ],
+    "donts": [
+      "**Don't** use Bootstrap's default blue (`#0d6efd`), `--light-blue` or `#124265`; they're replaced by the scale.",
+      "**Don't** add shadows at rest, translate cards on hover, or add gradients other than the navbar fade on detail pages.",
+      "**Don't** use \"see more\" buttons for navigation.",
+      "**Don't** centre page titles or set section titles in all caps.",
+      "**Don't** add new fonts or font weights beyond Raleway 700/800 and Open Sans 400/600."
+    ]
+  }
+}

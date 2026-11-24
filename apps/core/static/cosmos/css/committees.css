@@ -16,19 +16,6 @@
     --cosmos-text-muted: #5b6770;
 }
 
-:root {
-    --committee-blue: #005274;
-    --committee-blue-hover: #0e6e9e;
-    --committee-text: #454545;
-    --committee-muted: #6c757d;
-    --committee-card-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
-}
-
-/* Shared basics (scoped to avoid overriding the whole site) */
-.committee-detail-page {
-    color: var(--committee-text);
-}
-
 /* Committees overview page */
 
 .committees-overview {
@@ -68,7 +55,7 @@
     display: grid;
     grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
     height: 100%;
-    background: #fff;
+    background: var(--white);
     border: 1px solid var(--cosmos-blue-4);
     border-radius: 0.75rem;
     overflow: hidden;
@@ -206,111 +193,131 @@
     }
 }
 
-.committee-detail-page .btn-primary {
-    background-color: var(--committee-blue);
-    border-color: var(--committee-blue);
-    font-weight: 500;
-    border-radius: 999px;
-    padding-inline: 1.4rem;
-}
-
-.committee-detail-page .btn-primary:hover {
-    background-color: var(--committee-blue-hover);
-    border-color: var(--committee-blue-hover);
-}
-
-/* Committee detail (subpage) */
+/* Committee detail (subpage). Same card language as the overview: flat, 1px border, 12px
+   corners, square image on a pale panel. The card isn't a link, so it has no hover state. */
 
 /* Full-width fade that starts under the fixed navbar: the negative margin pulls the band up
    over the navbar filler, so the colour begins right at the bar's bottom edge. */
 .committee-detail-band {
     margin-top: -6rem;
     padding-top: 6rem;
-    background: linear-gradient(to bottom, #e7f1f8 0, #ffffff 26rem);
+    background: linear-gradient(to bottom, var(--cosmos-blue-3) 0, var(--white) 26rem);
 }
 
 .committee-detail-page {
-    padding-top: 3rem;
-    padding-bottom: 3.5rem;
+    padding-block: 3rem 3.5rem;
+    color: var(--black);
 }
 
-.committee-detail-page .card {
-    border: none;
-    border-radius: 1.25rem;
+.committee-detail {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    background: var(--white);
+    border: 1px solid var(--cosmos-blue-4);
+    border-radius: 0.75rem;
     overflow: hidden;
-    box-shadow: var(--committee-card-shadow);
-    background-color: #ffffff;
 }
 
-.committee-detail-page img {
+.committee-detail-media {
+    background: var(--cosmos-blue-2);
+    border-right: 1px solid var(--cosmos-blue-3);
+}
+
+.committee-detail-media img,
+.committee-detail-initial {
+    display: grid;
+    place-items: center;
     width: 100%;
-    height: 100%;
-    min-height: 260px;
+    height: auto;
+    aspect-ratio: 1;
+}
+
+.committee-detail-media img {
     object-fit: cover;
+    mix-blend-mode: multiply;
 }
 
-@media (max-width: 767.98px) {
-    .committee-detail-page .row.g-0 {
-        flex-direction: column;
-    }
-
-    .committee-detail-page img {
-        max-height: 320px;
-    }
+.committee-detail-initial {
+    font-family: "Raleway", sans-serif;
+    font-weight: 800;
+    font-size: 7rem;
+    line-height: 1;
+    color: var(--cosmos-blue-7);
 }
 
-.committee-detail-page .card-body {
+.committee-detail-body {
     padding: 2.25rem 2rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    min-width: 0;
 }
 
-.committee-detail-page .card-title {
-    font-size: 1.6rem;
-    font-weight: 600;
+.committee-detail-body h1 {
     margin-bottom: 0.75rem;
-    color: var(--committee-blue);
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: var(--cosmos-blue-12);
+    text-wrap: balance;
 }
 
-.committee-detail-page .card-text {
-    font-size: 1rem;
-    line-height: 1.7;
-    margin-top: 0;
-    margin-bottom: 0;
-    color: var(--committee-text);
-}
-
-.committee-detail-page .committee-detail-heading {
-    margin: 2.25rem 0 0.25rem;
-    font-weight: 700;
-    color: var(--committee-blue);
-}
-
-.committee-detail-page .committee-detail-members {
-    margin-bottom: 0;
-    padding-left: 1.1rem;
-    line-height: 1.7;
-}
-
-/* Same size as the description; the site-wide p rule would make it 18px */
-.committee-detail-page .committee-detail-contact {
+.committee-detail-body p,
+.committee-detail-body ul {
     margin: 0;
     font-size: 1rem;
     line-height: 1.7;
 }
 
+.committee-detail-body h2 {
+    margin: 2.25rem 0 0.25rem;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--cosmos-blue-9);
+}
+
+.committee-detail-body ul {
+    padding-left: 1.1rem;
+}
+
+.committee-detail-body a {
+    color: var(--cosmos-blue-11);
+}
+
+.committee-detail-body a:hover {
+    color: var(--cosmos-blue-10);
+}
+
+.committee-detail-body a:focus-visible {
+    outline: 2px solid var(--cosmos-blue-9);
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+
+/* Below 768px the image goes on top, kept to a sensible size instead of the full width */
+@media (max-width: 767.98px) {
+    .committee-detail {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .committee-detail-media {
+        border-right: 0;
+        border-bottom: 1px solid var(--cosmos-blue-3);
+    }
+
+    .committee-detail-media img,
+    .committee-detail-initial {
+        max-width: 18rem;
+        margin-inline: auto;
+    }
+}
+
 @media (max-width: 575.98px) {
     .committee-detail-page {
-        padding-top: 2rem;
-        padding-bottom: 2.5rem;
+        padding-block: 1.75rem 2.5rem;
     }
 
-    .committee-detail-page .card-body {
-        padding: 1.75rem 1.5rem;
+    .committee-detail-body {
+        padding: 1.5rem 1.25rem;
     }
 
-    .committee-detail-page .card-title {
-        font-size: 1.4rem;
+    .committee-detail-body h1 {
+        font-size: 1.875rem;
     }
 }
